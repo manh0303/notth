@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased — PyPI package name
+
+- Publish the Python distribution as `notth`; align wheel/sdist metadata, manifest, release target and pip guides.
+- Retain `ai_harness`, `aih`, shared release version and legacy bundle-marker compatibility. Document uninstall-first migration and rollback for earlier source builds; PyPI publisher setup/publication remains external.
+
 ## Unreleased — Engineering and technical-document depth
 
 - Deepen existing Core planning/debug/TDD/refactoring/review/verification without adding mandatory agents or a second lifecycle.

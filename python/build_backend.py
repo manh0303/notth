@@ -10,7 +10,7 @@ import tarfile
 import zipfile
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
-NAME = "manhd_ai_harness"
+NAME = "notth"
 
 
 def package():
@@ -31,12 +31,12 @@ def payload():
             raise ValueError("Symlink in shared distribution payload")
         if p.is_file():
             result[p.relative_to(ROOT).as_posix()] = p.read_bytes()
-    result["_python_distribution.json"] = (json.dumps({"name": "manhd-ai-harness", "version": package()["version"]}) + "\n").encode()
+    result["_python_distribution.json"] = (json.dumps({"name": NAME, "version": package()["version"]}) + "\n").encode()
     return result
 
 
 def metadata():
-    return ("Metadata-Version: 2.4\nName: manhd-ai-harness\nVersion: " + package()["version"] +
+    return ("Metadata-Version: 2.4\nName: " + NAME + "\nVersion: " + package()["version"] +
             "\nSummary: Notth shared workflows and Node.js CLI, installable without npm\n"
             "Requires-Python: >=3.9\nLicense-Expression: MIT\nLicense-File: LICENSE\n"
             "Project-URL: Repository, https://github.com/manh0303/notth\n"

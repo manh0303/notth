@@ -26,7 +26,7 @@ Kiro 提供 `/harness-start`；原生发现因客户端而异。[多 IDE 指南]
 **pip / 离线安装**：以下命令需要 PyPI 已发布软件包；否则使用已审核的离线 wheel：
 
 ```bash
-python -m pip install manhd-ai-harness
+python -m pip install notth
 aih init --host codex
 ```
 

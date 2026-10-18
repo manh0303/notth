@@ -29,7 +29,7 @@ Kiro có `/harness-start`; discovery tùy client. [Setup đa IDE](../tool-setup/
 **pip/offline**: lệnh dưới cần package đã có trên PyPI; nếu chưa có, dùng wheel offline đã review:
 
 ```bash
-python -m pip install manhd-ai-harness
+python -m pip install notth
 aih init --host codex
 ```
 

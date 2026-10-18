@@ -72,7 +72,7 @@ export function assertSeparate(root, source) {
   const pythonPackage = relativeParts[0] === '.venv' && relativeParts.includes('site-packages')
     && relativeParts.slice(-2).join('/') === 'ai_harness/_bundle'
     && stat(path.join(source, '_python_distribution.json'))?.isFile()
-    && readJson(path.join(source, '_python_distribution.json')).name === 'manhd-ai-harness';
+    && ['notth', 'manhd-ai-harness'].includes(readJson(path.join(source, '_python_distribution.json')).name);
   if (inside(source, root) || (inside(root, source) && !localPackage && !pythonPackage)) {
     throw new HarnessError('Source and target must not overlap, except a package installed in node_modules or .venv site-packages');
   }

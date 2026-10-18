@@ -1,5 +1,15 @@
 # Versioning and migration
 
+## PyPI distribution name (unreleased)
+
+The Python distribution changes from the earlier source-build name `manhd-ai-harness` to `notth`.
+Wheel/sdist names and metadata, the bundled overlap marker and release configuration use `notth`;
+the import `ai_harness`, command `aih`, Node 22+ prerequisite and schema-1 consumer layout remain.
+Legacy bundle markers remain accepted. Uninstall the old Python distribution before installing the
+new one because they own the same files. Configure the PyPI project `notth` and its Trusted Publisher
+before publication. Distribution version stays Release Please-owned. Migration and rollback:
+[Notth migration](notth-migration.md#python--pypi). Historical rename notes below describe the earlier decision.
+
 ## Engineering depth (unreleased)
 
 Product 1.9.0, Architecture 1.3.0, Java/Spring 1.3.0 and React/Next.js/React Native 1.5.0 deepen existing
