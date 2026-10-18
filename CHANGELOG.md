@@ -240,6 +240,15 @@ The new change above remains unreleased. Versioned release history follows these
 - Check release metadata consistency and establish single-release-PR version discipline; retain v0.6.0 until a dedicated release PR.
 
 
+## [0.18.0](https://github.com/manh0303/notth/compare/v0.17.0...v0.18.0) (2026-10-17)
+
+
+### Features
+
+* deepen engineering and technical documentation guidance ([2e96ce2](https://github.com/manh0303/notth/commit/2e96ce2a1c99c996ec56aaa0a0298ba78e754619))
+* simplify task onboarding, progress and design delivery ([3562302](https://github.com/manh0303/notth/commit/356230201220c7e54fe5356948745b22e2ebf831))
+* **uiux:** add contextual design quality and optional skill handoffs ([67230fa](https://github.com/manh0303/notth/commit/67230fa7789387a3cbe4fe684f0e2c99cc6a6b17))
+
 ## [0.17.0](https://github.com/manh0303/notth/compare/v0.16.0...v0.17.0) (2026-10-15)
 
 

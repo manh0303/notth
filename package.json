@@ -1,6 +1,6 @@
 {
   "name": "@manhd_d/notth",
-  "version": "0.17.0",
+  "version": "0.18.0",
   "description": "Reusable AI development rules, skills and workflows with a safe local installer",
   "type": "module",
   "bin": {
