@@ -4,7 +4,7 @@ build-backend = "build_backend"
 backend-path = ["python"]
 
 [project]
-name = "manhd-ai-harness"
+name = "notth"
 dynamic = ["version"]
 description = "Notth shared workflows and Node.js CLI, installable without npm"
 requires-python = ">=3.9"

@@ -77,8 +77,16 @@ or CI. Keep old versions available; do not unpublish them to accomplish a rename
 
 ## Python / PyPI
 
-The Python distribution remains `manhd-ai-harness`, with module `ai_harness` and command `aih`.
+The Python distribution is `notth`, with module `ai_harness` and command `aih`.
 It bundles the renamed npm metadata/CLI, uses the same release version and still needs Node 22+.
-Update its pending/normal PyPI Trusted Publisher to owner `manh0303`, repository `notth`, workflow
+Configure the `notth` project's pending/normal PyPI Trusted Publisher with owner `manh0303`, repository `notth`, workflow
 `npm-publish.yml`, environment `pypi`. An existing `ai-harness` repository binding must be replaced.
 First Python publication remains dependent on that external setup; see [pip/offline guide](python-installation.md).
+
+Earlier source builds used the distribution name `manhd-ai-harness`. For an existing offline install,
+record the old wheel/version and back up the consumer, then run `python -m pip uninstall manhd-ai-harness`
+before `python -m pip install notth` (or install the reviewed `notth` wheel offline). Both distributions
+own the same import and executable, so installing them together can overwrite each other's files.
+Run `aih --version`, then review `aih update --dry-run`, `aih update` and `aih check` per project.
+Rollback: uninstall `notth`, reinstall the recorded old wheel and restore the matching consumer snapshot.
+Package names and publisher bindings do not redirect automatically; no registry name reservation is claimed.

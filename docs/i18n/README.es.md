@@ -26,7 +26,7 @@ Kiro ofrece `/harness-start`; el descubrimiento depende del cliente. [Guías](..
 **pip / sin conexión**: requiere un paquete publicado en PyPI; si no existe, usa un wheel offline revisado:
 
 ```bash
-python -m pip install manhd-ai-harness
+python -m pip install notth
 aih init --host codex
 ```
 

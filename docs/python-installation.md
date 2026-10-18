@@ -4,7 +4,7 @@ Hai kênh dùng cùng Core, Agents, Skills, Workflows, Adapters và CLI JavaScri
 pip cần Python 3.9+ **và Node.js 22+**. Wheel không tải Node, không phụ thuộc package Python khác,
 không chạy npm/npx và không kết nối mạng khi chạy `aih`. Host AI có yêu cầu mạng riêng.
 
-PyPI name: `manhd-ai-harness`. Đây là kênh bổ sung của bản phát hành tiếp theo; không coi feature
+PyPI name: `notth`. Đây là kênh bổ sung của bản phát hành tiếp theo; không coi feature
 PR là package đã xuất bản. Maintainer phải đăng ký tên/Trusted Publisher trước lần publish đầu.
 
 ## Cài và dùng
@@ -12,7 +12,7 @@ PR là package đã xuất bản. Maintainer phải đăng ký tên/Trusted Publ
 Trong virtualenv đã kích hoạt (khuyến nghị `.venv` hoặc virtualenv ngoài project):
 
 ```bash
-python -m pip install manhd-ai-harness
+python -m pip install notth
 aih init --host codex
 aih check
 ```
@@ -32,7 +32,7 @@ Không cài cả npm global và pip vào cùng PATH nếu không muốn lựa ch
 Trên máy có Internet, tải wheel của phiên bản đã phát hành:
 
 ```bash
-python -m pip download --only-binary=:all: --no-deps manhd-ai-harness -d wheelhouse
+python -m pip download --only-binary=:all: --no-deps notth -d wheelhouse
 ```
 
 Chuyển wheel, Python và Node portable/installer phù hợp OS/CPU vào máy công ty qua kênh được phép.
@@ -40,7 +40,7 @@ Wheel là pure Python, dùng chung các OS; Node portable phải đúng nền t�
 Tại máy offline, kích hoạt virtualenv và chỉ định **đúng tên wheel đã tải**:
 
 ```bash
-python -m pip install --no-index --no-deps wheelhouse/manhd_ai_harness-X.Y.Z-py3-none-any.whl
+python -m pip install --no-index --no-deps wheelhouse/notth-X.Y.Z-py3-none-any.whl
 aih init --host kiro --adapters java-spring
 aih check
 ```
@@ -53,7 +53,7 @@ trực tiếp. Có thể dùng mirror PyPI nội bộ đã được tổ chức 
 ## Cập nhật
 
 ```bash
-python -m pip install --upgrade manhd-ai-harness
+python -m pip install --upgrade notth
 aih --version
 aih backup
 aih update --dry-run
@@ -76,7 +76,7 @@ Node thiếu, và rebuild sdist offline. Không gọi npm để build/install wh
 
 Workflow [npm-publish.yml](../.github/workflows/npm-publish.yml) build/test cả hai kênh từ cùng tag
 Release Please, publish npm rồi publish PyPI bằng wheel đã kiểm. Maintainer cấu hình PyPI Trusted
-Publisher: owner `manh0303`, repository `notth`, workflow `npm-publish.yml`, environment `pypi`.
+Publisher cho project `notth`: owner `manh0303`, repository `notth`, workflow `npm-publish.yml`, environment `pypi`.
 Đặt environment review theo chính sách repo. Theo [PyPA guide](https://packaging.python.org/en/latest/guides/publishing-package-distribution-releases-using-github-actions-ci-cd-workflows/).
 
 Hai registry không có transaction chung: npm có thể thành công còn PyPI lỗi. Rerun **job publish-pypi**

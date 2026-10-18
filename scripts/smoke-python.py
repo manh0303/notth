@@ -29,12 +29,16 @@ def main():
         work = pathlib.Path(folder); dist = work / "dist"; dist.mkdir()
         wheel = dist / build_backend.build_wheel(str(dist))
         sdist = dist / build_backend.build_sdist(str(dist))
+        assert wheel.name == "notth-" + build_backend.package()["version"] + "-py3-none-any.whl"
+        assert sdist.name == "notth-" + build_backend.package()["version"] + ".tar.gz"
         # Compare every byte against the shared allowlist and require no Python runtime dependencies.
         with zipfile.ZipFile(wheel) as archive:
             for name, expected in build_backend.payload().items():
                 assert archive.read("ai_harness/_bundle/" + name) == expected, name
             metadata = archive.read(build_backend.NAME + "-" + build_backend.package()["version"] + ".dist-info/METADATA").decode()
             assert "Requires-Dist:" not in metadata
+            assert "\nName: notth\n" in metadata
+            assert json.loads(archive.read("ai_harness/_bundle/_python_distribution.json"))["name"] == "notth"
             assert "Version: " + build_backend.package()["version"] in metadata
             assert not any("/tests/" in n or "/node_modules/" in n for n in archive.namelist())
         project = work / "project with spaces"; project.mkdir()
@@ -44,6 +48,7 @@ def main():
         aih = scripts / ("aih.exe" if os.name == "nt" else "aih")
         env = dict(os.environ, AIH_NODE=node, PIP_NO_INDEX="1", PIP_DISABLE_PIP_VERSION_CHECK="1")
         run([python, "-m", "pip", "install", "--no-index", "--no-deps", wheel], project, env)
+        assert "Name: notth" in run([python, "-m", "pip", "show", "notth"], project, env)
         assert run([aih, "--version"], project, env).strip() == build_backend.package()["version"]
         expected = json.loads(run([node, ROOT / "bin/aih.js", "list"], project))
         assert json.loads(run([aih, "list"], project, env)) == expected

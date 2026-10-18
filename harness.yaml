@@ -27,7 +27,7 @@
   ],
   "distribution": {
     "npm": "@manhd_d/notth",
-    "pypi": "manhd-ai-harness",
+    "pypi": "notth",
     "python": ">=3.9",
     "node": ">=22",
     "shared_payload": "package.json files allowlist",

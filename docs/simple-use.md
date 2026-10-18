@@ -49,7 +49,7 @@ merge or deployment. The host reconciles remote evidence. Do not write a fake ch
 - Project docs: written by the AI when needed, from accepted inputs/templates; init does not author them.
 
 Notth is the product name; `aih` is the compatible CLI; `harness-*` are compatible skill IDs.
-npm uses `@manhd_d/notth`; Python uses `manhd-ai-harness` and still needs Node.js 22+.
+npm uses `@manhd_d/notth`; Python uses `notth` and still needs Node.js 22+.
 CLI version and the installed project snapshot may differ until a reviewed update.
 
 ## Common blockers
