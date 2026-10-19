@@ -22,3 +22,15 @@ model compliance. Run this protocol on each intended host/version/model before a
 Record PASS/FAIL/BLOCKED/NOT_RUN per step with raw redacted transcript, source/host revisions and
 actual artifacts. Evaluate original painpoint-to-acceptance outcome and mistaken context reuse, not
 just command presence. Token savings and accuracy percentages need measured baselines; no claims here.
+
+## Native lifecycle recovery and compaction boundary (unscored)
+
+Enable native hooks in an isolated consumer. Start a source-linked task; save checkpoint and new
+constraints, interrupt the host after a checkpoint boundary, then open a fresh native session with
+only “continue the saved task”. Require actual SessionStart invocation, correct task/result, retained
+proposed/confirmed decision distinctions and source evidence; edit a source between sessions and
+require reconciliation. Repeat with two tasks/session bindings to reject cross-task intake hints.
+Trigger the host's real native context compaction and verify post-compaction context injection and
+saved decision/evidence retention. Oversized durable state must be reported, never truncated.
+Use the separate recovery runner for the controlled interruption case; it does not trigger actual
+native compaction. Current native Codex/Claude/Kiro results are BLOCKED / unscored, not CLI PASS.

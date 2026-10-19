@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "kind": "native-session-recovery-trial",
+  "status": "BLOCKED",
+  "model": null,
+  "node": "v24.19.0",
+  "runner_sha256": "e8a1dcbe61ee9895c68b33556934e0b60d50efadff268f832c45273a14b0fb5f",
+  "started_at": "2026-10-19T09:43:41.544Z",
+  "boundary": "Fixture tests and version probes are not live recovery passes. Hook receipts are unauthenticated local evidence. No automatic native-compaction trigger is tested.",
+  "rows": [
+    {
+      "host": "codex",
+      "status": "BLOCKED",
+      "reason": "Executable unavailable on PATH"
+    },
+    {
+      "host": "claude-code",
+      "status": "BLOCKED",
+      "reason": "Executable unavailable on PATH"
+    },
+    {
+      "host": "kiro",
+      "status": "BLOCKED",
+      "reason": "Executable unavailable on PATH"
+    }
+  ]
+}

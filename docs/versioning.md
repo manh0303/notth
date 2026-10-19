@@ -1,5 +1,13 @@
 # Versioning and migration
 
+## Optional session runtime (unreleased)
+
+Adds schema-1 compaction snapshots/pointer and ignored local session bindings/receipts. Existing
+context/checkpoint/project/lock schemas and distribution version are unchanged. Managed Core gains
+an ESM runtime. Host settings remain project-owned, opt-in and backed up before merging handlers.
+Update runtime and lock together; disable owned handlers and restart host before rollback.
+[Migration/rollback details](session-runtime.md#upgrade-and-rollback). No live host recovery claim.
+
 ## Project namespace (unreleased)
 
 New layouts use `.notth/`; update auto-migrates validated legacy consumers with full original-byte

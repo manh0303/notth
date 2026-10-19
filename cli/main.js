@@ -1,3 +1,4 @@
+import { bindSession, recoverSession, compactionPlan, recordCompaction } from '../core/runtime/session.js';
 import { taskContextReport, saveTaskContext } from './task-context.js';
 import { importSource, sourceReport, checkSource } from './sources.js';
 import { statusReport, changesReport } from './status.js';
@@ -27,6 +28,9 @@ const HELP = `aih — install reusable AI development rules into a project
 Usage: aih <command> [options]
   list                 List available adapters and capabilities
   checkpoint <id>      Save a validated --report handoff; replace with --expected digest
+  compact <id>         Build a loss-checked durable capsule; --record persists before native compaction
+  session <id>         Pin native session identity with --host/--change and conditional --expected
+  recover              Resolve --session/--host or an explicit --change without shared intake guesses
   resume <id>          Inspect checkpoint freshness and side effects before continuation
   agents               Show installed agent contracts and declared model/skill routing
   skills               List installed skill names/descriptions without full content
@@ -60,6 +64,9 @@ Usage: aih <command> [options]
   new-doc <type>       Scaffold a locked capability template (default: product)
 
 Options:
+  --session-hooks     init/update: opt in to project-local Codex/Claude lifecycle runtime
+  --session <id>      recover: native host session identity
+  --budget <bytes>    compact/recover: maximum capsule size (default 8000 bytes, not tokens)
   --apply             setup: create missing user configs from the installed snapshot
   --greenfield        setup: select new-project guidance, not an adapter or architecture
   --clear             start: back up and clear saved intake; preserve changes/evidence
@@ -147,7 +154,7 @@ export function main(argv = process.argv.slice(2)) {
   let args;
   try {
     args = parseArgs({ args: argv, allowPositionals: true, strict: true, tokens: true, options: {
-      metadata: { type: 'string' }, normalized: { type: 'string' }, format: { type: 'string' }, chat: { type: 'boolean' }, clear: { type: 'boolean' }, apply: { type: 'boolean' }, greenfield: { type: 'boolean' }, compact: { type: 'boolean' }, record: { type: 'boolean' }, check: { type: 'boolean' }, skill: { type: 'string' }, goal: { type: 'string' }, task: { type: 'string' }, change: { type: 'string' }, input: { type: 'string' }, output: { type: 'string' }, from: { type: 'string' }, transfer: { type: 'boolean' }, replace: { type: 'boolean' }, target: { type: 'string' }, adapters: { type: 'string' }, capabilities: { type: 'string' }, capability: { type: 'string' }, source: { type: 'string' },
+      'session-hooks': { type: 'boolean' }, session: { type: 'string' }, budget: { type: 'string' }, metadata: { type: 'string' }, normalized: { type: 'string' }, format: { type: 'string' }, chat: { type: 'boolean' }, clear: { type: 'boolean' }, apply: { type: 'boolean' }, greenfield: { type: 'boolean' }, compact: { type: 'boolean' }, record: { type: 'boolean' }, check: { type: 'boolean' }, skill: { type: 'string' }, goal: { type: 'string' }, task: { type: 'string' }, change: { type: 'string' }, input: { type: 'string' }, output: { type: 'string' }, from: { type: 'string' }, transfer: { type: 'boolean' }, replace: { type: 'boolean' }, target: { type: 'string' }, adapters: { type: 'string' }, capabilities: { type: 'string' }, capability: { type: 'string' }, source: { type: 'string' },
       workflow: { type: 'string' }, 'agent-preset': { type: 'string' }, host: { type: 'string' }, expected: { type: 'string' },
       'link-claude': { type: 'boolean' }, 'claude-skills': { type: 'boolean' }, adaptive: { type: 'boolean' }, detect: { type: 'boolean' }, report: { type: 'string' }, scope: { type: 'string' }, stage: { type: 'string' },
       'dry-run': { type: 'boolean' }, 'allow-major': { type: 'boolean' },
@@ -161,12 +168,15 @@ export function main(argv = process.argv.slice(2)) {
     if (args.values.help || !argv.length) { console.log(HELP); return 0; }
     if (args.values.version) { console.log(readJson(path.join(SOURCE, 'package.json')).version); return 0; }
     const [command, name, ...extra] = args.positionals;
-    if (!['context', 'source-check', 'sources', 'import-source', 'status', 'changes', 'workflow', 'decisions', 'seed', 'sync-integrations', 'change-sidecars', 'start', 'backup', 'restore', 'init', 'update', 'check', 'doctor', 'new-change', 'new-doc', 'list', 'detect', 'resolve', 'verify', 'eval', 'skills', 'skill', 'setup', 'ready', 'artifacts', 'agents', 'checkpoint', 'resume'].includes(command)) throw new Error(`Unknown command: ${command}`);
-    if (extra.length || (!['source-check', 'import-source', 'workflow', 'change-sidecars', 'new-change', 'new-doc', 'skill', 'ready', 'checkpoint', 'resume'].includes(command) && name !== undefined) || (['source-check', 'import-source', 'workflow', 'change-sidecars', 'new-change', 'new-doc', 'skill', 'ready', 'checkpoint', 'resume'].includes(command) && name === undefined)) throw new Error('Unexpected or missing positional argument; run aih --help');
+    if (!['compact', 'session', 'recover', 'context', 'source-check', 'sources', 'import-source', 'status', 'changes', 'workflow', 'decisions', 'seed', 'sync-integrations', 'change-sidecars', 'start', 'backup', 'restore', 'init', 'update', 'check', 'doctor', 'new-change', 'new-doc', 'list', 'detect', 'resolve', 'verify', 'eval', 'skills', 'skill', 'setup', 'ready', 'artifacts', 'agents', 'checkpoint', 'resume'].includes(command)) throw new Error(`Unknown command: ${command}`);
+    if (extra.length || (!['compact', 'session', 'source-check', 'import-source', 'workflow', 'change-sidecars', 'new-change', 'new-doc', 'skill', 'ready', 'checkpoint', 'resume'].includes(command) && name !== undefined) || (['compact', 'session', 'source-check', 'import-source', 'workflow', 'change-sidecars', 'new-change', 'new-doc', 'skill', 'ready', 'checkpoint', 'resume'].includes(command) && name === undefined)) throw new Error('Unexpected or missing positional argument; run aih --help');
     const allowed = new Set(['target', ...(['init', 'update'].includes(command) ? ['source', 'dry-run', 'allow-major'] : []), ...(['init', 'resolve'].includes(command) ? ['adapters', 'capabilities'] : []), ...(command === 'init' ? ['detect'] : []), ...(['list', 'detect', 'resolve'].includes(command) ? ['source'] : []), ...(command === 'eval' ? ['report'] : []), ...(command === 'ready' ? ['stage'] : []), ...(['verify', 'eval'].includes(command) ? ['scope'] : [])]);
     if (['init','update','start','status','changes'].includes(command)) allowed.add('format');
     if (args.values.format !== undefined && !['human','json'].includes(args.values.format)) throw new Error('--format must be human or json');
     if (command === 'source-check') { for (const key of ['report', 'input', 'dry-run']) allowed.add(key); if (!args.values.report || !args.values.input) throw new Error('source-check requires --report and --input'); }
+    if (command === 'compact') { allowed.add('record'); allowed.add('budget'); }
+    if (command === 'session') { for (const key of ['host', 'change', 'expected']) allowed.add(key); if (!args.values.host || !args.values.change) throw new Error('session requires --host and --change'); }
+    if (command === 'recover') { for (const key of ['host','session','change','budget']) allowed.add(key); }
     if (command === 'context') {
       for (const key of ['change', 'report', 'expected']) allowed.add(key);
       if (args.values.report && !args.values.change) throw new Error('context --report requires --change');
@@ -199,7 +209,7 @@ export function main(argv = process.argv.slice(2)) {
     if (args.values.scope && (args.values.adaptive || (command === 'verify' && args.values.report))) throw new Error('--scope applies only to advisory checks');
     if (command === 'init') allowed.add('agent-preset');
     if (['setup','agents','init','update'].includes(command)) allowed.add('host');
-    if (['init','update'].includes(command)) { allowed.add('link-claude'); allowed.add('claude-skills'); }
+    if (['init','update'].includes(command)) { allowed.add('session-hooks'); allowed.add('link-claude'); allowed.add('claude-skills'); }
     for (const key of Object.keys(args.values)) if (!allowed.has(key)) throw new Error(`--${key} is not supported for ${command}`);
     if (args.values.detect && args.values.adapters !== undefined) throw new Error('Choose either --detect or --adapters');
     for (const key of ['goal', 'task', 'change', 'input', 'output', 'from', 'target', 'source', 'adapters', 'capabilities', 'capability', 'report', 'agent-preset', 'host']) if (args.values[key] !== undefined && !args.values[key].trim()) throw new Error(`--${key} cannot be empty`);
@@ -209,7 +219,10 @@ export function main(argv = process.argv.slice(2)) {
     const root = targetRoot(values.target ?? process.cwd());
     const print = result => console.log(values.format === 'human' ? renderResult(command, result, values) : JSON.stringify(result, null, 2));
     let result;
-    if (command === 'source-check') result = checkSource(root, name, { report: values.report, input: values.input, dryRun: values['dry-run'] });
+    if (command === 'compact') result = values.record ? recordCompaction(root, name, { budget: values.budget === undefined ? undefined : Number(values.budget) }) : compactionPlan(root, name, { budget: values.budget === undefined ? undefined : Number(values.budget) });
+    else if (command === 'session') result = bindSession(root, { host: values.host, sessionId: name, changeId: values.change, expected: values.expected });
+    else if (command === 'recover') result = recoverSession(root, { host: values.host, sessionId: values.session, changeId: values.change, budget: values.budget === undefined ? undefined : Number(values.budget) });
+    else if (command === 'source-check') result = checkSource(root, name, { report: values.report, input: values.input, dryRun: values['dry-run'] });
     else if (command === 'context') result = values.report ? saveTaskContext(root, values.change, values.report, values.expected) : taskContextReport(root, values.change);
     else if (command === 'sources') result = sourceReport(root);
     else if (command === 'import-source') result = importSource(root, name, { input: values.input, normalized: values.normalized, metadataFile: values.metadata, dryRun: values['dry-run'] });
@@ -235,7 +248,7 @@ export function main(argv = process.argv.slice(2)) {
       if (values.detect && !selection.length) throw new Error('No stack detected; choose --adapters explicitly or omit --detect for core only');
       result = install(root, source, {
         command, adapters: selection ?? (values.adapters === undefined ? undefined : values.adapters.split(',').map(v => v.trim())),
-        agentPreset: values['agent-preset'], host: values.host, linkClaude: values['link-claude'], claudeSkills: values['claude-skills'],
+        sessionHooks: values['session-hooks'], agentPreset: values['agent-preset'], host: values.host, linkClaude: values['link-claude'], claudeSkills: values['claude-skills'],
         capabilities: values.capabilities === undefined ? undefined : values.capabilities.split(',').map(v => v.trim()),
         dryRun: values['dry-run'], allowMajor: values['allow-major'],
       });

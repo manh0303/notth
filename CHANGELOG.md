@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased — Native session runtime
+
+- Optional offline Codex/Claude session lifecycle hooks, source-linked durable-state capsules and workspace-scoped native session bindings. Oversized context fails without truncation; native history compaction remains host-owned.
+- Separate native interruption/recovery trial driver; unavailable hosts and unverified Kiro integration report BLOCKED, never simulated success.
+
 ## Unreleased — NOTTH project namespace
 
 - Install project rules, workflows and configuration under `.notth/`; update canonical instructions, host bridges, CLI paths and translated READMEs.

@@ -8,7 +8,9 @@ It adds no lifecycle engine, exporter dependency, schema or second specification
 Maintainer entry point: [Harness maintenance and impact matrix](harness-maintenance.md).
 
 Notth is a versioned instruction and workflow distribution framework. Its executable part is a
-local installer and integrity checker, with a separate opt-in conformance host driver.
+local installer and integrity checker, an optional offline lifecycle context runtime, and separate
+opt-in host test drivers. The lifecycle runtime preserves external state around host-native
+compaction; it does not execute tasks. See [session runtime](session-runtime.md).
 It is not an LLM gateway, an orchestration server or a sandbox.
 
 | Layer | Responsibility | Owner |
@@ -22,6 +24,7 @@ It is not an LLM gateway, an orchestration server or a sandbox.
 | capabilities | Optional cross-stack product, UI/UX, DevOps and ad monetization workflows | Capability maintainers |
 | integrations | GitHub, GitLab and MCP setup contracts/templates | Project/runtime owners |
 | templates | AGENTS entry point and OpenSpec draft structure | Harness maintainers |
+| core/runtime | Offline lifecycle snapshots/injection; host owns model/tools/compaction | NOTTH code, native host triggers |
 | CLI + lock | Deterministic installation and update conflicts | Executable framework |
 | project overrides | Domain facts, actual versions, approved exceptions | Consumer project |
 
