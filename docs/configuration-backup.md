@@ -128,3 +128,5 @@ Muốn dùng lại nguồn tài liệu cũ, khai báo rõ nguồn/revision/quy�
 knowledge.json is a reproducible project-owned cache omitted from config archives; full repo backup
 retains it. Reconcile with /harness-start after restore. Extensions/custom host files need repo backup;
 transfer omits old repository extensions as well as autonomy. [Session onboarding](session-onboarding.md).
+
+[Persistent input documents: originals, Markdown and recovery](document-sources.md).

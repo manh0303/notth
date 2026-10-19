@@ -63,3 +63,5 @@ See [Adaptive verification and TechSpec](adaptive-verification.md) for read-only
 - [Opt-in conformance runner](conformance-runner.md)
 
 [Short task prompts and human-readable orientation](simple-use.md): chat is the primary path across hosts; terminal interview remains optional and backward compatible.
+
+[Persistent input documents: originals, Markdown and recovery](document-sources.md).

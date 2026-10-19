@@ -251,3 +251,9 @@ remain JSON and exit codes unchanged. Unsupported commands reject --format befor
 clear or compact flags; use `--goal ... --task ...` to save. Bare start's existing TTY interview remains.
 Compact/chat adds entry_action separately from next_action and capabilities/progress. Status adds
 progress with declared phase, blockers and unknown remote delivery state. No persisted schema changes.
+
+[Persistent input documents: originals, Markdown and recovery](document-sources.md).
+
+`aih import-source <id> --input <file> [--normalized <md>] [--dry-run]` preserves a local source
+and optional host conversion. `aih sources` verifies and lists the source store. Both accept
+`--target`; neither requires an installed snapshot or changes artifacts.json automatically.

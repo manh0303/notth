@@ -67,3 +67,5 @@ Local/cloud execution and external inputs depend on the host's actual access. MC
 [Daily use & recovery](docs/reusable-workflows.md) · [Getting started](docs/getting-started.md) · [Docs & examples](docs/README.md) · [Input/output](docs/artifact-contract.md) · [Agent configuration](docs/agent-configuration.md) · [Continuous development](docs/continuous-development.md)
 
 [Contributing](CONTRIBUTING.md) · [Harness maintenance](docs/harness-maintenance.md) · [MIT](LICENSE)
+
+[Persistent input documents: originals, Markdown and recovery](docs/document-sources.md).

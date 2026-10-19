@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased — Persistent document sources
+
+- Preserve original inputs and versioned Markdown in project-owned docs/sources with SHA-256 provenance.
+- Add import-source/sources, duplicate detection, conversion-pending state and conflict-safe writes.
+- Route attachment intake/resume through Core; document host conversion and complete-folder recovery.
+- Keep configuration backup unchanged; no converter dependency, automatic upload or approval claim.
+
 ## Unreleased — PyPI package name
 
 - Publish the Python distribution as `notth`; align wheel/sdist metadata, manifest, release target and pip guides.

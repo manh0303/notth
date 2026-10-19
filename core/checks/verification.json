@@ -20,7 +20,8 @@
       "when_file": null,
       "evidence": [
         "Source revision and approved requirement IDs",
-        "Acceptance scenario references and unresolved decisions"
+        "Acceptance scenario references and unresolved decisions",
+        "For imported documents: original/hash and conversion fidelity review, missing content, and full source-folder recovery plan; conversion is not approval"
       ],
       "execution": "manual"
     },

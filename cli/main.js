@@ -1,3 +1,4 @@
+import { importSource, sourceReport } from './sources.js';
 import { statusReport, changesReport } from './status.js';
 import { seed } from './knowledge.js';
 import { syncIntegrations } from './sync-integrations.js';
@@ -47,6 +48,8 @@ Usage: aih <command> [options]
   restore              Restore --from backup; --transfer reuses modules/model preferences
   setup                Suggest questions; --apply scaffolds missing user config only
   decisions            Read shared decisions; --scope module:<name> narrows context
+  sources              List preserved sources and verify their content hashes
+  import-source <id>   Preserve --input; attach host conversion with --normalized <md>
   artifacts            Show input/output/storage and connection declarations (read-only)
   workflow validate    Validate installed workflow contracts (read-only)
   ready <id>           Check structural change readiness, not approval
@@ -65,7 +68,8 @@ Options:
   --skill <name>      doctor: check one canonical/project skill prerequisite contract
   --goal <type>       start: idea, docs, change, resume (saves with --task)
   --task <text>       start: task description; --change selects an existing change/resume ID
-  --input <path/url>  start: seed requirements only if no inputs declared
+  --normalized <md>  import-source: host-converted Markdown for this exact input revision
+  --input <path/url>  import-source: local file; start: seed requirements if none declared
   --output <path>     start: draft docs directory; backup: archive path
   --from <file>       restore: project-relative archive file
   --transfer          restore: only modules/agent models; omit old autonomy
@@ -87,7 +91,7 @@ Options:
   --adapters <a,b>     init/resolve: java-spring,react-nextjs,react-native,ai-python,kubernetes,astro
   --capabilities <a,b> init/resolve: uiux,product,architecture,delivery,devops,monetization
   --source <directory> init/update/list/detect/resolve: trusted alternate bundle directory
-  --dry-run           init/update/setup --apply: preview without persistent changes
+  --dry-run           init/update/setup --apply/import-source: preview without persistent changes
   --allow-major       init/update: acknowledge a major version migration
   -h, --help          Show help
   -v, --version       Show installed CLI version
@@ -139,7 +143,7 @@ export function main(argv = process.argv.slice(2)) {
   let args;
   try {
     args = parseArgs({ args: argv, allowPositionals: true, strict: true, tokens: true, options: {
-      format: { type: 'string' }, chat: { type: 'boolean' }, clear: { type: 'boolean' }, apply: { type: 'boolean' }, greenfield: { type: 'boolean' }, compact: { type: 'boolean' }, record: { type: 'boolean' }, check: { type: 'boolean' }, skill: { type: 'string' }, goal: { type: 'string' }, task: { type: 'string' }, change: { type: 'string' }, input: { type: 'string' }, output: { type: 'string' }, from: { type: 'string' }, transfer: { type: 'boolean' }, replace: { type: 'boolean' }, target: { type: 'string' }, adapters: { type: 'string' }, capabilities: { type: 'string' }, capability: { type: 'string' }, source: { type: 'string' },
+      normalized: { type: 'string' }, format: { type: 'string' }, chat: { type: 'boolean' }, clear: { type: 'boolean' }, apply: { type: 'boolean' }, greenfield: { type: 'boolean' }, compact: { type: 'boolean' }, record: { type: 'boolean' }, check: { type: 'boolean' }, skill: { type: 'string' }, goal: { type: 'string' }, task: { type: 'string' }, change: { type: 'string' }, input: { type: 'string' }, output: { type: 'string' }, from: { type: 'string' }, transfer: { type: 'boolean' }, replace: { type: 'boolean' }, target: { type: 'string' }, adapters: { type: 'string' }, capabilities: { type: 'string' }, capability: { type: 'string' }, source: { type: 'string' },
       workflow: { type: 'string' }, 'agent-preset': { type: 'string' }, host: { type: 'string' }, expected: { type: 'string' },
       'link-claude': { type: 'boolean' }, 'claude-skills': { type: 'boolean' }, adaptive: { type: 'boolean' }, detect: { type: 'boolean' }, report: { type: 'string' }, scope: { type: 'string' }, stage: { type: 'string' },
       'dry-run': { type: 'boolean' }, 'allow-major': { type: 'boolean' },
@@ -153,11 +157,12 @@ export function main(argv = process.argv.slice(2)) {
     if (args.values.help || !argv.length) { console.log(HELP); return 0; }
     if (args.values.version) { console.log(readJson(path.join(SOURCE, 'package.json')).version); return 0; }
     const [command, name, ...extra] = args.positionals;
-    if (!['status', 'changes', 'workflow', 'decisions', 'seed', 'sync-integrations', 'change-sidecars', 'start', 'backup', 'restore', 'init', 'update', 'check', 'doctor', 'new-change', 'new-doc', 'list', 'detect', 'resolve', 'verify', 'eval', 'skills', 'skill', 'setup', 'ready', 'artifacts', 'agents', 'checkpoint', 'resume'].includes(command)) throw new Error(`Unknown command: ${command}`);
-    if (extra.length || (!['workflow', 'change-sidecars', 'new-change', 'new-doc', 'skill', 'ready', 'checkpoint', 'resume'].includes(command) && name !== undefined) || (['workflow', 'change-sidecars', 'new-change', 'new-doc', 'skill', 'ready', 'checkpoint', 'resume'].includes(command) && name === undefined)) throw new Error('Unexpected or missing positional argument; run aih --help');
+    if (!['sources', 'import-source', 'status', 'changes', 'workflow', 'decisions', 'seed', 'sync-integrations', 'change-sidecars', 'start', 'backup', 'restore', 'init', 'update', 'check', 'doctor', 'new-change', 'new-doc', 'list', 'detect', 'resolve', 'verify', 'eval', 'skills', 'skill', 'setup', 'ready', 'artifacts', 'agents', 'checkpoint', 'resume'].includes(command)) throw new Error(`Unknown command: ${command}`);
+    if (extra.length || (!['import-source', 'workflow', 'change-sidecars', 'new-change', 'new-doc', 'skill', 'ready', 'checkpoint', 'resume'].includes(command) && name !== undefined) || (['import-source', 'workflow', 'change-sidecars', 'new-change', 'new-doc', 'skill', 'ready', 'checkpoint', 'resume'].includes(command) && name === undefined)) throw new Error('Unexpected or missing positional argument; run aih --help');
     const allowed = new Set(['target', ...(['init', 'update'].includes(command) ? ['source', 'dry-run', 'allow-major'] : []), ...(['init', 'resolve'].includes(command) ? ['adapters', 'capabilities'] : []), ...(command === 'init' ? ['detect'] : []), ...(['list', 'detect', 'resolve'].includes(command) ? ['source'] : []), ...(command === 'eval' ? ['report'] : []), ...(command === 'ready' ? ['stage'] : []), ...(['verify', 'eval'].includes(command) ? ['scope'] : [])]);
     if (['init','update','start','status','changes'].includes(command)) allowed.add('format');
     if (args.values.format !== undefined && !['human','json'].includes(args.values.format)) throw new Error('--format must be human or json');
+    if (command === 'import-source') { for (const key of ['input', 'normalized', 'dry-run']) allowed.add(key); if (!args.values.input) throw new Error('import-source requires --input'); }
     if (command === 'workflow' && name !== 'validate') throw new Error('Usage: aih workflow validate');
     if (command === 'ready') allowed.add('workflow');
     if (command === 'seed') { allowed.add('record'); allowed.add('check'); if (args.values.record && args.values.check) throw new Error('Choose --record or --check'); }
@@ -194,7 +199,9 @@ export function main(argv = process.argv.slice(2)) {
     const root = targetRoot(values.target ?? process.cwd());
     const print = result => console.log(values.format === 'human' ? renderResult(command, result, values) : JSON.stringify(result, null, 2));
     let result;
-    if (command === 'status') result = statusReport(root);
+    if (command === 'sources') result = sourceReport(root);
+    else if (command === 'import-source') result = importSource(root, name, { input: values.input, normalized: values.normalized, dryRun: values['dry-run'] });
+    else if (command === 'status') result = statusReport(root);
     else if (command === 'changes') result = changesReport(root);
     else if (command === 'workflow') {
       if (check(root).status !== 'ok') throw new Error('Fix installation drift before reading workflows');
