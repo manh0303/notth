@@ -243,3 +243,11 @@ UIUX 1.2.0 adds contextual direction and optional external-skill handoffs. Canon
 or existing design master is host-maintained, never installer-owned. The pinned upstream inventory is
 documentation, not a second executable plugin registry; no downloads, Python or service calls enter
 cli/. Local NOTTH instructions work without external libraries; render/MCP execution remains host-owned.
+
+## Persistent source documents
+
+cli/sources.js owns local import/index validation through the existing guard/transaction helpers.
+Project-owned docs/sources is outside managed payload and config backup. Independent schema 1
+records content-addressed originals and conversions; artifacts.json remains ownership/routing truth.
+Core source-intake routes host conversion and source review. No converter, network, shell or model
+runtime is added. See [Document sources](document-sources.md).

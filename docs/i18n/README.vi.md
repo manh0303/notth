@@ -58,3 +58,5 @@ Chọn tool hoặc chuyển project: [Hướng dẫn](../tool-portability.md).
 Sau khi AI đã đọc điểm vào, chỉ cần nói “Sửa lỗi này”, “Thêm tính năng này” hoặc “Tiếp tục việc đã lưu”. AI chọn độ sâu Quick/Standard/Full theo ảnh hưởng; bạn không phải chọn role hay gate. Báo cáo phải có phần đã xong, blocker và bước tiếp theo.
 
 [Bắt đầu, prompt ngắn và xử lý lỗi](../simple-use.md). Với source/release có hỗ trợ: `aih start --chat --format human` để định hướng trong chat, `aih status --format human` để xem tiến độ. JSON vẫn là mặc định. Các flag mới chưa được coi là đã phát hành chỉ vì có trên main.
+
+[Persistent input documents: originals, Markdown and recovery](../document-sources.md).

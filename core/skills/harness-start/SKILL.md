@@ -72,3 +72,8 @@ Use `aih status` and `aih changes` for local task/change declarations. Select an
 Use compactStart entry_action only to enter the skill, not as a next step once already inside it.
 For a saved task without a checkpoint, reconcile files/task notes directly; do not require --goal resume.
 When multiple changes are plausible and none is selected, ask which one rather than choosing by name order.
+
+## Preserved input documents
+When files are supplied or prior source snapshots are relevant, follow
+`.harness/core/workflows/source-intake.md` before deriving requirements. Reuse the source index,
+preserve originals and register conversions; pending extraction and approval are separate states.

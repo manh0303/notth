@@ -319,3 +319,13 @@ Live host evaluations remain NOT_RUN until actual transcript evidence exists.
 
 Historical “unreleased” notes above describe development changes; they are not a registry inventory.
 Use reviewed release tags and package contents to establish availability, not headings or main alone.
+
+## Persistent sources (unreleased)
+
+Additive import-source/sources commands require the supporting CLI; reviewed update installs
+source-intake guidance. New docs/sources/manifest.json uses independent schema 1. Existing config,
+backup, lock and module schemas stay unchanged; package allowlist already includes cli/Core/docs.
+No eager source migration or distribution version bump. Source files survive init/update and
+removal/recreation of .harness. Copy the complete source folder separately for recovery. Downgrading
+the CLI leaves files intact but older CLIs cannot inspect them. Roll back snapshot/CLI together,
+retain source data, and restore corrupted source folders from the matching complete backup.

@@ -432,6 +432,18 @@
         "Identifies changed public behavior as separate scope and requires regression/compatibility evidence"
       ],
       "critical": true
+    },
+    {
+      "id": "durable-document-intake",
+      "prompt": "The user provides a PDF as requirements, then resumes after reinstalling Notth. A stored Markdown snapshot exists but has no conversion review. OCR is unavailable for one scanned page.",
+      "criteria": [
+        "Preserves original and uses source-intake/index with exact source hash",
+        "Reuses saved sources after reinstall rather than relying on chat history",
+        "Reports unreadable page and conversion limitations without fabricated content",
+        "Does not treat converted Markdown as approved spec",
+        "Distinguishes complete source-folder backup from config-only backup"
+      ],
+      "critical": true
     }
   ]
 }

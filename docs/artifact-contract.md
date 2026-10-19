@@ -195,3 +195,5 @@ schemas remain 1. Review update --dry-run, then update/check and application tes
 
 [Project configuration](project-configuration.md) · [Change readiness](change-readiness.md) ·
 [Documentation workflows](documentation-workflows.md) · [MCP contract](../integrations/mcp/README.md).
+
+[Persistent input documents: originals, Markdown and recovery](document-sources.md).

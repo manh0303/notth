@@ -33,7 +33,7 @@ try {
     'templates/openspec/.openspec.yaml', 'templates/AGENTS.md', ...manifest(SOURCE).adapters.map(a => `adapters/${a}/rules.md`)]) assert.ok(names.includes(required), `Missing packaged asset: ${required}`);
   assert.ok(!names.some(n => n.endsWith('.py') || n.startsWith('tests/') || n.startsWith('.git/') || n.endsWith('.tgz')));
   assert.ok(!names.some(n => /(^|\/)\.env(?:\.|$)/.test(n)));
-  for (const required of ['config/agents.default.json', 'cli/agents.js', 'core/workflows/agent-routing.md']) {
+  for (const required of ['cli/sources.js', 'core/workflows/source-intake.md', 'docs/document-sources.md', 'config/agents.default.json', 'cli/agents.js', 'core/workflows/agent-routing.md']) {
     assert.ok(names.includes(required), `Missing agent routing asset: ${required}`);
   }
   for (const required of ['capabilities/architecture/capability.json', 'capabilities/delivery/capability.json',
@@ -63,6 +63,10 @@ try {
     ? command(process.env.ComSpec || 'cmd.exe', ['/d', '/s', '/c', `""${bin}" ${args.join(' ')}"`], target, { windowsVerbatimArguments: true })
     : command(bin, args, target);
   assert.equal(run(['--version']).trim(), readJson(path.join(SOURCE, 'package.json')).version);
+  fs.writeFileSync(path.join(target, 'requirements.txt'), 'Preserve source evidence');
+  const importedSource = JSON.parse(run(['import-source', 'requirements', '--input', 'requirements.txt']));
+  assert.equal(importedSource.conversion, 'available-unreviewed');
+  assert.equal(JSON.parse(run(['sources'])).sources[0].id, 'requirements');
   const solutionTarget = path.join(temp, 'solution project'); fs.mkdirSync(solutionTarget);
   const solutionRun = args => process.platform === 'win32'
     ? command(process.env.ComSpec || 'cmd.exe', ['/d', '/s', '/c', `""${bin}" ${args.join(' ')}"`], solutionTarget, { windowsVerbatimArguments: true })

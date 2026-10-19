@@ -56,3 +56,7 @@ For change-by-change application and resume checks use `continuous-development.m
 sources stay unchanged; link a separate maintenance proposal in the impact reason/evidence. A
 proposal-only assignment may be delivered as a proposal, but required canonical updates remain
 blocked. Do not mark a proposed source patch as an actual publication.
+
+For local attachments and authorized snapshots, apply `source-intake.md`. The project-owned
+source manifest indexes preserved originals/conversions; artifacts.json remains the canonical
+ownership/routing contract. Register only actual saved inputs, never treat conversion as approval.

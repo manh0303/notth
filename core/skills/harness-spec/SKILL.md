@@ -31,3 +31,8 @@ Apply `.harness/core/workflows/continuous-development.md` first: compare actual 
 reuse the active change and stable IDs, and record affected-section impact plus unchanged reasons.
 Do not silently resolve spec–code drift; record authoritative owner/source decisions. For a small
 compatible fix, an existing issue/PR note can replace a full OpenSpec pack with a scope rationale.
+
+## Preserved input documents
+When files are supplied or prior source snapshots are relevant, follow
+`.harness/core/workflows/source-intake.md` before deriving requirements. Reuse the source index,
+preserve originals and register conversions; pending extraction and approval are separate states.
