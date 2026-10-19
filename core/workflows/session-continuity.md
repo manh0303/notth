@@ -83,3 +83,6 @@ through context source locators, decisions through their canonical files, and co
 checkpoint evidence. An oversized handoff returns BLOCKED with pointers: load bounded sections without
 discarding constraints, unresolved questions or next actions. Missing state in another workspace requires
 authorized synchronization. Do not import provider transcripts or assume private model reasoning.
+
+For bounded multi-step work apply `.notth/core/workflows/adaptive-execution.md`; keep optional
+adaptive events inside checkpoint.json. `resume` exposes counters and invalidated verification.

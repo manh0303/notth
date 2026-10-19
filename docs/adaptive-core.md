@@ -42,3 +42,27 @@ remains release-owned. Byte limits and secret/path checks are defense in depth, 
 
 Offline tests verify serialization, stale-source flags, budgets, installation and CLI behavior. They do
 not verify live host compliance. See the [audit and dependency plan](../openspec/changes/adaptive-core-memory/design.md).
+
+## Adaptive execution and recovery
+
+[Host procedure](../core/workflows/adaptive-execution.md) extends existing checkpointing with optional
+`adaptive` schema 1 (template: templates/adaptive-state.json). No separate queue/state database.
+Objective and acceptance are canonical hashed references; progress stays in checkpoint lists. Events
+record observed attempt outcomes or evidence-backed replans. Limits are positive and at most 20;
+events are capped at 128, append one per CAS replacement. Prior event bytes and budgets are retained.
+
+Failed action retries need a safe reason. Replanning resets consecutive no-progress, never total
+step/replan counts. Unknown external operations require actual inspection and reconciliation before
+further attempts. The CLI records/validates declarations; it never runs shell, tests or remote writes.
+
+Passing attempts use the existing evidence verifier and scoped revision digest, computed by
+`baselineRevision` in cli/adaptive.js. All relevant code/config/fixture/AC files must be included by
+the host; local hashing cannot discover every semantic dependency. Remember/complete needs current
+accepted-source coverage, no pending work/blockers/uncertain effects and a passing actual report.
+Resume blocks stale code, lost raw evidence, uncertain effects and exhausted budgets while retaining
+progress. Legacy snapshots without adaptive state remain valid. Existing resume now returns a
+structured blocked plan for changed/missing evidence instead of throwing away the recovery view;
+checkpoint saves still reject unsupported completed claims.
+
+Older CLIs ignore optional adaptive declarations and cannot enforce their limits: use the supporting
+CLI for continuity. Revert consumer snapshot/CLI together; retain project-owned checkpoint/history.

@@ -1,0 +1,31 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> @manhd_d/notth@0.18.0 test:package
+> node scripts/smoke-package.js
+
+{
+  "status": "ok",
+  "version": "0.18.0",
+  "package_files": 424,
+  "checks": [
+    "npm pack assets",
+    "packaged and installed Core/BE/FE/mobile conventions",
+    "global aih shim",
+    "cwd default",
+    "all adapters and skills",
+    "selective UI/UX capability",
+    "product document bundle",
+    "artifact seeds, routed docs and external host handoff",
+    "Architecture/Delivery capability drafts and isolated package installation",
+    "monetization bundle and advisory checks",
+    "Astro packaged detection and skills",
+    "installed verify/eval",
+    "stack detection",
+    "new-change dotfile",
+    "setup/doctor and structural readiness",
+    "guided start, configuration backup/transfer/restore before init",
+    "installed end-user skill/workflow and adaptive host plan",
+    "idempotent update",
+    "local npm exec without network"
+  ]
+}

@@ -95,7 +95,7 @@ test('checkpoint resume detects stale baseline and unknown side effects; CAS/his
  row.summary='Updated handoff';write(root,'handoff.json',row);saveCheckpoint(root,'feature','handoff.json',saved.checkpoint_sha256);
  assert.ok(fs.existsSync(path.join(root,'openspec/changes/feature/checkpoint-history',saved.checkpoint_sha256+'.json')));
  assert.throws(()=>saveCheckpoint(root,'feature','handoff.json',saved.checkpoint_sha256),/changed/);
- write(root,'evidence.txt','tampered');assert.throws(()=>resumePlan(root,'feature'),/digest/);
+ write(root,'evidence.txt','tampered');assert.equal(resumePlan(root,'feature').status,'blocked');assert.equal(resumePlan(root,'feature').evidence[0].current,false);
 });
 test('checkpoint missing evidence, secret fields, wrong change and unsafe paths fail before write',t=>{
  const root=project(t);install(root,SOURCE);newChange(root,'feature');

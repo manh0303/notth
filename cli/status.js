@@ -58,6 +58,7 @@ export function statusReport(root) {
   if (taskContext.status === 'blocked') next = taskContext.next_action;
   if (operations.length) next = 'Check actual remote state before retrying operations: ' + operations.map(op => op.id).join(', ');
   if (blockers.length) next = 'Resolve or scope around recorded blockers: ' + blockers.join('; ');
+  if (recovery?.evidence?.some(ref => !ref.current)) next = 'Completed evidence requires reconciliation before trusting progress.' + (blockers.length ? ' Blockers: ' + blockers.join('; ') : '');
   const progress = { phase: recovery?.phase ?? 'unknown', source: recovery ? 'checkpoint declaration' : 'local task declarations',
     blockers, next_owner: saved ? 'agent; identify any owner decision after reconciliation' : 'user',
     merge: 'unknown', deployment: 'unknown', live_verification: 'unknown' };

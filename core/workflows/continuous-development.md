@@ -109,3 +109,6 @@ Use [task experience](task-experience.md) for the canonical Quick/Standard/Full 
 
 Apply [automatic session continuity](session-continuity.md) on task entry, source changes and handoff.
 Keep intent/trace pointers in the active change and actual progress in existing checkpoints/backend.
+
+For repeated failures or multi-step recovery, follow `.notth/core/workflows/adaptive-execution.md`.
+Observe actual results, preserve completed evidence and bound retries/replanning in the existing checkpoint.

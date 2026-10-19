@@ -1,0 +1,4 @@
+- [x] Reuse checkpoint/verification with optional adaptive state and bounded events.
+- [x] Add current-revision, retry, stale recovery, history and legacy tests.
+- [x] Wire host workflow/template/docs and migration limits.
+- [x] Run required checks and prepare stacked PR.

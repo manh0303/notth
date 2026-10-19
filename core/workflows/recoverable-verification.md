@@ -57,3 +57,6 @@ A missing/tampered evidence file blocks trusting that completed entry; inspect/r
 Finish with actual requirement coverage, linked related-flow results, compatibility impact,
 BLOCKED/NOT_RUN gaps, owned cleanup and the next action. Notify others only with explicit user
 instructions. Verification, business acceptance, merge and release are distinct states.
+
+For repeated failures or multi-step recovery, follow `.notth/core/workflows/adaptive-execution.md`.
+Observe actual results, preserve completed evidence and bound retries/replanning in the existing checkpoint.

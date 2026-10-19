@@ -1,3 +1,4 @@
+import { validateAdaptiveUpdate } from './adaptive.js';
 import { legacyInstallation, migrateNamespace } from './namespace-migration.js';
 import fs from 'node:fs';
 import { HOST_BRIDGES, isHostBridge } from './host-bridges.js';
@@ -409,6 +410,7 @@ export function saveCheckpoint(root, id, report, expected) {
     const destination = safe(root, name), previous = stat(destination) ? fs.readFileSync(destination) : null;
     if (previous && (!/^[a-f0-9]{64}$/.test(expected ?? '') || digest(previous) !== expected)) throw new HarnessError('Checkpoint exists or changed; resume, reconcile, then supply --expected digest');
     if (!previous && expected !== undefined) throw new HarnessError('Expected checkpoint is missing');
+    validateAdaptiveUpdate(previous ? JSON.parse(previous) : null, row);
     const changes = { [name]: encode(row) };
     if (previous) {
       const history = 'openspec/changes/' + id + '/checkpoint-history/' + digest(previous) + '.json';
