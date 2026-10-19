@@ -33,6 +33,6 @@ Do not silently resolve spec–code drift; record authoritative owner/source dec
 compatible fix, an existing issue/PR note can replace a full OpenSpec pack with a scope rationale.
 
 ## Preserved input documents
-When files are supplied or prior source snapshots are relevant, follow
+When files, URLs, MCP/API inputs or prior source snapshots are relevant, follow
 `.harness/core/workflows/source-intake.md` before deriving requirements. Reuse the source index,
 preserve originals and register conversions; pending extraction and approval are separate states.

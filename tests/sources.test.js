@@ -84,7 +84,7 @@ test('rejects malformed manifests, traversal, destination collisions, invalid UT
   assert.throws(() => importSource(root, 'invalid', { input: 'invalid.txt' }), /UTF-8/);
   write('docs/sources/manifest.json', '{bad json');
   assert.throws(() => sourceReport(root), /Cannot read sources manifest/);
-  write('docs/sources/manifest.json', JSON.stringify({ schema_version: 2, sources: [] }));
+  write('docs/sources/manifest.json', JSON.stringify({ schema_version: 99, sources: [] }));
   assert.throws(() => sourceReport(root), /schema/);
   assert.match(cli(['import-source', 'x'], 2).message, /requires --input/);
   assert.match(cli(['sources', '--normalized', 'a.md'], 2).message, /not supported/);

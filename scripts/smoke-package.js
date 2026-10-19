@@ -5,7 +5,7 @@ import path from 'node:path';
 import os from 'node:os';
 import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
-import { SOURCE, manifest, readJson } from '../cli/harness.js';
+import { SOURCE, manifest, readJson, digest } from '../cli/harness.js';
 import { parsePackMetadata } from './pack-metadata.js';
 
 const npmCli = process.env.npm_execpath;
@@ -33,7 +33,7 @@ try {
     'templates/openspec/.openspec.yaml', 'templates/AGENTS.md', ...manifest(SOURCE).adapters.map(a => `adapters/${a}/rules.md`)]) assert.ok(names.includes(required), `Missing packaged asset: ${required}`);
   assert.ok(!names.some(n => n.endsWith('.py') || n.startsWith('tests/') || n.startsWith('.git/') || n.endsWith('.tgz')));
   assert.ok(!names.some(n => /(^|\/)\.env(?:\.|$)/.test(n)));
-  for (const required of ['cli/sources.js', 'core/workflows/source-intake.md', 'docs/document-sources.md', 'config/agents.default.json', 'cli/agents.js', 'core/workflows/agent-routing.md']) {
+  for (const required of ['cli/source-provenance.js', 'templates/source-metadata.json', 'templates/source-observation.json', 'cli/sources.js', 'core/workflows/source-intake.md', 'docs/document-sources.md', 'config/agents.default.json', 'cli/agents.js', 'core/workflows/agent-routing.md']) {
     assert.ok(names.includes(required), `Missing agent routing asset: ${required}`);
   }
   for (const required of ['capabilities/architecture/capability.json', 'capabilities/delivery/capability.json',
@@ -67,6 +67,15 @@ try {
   const importedSource = JSON.parse(run(['import-source', 'requirements', '--input', 'requirements.txt']));
   assert.equal(importedSource.conversion, 'available-unreviewed');
   assert.equal(JSON.parse(run(['sources'])).sources[0].id, 'requirements');
+  fs.writeFileSync(path.join(target, 'metadata.json'), JSON.stringify({ schema_version: 1, kind: 'url',
+    locator: 'https://example.com/requirements', snapshot_sha256: importedSource.sha256,
+    captured_at: '2020-01-01T00:00:00Z', revision: '1', scope: 'page', completeness: 'complete', missing: [] }));
+  const captured = JSON.parse(run(['import-source', 'requirements', '--input', 'requirements.txt', '--metadata', 'metadata.json']));
+  fs.writeFileSync(path.join(target, 'evidence.txt'), 'Observed revision 1');
+  fs.writeFileSync(path.join(target, 'observation.json'), JSON.stringify({ schema_version: 1,
+    snapshot_sha256: captured.sha256, capture_sha256: captured.capture_sha256, checked_at: '2020-01-02T00:00:00Z',
+    outcome: 'observed', revision: '1', evidence_sha256: digest(Buffer.from('Observed revision 1')) }));
+  assert.equal(JSON.parse(run(['source-check', 'requirements', '--report', 'observation.json', '--input', 'evidence.txt'])).freshness.state, 'unchanged-at-check');
   const solutionTarget = path.join(temp, 'solution project'); fs.mkdirSync(solutionTarget);
   const solutionRun = args => process.platform === 'win32'
     ? command(process.env.ComSpec || 'cmd.exe', ['/d', '/s', '/c', `""${bin}" ${args.join(' ')}"`], solutionTarget, { windowsVerbatimArguments: true })

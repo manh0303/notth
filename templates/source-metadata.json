@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "kind": "mcp",
+  "locator": "https://issues.example.com/browse/APP-1",
+  "connection": "issues",
+  "resource_id": "APP-1",
+  "snapshot_sha256": "REPLACE_WITH_EXACT_SNAPSHOT_SHA256",
+  "revision": "REPLACE_WITH_OBSERVED_REVISION_OR_REMOVE_FIELD",
+  "captured_at": "REPLACE_WITH_ACTUAL_UTC_ISO_TIMESTAMP",
+  "scope": "issue-description-comments-attachments",
+  "completeness": "unknown",
+  "missing": []
+}

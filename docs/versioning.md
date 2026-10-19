@@ -329,3 +329,13 @@ No eager source migration or distribution version bump. Source files survive ini
 removal/recreation of .harness. Copy the complete source folder separately for recovery. Downgrading
 the CLI leaves files intact but older CLIs cannot inspect them. Roll back snapshot/CLI together,
 retain source data, and restore corrupted source folders from the matching complete backup.
+
+## External source provenance (unreleased)
+
+Metadata/observation envelopes use schema 1; the source manifest opts into schema 2 on --metadata
+import. Legacy schema-1 stores remain untouched unless explicitly enriched. Old source CLI rejects
+schema 2; use this CLI or restore a complete prior source backup for rollback, never relabel schema.
+Project/lock/config/archive schemas and distribution/module versions remain unchanged. New templates
+and Core guidance ship through the existing allowlist/bundle; reviewed update installs them.
+Full-folder backup now includes observations; config-only backup scope is unchanged. No live connector
+or RAG implementation is added. See [source guide](document-sources.md).

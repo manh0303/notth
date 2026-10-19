@@ -21,7 +21,8 @@
       "evidence": [
         "Source revision and approved requirement IDs",
         "Acceptance scenario references and unresolved decisions",
-        "For imported documents: original/hash and conversion fidelity review, missing content, and full source-folder recovery plan; conversion is not approval"
+        "For imported documents: original/hash and conversion fidelity review, missing content, and full source-folder recovery plan; conversion is not approval",
+        "For external inputs: canonical resource/scope, capture revision/time/completeness, and actual host freshness evidence or explicit unavailable/unknown status"
       ],
       "execution": "manual"
     },

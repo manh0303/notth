@@ -257,3 +257,7 @@ progress with declared phase, blockers and unknown remote delivery state. No per
 `aih import-source <id> --input <file> [--normalized <md>] [--dry-run]` preserves a local source
 and optional host conversion. `aih sources` verifies and lists the source store. Both accept
 `--target`; neither requires an installed snapshot or changes artifacts.json automatically.
+
+`import-source` also accepts `--metadata <json>` for a common file/URL/MCP/connector/API envelope.
+`aih source-check <id> --report <json> --input <evidence-file> [--dry-run]` records host observations;
+`sources` reports capture provenance, completeness and time-qualified freshness, without fetching.

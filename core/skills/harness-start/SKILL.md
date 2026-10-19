@@ -74,6 +74,6 @@ For a saved task without a checkpoint, reconcile files/task notes directly; do n
 When multiple changes are plausible and none is selected, ask which one rather than choosing by name order.
 
 ## Preserved input documents
-When files are supplied or prior source snapshots are relevant, follow
+When files, URLs, MCP/API inputs or prior source snapshots are relevant, follow
 `.harness/core/workflows/source-intake.md` before deriving requirements. Reuse the source index,
 preserve originals and register conversions; pending extraction and approval are separate states.
