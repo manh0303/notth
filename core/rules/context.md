@@ -28,3 +28,5 @@ and revisit affected assumptions when sources or scope change. Label observation
 confirmed choices separately; a hash or self-assigned confidence number is not evidence of truth.
 
 Use task-experience.md in Core workflows for minimum task-relevant context. seed reports changed_sources already; do not add a parallel cache. Measure actual host reads/tokens before claiming savings.
+
+For every task/resume apply .harness/core/workflows/session-continuity.md automatically: pin this session's task, load its source-linked context and checkpoint meaningful progress without user memory maintenance.

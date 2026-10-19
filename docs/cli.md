@@ -261,3 +261,12 @@ and optional host conversion. `aih sources` verifies and lists the source store.
 `import-source` also accepts `--metadata <json>` for a common file/URL/MCP/connector/API envelope.
 `aih source-check <id> --report <json> --input <evidence-file> [--dry-run]` records host observations;
 `sources` reports capture provenance, completeness and time-qualified freshness, without fetching.
+
+## Automatic task context
+
+`aih context --change <id>` reads source-linked intent/trace pointers, verifies local freshness and
+reports affected dependencies. `--report <file>` saves a host-prepared schema-1 report; replacement
+requires `--expected <observed-sha256>` and the current report revision. See
+[Session continuity](session-continuity.md) for the contract, ownership and limits.
+Start/chat exposes saved-task context as a hint; resume revalidates linked sources automatically.
+No model or Beads process is executed. Users need not run these commands during normal AI chat.

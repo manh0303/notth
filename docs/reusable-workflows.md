@@ -62,3 +62,6 @@ nạp đúng trên mọi client. Theo [live protocol](../evals/host-portability.
 recoverable/knowledge trong `aih eval --scope all` bằng host thực tế; hiện NOT_RUN.
 
 [Short task prompts and human-readable orientation](simple-use.md): chat is the primary path across hosts; terminal interview remains optional and backward compatible.
+
+[Context liên phiên tự động](session-continuity.md): AI ghim task theo session, nạp intent/nguồn,
+đối chiếu khi nguồn đổi và lưu checkpoint; không yêu cầu người dùng quản lý memory.

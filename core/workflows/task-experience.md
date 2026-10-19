@@ -50,3 +50,6 @@ Show the exact publication target/revision and reuse specific owner authorizatio
 workflows should trim surrounding input whitespace, validate identifiers, reject revision mismatch,
 and show an actionable error before side effects. Do not silently substitute a different commit.
 Missing host access means a concrete manual handoff, not a fabricated successful deployment.
+
+Apply [automatic session continuity](session-continuity.md) on task entry, source changes and handoff.
+Keep intent/trace pointers in the active change and actual progress in existing checkpoints/backend.

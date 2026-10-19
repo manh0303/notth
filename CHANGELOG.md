@@ -7,6 +7,14 @@
 - Opt source manifests into schema 2 only on metadata import; preserve schema-1 reads, file/history ownership and config-only backup.
 - Extend Core intake, templates, tests and recovery docs; no provider SDK, fetcher, background sync or RAG dependency.
 
+## Unreleased — Automatic source-linked session continuity
+
+- Add optional per-change context with original pain point/outcome, canonical trace pointers, source hashes and transitive stale-link detection.
+- Start/chat and resume expose context automatically; Core entry/review instructions pin session task identity and maintain meaningful-step checkpoints without user memory maintenance.
+- Guard context replacements with digest/revision and preserve history; newer imported source revisions invalidate old preserved snapshots.
+- Add optional host-owned Beads mapping/coordination contract with dependency-free local fallback for projects without Beads; no external runtime is bundled or executed.
+- Add recovery/concurrent-writer/package tests and an explicit unrun live-host protocol; no claim of universal automatic client loading or live Beads verification.
+
 ## Unreleased — Persistent document sources
 
 - Preserve original inputs and versioned Markdown in project-owned docs/sources with SHA-256 provenance.

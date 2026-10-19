@@ -1,3 +1,4 @@
+import { taskContextReport } from './task-context.js';
 import { statusReport } from './status.js';
 import { knowledgeReport, localContext } from './knowledge.js';
 import { projectDecisionReport } from './project-decisions.js';
@@ -23,6 +24,7 @@ export function compactStart(root, host) {
     entry_action: host === 'kiro' ? '/harness-start' : 'Read .agents/skills/harness-start/SKILL.md',
     next_action: saved ? orientation.next_action : 'Inspect the user request and applicable project instructions; select task depth and ask only missing consequential questions.',
     progress: orientation.progress,
+    task_context: orientation.task_context,
     note: 'Orientation only; no source scan, MCP probe, interview or task execution. Check freshness with seed --check.' };
 }
 export function startPlan(root, host) {
@@ -39,6 +41,7 @@ export function startPlan(root, host) {
   }
   const recommendation = saved?.goal ?? (checkpoints.length ? 'resume' : contract.artifacts.mode === 'document-driven' ? 'docs'
     : evidence.some(p => ['pom.xml', 'package.json', 'build.gradle', 'pyproject.toml'].includes(p)) ? 'change' : 'idea');
+  const taskContext = taskContextReport(root);
   const goal = saved?.goal;
   const workflow = goal === 'idea' ? 'solution-framing.md' : 'continuous-development.md';
   const setup = setupPlan(root, lock.adapters, process.env, host);
@@ -47,8 +50,9 @@ export function startPlan(root, host) {
     try { resume = resumePlan(root, saved.change_id); }
     catch (error) { if (!(error instanceof HarnessError)) throw error; resume = { status: 'blocked', executed: false, message: error.message, next_action: 'Restore/reconcile checkpoints and evidence before continuation, or choose a new task.' }; }
   }
-  return { status: resume?.status === 'blocked' ? 'blocked' : 'planned', saved, discovery: { evidence, checkpoints, inputs: Object.keys(contract.artifacts.inputs), outputs: Object.keys(contract.artifacts.outputs) },
+  return { status: resume?.status === 'blocked' || taskContext.status === 'blocked' ? 'blocked' : 'planned', saved, discovery: { evidence, checkpoints, inputs: Object.keys(contract.artifacts.inputs), outputs: Object.keys(contract.artifacts.outputs) },
     knowledge: knowledgeReport(root),
+    task_context: taskContext,
     project_decisions: projectDecisionReport(root),
     recommendation, reason: saved ? 'Reuse the saved task; choose a new goal explicitly to start another task.'
       : checkpoints.length ? 'Checkpoint candidates exist; inspect freshness before continuing.'
@@ -68,6 +72,7 @@ export function startPlan(root, host) {
       + 'Inspect declared input/output locations and current code. Reuse saved answers; ask only missing consequential decisions with options and a grounded recommendation. '
       + 'Use .harness/core/workflows/' + workflow + '. Discover only relevant installed agents/skills; suggest missing modules before editing project.json. '
       + 'Keep model defaults unless requested; save accepted source/output/connection choices in their project-owned configs. '
+      + 'For each task apply .harness/core/workflows/session-continuity.md automatically; pin the change in this session and use context --change <id>. Do not let a saved task from another session switch your scope. '
       + 'For resumed tasks inspect checkpoint freshness and side effects. Implement accepted scope with actual verification and maintain affected docs.',
     next_steps: [host === 'kiro' ? 'In Kiro select /harness-start; complete the interview in the current AI session. This CLI plan never asks terminal questions for --host kiro.' : 'In a terminal start interviews and saves answers; without a TTY it prints this plan. Use --goal/--task to save non-interactively.',
       'Open this project in your AI tool and send host_prompt; CLI does not launch a model or read remote document contents.',

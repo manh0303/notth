@@ -1,3 +1,4 @@
+import { taskContextReport } from './task-context.js';
 import fs from 'node:fs';
 import path from 'node:path';
 import { safe, stat, SLUG, HarnessError } from './files.js';
@@ -45,6 +46,7 @@ export function statusReport(root) {
     try { recovery = resumePlan(root, saved.change_id); }
     catch (error) { if (!(error instanceof HarnessError)) throw error; recovery = { status: 'blocked', next_action: 'Reconcile checkpoint and evidence before resuming.' }; }
   }
+  const taskContext = recovery?.task_context ?? taskContextReport(root);
   const blockers = recovery?.blockers ?? (recovery?.status === 'blocked' ? ['Checkpoint or evidence requires reconciliation.'] : []);
   const operations = recovery?.operations_to_reconcile ?? [];
   let next = !saved ? 'Describe your task in AI chat; load harness-start if needed.'
@@ -53,14 +55,15 @@ export function statusReport(root) {
     : 'Inspect the saved request and relevant source; select task depth and start the authorized slice.';
   if (recovery) next = recovery.next_action;
   if (recovery?.revalidate_required) next = 'Reconcile changed baseline files and invalidate affected evidence before continuing.';
+  if (taskContext.status === 'blocked') next = taskContext.next_action;
   if (operations.length) next = 'Check actual remote state before retrying operations: ' + operations.map(op => op.id).join(', ');
   if (blockers.length) next = 'Resolve or scope around recorded blockers: ' + blockers.join('; ');
   const progress = { phase: recovery?.phase ?? 'unknown', source: recovery ? 'checkpoint declaration' : 'local task declarations',
     blockers, next_owner: saved ? 'agent; identify any owner decision after reconciliation' : 'user',
     merge: 'unknown', deployment: 'unknown', live_verification: 'unknown' };
-  return { status: recovery?.status === 'blocked' ? 'blocked' : 'ok', executed: false,
+  return { status: recovery?.status === 'blocked' || taskContext.status === 'blocked' ? 'blocked' : 'ok', executed: false,
     version: lock.version, adapters: lock.adapters, capabilities: lock.capabilities ?? [], task: saved?.task ?? null,
-    goal: saved?.goal ?? null, change: saved?.change_id ?? null, tasks: active?.tasks ?? null, recovery, progress,
+    goal: saved?.goal ?? null, change: saved?.change_id ?? null, tasks: active?.tasks ?? null, recovery, progress, task_context: taskContext,
     next_action: next,
     note: 'Read-only orientation. First unchecked task is a candidate, not a dependency decision. No process, model, MCP or remote state is inspected.' };
 }

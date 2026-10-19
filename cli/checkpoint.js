@@ -1,3 +1,4 @@
+import { taskContextReport } from './task-context.js';
 import fs from 'node:fs';
 import { safe, stat, digest, isObject, HarnessError } from './files.js';
 import { readConfig } from './project-config.js';
@@ -47,9 +48,11 @@ export function validateCheckpoint(root,id,row) {
 export function resumePlan(root,id) {
   const name=checkpointPath(id),row=readConfig(root,name);requireThat(row!==null,'checkpoint missing');validateCheckpoint(root,id,row);
   const baseline=references(root,row.baseline),pendingOperations=row.operations.filter(o=>o.status!=='completed');
-  const revalidate=baseline.some(r=>!r.current);
+  const taskContext=taskContextReport(root,id);
+  const revalidate=baseline.some(r=>!r.current)||taskContext.status==='blocked';
   return {status:row.blockers.length?'blocked':'planned',executed:false,change_id:id,checkpoint:name,
     checkpoint_sha256:digest(fs.readFileSync(safe(root,name))),baseline,revalidate_required:revalidate,
+    task_context:taskContext,
     phase:row.phase,summary:row.summary,completed:row.completed,pending:row.pending,in_progress:row.in_progress,blockers:row.blockers,
     next_action:row.next_action,operations_to_reconcile:pendingOperations,
     external_sources:row.external_sources.map(s=>({...s,availability:'unverified'})),usage:row.usage??null,

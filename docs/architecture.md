@@ -256,3 +256,14 @@ External provenance extends source manifests to schema 2 on explicit metadata im
 canonical resource/scope, observed revision, time and completeness to exact snapshot bytes; immutable
 checks bind raw host evidence to a capture. source-provenance.js validates envelopes and derives
 time-qualified freshness, not live access. Schema-1 local stores remain readable without rewrite.
+
+## Source-linked session continuity
+
+cli/task-context.js validates optional project-owned schema-1 context.json in existing OpenSpec
+changes. It holds intent and canonical trace pointers, not a second task-state or decision database.
+Start/chat returns the saved task as a hint; explicit context --change pins session scope. Local hashes,
+source-catalog current paths and dependency propagation identify affected links; resume includes this
+report. Guarded digest/revision writes retain history. No network, shell, model or distributed lock is
+introduced. Core session-continuity delegates automatic read/reconcile/checkpoint behavior to the host.
+Optional Beads integration is a host contract with unverified marker detection and explicit issue mapping;
+it neither installs Beads nor runs claims. See [Session continuity](session-continuity.md).

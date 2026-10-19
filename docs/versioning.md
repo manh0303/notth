@@ -1,5 +1,16 @@
 # Versioning and migration
 
+## Automatic session continuity (unreleased)
+
+Optional schema-1 context.json/context-history under each existing change adds source-linked intent
+and guarded revision writes. Project/lock/config schemas and distribution version stay unchanged.
+Reviewed update refreshes Core/AGENTS/template/integration payload; existing project context, sources,
+checkpoints and decisions survive. Old changes without context remain usable; host records it after
+inspection, never auto-migrates or approves facts. New CLI also reads legacy snapshots and returns
+missing-context guidance. Context/history require full project backup, not config backup. Roll back
+consumer snapshot with its matching CLI; retain optional user data. Beads remains separately installed
+and host-executed, with no dependency/download or provider migration. See [continuity](session-continuity.md).
+
 ## PyPI distribution name (unreleased)
 
 The Python distribution changes from the earlier source-build name `manhd-ai-harness` to `notth`.

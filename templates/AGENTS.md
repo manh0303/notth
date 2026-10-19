@@ -3,6 +3,7 @@
 
 Always read .harness/core/rules/foundations.md, .harness/core/policies/security.md and .harness/core/policies/permissions.md.
 Before edits read .harness/local.md and .harness/core/rules/project-conventions.md; preserve approved design and user content.
+For every task/resume apply .harness/core/workflows/session-continuity.md automatically: pin this session's task, load its source-linked context and checkpoint meaningful progress without user memory maintenance.
 Context selection: .harness/core/rules/context.md. Discover agent/skill descriptions with aih agents / aih skills.
 
 Use .harness/core/workflows/agent-routing.md to choose only relevant roles/skills.

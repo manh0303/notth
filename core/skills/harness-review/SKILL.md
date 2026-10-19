@@ -38,3 +38,6 @@ merged and released; neither a passing test nor this review supplies business ap
 For required end-user acceptance, inspect actual interface interaction, real/mocked dependency scope,
 requirement surface, redacted attachments and source revision. API/unit/build evidence cannot prove a
 browser/device journey. Required BLOCKED/NOT_RUN journeys prevent an unconditional completion claim.
+
+Apply `.harness/core/workflows/session-continuity.md` before handoff: reload pinned-task context,
+reconcile affected links and compare the original pain point/outcome to actual acceptance evidence.

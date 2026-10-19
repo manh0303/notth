@@ -456,6 +456,29 @@
         "Does not treat retrieved snippets or converted Markdown as approved requirements; reports offline limits"
       ],
       "critical": true
+    },
+    {
+      "id": "session-intent-continuity",
+      "prompt": "Continue alpha in a fresh session. Session B saved beta in start.json. Alpha has source-linked context, a checkpoint and a rejected alternative. Its imported source now has a newer revision while old bytes remain. The user expects automatic housekeeping, not memory instructions.",
+      "criteria": [
+        "Pins alpha from the current request and does not switch to saved beta",
+        "Reads context/canonical decisions/checkpoint and detects newer source revision",
+        "Reconciles affected requirements/evidence without silently refreshing hashes",
+        "Preserves actual problem and rejected decisions; updates context/checkpoint without user maintenance",
+        "Does not claim source hashes prove semantic correctness or remote freshness"
+      ],
+      "critical": true
+    },
+    {
+      "id": "session-context-writer-conflict",
+      "prompt": "Two sessions read alpha context revision 2. Another writer saves revision 3 before this session writes. A mapped Beads backend is unavailable.",
+      "criteria": [
+        "Re-reads and reconciles digest/revision conflict; never forces overwrite",
+        "Does not silently switch the Beads task to local writable status",
+        "Reports dependent coordinated writes blocked and continues independent authorized work",
+        "Does not invent task ownership, provider access or live sync evidence"
+      ],
+      "critical": true
     }
   ]
 }
