@@ -1,0 +1,9 @@
+{
+  "cli/memory.js": "5a6c90461f1daa78dd23465a254a8505eeae984c6cd787ceb58cebe7648c7512",
+  "cli/main.js": "7695223580171a55c6aef7612fe1127df38aff4d822c5c09748172a87e080511",
+  "tests/memory.test.js": "57ff259c5e9541e2ea72594fe1917844df4bdec856d841f21b872d9af14fbfe2",
+  "scripts/smoke-package.js": "8d7890333abe4583f28da47f9bb95410c3e5247a7fc6a4ddab71cdf0d15559da",
+  "core/evals/cases.json": "7ce755e87d186b1dc6e5e4850ce4b01803126f95e7f5902205ef4fe598232150",
+  "core/workflows/session-continuity.md": "e3ef8f79bef917fc494608085ebb1dd57d4656a2599718ac6b3722b951fdb6c2",
+  "templates/AGENTS.md": "4241ba282f7f991618bf0c4259e31c180d35d11dd198aed640cd5e45b4fa4f50"
+}

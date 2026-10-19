@@ -84,3 +84,7 @@ When multiple changes are plausible and none is selected, ask which one rather t
 When files, URLs, MCP/API inputs or prior source snapshots are relevant, follow
 `.notth/core/workflows/source-intake.md` before deriving requirements. Reuse the source index,
 preserve originals and register conversions; pending extraction and approval are separate states.
+
+For task-specific retrieval use `aih memory --change <id> --query <terms>`; on a host switch read
+`aih handoff <id>` and reconcile its source/checkpoint references in the synchronized workspace.
+These are derived views, not approval, automatic tool availability or private chat recovery.

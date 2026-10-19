@@ -73,3 +73,5 @@ Project context lives under `.notth/`. After an upgrade the host uses namespace-
 reconcile relevant old namespace pointers; [migration](notth-migration.md) retains original evidence.
 Retired optional backend declarations in older context files are ignored and dropped on the next
 guarded context save; there is no external task-backend discovery or installation.
+
+[Adaptive Core: canonical memory and host-neutral handoff](adaptive-core.md).

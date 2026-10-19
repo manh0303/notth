@@ -270,3 +270,10 @@ requires `--expected <observed-sha256>` and the current report revision. See
 [Session continuity](session-continuity.md) for the contract, ownership and limits.
 Start/chat exposes saved-task context as a hint; resume revalidates linked sources automatically.
 No model process is executed. Users need not run these commands during normal AI chat.
+
+## Unified memory and handoff
+
+`aih memory [--change <id>] [--query <terms>] [--budget <bytes>]` returns canonical references.
+`aih handoff <id> [--budget <bytes>]` derives cross-host continuity from context/checkpoint.
+Budget: 1024–65536 bytes, default 8192. Oversized handoff returns BLOCKED without losing critical fields.
+Both are read-only; no tool/remote execution or memory database. See [Adaptive Core](adaptive-core.md).

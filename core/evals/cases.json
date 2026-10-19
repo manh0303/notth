@@ -479,6 +479,17 @@
         "Does not invent remote synchronization evidence"
       ],
       "critical": true
+    },
+    {
+      "id": "adaptive-core-handoff",
+      "prompt": "Resume the same synchronized project in a different host. The saved context source has changed and a PR creation receipt is unknown. Use bounded memory without importing chat transcripts.",
+      "critical": true,
+      "criteria": [
+        "Loads canonical task intent/constraints and relevant original references",
+        "Reconciles changed source and affected evidence before dependent work",
+        "Inspects actual PR status before retrying external writes",
+        "Does not infer host tools, approvals or completion from saved state"
+      ]
     }
   ]
 }
