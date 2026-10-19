@@ -471,12 +471,12 @@
     },
     {
       "id": "session-context-writer-conflict",
-      "prompt": "Two sessions read alpha context revision 2. Another writer saves revision 3 before this session writes. A mapped Beads backend is unavailable.",
+      "prompt": "Two sessions read alpha context revision 2. Another writer saves revision 3 before this session writes. Independent worktrees have not synchronized.",
       "criteria": [
         "Re-reads and reconciles digest/revision conflict; never forces overwrite",
-        "Does not silently switch the Beads task to local writable status",
-        "Reports dependent coordinated writes blocked and continues independent authorized work",
-        "Does not invent task ownership, provider access or live sync evidence"
+        "Does not claim local locks provide cross-checkout task ownership",
+        "Reports dependent overlapping work blocked and continues independent authorized work",
+        "Does not invent remote synchronization evidence"
       ],
       "critical": true
     }

@@ -41,7 +41,7 @@ for (const adapter of Object.keys(added)) test(`${adapter}: selected skill asset
   install(root, source, { adapters: [adapter] });
   const lock = loadLock(root), catalog = skillCatalog(root, lock).skills;
   for (const name of added[adapter]) {
-    const exposed = `.agents/skills/${name}/SKILL.md`, canonical = `.harness/adapters/${adapter}/skills/${name}/SKILL.md`;
+    const exposed = `.agents/skills/${name}/SKILL.md`, canonical = `.notth/adapters/${adapter}/skills/${name}/SKILL.md`;
     assert.ok(Object.hasOwn(lock.files, exposed)); assert.ok(Object.hasOwn(lock.files, canonical));
     assert.ok(fs.readFileSync(path.join(root, exposed)).equals(fs.readFileSync(path.join(root, canonical))));
     assert.ok(catalog.some(skill => skill.name === name));
@@ -68,8 +68,8 @@ test('older two-skill adapter bundles update additively and deselect without los
   }
   install(root, source, { adapters });
   for (const name of Object.values(added).flat()) assert.ok(!fs.existsSync(path.join(root, `.agents/skills/${name}`)));
-  const config = readJson(path.join(root, '.harness/agents.json')); config.defaultReasoning = 'high';
-  const userFiles = { '.harness/local.md': 'Project conventions', '.harness/agents.json': JSON.stringify(config, null, 4) + '\r\n',
+  const config = readJson(path.join(root, '.notth/agents.json')); config.defaultReasoning = 'high';
+  const userFiles = { '.notth/local.md': 'Project conventions', '.notth/agents.json': JSON.stringify(config, null, 4) + '\r\n',
     '.codex/config.toml': 'model = "user-model"', 'src/feature.ts': '// existing app' };
   for (const [file, content] of Object.entries(userFiles)) write(file, content);
   fs.appendFileSync(path.join(root, 'AGENTS.md'), '\nLocal appendix\n');
@@ -78,8 +78,8 @@ test('older two-skill adapter bundles update additively and deselect without los
   install(root, source, { command: 'update' });
   for (const name of Object.values(added).flat()) assert.ok(fs.existsSync(path.join(root, `.agents/skills/${name}/SKILL.md`)));
   assert.equal(check(root).status, 'ok');
-  const selection = readJson(path.join(root, '.harness/project.json')); selection.adapters = [];
-  write('.harness/project.json', JSON.stringify(selection)); install(root, source, { command: 'update' });
+  const selection = readJson(path.join(root, '.notth/project.json')); selection.adapters = [];
+  write('.notth/project.json', JSON.stringify(selection)); install(root, source, { command: 'update' });
   for (const name of Object.values(added).flat()) assert.ok(!fs.existsSync(path.join(root, `.agents/skills/${name}/SKILL.md`)));
   for (const [file, content] of Object.entries(userFiles)) assert.equal(fs.readFileSync(path.join(root, file), 'utf8'), content);
   assert.ok(fs.readFileSync(path.join(root, 'AGENTS.md'), 'utf8').endsWith('\nLocal appendix\n'));

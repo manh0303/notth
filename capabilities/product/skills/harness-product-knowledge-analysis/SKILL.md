@@ -28,7 +28,7 @@ description: Catalog product ideas and authorized Confluence, PDF, meeting-note 
 - Record missing or inaccessible sources explicitly; never invent citations.
 
 ## Template
-Read `.harness/capabilities/product/templates/source-register.md`; `aih new-doc source-register` creates only a missing
+Read `.notth/capabilities/product/templates/source-register.md`; `aih new-doc source-register` creates only a missing
 draft. Apply the shared document contract for authority, preservation and review.
 
 ## Example
@@ -38,4 +38,4 @@ Synthetic illustration: SRC-001 points to the approved SRS revision; a contradic
 - Source authority/version and missing access are explicit.
 
 ## Handoff
-Read the shared installed contract `.harness/capabilities/product/common/document-contract.md`; pass only affected scope and relevant perspectives.
+Read the shared installed contract `.notth/capabilities/product/common/document-contract.md`; pass only affected scope and relevant perspectives.

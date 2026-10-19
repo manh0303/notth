@@ -2,7 +2,7 @@
 
 Use this when the developer starts with an idea, including a solo project. Product is optional for coding-only projects; when selected, this workflow guides AI in an authorized host, not the CLI itself.
 
-Before authoring, apply `.harness/core/workflows/artifact-contract.md`: reuse storage/canonical
+Before authoring, apply `.notth/core/workflows/artifact-contract.md`: reuse storage/canonical
 ownership decisions or ask only what is missing, then record input/output routes and write policy.
 Respect configured destinations; docs below are the legacy Git defaults, not permission to copy
 an external source into a second master. Maintain impacted artifacts through the OpenSpec change.

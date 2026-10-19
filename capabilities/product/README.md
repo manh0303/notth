@@ -19,7 +19,7 @@ aih skills
 aih skill harness-product-brd-generation
 aih check
 ```
-`aih init` is for a new consumer. Existing project: edit `.harness/project.json` capabilities array, then `aih update --dry-run`, `aih update`, `aih check` on a branch.
+`aih init` is for a new consumer. Existing project: edit `.notth/project.json` capabilities array, then `aih update --dry-run`, `aih update`, `aih check` on a branch.
 
 ## Create an output document safely
 
@@ -59,7 +59,7 @@ Quick tutorials: [Idea-driven](../../docs/examples/idea-driven-project.md) or [D
 Both modes can coexist across the project lifecycle. The CLI only provides instructions/templates and does not execute research, AI conversations, Confluence exports or publishing. Read [Documentation guide](../../docs/documentation-workflows.md).
 
 ## Outputs (consumer-owned)
-Use `aih new-doc <type>` to copy reviewed templates from `.harness/capabilities/product/templates/` to project-owned `docs/discovery/` for idea/research, or `docs/product/` for requirements. Complete with source references, IDs, owners, version and status. The CLI installs templates; it does **not** fill them, connect to Confluence, generate documents, or approve output.
+Use `aih new-doc <type>` to copy reviewed templates from `.notth/capabilities/product/templates/` to project-owned `docs/discovery/` for idea/research, or `docs/product/` for requirements. Complete with source references, IDs, owners, version and status. The CLI installs templates; it does **not** fill them, connect to Confluence, generate documents, or approve output.
 
 Naming: `SRC-###` source, `BR-###` business rule, `FR-###` functional, `NFR-###`, `PRD-###`, `EPIC-###`, `US-###`, `AC-US-###-##`. An ID is stable even when superseded; document the replacement. `FACT/INFERENCE/DECISION/UNKNOWN` are separate provenance states; `draft/pending-review/approved/rejected` are human workflow states.
 

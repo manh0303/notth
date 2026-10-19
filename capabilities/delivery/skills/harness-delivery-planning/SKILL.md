@@ -20,7 +20,7 @@ Reviewed MVP/backlog, architecture decisions, dependency graph, actual capacity/
 docs/delivery/delivery-plan.md linked to stories, ADRs, OpenSpec tasks and risks.
 
 ## Template
-Read `.harness/capabilities/delivery/templates/delivery-plan.md` from the installed snapshot.
+Read `.notth/capabilities/delivery/templates/delivery-plan.md` from the installed snapshot.
 Use `aih new-doc delivery-plan --capability delivery` only for a missing draft;
 reuse existing authoritative docs or a compact task note when appropriate. Never overwrite approved content.
 

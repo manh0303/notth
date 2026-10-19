@@ -27,7 +27,7 @@ test('start saves a task and source/output declarations; repeat reuses answers; 
   const before = snapshot(), plan = startPlan(root);
   assert.equal(plan.saved.goal, 'docs'); assert.deepEqual(plan.discovery.inputs, ['requirements']);
   assert.deepEqual(plan.questions, []);
-  assert.deepEqual(JSON.parse(read('.harness/artifacts.json')).outputs.documents.location, { path: 'docs/specs' });
+  assert.deepEqual(JSON.parse(read('.notth/artifacts.json')).outputs.documents.location, { path: 'docs/specs' });
   install(root, SOURCE, { command: 'update' }); assert.deepEqual(snapshot(), before); assert.equal(check(root).status, 'ok');
   assert.throws(() => saveStart(root, { goal: 'docs', task: 'Overwrite', input: 'other-docs' }), /already configured/);
   assert.deepEqual(snapshot(), before);
@@ -50,7 +50,7 @@ test('invalid start inputs or resume checkpoint fail before changing user files'
   assert.deepEqual(snapshot(), before);
 });
 test('backup excludes machine, managed files, docs, checkpoint, custom skills and env values; roundtrip restores before init', () => {
-  write('.harness/machine.json', { schema_version: 1, tools: {} }); write('docs/private.md', 'DOC_CONTENT');
+  write('.notth/machine.json', { schema_version: 1, tools: {} }); write('docs/private.md', 'DOC_CONTENT');
   write('openspec/changes/old/checkpoint.json', 'CHECKPOINT_CONTENT'); write('.agents/skills/custom/SKILL.md', 'CUSTOM_SKILL');
   const backup = backupConfig(root), archive = JSON.parse(read(backup.backup));
   assert.deepEqual(Object.keys(archive.files).sort(), Object.keys(snapshot()).sort());
@@ -59,36 +59,36 @@ test('backup excludes machine, managed files, docs, checkpoint, custom skills an
   const dest = target(backup.backup), before = snapshot();
   restoreConfig(dest, 'backup.json'); assert.deepEqual(snapshot(dest), before);
   install(dest, SOURCE); assert.deepEqual(snapshot(dest), before); assert.equal(check(dest).status, 'ok');
-  assert.equal(fs.existsSync(path.join(dest, '.harness/machine.json')), false);
+  assert.equal(fs.existsSync(path.join(dest, '.notth/machine.json')), false);
 });
 test('transfer reuses models/modules and clears repo autonomy, omitting task, context, sources and commands', () => {
   saveStart(root, { goal: 'docs', task: 'Old repo task', input: 'docs/old', output: 'docs/specs' });
-  const agents = JSON.parse(read('.harness/agents.json'));
+  const agents = JSON.parse(read('.notth/agents.json'));
   agents.execution.autonomy = { mode: 'autopilot', actions: ['merge'], repositories: ['old/repo'] };
-  write('.harness/agents.json', agents);
+  write('.notth/agents.json', agents);
   const backup = backupConfig(root), dest = target(backup.backup);
   restoreConfig(dest, 'backup.json', { transfer: true });
-  assert.equal(JSON.parse(read('.harness/agents.json', dest)).defaultModel, agents.defaultModel);
-  assert.equal(JSON.parse(read('.harness/agents.json', dest)).execution.autonomy, undefined);
-  for (const name of ['.harness/start.json', '.harness/artifacts.json', '.harness/environment.json', '.harness/local.md']) assert.equal(fs.existsSync(path.join(dest, name)), false);
+  assert.equal(JSON.parse(read('.notth/agents.json', dest)).defaultModel, agents.defaultModel);
+  assert.equal(JSON.parse(read('.notth/agents.json', dest)).execution.autonomy, undefined);
+  for (const name of ['.notth/start.json', '.notth/artifacts.json', '.notth/environment.json', '.notth/local.md']) assert.equal(fs.existsSync(path.join(dest, name)), false);
   install(dest, SOURCE); assert.equal(startPlan(dest).saved, null); assert.deepEqual(startPlan(dest).discovery.inputs, []);
 });
 test('restore dry-run previews collisions, replacement makes before-backup, and no replace refuses writes', () => {
-  write('.harness/local.md', '# Original\n'); const backup = backupConfig(root);
-  write('.harness/local.md', '# Current\n'); const before = snapshot();
+  write('.notth/local.md', '# Original\n'); const backup = backupConfig(root);
+  write('.notth/local.md', '# Current\n'); const before = snapshot();
   const plan = restoreConfig(root, backup.backup, { dryRun: true });
-  assert.ok(plan.conflicts.includes('.harness/local.md')); assert.deepEqual(snapshot(), before);
+  assert.ok(plan.conflicts.includes('.notth/local.md')); assert.deepEqual(snapshot(), before);
   assert.throws(() => restoreConfig(root, backup.backup), /differs/); assert.deepEqual(snapshot(), before);
   const result = restoreConfig(root, backup.backup, { replace: true });
-  assert.equal(read('.harness/local.md'), '# Original\n');
-  assert.equal(JSON.parse(read(result.backup)).files['.harness/local.md'].content, '# Current\n');
-  assert.ok(read('.harness/.gitignore').includes('/backups/'));
+  assert.equal(read('.notth/local.md'), '# Original\n');
+  assert.equal(JSON.parse(read(result.backup)).files['.notth/local.md'].content, '# Current\n');
+  assert.ok(read('.notth/.gitignore').includes('/backups/'));
 });
 test('restore rejects digest tamper, unknown schema, traversal, managed entries and invalid JSON before writes', () => {
   const backup = backupConfig(root), original = JSON.parse(read(backup.backup)), before = snapshot();
-  for (const mutate of [ a => a.schema_version = 99, a => a.files['.harness/local.md'].content += 'tampered',
-    a => a.files['../escape'] = a.files['.harness/local.md'], a => a.files['.harness/lock.json'] = a.files['.harness/local.md'],
-    a => { const content = '{"secret":"SECRET_BAD_JSON"'; a.files['.harness/agents.json'] = { content, sha256: digest(Buffer.from(content)) }; } ]) {
+  for (const mutate of [ a => a.schema_version = 99, a => a.files['.notth/local.md'].content += 'tampered',
+    a => a.files['../escape'] = a.files['.notth/local.md'], a => a.files['.notth/lock.json'] = a.files['.notth/local.md'],
+    a => { const content = '{"secret":"SECRET_BAD_JSON"'; a.files['.notth/agents.json'] = { content, sha256: digest(Buffer.from(content)) }; } ]) {
     const archive = structuredClone(original); mutate(archive); write('bad.json', archive);
     assert.throws(() => restoreConfig(root, 'bad.json'), error => !error.message.includes('SECRET_BAD_JSON'));
     assert.deepEqual(snapshot(), before);
@@ -96,22 +96,22 @@ test('restore rejects digest tamper, unknown schema, traversal, managed entries 
 });
 test('backup and restore refuse symlinked paths, oversized files and reused output', () => {
   const backup = backupConfig(root, 'copy.json'); assert.throws(() => backupConfig(root, 'copy.json'), /exists/);
-  write('.harness/local.md', 'x'.repeat(1024 * 1024 + 1)); assert.throws(() => backupConfig(root), /exceeds/);
-  write('.harness/local.md', '# Valid');
+  write('.notth/local.md', 'x'.repeat(1024 * 1024 + 1)); assert.throws(() => backupConfig(root), /exceeds/);
+  write('.notth/local.md', '# Valid');
   if (process.platform !== 'win32') {
     fs.symlinkSync(path.join(parent), path.join(root, 'link'));
     assert.throws(() => backupConfig(root, 'link/out.json'), /Symlink/);
-    const dest = target(backup.backup); fs.symlinkSync(root, path.join(dest, '.harness'));
+    const dest = target(backup.backup); fs.symlinkSync(root, path.join(dest, '.notth'));
     assert.throws(() => restoreConfig(dest, 'backup.json'), /Symlink/);
   }
 });
 test('ordinary restore write failure rolls back changed user config', () => {
-  const backup = backupConfig(root); write('.harness/local.md', '# New');
+  const backup = backupConfig(root); write('.notth/local.md', '# New');
   const before = snapshot(); let calls = 0;
   assert.throws(() => restoreConfig(root, backup.backup, { replace: true, writer: (filename, bytes) => {
     if (++calls === 2) throw new Error('Simulated write failure'); fs.mkdirSync(path.dirname(filename), { recursive: true }); fs.writeFileSync(filename, bytes);
   } }), /Simulated/);
-  assert.deepEqual(snapshot(), before); assert.equal(fs.existsSync(path.join(root, '.harness-install.lock')), false);
+  assert.deepEqual(snapshot(), before); assert.equal(fs.existsSync(path.join(root, '.notth-install.lock')), false);
 });
 test('CLI accepts explicit save and backup/restore flags, rejects unrelated/missing flags', () => {
   assert.equal(cli(['start', '--goal', 'change', '--task', 'Fix the bug']).saved.task, 'Fix the bug');
@@ -129,10 +129,10 @@ test('resume blockers/missing evidence remain blocked and a new task can replace
   assert.equal(saveStart(root, { goal: 'change', task: 'New task' }).status, 'ok');
 });
 test('invalid optional task schema and active installer marker stop writes', () => {
-  write('.harness/start.json', 'null'); const before = snapshot();
+  write('.notth/start.json', 'null'); const before = snapshot();
   assert.throws(() => install(root, SOURCE, { command: 'update' }), /start.json/);
-  assert.deepEqual(snapshot(), before); fs.unlinkSync(path.join(root, '.harness/start.json'));
-  write('.harness-install.lock', 'active');
+  assert.deepEqual(snapshot(), before); fs.unlinkSync(path.join(root, '.notth/start.json'));
+  write('.notth-install.lock', 'active');
   assert.throws(() => saveStart(root, { goal: 'change', task: 'Task' }), /active/);
   assert.throws(() => backupConfig(root), /active/);
 });

@@ -1,7 +1,7 @@
 # Project Manager — compatibility alias
 
 ## Inputs
-Read the canonical project contract .harness/core/agents/project-manager.md with accepted scope, design, estimates and actual progress.
+Read the canonical project contract .notth/core/agents/project-manager.md with accepted scope, design, estimates and actual progress.
 ## Outputs
 The canonical PM delivery plan, risk/status and checkpoint handoff. This alias does not create another worker.
 ## Permissions and limits

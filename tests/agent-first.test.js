@@ -26,11 +26,11 @@ test('brownfield init-detect, Claude opt-in, custom skill preservation and drift
  cli(root,['init','--detect','--host','claude-code','--link-claude','--claude-skills']);
  assert.deepEqual(loadLock(root).adapters,['java-spring']);assert.ok(read(root,'AGENTS.md').startsWith(agents));
  assert.ok(read(root,'CLAUDE.md').startsWith(claude));assert.equal(claudeReport(root).files[0].imports_agents,true);
- assert.equal(JSON.parse(read(root,'.harness/agents.json')).provider,'anthropic');
+ assert.equal(JSON.parse(read(root,'.notth/agents.json')).provider,'anthropic');
  assert.equal(read(root,'.claude/settings.json'),'{"model":"team-model"}');
  const before=snapshot(root);cli(root,['init','--detect','--link-claude','--claude-skills']);assert.deepEqual(snapshot(root),before);
  write(root,'.agents/skills/team-check/SKILL.md','Team edits are not Harness drift');assert.equal(check(root).status,'ok');
- write(root,'.harness/core/rules/foundations.md','changed');assert.equal(check(root).status,'error');
+ write(root,'.notth/core/rules/foundations.md','changed');assert.equal(check(root).status,'error');
 });
 test('default init preserves CLAUDE and doctor warns; imports in code are not active',t=>{
  const root=project(t),body='# Existing\n\x60@AGENTS.md\x60\n\x60\x60\x60md\n@AGENTS.md\n\x60\x60\x60\n';write(root,'CLAUDE.md',body);
@@ -45,14 +45,14 @@ test('managed Claude block is checked; outside edits survive update and failures
  assert.throws(()=>install(root,SOURCE,{command:'update'}));assert.match(read(root,'CLAUDE.md'),/@OTHER.md/);
  const other=project(t);write(other,'CLAUDE.md','# Old');let n=0;
  assert.throws(()=>install(other,SOURCE,{linkClaude:true,writer:(file,data)=>{if(++n===4)throw Error('write failed');fs.mkdirSync(path.dirname(file),{recursive:true});fs.writeFileSync(file,data);}}));
- assert.equal(read(other,'CLAUDE.md'),'# Old');assert.ok(!fs.existsSync(path.join(other,'.harness/lock.json')));
+ assert.equal(read(other,'CLAUDE.md'),'# Old');assert.ok(!fs.existsSync(path.join(other,'.notth/lock.json')));
 });
 test('native skill collisions fail before mutations; user agents/model settings are preserved',t=>{
  const root=project(t);write(root,'.claude/skills/harness-tdd/SKILL.md','User collision');const before=snapshot(root);
  assert.throws(()=>install(root,SOURCE,{claudeSkills:true}),/collision/);assert.deepEqual(snapshot(root),before);
  const other=project(t);const custom=agentDefaults(SOURCE);custom.provider='custom';custom.defaultModel='my-model';
- write(other,'.harness/agents.json',custom);const bytes=read(other,'.harness/agents.json');install(other,SOURCE,{host:'claude-code'});
- assert.equal(read(other,'.harness/agents.json'),bytes);assert.equal(JSON.parse(read(other,'.harness/templates/agents.default.json')).provider,'host');
+ write(other,'.notth/agents.json',custom);const bytes=read(other,'.notth/agents.json');install(other,SOURCE,{host:'claude-code'});
+ assert.equal(read(other,'.notth/agents.json'),bytes);assert.equal(JSON.parse(read(other,'.notth/templates/agents.default.json')).provider,'host');
 });
 test('Maven declared modules are bounded and produce per-module evidence',t=>{
  const root=project(t);write(root,'pom.xml','<project><modules><module>a</module><module>missing</module></modules></project>');
@@ -78,7 +78,7 @@ test('retired recipes are removed, old IDs yield migration guidance',t=>{
  for(const id of ['harness-java-spring-kafka-outbox','harness-java-spring-database-migration','harness-astro-cloudflare','harness-astro-microfrontend']){
   assert.ok(!Object.hasOwn(lock.files,'.agents/skills/'+id+'/SKILL.md'));assert.equal(readSkill(root,lock,id).retired,true);
  }
- assert.ok(!read(root,'.harness/adapters/java-spring/rules/database.md').includes('outbox'));
+ assert.ok(!read(root,'.notth/adapters/java-spring/rules/database.md').includes('outbox'));
 });
 test('unknown preferred skills and unscoped autopilot are rejected',()=>{
  assert.throws(()=>validatePreferredSkills('## Preferred skills\n- Required: harness-unknown',new Set()),/Unknown/);
@@ -118,7 +118,7 @@ function releasedSnapshot(root){
  const bytes=brotliDecompressSync(Buffer.from(fixture.payload,'base64'),{maxOutputLength:8*1024*1024});
  assert.equal(sha(bytes),fixture.sha256);const files=JSON.parse(bytes);assert.equal(Object.keys(files).length,fixture.file_count);
  for(const [p,body] of Object.entries(files)){safe(root,p);write(root,p,body);}
- assert.equal(check(root).version,'0.12.0');return fixture;
+ assert.throws(()=>check(root),/aih update/);return fixture;
 }
 test('actual released 0.12 snapshot upgrades, retires recipes, preserves config/docs and is idempotent',t=>{
  const root=project(t);const fixture=releasedSnapshot(root);assert.equal(fixture.source_tree,'191a2fea0cd44613f5e66b8c482892af839db1d3');
@@ -127,7 +127,7 @@ test('actual released 0.12 snapshot upgrades, retires recipes, preserves config/
  const before=snapshot(root);const plan=install(root,SOURCE,{command:'update',dryRun:true,linkClaude:true,claudeSkills:true});assert.deepEqual(snapshot(root),before);
  assert.ok(plan.changes.some(c=>c.action==='delete'&&c.path.includes('kafka-outbox')));
  install(root,SOURCE,{command:'update',linkClaude:true,claudeSkills:true});assert.equal(check(root).status,'ok');
- assert.equal(read(root,'.harness/agents.json'),agentBytes);assert.equal(read(root,'.harness/local.md'),local);assert.equal(read(root,'docs/team.md'),'Approved team document');
+ assert.equal(read(root,'.notth/agents.json'),agentBytes);assert.equal(read(root,'.notth/local.md'),local);assert.equal(read(root,'docs/team.md'),'Approved team document');
  assert.ok(!fs.existsSync(path.join(root,'.agents/skills/harness-java-spring-kafka-outbox/SKILL.md')));
  assert.equal(install(root,SOURCE,{command:'update'}).changes.length,0);
 });
@@ -137,8 +137,8 @@ test('edited retired recipe blocks actual 0.12 update before any write',t=>{
 });
 test('analysis TechSpec uses canonical external Product route without local fallback',t=>{
  const root=project(t);install(root,SOURCE,{capabilities:['analysis']});
- write(root,'.harness/artifacts.json',{schema_version:1,mode:'idea-driven',inputs:{},outputs:{docs:{kind:'docs',capability:'product',canonical:true,location:{url:'https://example.com/spec',connection:'wiki'},write_policy:'propose'}}});
- write(root,'.harness/integrations.json',{schema_version:1,connections:{wiki:{via:'mcp',binding:'team-wiki',purpose:'docs'}}});
+ write(root,'.notth/artifacts.json',{schema_version:1,mode:'idea-driven',inputs:{},outputs:{docs:{kind:'docs',capability:'product',canonical:true,location:{url:'https://example.com/spec',connection:'wiki'},write_policy:'propose'}}});
+ write(root,'.notth/integrations.json',{schema_version:1,connections:{wiki:{via:'mcp',binding:'team-wiki',purpose:'docs'}}});
  const result=newDoc(root,'techspec','analysis');assert.equal(result.status,'planned');assert.equal(result.executed,false);assert.ok(!fs.existsSync(path.join(root,'docs/analysis/techspec.md')));
 });
 test('README translations share selectors, quick start and real setup links',()=>{

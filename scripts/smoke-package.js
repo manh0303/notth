@@ -92,7 +92,7 @@ try {
   assert.equal(acceptancePlan.executed, false);
   assert.equal(acceptancePlan.skill, 'harness-end-user-testing');
   assert.ok(fs.existsSync(path.join(solutionTarget, '.agents/skills/harness-end-user-testing/SKILL.md')));
-  assert.ok(fs.existsSync(path.join(solutionTarget, '.harness/core/workflows/end-user-acceptance.md')));
+  assert.ok(fs.existsSync(path.join(solutionTarget, '.notth/core/workflows/end-user-acceptance.md')));
   const startPlan = JSON.parse(solutionRun(['start']));
   assert.equal(startPlan.status, 'planned');
   assert.ok(startPlan.host_prompt.includes('project-setup.md'));
@@ -123,18 +123,18 @@ try {
   assert.equal(kiroRun(['start','--host','kiro']).knowledge.status,'missing');
   assert.equal(kiroRun(['doctor','--skill','harness-start']).status,'ok');
   for (const asset of ['cli/setup.js', 'cli/project-decisions.js', 'templates/decisions.json', 'core/workflows/seed.md', 'core/workflows/greenfield-setup.md']) assert.ok(names.includes(asset), 'Missing onboarding asset: ' + asset);
-  const kiroLockBefore = fs.readFileSync(path.join(kiroTarget, '.harness/lock.json'), 'utf8');
-  fs.rmSync(path.join(kiroTarget, '.harness/environment.json'));
-  fs.rmSync(path.join(kiroTarget, '.harness/project.json'));
+  const kiroLockBefore = fs.readFileSync(path.join(kiroTarget, '.notth/lock.json'), 'utf8');
+  fs.rmSync(path.join(kiroTarget, '.notth/environment.json'));
+  fs.rmSync(path.join(kiroTarget, '.notth/project.json'));
   assert.equal(kiroRun(['setup', '--apply', '--dry-run']).applied, false);
-  assert.equal(fs.existsSync(path.join(kiroTarget, '.harness/environment.json')), false);
+  assert.equal(fs.existsSync(path.join(kiroTarget, '.notth/environment.json')), false);
   assert.equal(kiroRun(['setup', '--apply']).applied, true);
-  assert.equal(fs.readFileSync(path.join(kiroTarget, '.harness/lock.json'), 'utf8'), kiroLockBefore);
+  assert.equal(fs.readFileSync(path.join(kiroTarget, '.notth/lock.json'), 'utf8'), kiroLockBefore);
   assert.deepEqual(kiroRun(['setup', '--apply']).changes, []);
   assert.deepEqual(kiroRun(['decisions']).confirmed, []);
   assert.equal(kiroRun(['start', '--compact', '--host', 'kiro']).context.freshness, 'unchecked');
   fs.writeFileSync(path.join(kiroTarget,'README.md'),'# Source inspected by smoke fixture\n');
-  fs.writeFileSync(path.join(kiroTarget,'.harness/local.md'),'---\nschema_version: 1\nstack: {}\nbuild: {}\napproved_deviations: []\nsources: ["README.md"]\n---\n# Fixture summary\n');
+  fs.writeFileSync(path.join(kiroTarget,'.notth/local.md'),'---\nschema_version: 1\nstack: {}\nbuild: {}\napproved_deviations: []\nsources: ["README.md"]\n---\n# Fixture summary\n');
   assert.equal(kiroRun(['seed','--record']).status,'ok');
   assert.equal(kiroRun(['seed','--check']).freshness,'current');
   assert.deepEqual(kiroRun(['update']).changes,[]);
@@ -150,7 +150,7 @@ try {
 
 
   assert.equal(portableRun(['restore', '--from', 'settings.json', '--transfer', '--dry-run']).status, 'planned');
-  assert.equal(fs.existsSync(path.join(portableTarget, '.harness/project.json')), false);
+  assert.equal(fs.existsSync(path.join(portableTarget, '.notth/project.json')), false);
   assert.equal(portableRun(['restore', '--from', 'settings.json', '--transfer']).status, 'ok');
   assert.equal(portableRun(['init']).status, 'ok');
   assert.equal(portableRun(['check']).status, 'ok');
@@ -161,7 +161,7 @@ try {
   assert.deepEqual(JSON.parse(solutionRun(['update'])).changes, []);
   JSON.parse(run(['init', '--adapters', 'java-spring,react-nextjs,react-native,ai-python']));
   assert.equal(JSON.parse(run(['check'])).status, 'ok');
-  const continuousPath = '.harness/core/workflows/continuous-development.md';
+  const continuousPath = '.notth/core/workflows/continuous-development.md';
   assert.ok(fs.readFileSync(path.join(target, 'AGENTS.md'), 'utf8').includes(continuousPath));
   assert.equal(fs.readFileSync(path.join(target, continuousPath), 'utf8'),
     fs.readFileSync(path.join(SOURCE, 'core/workflows/continuous-development.md'), 'utf8'));
@@ -170,13 +170,13 @@ try {
     const row = continuousEval.report.results.find(c => c.id === 'core/continuous-' + suffix);
     assert.ok(row && row.scores.every(score => score === null));
   }
-  const agentPreferences = readJson(path.join(target, '.harness/agents.json'));
+  const agentPreferences = readJson(path.join(target, '.notth/agents.json'));
   assert.equal(agentPreferences.defaultModel, 'host-default');
   assert.equal(agentPreferences.execution.autoEscalateToPremium, false);
   const routing = JSON.parse(run(['setup', '--host', 'codex'])).agent_configuration;
   assert.ok(routing.roles.every(role => role.runtime_verified === false));
   for (const name of conventionAssets) {
-    assert.equal(fs.readFileSync(path.join(target, '.harness', name), 'utf8'),
+    assert.equal(fs.readFileSync(path.join(target, '.notth', name), 'utf8'),
       fs.readFileSync(path.join(SOURCE, name), 'utf8'));
   }
   for (const [adapter, suffixes] of Object.entries({ 'react-nextjs': ['feature-delivery', 'behavior-testing'],
@@ -201,9 +201,9 @@ try {
   for (const relative of [
     '.agents/skills/harness-uiux-design-direction/SKILL.md',
     '.agents/skills/harness-uiux-external-design/SKILL.md',
-    '.harness/capabilities/uiux/integrations/design-skills.md',
-    '.harness/capabilities/uiux/templates/design-system.md',
-    '.harness/capabilities/uiux/evals/visual-comparison.md',
+    '.notth/capabilities/uiux/integrations/design-skills.md',
+    '.notth/capabilities/uiux/templates/design-system.md',
+    '.notth/capabilities/uiux/evals/visual-comparison.md',
   ]) assert.ok(fs.existsSync(path.join(uiuxTarget, relative)), `Missing UI design asset: ${relative}`);
   assert.ok(!fs.existsSync(path.join(uiuxTarget, 'DESIGN.md')), 'Installer must not create a project design master');
   const astroTarget = path.join(temp, 'astro project'); fs.mkdirSync(astroTarget);
@@ -222,7 +222,7 @@ try {
     : command(bin, args, monetizationTarget);
   assert.equal(JSON.parse(monetizeRun(['init','--capabilities','monetization'])).status,'ok');
   assert.ok(fs.existsSync(path.join(monetizationTarget,'.agents/skills/harness-monetization-adsense-integration/SKILL.md')));
-  assert.ok(fs.existsSync(path.join(monetizationTarget,'.harness/capabilities/monetization/templates/site-monetization-plan.md')));
+  assert.ok(fs.existsSync(path.join(monetizationTarget,'.notth/capabilities/monetization/templates/site-monetization-plan.md')));
   assert.equal(JSON.parse(monetizeRun(['check'])).status,'ok');
   assert.equal(JSON.parse(monetizeRun(['verify','--scope','capabilities'])).executed,false);
   assert.equal(JSON.parse(monetizeRun(['eval','--scope','capabilities'])).dataset.cases.length,4);
@@ -231,7 +231,7 @@ try {
     ? command(process.env.ComSpec || 'cmd.exe', ['/d', '/s', '/c', `""${bin}" init --capabilities product,uiux"`], productTarget, { windowsVerbatimArguments: true })
     : command(bin, ['init', '--capabilities', 'product,uiux'], productTarget);
   assert.equal(JSON.parse(productOut).status, 'ok');
-  assert.ok(fs.existsSync(path.join(productTarget, '.harness/capabilities/product/templates/prd.md')));
+  assert.ok(fs.existsSync(path.join(productTarget, '.notth/capabilities/product/templates/prd.md')));
   assert.ok(fs.existsSync(path.join(productTarget, '.agents/skills/harness-product-prd-generation/SKILL.md')));
   assert.ok(fs.existsSync(path.join(productTarget, '.agents/skills/harness-uiux-figma-design/SKILL.md')));
   const productDocOut = process.platform === 'win32'
@@ -239,7 +239,7 @@ try {
     : command(bin, ['new-doc', 'brd'], productTarget);
   assert.equal(JSON.parse(productDocOut).status, 'ok');
   assert.ok(fs.existsSync(path.join(productTarget, 'docs/product/brd.md')));
-  for (const name of ['artifacts.json', 'integrations.json']) assert.ok(fs.existsSync(path.join(productTarget, '.harness', name)));
+  for (const name of ['artifacts.json', 'integrations.json']) assert.ok(fs.existsSync(path.join(productTarget, '.notth', name)));
   const productRun = args => process.platform === 'win32'
     ? command(process.env.ComSpec || 'cmd.exe', ['/d', '/s', '/c', `""${bin}" ${args.join(' ')}"`], productTarget, { windowsVerbatimArguments: true })
     : command(bin, args, productTarget);
@@ -254,8 +254,9 @@ try {
   assert.ok(names.includes('scripts/compare-tasks.js'));
   assert.ok(names.includes('cli/checkpoint.js'));
   assert.ok(names.includes('cli/task-context.js'));
+  assert.ok(names.includes('cli/namespace-migration.js'));
   assert.ok(names.includes('core/workflows/session-continuity.md'));
-  assert.ok(names.includes('integrations/beads/README.md'));
+  assert.ok(!names.some(name => name.startsWith('integrations/beads/')));
   assert.ok(names.includes('capabilities/analysis/capability.json'));
   assert.ok(names.includes('docs/i18n/README.zh-CN.md'));
   assert.ok(!names.some(n => ['harness-java-spring-kafka-outbox','harness-java-spring-database-migration','harness-astro-cloudflare','harness-astro-microfrontend'].some(id => n.includes('/skills/'+id+'/'))));
@@ -271,12 +272,12 @@ try {
   const artifactContract = { schema_version: 1, mode: 'idea-driven', inputs: {}, outputs: {
     requirements: { kind: 'docs', capability: 'product', location: { path: 'docs/chosen' }, canonical: true, write_policy: 'propose' },
   } };
-  fs.writeFileSync(path.join(productTarget, '.harness/artifacts.json'), JSON.stringify(artifactContract));
+  fs.writeFileSync(path.join(productTarget, '.notth/artifacts.json'), JSON.stringify(artifactContract));
   assert.equal(JSON.parse(productRun(['new-doc', 'prd-lite'])).path, 'docs/chosen/prd-lite.md');
   assert.ok(fs.existsSync(path.join(productTarget, 'docs/chosen/prd-lite.md')));
   artifactContract.outputs.requirements.location = { url: 'https://example.com/wiki/123', connection: 'wiki' };
-  fs.writeFileSync(path.join(productTarget, '.harness/artifacts.json'), JSON.stringify(artifactContract));
-  fs.writeFileSync(path.join(productTarget, '.harness/integrations.json'), JSON.stringify({ schema_version: 1, connections: {
+  fs.writeFileSync(path.join(productTarget, '.notth/artifacts.json'), JSON.stringify(artifactContract));
+  fs.writeFileSync(path.join(productTarget, '.notth/integrations.json'), JSON.stringify({ schema_version: 1, connections: {
     wiki: { via: 'connector', binding: 'atlassian', purpose: 'Requirements' },
   } }));
   const handoff = JSON.parse(productRun(['new-doc', 'srs']));
@@ -305,13 +306,26 @@ try {
   const contextFixture = {schema_version:1,change_id:'package-smoke',revision:0,
     intent:{problem:'Fresh sessions lose task intent',outcome:'Recover the source-linked task'},
     sources:[{id:'request',path:contextSource,sha256:digest(fs.readFileSync(path.join(target,contextSource))),locator:'Why'}],
-    links:[{id:'PP-1',kind:'painpoint',source_refs:['request'],depends_on:[]}],task_backend:{kind:'local'}};
+    links:[{id:'PP-1',kind:'painpoint',source_refs:['request'],depends_on:[]}]};
   fs.writeFileSync(path.join(target,'context-report.json'),JSON.stringify(contextFixture));
   const contextSaved=JSON.parse(run(['context','--change','package-smoke','--report','context-report.json']));
   assert.equal(contextSaved.revision,1);
   assert.equal(JSON.parse(run(['context','--change','package-smoke'])).intent.problem,contextFixture.intent.problem);
   assert.equal(JSON.parse(run(['resume','package-smoke'])).task_context.revision,1);
-  assert.ok(fs.existsSync(path.join(target,'.harness/templates/task-context.json')));
+  assert.ok(fs.existsSync(path.join(target,'.notth/templates/task-context.json')));
+  const namespaceTarget=path.join(temp,'legacy namespace consumer');fs.mkdirSync(namespaceTarget);
+  const legacyNamespace=readJson(path.join(SOURCE,'tests/fixtures/npm-v0.2.0.json'));
+  for(const [name,body] of Object.entries(legacyNamespace.files)) {
+    const filename=path.join(namespaceTarget,name);fs.mkdirSync(path.dirname(filename),{recursive:true});fs.writeFileSync(filename,body);
+  }
+  const namespaceRun=args=>JSON.parse(command(process.execPath,[path.join(installedPackage,'bin/aih.js'),...args],namespaceTarget));
+  assert.equal(namespaceRun(['update','--dry-run']).migration.to,'.notth');
+  assert.ok(!fs.existsSync(path.join(namespaceTarget,'.notth')));
+  const migratedNamespace=namespaceRun(['update']);assert.equal(migratedNamespace.status,'ok');
+  assert.ok(!fs.existsSync(path.join(namespaceTarget,'.harness')));
+  assert.equal(namespaceRun(['check']).status,'ok');
+  assert.ok(fs.existsSync(path.join(namespaceTarget,migratedNamespace.migration.backup,'.harness/lock.json')));
+
 
   const profileTarget=path.join(temp,'profile consumer');fs.mkdirSync(profileTarget);
   const profileRun=args=>process.platform==='win32'

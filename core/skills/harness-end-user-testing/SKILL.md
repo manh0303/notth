@@ -11,7 +11,7 @@ existing runner or actual host tools, test-role/account references, authorized i
 configured evidence destinations. Never ask for passwords in chat or record them in shared reports.
 
 ## Procedure
-1. Load `.harness/core/workflows/end-user-acceptance.md` and reuse `harness-verification` for report
+1. Load `.notth/core/workflows/end-user-acceptance.md` and reuse `harness-verification` for report
    validation. Inspect requirements and affected interfaces. Choose proportional journeys with stable
    AC IDs: happy path and applicable validation/error/empty/denied-role/state/persistence regressions.
    Avoid imposing a CRM CRUD/login suite on static tools, backend-only services or unrelated changes.

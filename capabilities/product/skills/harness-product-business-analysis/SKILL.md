@@ -27,7 +27,7 @@ description: Elicit actors, existing versus future processes, business rules, re
 - Do not reveal internal source material or imply stakeholder acceptance without a decision record.
 
 ## Template
-Read `.harness/capabilities/product/templates/business-rules.md`; `aih new-doc business-rules` creates only a missing
+Read `.notth/capabilities/product/templates/business-rules.md`; `aih new-doc business-rules` creates only a missing
 draft. Apply the shared document contract for authority, preservation and review.
 
 ## Example
@@ -37,7 +37,7 @@ Synthetic illustration: BR-001 requires organization-scoped search; AS-IS behavi
 - Business rules and AS-IS/TO-BE preserve source authority.
 
 ## Handoff
-Read the shared installed contract `.harness/capabilities/product/common/document-contract.md`; pass only affected scope and relevant perspectives.
+Read the shared installed contract `.notth/capabilities/product/common/document-contract.md`; pass only affected scope and relevant perspectives.
 
 ## Continuous changes
 Use Core `continuous-development.md`. Compare approved vs proposed rule/use-case/AC deltas at actual

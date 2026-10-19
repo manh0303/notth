@@ -57,7 +57,7 @@ test('core-only install excludes UI/UX and keeps project small', () => {
   const lock = h.loadLock(project);
   assert.deepEqual(lock.adapters, []);
   assert.deepEqual(lock.capabilities, []);
-  assert.ok(!fs.existsSync(path.join(project, '.harness/capabilities')));
+  assert.ok(!fs.existsSync(path.join(project, '.notth/capabilities')));
   assert.ok(!fs.existsSync(path.join(project, '.agents/skills/harness-uiux-figma-design/SKILL.md')));
   assert.equal(run(['check']).status, 'ok');
 });
@@ -67,9 +67,9 @@ test('selective uiux installation copies only selected skills and workflow', () 
   const lock = h.loadLock(project);
   assert.deepEqual(lock.capabilities, ['uiux']);
   assert.deepEqual(lock.adapters, []);
-  assert.ok(fs.existsSync(path.join(project, '.harness/capabilities/uiux/workflows/docs-to-figma.md')));
+  assert.ok(fs.existsSync(path.join(project, '.notth/capabilities/uiux/workflows/docs-to-figma.md')));
   assert.ok(fs.existsSync(path.join(project, '.agents/skills/harness-uiux-figma-design/SKILL.md')));
-  assert.ok(!fs.existsSync(path.join(project, '.harness/adapters/java-spring')));
+  assert.ok(!fs.existsSync(path.join(project, '.notth/adapters/java-spring')));
   assert.equal(run(['check']).status, 'ok');
   assert.deepEqual(run(['init', '--source', source, '--capabilities', 'uiux']).changes, []);
 });
@@ -80,7 +80,7 @@ test('UI/UX combines with a stack adapter without installing unrelated adapters'
   assert.deepEqual(lock.capabilities, ['uiux']);
   assert.deepEqual(lock.adapters, ['react-nextjs']);
   assert.ok(fs.existsSync(path.join(project, '.agents/skills/harness-react-nextjs-accessible-ui/SKILL.md')));
-  assert.ok(!fs.existsSync(path.join(project, '.harness/adapters/java-spring')));
+  assert.ok(!fs.existsSync(path.join(project, '.notth/adapters/java-spring')));
 });
 
 test('list, skills and skill disclose metadata before locked full content', () => {
@@ -107,12 +107,12 @@ test('capability selection changes require project-owned config and update', () 
   assert.equal(run(['check'], 1).status, 'error');
   run(['init', '--source', source, '--capabilities', 'uiux'], 1);
   run(['update', '--source', source]); assert.equal(run(['check']).status, 'ok');
-  write('.harness/local.md', 'Project data');
+  write('.notth/local.md', 'Project data');
   config.capabilities = []; write(h.CONFIG, config);
   run(['update', '--source', source]);
   assert.equal(run(['check']).status, 'ok');
   assert.ok(!fs.existsSync(path.join(project, '.agents/skills/harness-uiux-figma-design/SKILL.md')));
-  assert.equal(fs.readFileSync(path.join(project, '.harness/local.md'), 'utf8'), 'Project data');
+  assert.equal(fs.readFileSync(path.join(project, '.notth/local.md'), 'utf8'), 'Project data');
 });
 
 test('unsupported or malformed capability definitions fail before writing', () => {
@@ -165,7 +165,7 @@ test('DevOps capability and Kubernetes adapter install together without external
   assert.deepEqual(h.loadLock(project).capabilities, ['devops']);
   assert.ok(fs.existsSync(path.join(project, '.agents/skills/harness-devops-deployment/SKILL.md')));
   assert.ok(fs.existsSync(path.join(project, '.agents/skills/harness-kubernetes-workload-review/SKILL.md')));
-  assert.ok(!fs.existsSync(path.join(project, '.harness/capabilities/uiux')));
+  assert.ok(!fs.existsSync(path.join(project, '.notth/capabilities/uiux')));
   assert.equal(run(['check']).status, 'ok');
   assert.equal(run(['verify']).executed, false);
   assert.ok(run(['eval']).dataset.cases.some(c => c.id === 'kubernetes/unsafe-rollout'));
@@ -182,7 +182,7 @@ test('DevOps can be removed and drift blocks updates', () => {
   assert.ok(!fs.existsSync(path.join(project, '.agents/skills/harness-devops-ci-cd/SKILL.md')));
   config.capabilities = ['devops']; write(h.CONFIG, config);
   run(['update', '--source', source]); assert.equal(run(['check']).status, 'ok');
-  write('.harness/capabilities/devops/workflows/pr-to-production.md', 'tampered');
+  write('.notth/capabilities/devops/workflows/pr-to-production.md', 'tampered');
   const before = snapshot(); run(['update', '--source', source], 1);
   assert.deepEqual(snapshot(), before);
 });
@@ -208,7 +208,7 @@ test('capability and combined evaluation scopes remain advisory and locked', () 
   write('report.json', synthetic);
   assert.equal(run(['eval', '--scope', 'all', '--report', 'report.json']).status, 'pass');
   run(['eval', '--scope', 'adapters', '--report', 'report.json'], 1);
-  write('.harness/capabilities/product/evals/cases.json', '{}');
+  write('.notth/capabilities/product/evals/cases.json', '{}');
   run(['eval', '--scope', 'all'], 1);
 });
 

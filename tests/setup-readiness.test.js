@@ -35,17 +35,17 @@ function completeDraft() {
 test('install/update preserve project and machine content and append a scoped ignore rule; dry run is clean', () => {
   install(root, SOURCE, { dryRun: true });
   assert.deepEqual(fs.readdirSync(root), []);
-  write('.harness/.gitignore', '# Existing rule\ncache/\n!/machine.json');
-  write('.harness/environment.json', emptyEnvironment());
-  write('.harness/machine.json', { schema_version: 1, tools: {} });
-  const before = read('.harness/machine.json');
+  write('.notth/.gitignore', '# Existing rule\ncache/\n!/machine.json');
+  write('.notth/environment.json', emptyEnvironment());
+  write('.notth/machine.json', { schema_version: 1, tools: {} });
+  const before = read('.notth/machine.json');
   install(root, SOURCE);
-  assert.equal(read('.harness/environment.json'), JSON.stringify(emptyEnvironment()));
-  assert.equal(read('.harness/machine.json'), before);
-  assert.equal(read('.harness/.gitignore'), '# Existing rule\ncache/\n!/machine.json\n/backups/\n/machine.json\n');
+  assert.equal(read('.notth/environment.json'), JSON.stringify(emptyEnvironment()));
+  assert.equal(read('.notth/machine.json'), before);
+  assert.equal(read('.notth/.gitignore'), '# Existing rule\ncache/\n!/machine.json\n/backups/\n/machine.json\n');
   assert.equal(check(root).status, 'ok');
   assert.deepEqual(install(root, SOURCE, { command: 'update' }).changes, []);
-  assert.equal(read('.harness/machine.json'), before);
+  assert.equal(read('.notth/machine.json'), before);
 });
 
 test('custom executable overrides PATH; settings are checked without reading or exposing private values', () => {
@@ -54,56 +54,56 @@ test('custom executable overrides PATH; settings are checked without reading or 
   fs.writeFileSync(privatePath, 'DO NOT EXECUTE');
   fs.chmodSync(privatePath, 0o755);
   write('settings.xml', 'SECRET_SETTINGS_VALUE');
-  write('.harness/environment.json', { schema_version: 1,
+  write('.notth/environment.json', { schema_version: 1,
     tools: { maven: { executable: 'missing-maven', required: true } },
     files: { settings: { path: '${PROJECT_MAVEN_SETTINGS}' } },
     commands: { test: { tool: 'maven', args: ['-s', '${PROJECT_MAVEN_SETTINGS}', 'verify'] } } });
-  write('.harness/machine.json', { schema_version: 1, tools: { maven: { executable: privatePath } } });
+  write('.notth/machine.json', { schema_version: 1, tools: { maven: { executable: privatePath } } });
   const report = environmentReport(root, { PROJECT_MAVEN_SETTINGS: path.join(root, 'settings.xml'), PATH: '' });
   assert.deepEqual(report.problems, []);
   assert.equal(report.entries[0].source, 'machine');
   const output = JSON.stringify(report);
   for (const privateValue of [privatePath, root, 'SECRET_SETTINGS_VALUE', 'verify']) assert.ok(!output.includes(privateValue));
-  write('.harness/machine.json', { schema_version: 1, tools: { maven: { executable: path.join(root, 'absent') } } });
+  write('.notth/machine.json', { schema_version: 1, tools: { maven: { executable: path.join(root, 'absent') } } });
   assert.ok(environmentReport(root, { PROJECT_MAVEN_SETTINGS: 'settings.xml' }).problems.includes('tools/maven: missing'));
 });
 
 test('missing env vars and optional tools are diagnostic, shell text is never executed', () => {
-  write('.harness/environment.json', { schema_version: 1,
+  write('.notth/environment.json', { schema_version: 1,
     tools: { maven: { executable: '${PROJECT_MAVEN}' }, optional: { executable: 'absent-optional', required: false } },
     files: {}, commands: {} });
   const report = environmentReport(root, {});
   assert.deepEqual(report.problems, ['tools/maven: missing-env']);
   assert.deepEqual(report.entries[0].missing_variables, ['PROJECT_MAVEN']);
-  write('.harness/environment.json', { schema_version: 1, tools: { maven: { executable: 'mvn; touch EXECUTED' } }, files: {}, commands: {} });
+  write('.notth/environment.json', { schema_version: 1, tools: { maven: { executable: 'mvn; touch EXECUTED' } }, files: {}, commands: {} });
   assert.equal(environmentReport(root, { PATH: '' }).entries[0].status, 'missing');
   assert.equal(fs.existsSync(path.join(root, 'EXECUTED')), false);
 });
 
 test('machine cannot inject commands, unknown IDs, required flags or malformed private input', () => {
-  write('.harness/environment.json', { schema_version: 1, tools: { maven: { executable: 'mvn' } }, files: {}, commands: {} });
+  write('.notth/environment.json', { schema_version: 1, tools: { maven: { executable: 'mvn' } }, files: {}, commands: {} });
   for (const machine of [
     { schema_version: 1, commands: {} },
     { schema_version: 1, tools: { unknown: { executable: 'x' } } },
     { schema_version: 1, tools: { maven: { executable: 'x', required: false } } },
     { schema_version: 9 }
   ]) {
-    write('.harness/machine.json', machine);
+    write('.notth/machine.json', machine);
     assert.throws(() => loadEnvironment(root));
   }
-  write('.harness/machine.json', '{"password":"PRIVATE_VALUE", broken');
+  write('.notth/machine.json', '{"password":"PRIVATE_VALUE", broken');
   assert.throws(() => loadEnvironment(root), e => !e.message.includes('PRIVATE_VALUE') && /Invalid JSON/.test(e.message));
 });
 
 test('environment schema rejects malformed maps and command references; config symlinks are refused', () => {
-  write('.harness/environment.json', { schema_version: 1, tools: {}, files: {}, commands: { test: { tool: 'missing', args: [] } } });
+  write('.notth/environment.json', { schema_version: 1, tools: {}, files: {}, commands: { test: { tool: 'missing', args: [] } } });
   assert.throws(() => environmentReport(root), /Unknown command tool/);
-  write('.harness/environment.json', { ...emptyEnvironment(), tools: [] });
+  write('.notth/environment.json', { ...emptyEnvironment(), tools: [] });
   assert.throws(() => environmentReport(root), /Missing environment map/);
   if (process.platform !== 'win32') {
-    fs.unlinkSync(path.join(root, '.harness/environment.json'));
+    fs.unlinkSync(path.join(root, '.notth/environment.json'));
     write('outside.json', emptyEnvironment());
-    fs.symlinkSync(path.join(root, 'outside.json'), path.join(root, '.harness/environment.json'));
+    fs.symlinkSync(path.join(root, 'outside.json'), path.join(root, '.notth/environment.json'));
     assert.throws(() => environmentReport(root), /Symlink/);
   }
 });
@@ -116,9 +116,9 @@ test('setup recommends an existing wrapper, honors configured tools and emits no
   assert.equal(plan.questions[0].allow_free_text, true);
   write('build.gradle.kts', 'plugins {}');
   assert.equal(setupPlan(root, ['java-spring']).questions[0].id, 'build-tool');
-  write('.harness/environment.json', { ...emptyEnvironment(), tools: { maven: { executable: process.execPath } } });
+  write('.notth/environment.json', { ...emptyEnvironment(), tools: { maven: { executable: process.execPath } } });
   assert.deepEqual(setupPlan(root, ['java-spring']).questions.map(q => q.id), ['artifact-storage']);
-  write('.harness/environment.json', { ...emptyEnvironment(), tools: { maven: { executable: '${UNSET_AIH_TEST_VAR}' } } });
+  write('.notth/environment.json', { ...emptyEnvironment(), tools: { maven: { executable: '${UNSET_AIH_TEST_VAR}' } } });
   assert.equal(cli(['doctor'], 1).environment.entries[0].status, 'missing-env');
   assert.equal(cli(['setup'], 1).status, 'blocked');
 });
@@ -198,10 +198,10 @@ test('readiness ignores code examples but detects placeholders, missing specs, t
 
 test('legacy environments remain optional and setup/ready reject managed drift', () => {
   install(root, SOURCE);
-  fs.unlinkSync(path.join(root, '.harness/environment.json'));
+  fs.unlinkSync(path.join(root, '.notth/environment.json'));
   assert.equal(cli(['doctor']).environment.configured, false);
   completeDraft();
-  fs.appendFileSync(path.join(root, '.harness/core/rules/context.md'), 'drift');
+  fs.appendFileSync(path.join(root, '.notth/core/rules/context.md'), 'drift');
   assert.match(cli(['ready', 'add-order'], 1).message, /drift/);
   assert.match(cli(['setup'], 1).message, /drift/);
 });

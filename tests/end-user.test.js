@@ -38,7 +38,7 @@ test('unknown surface does not invent a UI and installer ships Core QA paths wit
   assert.deepEqual(before.end_user_acceptance.surface_hints, []); assert.equal(fs.readdirSync(dir).length, 0);
   install(dir, SOURCE); assert.equal(check(dir).status, 'ok');
   assert.ok(fs.existsSync(path.join(dir, '.agents/skills/harness-end-user-testing/SKILL.md')));
-  assert.ok(fs.existsSync(path.join(dir, '.harness/core/workflows/end-user-acceptance.md')));
+  assert.ok(fs.existsSync(path.join(dir, '.notth/core/workflows/end-user-acceptance.md')));
   assert.equal(fs.existsSync(path.join(dir, 'package.json')), false);
 });
 test('matching real interface satisfies target consistency; legacy behavior reports remain compatible', t => {

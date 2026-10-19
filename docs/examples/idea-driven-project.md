@@ -19,7 +19,7 @@ aih skill harness-product-idea-discovery
 aih skill harness-product-product-research
 ```
 
-Nếu dự án đã cài Harness, sửa `.harness/project.json` để thêm `product` vào `capabilities`, rồi dùng `aih update --dry-run && aih update && aih check` trên branch riêng; **không** chạy lại init với lựa chọn không tương thích.
+Nếu dự án đã cài Harness, sửa `.notth/project.json` để thêm `product` vào `capabilities`, rồi dùng `aih update --dry-run && aih update && aih check` trên branch riêng; **không** chạy lại init với lựa chọn không tương thích.
 
 ## 2. Giao AI thảo luận thay vì bắt đầu code
 

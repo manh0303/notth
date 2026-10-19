@@ -25,7 +25,7 @@ description: Turn approved requirements into atomic epics and user stories with 
 - A story marked Ready requires actual acceptance criteria and PO review.
 
 ## Template
-Read `.harness/capabilities/product/templates/backlog.md`; `aih new-doc backlog` creates only a missing
+Read `.notth/capabilities/product/templates/backlog.md`; `aih new-doc backlog` creates only a missing
 draft. Apply the shared document contract for authority, preservation and review.
 
 ## Example
@@ -35,4 +35,4 @@ Synthetic illustration: US-001: authorized employee finds a customer; links FR-0
 - Story has user value, dependency and observable acceptance.
 
 ## Handoff
-Read the shared installed contract `.harness/capabilities/product/common/document-contract.md`; pass only affected scope and relevant perspectives.
+Read the shared installed contract `.notth/capabilities/product/common/document-contract.md`; pass only affected scope and relevant perspectives.

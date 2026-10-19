@@ -70,11 +70,10 @@ export function validateTaskContext(root, id, row) {
     visiting.delete(link.id); visited.add(link.id);
   }
   for (const link of links.values()) visit(link);
+  // Older context sidecars may retain a retired backend declaration. It grants no behavior.
   if (row.task_backend !== undefined) {
     fields(row.task_backend, ['kind', 'issue_id']);
-    requireThat(['local', 'beads'].includes(row.task_backend.kind), 'task backend');
-    requireThat(row.task_backend.kind === 'beads' ? typeof row.task_backend.issue_id === 'string'
-      && /^[a-zA-Z0-9][a-zA-Z0-9._-]{0,127}$/.test(row.task_backend.issue_id) : row.task_backend.issue_id === undefined, 'backend issue ID');
+    requireThat(text(row.task_backend.kind) && (row.task_backend.issue_id === undefined || text(row.task_backend.issue_id)), 'legacy backend declaration');
   }
   redacted(row);
   return row;
@@ -108,8 +107,7 @@ function needsReconciliation(source) {
 export function taskContextReport(root, changeId) {
   requireThat(check(root).status === 'ok', 'fix installation drift first');
   const saved = loadStartConfig(root), id = changeId ?? saved?.change_id;
-  const shared = { coordination: { candidate: stat(safe(root, '.beads/metadata.json')) ? 'beads' : 'local', availability: 'unverified',
-    guide: '.harness/integrations/beads/README.md' }, decisions: projectDecisionReport(root), local: '.harness/local.md',
+  const shared = { namespace_migration: stat(safe(root, '.notth/namespace-migration.json')) ? '.notth/namespace-migration.json' : null, decisions: projectDecisionReport(root), local: '.notth/local.md',
     authority: 'Context is source-linked guidance, not approval. Read canonical sections; inspect external revisions in the host.' };
   if (!id) return { status: 'planned', configured: false, change_id: null, shared,
     next_action: 'Match the current user request to existing task notes/changes; do not pick a task from directory order or create a full spec for a Quick task.' };
@@ -124,7 +122,6 @@ export function taskContextReport(root, changeId) {
   return { status: inspection.affected_links.length || inspection.sources.some(needsReconciliation) ? 'blocked' : 'ok', configured: true,
     change_id: id, selection, path: name, context_sha256: digest(data), revision: row.revision,
     intent: row.intent, ...inspection, links: row.links, shared, pointers,
-    task_backend: { ...(row.task_backend ?? { kind: 'local' }), availability: 'unverified', executed: false },
     next_action: inspection.sources.some(needsReconciliation) ? 'Reconcile changed/missing/superseded sources and affected links before dependent work; preserve unrelated work.'
       : 'Read referenced canonical sections and checkpoint, verify applicability to this request, then continue authorized work. Local hashes do not prove semantic accuracy or remote freshness.' };
 }
@@ -142,7 +139,8 @@ export function saveTaskContext(root, id, report, expected) {
     'context changed; re-read and reconcile before supplying --expected digest/revision');
     const inspection = inspect(root, row);
     requireThat(inspection.sources.every(s => s.state === 'current'), 'reconcile source hashes/current catalog revisions before saving');
-    const next = { ...row, revision: row.revision + 1 }, changes = { [name]: encode(next) };
+    const { task_backend: retiredBackend, ...active } = row;
+    const next = { ...active, revision: row.revision + 1 }, changes = { [name]: encode(next) };
     if (previous) {
       const history = 'openspec/changes/' + id + '/context-history/' + digest(previous) + '.json', existing = bytes(root, history);
       requireThat(existing === null || existing.equals(previous), 'history collision');

@@ -63,13 +63,13 @@ Người dùng không phải tự gõ lệnh nếu host có quyền chạy CLI/f
 
 | File | Nội dung |
 | --- | --- |
-| `.harness/local.md` | YAML stack/build, approved deviations, nguồn đã đọc; prose giải thích |
-| `.harness/environment.json` | Tool/file/command dùng chung |
-| `.harness/machine.json` | Override đường dẫn theo máy; Git ignore, không chứa credentials |
-| `.harness/integrations.json` | Alias kết nối; tools/quyền thực tế vẫn do Kiro xác minh |
-| `.harness/start.json` | Task/mục tiêu hoặc checkpoint ID |
-| `.harness/decisions.json` | Quyết định project/module có trạng thái, nguồn/lý do và lịch sử thay thế |
-| `.harness/knowledge.json` | Hash nguồn/context đã đối chiếu, không lưu nội dung nguồn |
+| `.notth/local.md` | YAML stack/build, approved deviations, nguồn đã đọc; prose giải thích |
+| `.notth/environment.json` | Tool/file/command dùng chung |
+| `.notth/machine.json` | Override đường dẫn theo máy; Git ignore, không chứa credentials |
+| `.notth/integrations.json` | Alias kết nối; tools/quyền thực tế vẫn do Kiro xác minh |
+| `.notth/start.json` | Task/mục tiêu hoặc checkpoint ID |
+| `.notth/decisions.json` | Quyết định project/module có trạng thái, nguồn/lý do và lịch sử thay thế |
+| `.notth/knowledge.json` | Hash nguồn/context đã đối chiếu, không lưu nội dung nguồn |
 
 CLI `seed` tạo kế hoạch đọc; **Kiro** hiểu code/tài liệu và điền context. Kiro lưu câu trả lời
 qua từng bước, chạy `seed --record` khi đã đối chiếu. Nếu ngắt, gọi lại `/harness-start`

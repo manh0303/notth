@@ -57,10 +57,10 @@ def main():
         assert json.loads(run([aih, "workflow", "validate"], project, env))["workflows"][0]["id"] == "spec-to-code"
         run([aih, "update", "--dry-run"], project, env)
         run([aih, "start", "--compact", "--host", "codex"], project, env)
-        (project / ".harness/local.md").write_text("# Retained user decisions\n", encoding="utf-8")
+        (project / ".notth/local.md").write_text("# Retained user decisions\n", encoding="utf-8")
         run([python, "-m", "pip", "install", "--no-index", "--no-deps", "--force-reinstall", wheel], project, env)
         run([aih, "update"], project, env)
-        assert (project / ".harness/local.md").read_text(encoding="utf-8") == "# Retained user decisions\n"
+        assert (project / ".notth/local.md").read_text(encoding="utf-8") == "# Retained user decisions\n"
         missing = dict(env, AIH_NODE=str(work / "missing-node"))
         run([aih, "--version"], project, missing, code=2)
         # sdist must rebuild the exact wheel without reaching any index/build dependency.

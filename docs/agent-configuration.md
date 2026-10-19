@@ -18,7 +18,7 @@ and resolved routes; it never interviews or writes answers. No new aih config co
 
 ## Ownership
 Canonical recommendation: config/agents.default.json in the package/source. It is copied as locked
-.harness/templates/agents.default.json. Project-owned .harness/agents.json is seeded on init or the
+.notth/templates/agents.default.json. Project-owned .notth/agents.json is seeded on init or the
 first reviewed update and then preserved byte-for-byte, outside the managed lock. Editing it is expected.
 Old snapshots without agents.json remain readable. An older alternate --source without the new default
 uses the installed CLI's canonical seed; no source files are changed. Invalid custom config blocks writes

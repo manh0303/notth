@@ -1,12 +1,12 @@
 # Fresh project setup
 
 Run the reviewed CLI in the new project root: `aih init --host <tool>`.
-Choose only the AI tool you use. Select this project's adapters/capabilities; do not copy another project's lock or entire .harness.
+Choose only the AI tool you use. Select this project's adapters/capabilities; do not copy another project's lock or entire .notth.
 First session: invoke harness-start, or read `.agents/skills/harness-start/SKILL.md`.
 
-- Keep installed Core/adapters/templates/bridges managed by the installer; customize `.harness/local.md`.
-- `.harness/templates/local.md` is a blank context example; populate only inspected project facts.
-- Leave `.harness/start.json` absent until a real task is saved. An empty object is not a valid reset.
+- Keep installed Core/adapters/templates/bridges managed by the installer; customize `.notth/local.md`.
+- `.notth/templates/local.md` is a blank context example; populate only inspected project facts.
+- Leave `.notth/start.json` absent until a real task is saved. An empty object is not a valid reset.
 - Do not reuse another project's decisions, knowledge hashes or checkpoints.
 - Configure this project's environment, sources/outputs and integrations; keep machine paths local.
 - Transfer only approved reusable custom skills with supporting files. Never transfer company settings blindly.

@@ -59,7 +59,7 @@ nhiều nhóm. Liên kết evidence vào impact record thay vì chép lại cùn
 | release-migration | Phát hành / tương thích | Changelog Unreleased, migration/rollback khi cần, module contract version; version phân phối chỉ do release PR quản lý |
 
 Ví dụ thêm convention Java: manifest khai báo `rules/conventions.md` → bundle cài file vào
-`.harness/adapters/java-spring/` → rules index dẫn AI đọc → Core code/review áp dụng → checklist/eval
+`.notth/adapters/java-spring/` → rules index dẫn AI đọc → Core code/review áp dụng → checklist/eval
 kiểm tra → guide hướng dẫn. Nếu chỉ có file convention mà thiếu đường đọc, thay đổi chưa đầy đủ.
 
 ## Điều kiện hoàn thành và giới hạn tự động hóa

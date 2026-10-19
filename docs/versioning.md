@@ -1,5 +1,16 @@
 # Versioning and migration
 
+## Project namespace (unreleased)
+
+New layouts use `.notth/`; update auto-migrates validated legacy consumers with full original-byte
+namespace/owned-host backup, dry-run and rollback. Existing project/lock schemas stay 1; new config
+archive kind is notth-user-config with legacy envelope-path support on restore. Technical skill IDs
+and ownership markers remain compatible. Core removes external task-backend guidance/detection;
+existing optional backend fields in context are ignored and omitted on the next guarded save.
+Use the [migration procedure](notth-migration.md); historical release notes below describe their own
+release behavior and do not override this namespace migration. Source/checkpoint hashes are never
+silently refreshed. Distribution version remains release-PR owned.
+
 ## Automatic session continuity (unreleased)
 
 Optional schema-1 context.json/context-history under each existing change adds source-linked intent
@@ -8,8 +19,7 @@ Reviewed update refreshes Core/AGENTS/template/integration payload; existing pro
 checkpoints and decisions survive. Old changes without context remain usable; host records it after
 inspection, never auto-migrates or approves facts. New CLI also reads legacy snapshots and returns
 missing-context guidance. Context/history require full project backup, not config backup. Roll back
-consumer snapshot with its matching CLI; retain optional user data. Beads remains separately installed
-and host-executed, with no dependency/download or provider migration. See [continuity](session-continuity.md).
+consumer snapshot with its matching CLI; retain optional user data. External task-backend guidance has been retired; context/checkpoints remain local and host-owned. See [continuity](session-continuity.md).
 
 ## PyPI distribution name (unreleased)
 
@@ -80,7 +90,7 @@ For local installs, update the local dependency and use `npx aih`.
 `aih update` applies the installed CLI bundle (or explicit `--source`), without fetching releases.
 
 Create a branch, commit current state, obtain the reviewed source commit/tag and inspect CHANGELOG.
-Run update --dry-run; resolve conflicts by moving custom rules into .harness/local.md and restoring
+Run update --dry-run; resolve conflicts by moving custom rules into .notth/local.md and restoring
 managed files from the last installation commit. Apply update and run check plus application tests.
 Commit the installed snapshot, selection and lock together. Revert that commit to roll back.
 No destructive force mode is provided. Do not remove conflict checks or edit hashes to force an upgrade.
@@ -138,7 +148,7 @@ Do not treat raw Confluence data, drafts or AI review as approved business decis
 
 ## 0.5 → 0.6 migration
 
-No new configuration/lock schema version: 0.5 Product templates, `aih new-doc`, UI/UX and all earlier adapter selections stay compatible. New DevOps and Kubernetes modules are opt-in. On a consumer branch, pin a reviewed 0.6 source/package, add `"devops"` to `.harness/project.json` capabilities and/or `"kubernetes"` to adapters, then run `aih update --dry-run`, `aih update` and `aih check`. Unmodified installed payload updates safely; any drift still blocks update. Application DevOps workflows remain instruction-only and do not deploy production workloads; a separate repository-level npm workflow publishes only after a human-approved Release Please PR creates a tagged GitHub Release.
+No new configuration/lock schema version: 0.5 Product templates, `aih new-doc`, UI/UX and all earlier adapter selections stay compatible. New DevOps and Kubernetes modules are opt-in. On a consumer branch, pin a reviewed 0.6 source/package, add `"devops"` to `.notth/project.json` capabilities and/or `"kubernetes"` to adapters, then run `aih update --dry-run`, `aih update` and `aih check`. Unmodified installed payload updates safely; any drift still blocks update. Application DevOps workflows remain instruction-only and do not deploy production workloads; a separate repository-level npm workflow publishes only after a human-approved Release Please PR creates a tagged GitHub Release.
 
 ## Foundation hardening (unreleased after 0.6)
 
@@ -280,7 +290,7 @@ not publish. See [pip guide](python-installation.md), [workflow guide](workflow-
 ## Notth rename (unreleased)
 
 GitHub moves to manh0303/notth and npm to @manhd_d/notth. Distribution version remains
-Release Please-owned, continuing the existing version sequence. CLI aih, .harness, harness-*
+Release Please-owned, continuing the existing version sequence. CLI aih, .notth, harness-*
 skills, ownership markers, config/archive schemas and Python distribution manhd-ai-harness remain
 compatible. [Migration and first publication](notth-migration.md) covers switching global/local
 packages, rollback, Trusted Publishers and deferring old-package deprecation until verification.
@@ -337,7 +347,7 @@ Additive import-source/sources commands require the supporting CLI; reviewed upd
 source-intake guidance. New docs/sources/manifest.json uses independent schema 1. Existing config,
 backup, lock and module schemas stay unchanged; package allowlist already includes cli/Core/docs.
 No eager source migration or distribution version bump. Source files survive init/update and
-removal/recreation of .harness. Copy the complete source folder separately for recovery. Downgrading
+removal/recreation of .notth. Copy the complete source folder separately for recovery. Downgrading
 the CLI leaves files intact but older CLIs cannot inspect them. Roll back snapshot/CLI together,
 retain source data, and restore corrupted source folders from the matching complete backup.
 

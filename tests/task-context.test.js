@@ -31,7 +31,7 @@ function fixture() {
       { id: 'REQ-1', kind: 'requirement', source_refs: ['request'], depends_on: ['PP-1'] },
       { id: 'TASK-1', kind: 'task', source_refs: ['request'], depends_on: ['REQ-1'] },
       { id: 'EVIDENCE-1', kind: 'evidence', source_refs: ['request'], depends_on: ['TASK-1'] },
-    ], task_backend: { kind: 'local' } };
+    ] };
 }
 beforeEach(() => { root = fs.mkdtempSync(path.join(os.tmpdir(), 'notth-continuity-')); install(root, SOURCE); newChange(root, 'alpha'); });
 afterEach(() => fs.rmSync(root, { recursive: true, force: true }));
@@ -111,7 +111,6 @@ test('missing sources and invalid references/cycles/paths fail without overwrite
     row => row.sources[0].sha256 = '0'.repeat(64),
     row => row.intent.problem = 'Bearer abcdefghijklmnop',
     row => row.sources[0].path = base + 'missing.md',
-    row => row.task_backend = { kind: 'beads', issue_id: '--delete' },
   ]) {
     const row = structuredClone(good); mutate(row); write('bad.json', row);
     assert.throws(() => saveTaskContext(root, 'alpha', 'bad.json'));
@@ -121,19 +120,18 @@ test('missing sources and invalid references/cycles/paths fail without overwrite
   fs.unlinkSync(path.join(root, base + 'proposal.md'));
   assert.equal(taskContextReport(root, 'alpha').sources[0].state, 'missing');
 });
-test('legacy context is optional; install/update preserves context and detects Beads without executing it', () => {
+test('legacy context is optional; install/update preserves context without an external task backend', () => {
   assert.equal(taskContextReport(root).configured, false);
   assert.equal(taskContextReport(root, 'alpha').configured, false);
   assert.ok(compactStart(root).task_context);
-  const row = fixture(); row.task_backend = { kind: 'beads', issue_id: 'project-123' };
-  write('.beads/metadata.json', '{}'); write('context-report.json', row);
+  const row = fixture(); write('context-report.json', row);
   saveTaskContext(root, 'alpha', 'context-report.json'); const before = read(contextPath('alpha'));
   install(root, SOURCE, { command: 'update' });
   assert.deepEqual(read(contextPath('alpha')), before);
   const report = taskContextReport(root, 'alpha');
-  assert.equal(report.task_backend.kind, 'beads'); assert.equal(report.task_backend.availability, 'unverified');
-  assert.equal(report.shared.coordination.candidate, 'beads');
-  assert.ok(fs.existsSync(path.join(root, '.harness/integrations/beads/README.md')));
+  assert.equal(report.task_backend, undefined);
+  assert.equal(report.shared.coordination, undefined);
+  assert.ok(!fs.existsSync(path.join(root, '.notth/integrations/beads')));
   assert.match(read('AGENTS.md').toString(), /session-continuity/);
   assert.match(read('.agents/skills/harness-start/SKILL.md').toString(), /session-continuity/);
 });
@@ -173,4 +171,13 @@ test('external capture changes with identical bytes and unavailable checks inval
   metadata.revision = '2'; metadata.captured_at = '2020-01-04T00:00:00Z'; write('metadata.json', metadata);
   importSource(root, 'issue', { input: 'input.md', metadataFile: 'metadata.json' });
   assert.equal(taskContextReport(root, 'alpha').sources[0].state, 'superseded');
+});
+
+test('retired task-backend declarations are inert on read and omitted on a guarded save', () => {
+  const row = fixture(); row.revision = 1; row.task_backend = { kind: 'beads', issue_id: 'legacy-123' };
+  write(contextPath('alpha'), row);
+  const current = taskContextReport(root, 'alpha'); assert.equal(current.task_backend, undefined);
+  assert.equal(current.shared.coordination, undefined);
+  write('context-report.json', row); saveTaskContext(root, 'alpha', 'context-report.json', current.context_sha256);
+  assert.equal(JSON.parse(read(contextPath('alpha'))).task_backend, undefined);
 });

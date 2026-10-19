@@ -10,7 +10,7 @@ aih skill harness-devops-deployment
 aih check
 ```
 
-For existing installations edit the `capabilities` array in `.harness/project.json`, then run `aih update --dry-run`, `aih update`, `aih check`. Combine with an app adapter and optional `kubernetes` adapter when relevant.
+For existing installations edit the `capabilities` array in `.notth/project.json`, then run `aih update --dry-run`, `aih update`, `aih check`. Combine with an app adapter and optional `kubernetes` adapter when relevant.
 
 Core owns permission gates; `devops` owns cross-stack workflows; adapters own technology specifics. Integrations own provider connectivity. No runtime agents, CI executions or cloud APIs are installed or invoked by these markdown modules. A deployment approval must name artifact and environment, not merely the PR.
 

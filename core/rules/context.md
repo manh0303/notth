@@ -14,7 +14,7 @@ coordination convention, not a guarantee that dependencies are available.
 Begin document retrieval with search and explicit paths. Introduce RAG only when retrieval measurements
 show a need. Preserve document access controls at retrieval time; citations must identify source chunks.
 
-For a new change or resumed session, apply `.harness/core/workflows/continuous-development.md`.
+For a new change or resumed session, apply `.notth/core/workflows/continuous-development.md`.
 Compare current source revisions, scoped working-tree edits and evidence with the previous handoff.
 Refresh affected assumptions in the existing change/project map; stale summaries never override sources.
 
@@ -22,11 +22,11 @@ Session onboarding: use harness-start. Read local.md structured frontmatter befo
 compares local source/config hashes in project-owned knowledge.json. On stale/missing context inspect
 only affected sources, reconcile summaries, then aih seed --record. Remote revisions require host checks.
 Keep scoped AGENTS and conventions authoritative; a current hash does not certify summary correctness.
-Read project-wide/applicable module decisions in .harness/decisions.json before questions, followed
+Read project-wide/applicable module decisions in .notth/decisions.json before questions, followed
 by active change decisions. Reuse confirmed choices while applicable, retain superseded history,
 and revisit affected assumptions when sources or scope change. Label observations, inferences and
 confirmed choices separately; a hash or self-assigned confidence number is not evidence of truth.
 
 Use task-experience.md in Core workflows for minimum task-relevant context. seed reports changed_sources already; do not add a parallel cache. Measure actual host reads/tokens before claiming savings.
 
-For every task/resume apply .harness/core/workflows/session-continuity.md automatically: pin this session's task, load its source-linked context and checkpoint meaningful progress without user memory maintenance.
+For every task/resume apply .notth/core/workflows/session-continuity.md automatically: pin this session's task, load its source-linked context and checkpoint meaningful progress without user memory maintenance.

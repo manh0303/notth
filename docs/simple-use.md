@@ -44,7 +44,7 @@ merge or deployment. The host reconciles remote evidence. Do not write a fake ch
 
 ## What gets created?
 
-- `.harness/`: managed workflow snapshot plus project-owned context/configuration.
+- `.notth/`: managed workflow snapshot plus project-owned context/configuration.
 - `.agents/skills/`: discoverable task instructions; the selected host may also need a bridge.
 - Project docs: written by the AI when needed, from accepted inputs/templates; init does not author them.
 

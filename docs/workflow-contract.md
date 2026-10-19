@@ -54,7 +54,7 @@ Ghi review thực tế vào `openspec/changes/<id>/approvals.json`, project-owne
 }
 ```
 
-Copy installed `.harness/templates/openspec/approvals.json` khi opt in; không tự ghi approval giả.
+Copy installed `.notth/templates/openspec/approvals.json` khi opt in; không tự ghi approval giả.
 `approval_from` kiểm bản ghi đúng workflow/stage/role; malformed/duplicate schema bị từ chối.
 `approval` trên stage là yêu cầu khi **hoàn thành** stage do driver/human xử lý; ready chỉ kiểm entry.
 Human role IDs: spec-owner, product-owner, reviewer; chúng không phải model agents.

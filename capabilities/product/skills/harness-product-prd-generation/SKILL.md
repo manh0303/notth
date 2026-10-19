@@ -26,7 +26,7 @@ description: Produce a Product Requirements Document with user value, measurable
 - Do not silently change BRD scope or promise unverified capabilities.
 
 ## Template
-Read `.harness/capabilities/product/templates/prd.md`; `aih new-doc prd` creates only a missing
+Read `.notth/capabilities/product/templates/prd.md`; `aih new-doc prd` creates only a missing
 draft. Apply the shared document contract for authority, preservation and review.
 
 ## Example
@@ -36,4 +36,4 @@ Synthetic illustration: PRD includes authorized create/search and defers import;
 - MVP journey, exclusions and minimum quality are explicit.
 
 ## Handoff
-Read the shared installed contract `.harness/capabilities/product/common/document-contract.md`; pass only affected scope and relevant perspectives.
+Read the shared installed contract `.notth/capabilities/product/common/document-contract.md`; pass only affected scope and relevant perspectives.

@@ -22,7 +22,7 @@ sources. Reuse the installed CLI invocation; this is host work, not a background
    conversions. Verify the result against the original; `available-unreviewed` is not acceptance.
    No converter available: retain the original and pending status, report the blocker; do not call
    a placeholder Markdown file a completed conversion. A CLI byte check cannot verify fidelity.
-5. Add/reuse an input declaration in `.harness/artifacts.json` pointing to the relevant saved
+5. Add/reuse an input declaration in `.notth/artifacts.json` pointing to the relevant saved
    original (or source collection), preserving owner, canonical status and source-write policy.
    Keep external URL/revision on the existing external declaration; a local snapshot is derived,
    never a new canonical master. Cite source ID + original SHA + Markdown path in derived specs.
@@ -50,7 +50,7 @@ For an external input:
    local snapshot. Handle pagination and report omitted/denied/deleted parts explicitly. An issue
    description alone is not the entire issue/history. Do not claim a provider supports a revision
    token for the whole scope without evidence. Redact credentials before saving response/evidence.
-2. Fill `.harness/templates/source-metadata.json` using observed facts. The independent envelope
+2. Fill `.notth/templates/source-metadata.json` using observed facts. The independent envelope
    schema is 1: kind=file|url|mcp|connector|api; exact snapshot_sha256; captured_at UTC; stable scope;
    completeness=complete|partial|unknown; missing list. Optional revision is omitted when unavailable,
    never invented. Complete is relative to explicit scope; partial requires listed missing parts.
@@ -72,7 +72,7 @@ For an external input:
 
 Before relying on freshness, run `aih sources` and read capture_sha256 plus snapshot sha256. Use the
 host tool to observe that SAME resource and scope again. Save redacted tool response as evidence,
-fill `.harness/templates/source-observation.json`, then run:
+fill `.notth/templates/source-observation.json`, then run:
 
 `aih source-check <id> --report observation.json --input evidence.json`
 

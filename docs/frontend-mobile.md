@@ -22,7 +22,7 @@ Sau đó chạy `aih check`, `aih setup --host codex` (đổi host theo công c�
 
 Core đã có TDD/debug/review. Nếu cần thiết kế UX/Figma, thêm `--capabilities uiux` khi init mới.
 Nếu cần khám phá ý tưởng/MVP/kiến trúc/kế hoạch, thêm `product,architecture,delivery`; không bắt task nhỏ
-tạo đủ tài liệu. Dự án đã cài đổi `.harness/project.json` rồi review update, không re-init với lựa chọn khác.
+tạo đủ tài liệu. Dự án đã cài đổi `.notth/project.json` rồi review update, không re-init với lựa chọn khác.
 Harness không tạo app/framework, cài libraries hoặc cấu hình Figma/native AI host.
 
 ## Chọn skill theo việc

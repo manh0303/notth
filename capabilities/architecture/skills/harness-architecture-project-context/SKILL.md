@@ -20,7 +20,7 @@ Idea/approved BA sources, repository revision, scope/mode, deployments, existing
 docs/architecture/overview.md and linked project-map.md; compact notes suffice for a small fix.
 
 ## Template
-Read `.harness/capabilities/architecture/templates/overview.md` from the installed snapshot.
+Read `.notth/capabilities/architecture/templates/overview.md` from the installed snapshot.
 Use `aih new-doc overview --capability architecture` only for a missing draft;
 reuse existing authoritative docs or a compact task note when appropriate. Never overwrite approved content.
 

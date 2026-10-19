@@ -10,7 +10,7 @@ description: Turn a UI request into a contextual visual direction and canonical 
 - Existing components/tokens, canonical design document and accepted references, if present.
 
 ## Procedure
-1. Read `.harness/capabilities/uiux/workflows/design-delivery.md`. Classify the task as a small
+1. Read `.notth/capabilities/uiux/workflows/design-delivery.md`. Classify the task as a small
    correction, a new screen in an existing system, or a new visual direction. A small correction
    reuses accepted decisions and needs neither a new design document nor competing previews.
 2. Inspect representative screens, tokens, typography and components first. Record source paths
@@ -38,7 +38,7 @@ description: Turn a UI request into a contextual visual direction and canonical 
 8. Record selected direction, rationale, sources/revisions, tokens/components, responsive behavior,
    state coverage, intentional exclusions and approval status in the canonical design source.
    If none exists and the task needs one, use the project-owned DESIGN.md outline at
-   `.harness/capabilities/uiux/templates/design-system.md`. Update only affected sections.
+   `.notth/capabilities/uiux/templates/design-system.md`. Update only affected sections.
 
 ## Output
 - Compact brief and selected direction, proposed vs approved, with real preview references if available.

@@ -59,7 +59,7 @@ try {
     const installed = bundle(SOURCE,{adapters:[],capabilities:selection}).files;
     for (const [p, data] of Object.entries(installed)) {
       if (p.startsWith('.agents/skills/')) {
-        for (const match of data.toString().matchAll(/\.harness\/capabilities\/[a-z0-9/-]+\.md/g))
+        for (const match of data.toString().matchAll(/\.notth\/capabilities\/[a-z0-9/-]+\.md/g))
           if (!Object.hasOwn(installed, match[0])) errors.push('Missing installed reference: ' + p + ' -> ' + match[0]);
       }
     }

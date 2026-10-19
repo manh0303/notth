@@ -9,8 +9,8 @@ import { fileURLToPath } from 'node:url';
 export const SOURCE = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 export const START = '<!-- ai-harness:start -->';
 export const END = '<!-- ai-harness:end -->';
-export const LOCK = '.harness/lock.json';
-export const CONFIG = '.harness/project.json';
+export const LOCK = '.notth/lock.json';
+export const CONFIG = '.notth/project.json';
 export const VERSION = /^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)$/;
 export const SLUG = /^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$/;
 export const isObject = value => value !== null && typeof value === 'object' && !Array.isArray(value);
@@ -79,6 +79,9 @@ export function assertSeparate(root, source) {
 }
 
 export function readJson(filename) {
+  if (filename.endsWith(path.sep + '.notth' + path.sep + 'lock.json') && !stat(filename)
+      && stat(path.join(path.dirname(path.dirname(filename)), '.harness', 'lock.json')))
+    throw new HarnessError('Legacy installation detected; run aih update --dry-run, then aih update to migrate to .notth');
   try { return JSON.parse(fs.readFileSync(filename, 'utf8')); }
   catch (error) { throw new HarnessError(`Cannot read JSON document: ${filename}: ${error.message}`); }
 }
@@ -115,6 +118,7 @@ export function manifest(source) {
   if (!isObject(m) || m.schema_version !== 1 || !VERSION.test(m.version)) {
     throw new HarnessError('Invalid harness manifest schema/version');
   }
+  if (m.project_directory !== undefined && m.project_directory !== '.notth') throw new HarnessError('Unsupported project directory in manifest');
   validateAdapters(m.adapters);
   validateCapabilities(m.capabilities ?? []);
   if (!m.adapters.length) throw new HarnessError('Empty adapter registry');

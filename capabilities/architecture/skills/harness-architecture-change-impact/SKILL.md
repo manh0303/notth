@@ -20,7 +20,7 @@ Requested change, current project-map/ADRs, affected source revisions, API/event
 Updated docs/architecture/project-map.md and change-specific impact notes linked to affected IDs/paths.
 
 ## Template
-Read `.harness/capabilities/architecture/templates/project-map.md` from the installed snapshot.
+Read `.notth/capabilities/architecture/templates/project-map.md` from the installed snapshot.
 Use `aih new-doc project-map --capability architecture` only for a missing draft;
 reuse existing authoritative docs or a compact task note when appropriate. Never overwrite approved content.
 

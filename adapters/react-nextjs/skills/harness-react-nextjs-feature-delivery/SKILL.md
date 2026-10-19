@@ -11,9 +11,9 @@ Task/acceptance IDs, approved screen or compact UX notes, API contract, actual f
 and existing convention/component/client/state paths. Read only relevant source and skills.
 
 ## Procedure
-Read `.harness/adapters/react-nextjs/rules/engineering.md` for state ownership, server/cache boundaries,
+Read `.notth/adapters/react-nextjs/rules/engineering.md` for state ownership, server/cache boundaries,
 waterfalls, composition and measured optimization; use only version-compatible advice.
-1. Apply `.harness/core/rules/project-conventions.md` and selected adapter rules. Inspect a comparable
+1. Apply `.notth/core/rules/project-conventions.md` and selected adapter rules. Inspect a comparable
    feature, public components, API client, form validation, query keys, auth and tests. Establish new,
    maintain or mixed scope per module; preserve established libraries and architecture.
 2. Plan one usable route → interaction → data operation slice. Separate UI state, form state and server

@@ -32,7 +32,7 @@ Selective draft TechSpec, traceability, evidence and affected-section maintenanc
 No invented requirements, universal test suite, credentials, blanket regeneration or automatic merge/deployment. Existing BA source is writable only under its declared policy plus actual host permission.
 
 ## Template
-Use `.harness/capabilities/product/templates/techspec.md` and existing canonical documents.
+Use `.notth/capabilities/product/templates/techspec.md` and existing canonical documents.
 
 ## Example
 Idea: a static calculator needs UX/formula/build/accessibility evidence, no API section. Existing document: an approval transition needs role/state assertions and a proposed affected-section patch.
@@ -41,7 +41,7 @@ Idea: a static calculator needs UX/formula/build/accessibility evidence, no API 
 Source revisions, requirement IDs, contracts, actual execution evidence and limits are distinguishable. Partial updates preserve approved text.
 
 ## Handoff
-Read the shared installed contract `.harness/capabilities/product/common/document-contract.md`; pass only affected scope and relevant perspectives.
+Read the shared installed contract `.notth/capabilities/product/common/document-contract.md`; pass only affected scope and relevant perspectives.
 
 ## Incremental verification and recovery
-For multi-step checks follow `.harness/core/workflows/recoverable-verification.md`: start a draft early, update only affected sections after each observed group, include applicable related-flow tests and persist checkpoint/evidence references. Resume reconciles code/config/fixtures/external revisions and uncertain operations before trusting prior PASS results. Process tools and startup commands come from the actual host/project; no specific IDE, service topology or database mutation is implied.
+For multi-step checks follow `.notth/core/workflows/recoverable-verification.md`: start a draft early, update only affected sections after each observed group, include applicable related-flow tests and persist checkpoint/evidence references. Resume reconciles code/config/fixtures/external revisions and uncertain operations before trusting prior PASS results. Process tools and startup commands come from the actual host/project; no specific IDE, service topology or database mutation is implied.

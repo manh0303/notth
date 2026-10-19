@@ -48,7 +48,7 @@ function bump(version) {
 
 test('init defaults to cwd, installs all adapters and passes check', () => {
   run('init', ['--adapters', 'java-spring,react-nextjs,react-native,ai-python']);
-  assert.ok(fs.existsSync(path.join(project, '.harness/adapters/ai-python/rules.md')));
+  assert.ok(fs.existsSync(path.join(project, '.notth/adapters/ai-python/rules.md')));
   assert.ok(fs.existsSync(path.join(project, '.agents/skills/harness-tdd/SKILL.md')));
   assert.equal(run('check').status, 'ok');
 });
@@ -78,15 +78,15 @@ for (const futureMinor of [false, true]) test('update preserves project override
   }
   run('init', ['--adapters', 'java-spring']);
   fs.appendFileSync(path.join(project, 'AGENTS.md'), '\nLocal appendix\n');
-  write('.harness/local.md', 'Custom policy'); write('openspec/config.yaml', 'schema: spec-driven\ncontext: Custom\n');
+  write('.notth/local.md', 'Custom policy'); write('openspec/config.yaml', 'schema: spec-driven\ncontext: Custom\n');
   const next = nextPatch(); bump(next); run('update');
   assert.equal(run('check').version, next);
   assert.ok(fs.readFileSync(path.join(project, 'AGENTS.md'), 'utf8').endsWith('\nLocal appendix\n'));
-  assert.equal(fs.readFileSync(path.join(project, '.harness/local.md'), 'utf8'), 'Custom policy');
+  assert.equal(fs.readFileSync(path.join(project, '.notth/local.md'), 'utf8'), 'Custom policy');
   assert.match(fs.readFileSync(path.join(project, 'openspec/config.yaml'), 'utf8'), /Custom/);
 });
 test('changed payload blocks check and update before writing', () => {
-  run(); fs.appendFileSync(path.join(project, '.harness/core/rules/context.md'), '\nCustom\n');
+  run(); fs.appendFileSync(path.join(project, '.notth/core/rules/context.md'), '\nCustom\n');
   const before = snapshot(); bump(nextPatch()); run('update', [], 1); run('check', [], 1);
   assert.deepEqual(snapshot(), before);
 });
@@ -104,17 +104,17 @@ test('adapter change removes only unedited old managed files', () => {
   run('init', ['--adapters', 'java-spring']);
   write(h.CONFIG, JSON.stringify({ schema_version: 1, adapters: ['react-nextjs'] }));
   run('check', [], 1); run('update'); run('check');
-  assert.ok(!fs.existsSync(path.join(project, '.harness/adapters/java-spring/rules.md')));
-  assert.ok(fs.existsSync(path.join(project, '.harness/adapters/react-nextjs/rules.md')));
+  assert.ok(!fs.existsSync(path.join(project, '.notth/adapters/java-spring/rules.md')));
+  assert.ok(fs.existsSync(path.join(project, '.notth/adapters/react-nextjs/rules.md')));
 });
 test('obsolete managed file removed, unrelated user file preserved', () => {
-  run(); write('.harness/user-note.md', 'Keep');
+  run(); write('.notth/user-note.md', 'Keep');
   fs.unlinkSync(path.join(source, 'core/rules/context.md')); run('update');
-  assert.ok(!fs.existsSync(path.join(project, '.harness/core/rules/context.md')));
-  assert.equal(fs.readFileSync(path.join(project, '.harness/user-note.md'), 'utf8'), 'Keep');
+  assert.ok(!fs.existsSync(path.join(project, '.notth/core/rules/context.md')));
+  assert.equal(fs.readFileSync(path.join(project, '.notth/user-note.md'), 'utf8'), 'Keep');
 });
 test('deleted managed file is drift', () => {
-  run(); fs.unlinkSync(path.join(project, '.harness/core/rules/context.md')); run('check', [], 1);
+  run(); fs.unlinkSync(path.join(project, '.notth/core/rules/context.md')); run('check', [], 1);
 });
 test('major upgrade needs flag, downgrade fails even with flag', () => {
   run(); bump('1.0.0'); const before = snapshot(); run('update', [], 1); assert.deepEqual(snapshot(), before);
@@ -127,9 +127,9 @@ test('unknown, duplicate and empty adapter IDs fail', () => {
 test('update on uninstalled project fails', () => run('update', [], 1));
 test('symlinked destination parent and broken leaf cannot write outside target', () => {
   const outside = path.join(base, 'outside'); fs.mkdirSync(outside);
-  fs.symlinkSync(outside, path.join(project, '.harness'), process.platform === 'win32' ? 'junction' : 'dir');
+  fs.symlinkSync(outside, path.join(project, '.notth'), process.platform === 'win32' ? 'junction' : 'dir');
   run('init', [], 1); assert.deepEqual(fs.readdirSync(outside), []);
-  fs.unlinkSync(path.join(project, '.harness'));
+  fs.unlinkSync(path.join(project, '.notth'));
   fs.symlinkSync(path.join(outside, 'missing'), path.join(project, 'AGENTS.md'), 'file');
   run('init', [], 1); assert.ok(!fs.existsSync(path.join(outside, 'missing')));
 });
@@ -143,7 +143,7 @@ test('target symlink rejected', () => {
 });
 test('lock path traversal rejected even with recalculated digest', () => {
   run(); const lock = h.readJson(path.join(project, h.LOCK));
-  lock.files['.harness/core/../../../outside'] = 'a'.repeat(64); lock.bundle_sha256 = h.digest(h.encode(lock.files));
+  lock.files['.notth/core/../../../outside'] = 'a'.repeat(64); lock.bundle_sha256 = h.digest(h.encode(lock.files));
   write(h.LOCK, JSON.stringify(lock)); run('update', [], 1);
 });
 test('lock digest tampering detected', () => {
@@ -151,7 +151,7 @@ test('lock digest tampering detected', () => {
   write(h.LOCK, JSON.stringify(lock)); run('check', [], 1);
 });
 test('exclusive install marker prevents concurrent install', () => {
-  write('.harness-install.lock', '123'); const before = snapshot(); run('init', [], 1); assert.deepEqual(snapshot(), before);
+  write('.notth-install.lock', '123'); const before = snapshot(); run('init', [], 1); assert.deepEqual(snapshot(), before);
 });
 test('ordinary write failure restores original file bytes', () => {
   write('first.txt', 'original'); const before = snapshot();
@@ -209,12 +209,12 @@ for (const nextRelease of [false, true]) test('real Python 0.1 fixture checks an
   }
   const fixture = h.readJson(path.join(h.SOURCE, 'tests/fixtures/python-v0.1.0.json'));
   for (const [name, content] of Object.entries(fixture.files)) write(name, content);
-  assert.equal(run('check').version, '0.1.0');
+  assert.match(run('check', [], 1).message, /aih update/);
   const local = fs.readFileSync(path.join(project, '.harness/local.md'));
   run('update');
   // Assert the checked-out Harness distribution version, not a hardcoded release candidate.
   assert.equal(run('check').version, h.manifest(source).version);
-  assert.ok(fs.readFileSync(path.join(project, '.harness/local.md')).equals(local));
+  assert.ok(fs.readFileSync(path.join(project, '.notth/local.md')).equals(local));
   const agents = fs.readFileSync(path.join(project, 'AGENTS.md'), 'utf8');
   assert.ok(agents.startsWith('# Existing project\n')); assert.ok(agents.endsWith('Keep this appendix.\n'));
 });
@@ -234,12 +234,12 @@ test('Notth updates legacy AI Harness ownership without duplicating blocks or lo
   fs.writeFileSync(manifestFile, JSON.stringify(legacyManifest));
   const templateFile = path.join(source, 'templates/AGENTS.md');
   const currentTemplate = fs.readFileSync(templateFile, 'utf8');
-  fs.writeFileSync(templateFile, currentTemplate.replace('## Notth ', '## AI Harness '));
+  fs.writeFileSync(templateFile, currentTemplate.replace('## NOTTH ', '## AI Harness '));
   write('AGENTS.md', '# Project instructions\nPreserve this prefix.\n');
   run('init', ['--adapters', 'java-spring']);
   fs.appendFileSync(path.join(project, 'AGENTS.md'), '\nPreserve this appendix.\n');
-  write('.harness/local.md', 'Reviewed project facts\n');
-  const config = fs.readFileSync(path.join(project, '.harness/project.json'));
+  write('.notth/local.md', 'Reviewed project facts\n');
+  const config = fs.readFileSync(path.join(project, '.notth/project.json'));
   fs.writeFileSync(manifestFile, currentManifest);
   fs.writeFileSync(templateFile, currentTemplate);
   run('update', ['--dry-run']);
@@ -247,11 +247,11 @@ test('Notth updates legacy AI Harness ownership without duplicating blocks or lo
   assert.equal(run('check').status, 'ok');
   const agents = fs.readFileSync(path.join(project, 'AGENTS.md'), 'utf8');
   assert.equal(agents.split('<!-- ai-harness:start -->').length - 1, 1);
-  assert.match(agents, /## Notth /);
+  assert.match(agents, /## NOTTH /);
   assert.ok(agents.startsWith('# Project instructions\nPreserve this prefix.\n'));
   assert.ok(agents.endsWith('\nPreserve this appendix.\n'));
-  assert.equal(fs.readFileSync(path.join(project, '.harness/local.md'), 'utf8'), 'Reviewed project facts\n');
-  assert.deepEqual(fs.readFileSync(path.join(project, '.harness/project.json')), config);
+  assert.equal(fs.readFileSync(path.join(project, '.notth/local.md'), 'utf8'), 'Reviewed project facts\n');
+  assert.deepEqual(fs.readFileSync(path.join(project, '.notth/project.json')), config);
   assert.ok(fs.existsSync(path.join(project, '.agents/skills/harness-start/SKILL.md')));
   assert.deepEqual(run('update').changes, []);
 });

@@ -20,7 +20,7 @@ MVP journeys, data classification, expected load evidence, business constraints,
 docs/architecture/nfr.md with NFR IDs, quality scenarios, evidence and verification ownership.
 
 ## Template
-Read `.harness/capabilities/architecture/templates/nfr.md` from the installed snapshot.
+Read `.notth/capabilities/architecture/templates/nfr.md` from the installed snapshot.
 Use `aih new-doc nfr --capability architecture` only for a missing draft;
 reuse existing authoritative docs or a compact task note when appropriate. Never overwrite approved content.
 

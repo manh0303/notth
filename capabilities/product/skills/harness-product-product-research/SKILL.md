@@ -27,7 +27,7 @@ description: Research comparable products, user needs and implementation feasibi
 - Research is advisory, not an approval or an instruction to change the codebase.
 
 ## Template
-Read `.harness/capabilities/product/templates/research.md`; `aih new-doc research` creates only a missing
+Read `.notth/capabilities/product/templates/research.md`; `aih new-doc research` creates only a missing
 draft. Apply the shared document contract for authority, preservation and review.
 
 ## Example
@@ -37,4 +37,4 @@ Synthetic illustration: With no browsing access, competitor claims are UNKNOWN a
 - Retrieved facts, inferences and forecasts have provenance.
 
 ## Handoff
-Read the shared installed contract `.harness/capabilities/product/common/document-contract.md`; pass only affected scope and relevant perspectives.
+Read the shared installed contract `.notth/capabilities/product/common/document-contract.md`; pass only affected scope and relevant perspectives.

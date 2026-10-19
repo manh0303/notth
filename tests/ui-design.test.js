@@ -23,7 +23,7 @@ test('UI design selection exposes canonical skills, pins and template without ow
     assert.ok(lock.files[`.agents/skills/${id}/SKILL.md`]);
   }
   for (const p of ['integrations/design-skills.md', 'templates/design-system.md', 'evals/visual-comparison.md']) {
-    assert.ok(lock.files[`.harness/capabilities/uiux/${p}`]);
+    assert.ok(lock.files[`.notth/capabilities/uiux/${p}`]);
   }
   assert.ok(!lock.files['DESIGN.md']);
   h.install(root, h.SOURCE, { command: 'update' });
@@ -36,7 +36,7 @@ test('core-only stays selective and does not create a design master', t => {
   const root = fixture(t);
   h.install(root, h.SOURCE, {});
   assert.ok(!fs.existsSync(path.join(root, 'DESIGN.md')));
-  assert.ok(!fs.existsSync(path.join(root, '.harness/capabilities/uiux')));
+  assert.ok(!fs.existsSync(path.join(root, '.notth/capabilities/uiux')));
   assert.throws(() => readSkill(root, h.loadLock(root), 'harness-uiux-design-direction'));
 });
 
@@ -54,12 +54,12 @@ test('legacy uiux snapshot upgrades additively and refuses edited integration gu
     fs.rmSync(path.join(old, 'capabilities/uiux/skills', id), { recursive: true });
   }
   h.install(root, old, { capabilities: ['uiux'], host: 'kiro' });
-  fs.writeFileSync(path.join(root, '.harness/local.md'), 'Existing project context');
+  fs.writeFileSync(path.join(root, '.notth/local.md'), 'Existing project context');
   h.install(root, h.SOURCE, { command: 'update' });
   assert.ok(fs.existsSync(path.join(root, '.kiro/skills/harness-uiux-design-direction/SKILL.md')));
   assert.ok(fs.existsSync(path.join(root, '.agents/skills/harness-uiux-figma-design/SKILL.md')));
-  assert.equal(fs.readFileSync(path.join(root, '.harness/local.md'), 'utf8'), 'Existing project context');
-  fs.appendFileSync(path.join(root, '.harness/capabilities/uiux/integrations/design-skills.md'), '\nUser edit');
+  assert.equal(fs.readFileSync(path.join(root, '.notth/local.md'), 'utf8'), 'Existing project context');
+  fs.appendFileSync(path.join(root, '.notth/capabilities/uiux/integrations/design-skills.md'), '\nUser edit');
   assert.throws(() => h.install(root, h.SOURCE, { command: 'update' }));
 });
 

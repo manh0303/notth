@@ -28,7 +28,7 @@ scope and authorization are already clear. Run `aih ready <id> --stage implement
 record actual checks in verification.json and use `--stage review` before handoff. These commands
 check structure, not business approval or the truth of test evidence.
 
-Apply `.harness/core/rules/project-conventions.md` even when a full spec is unnecessary. Before adding
+Apply `.notth/core/rules/project-conventions.md` even when a full spec is unnecessary. Before adding
 code, record inspected paths, reused public APIs, intended placement and reasons for new components
 in the task note or existing change. Preserve each module's conventions in mixed repositories. Review
 the diff against those facts and run configured lint/type/build/tests and available boundary checks;
@@ -41,13 +41,13 @@ Small documentation edits or obvious low-risk fixes may skip a full spec with a 
 Security-sensitive or externally visible behavior changes need explicit acceptance scenarios.
 Never archive an unmerged proposal as implemented. CI remains authoritative for actual check results.
 
-For proportional checks and evidence integrity, use `.harness/core/workflows/adaptive-verification.md` and `harness-verification`.
+For proportional checks and evidence integrity, use `.notth/core/workflows/adaptive-verification.md` and `harness-verification`.
 
 For successive changes and resumed sessions, enter through `continuous-development.md` for baseline
 reconciliation, selective artifact maintenance, feedback triage and evidence-linked handoff.
 
 For changed public journeys or an explicit end-user testing request, apply
-`.harness/core/workflows/end-user-acceptance.md` and `harness-end-user-testing`: exercise the actual
+`.notth/core/workflows/end-user-acceptance.md` and `harness-end-user-testing`: exercise the actual
 interface, distinguish real/mocked dependencies, and include user-facing outcome evidence or concrete
 BLOCKED/NOT_RUN reasons before completion. API/unit/build success cannot replace required browser/device flows.
 

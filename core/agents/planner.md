@@ -18,13 +18,13 @@ May read and draft specs. May not implement unrequested features, approve its ow
 Substantial plans use vertical slices, each with observable outcome, intended source/test paths,
 dependencies, verification command/expected assertion and a done condition. Record comparable code
 and reuse choices; keep tiny clear fixes in a short task note. Apply
-`.harness/core/workflows/engineering-quality.md` without forcing extra documents or workers.
+`.notth/core/workflows/engineering-quality.md` without forcing extra documents or workers.
 
 ## Handoff
 State change ID, affected paths, decisions, evidence, outstanding questions and next owner.
 Load the relevant skill and adapter. Respect the host's delegation policy; roles can run sequentially.
 
-For new or consequential work, use `.harness/core/workflows/solution-framing.md` and relevant installed
+For new or consequential work, use `.notth/core/workflows/solution-framing.md` and relevant installed
 Product/Architecture/Delivery workflows. Carry source revisions, MVP/AC/NFR/ADR IDs, accepted boundaries,
 actual verification and unresolved dependencies in the handoff. Keep small clear fixes proportional.
 

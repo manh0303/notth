@@ -14,10 +14,8 @@ model compliance. Run this protocol on each intended host/version/model before a
    preserve unrelated beta work and not silently bless new hashes or reuse rejected decisions.
 5. Have two hosts prepare the same context revision. Only one conditional write may succeed; the
    other must reread and reconcile, not force overwrite. Inspect task ownership independently.
-6. Optional Beads: use an existing disposable initialized backend with installed help/version logged.
-   Map one issue, claim from two sessions, observe actual provider conflict, synchronize across two
-   checkouts, disconnect and confirm no silent writable local fallback. No live result is assumed.
-7. Block external connector access and omit Beads entirely in separate runs. Host should report only
+
+6. Block external connector access in a separate run. Host should report only
    concrete dependent blockers, preserve context and continue independent authorized work. A Quick
    task should not produce a full spec or ask the user to maintain memory files.
 

@@ -59,11 +59,11 @@ test('Product-only installs roles, templates and 16 skills but not UI/UX or adap
   const lock = h.loadLock(project);
   assert.deepEqual(lock.capabilities, ['product']);
   assert.deepEqual(lock.adapters, []);
-  assert.ok(fs.existsSync(path.join(project, '.harness/capabilities/product/agents/business-analyst.md')));
-  assert.ok(fs.existsSync(path.join(project, '.harness/capabilities/product/templates/brd.md')));
+  assert.ok(fs.existsSync(path.join(project, '.notth/capabilities/product/agents/business-analyst.md')));
+  assert.ok(fs.existsSync(path.join(project, '.notth/capabilities/product/templates/brd.md')));
   assert.ok(fs.existsSync(path.join(project, '.agents/skills/harness-product-prd-generation/SKILL.md')));
-  assert.ok(!fs.existsSync(path.join(project, '.harness/capabilities/uiux')));
-  assert.ok(!fs.existsSync(path.join(project, '.harness/adapters')));
+  assert.ok(!fs.existsSync(path.join(project, '.notth/capabilities/uiux')));
+  assert.ok(!fs.existsSync(path.join(project, '.notth/adapters')));
   assert.equal(cli(['check']).status, 'ok');
   const catalog = cli(['skills']);
   assert.equal(catalog.skills.length, fs.readdirSync(path.join(source, 'core/skills'), { withFileTypes: true }).filter(entry => entry.isDirectory()).length + loadCapability(source, 'product').skills.length);
@@ -104,8 +104,8 @@ test('new-doc scaffolds only declared Product templates without overwrites or mo
 test('new-doc needs installed Product; rejects symlink target without writing outside repository', () => {
   cli(['init', '--source', source]);
   const before = snapshot(); cli(['new-doc', 'prd'], 1); assert.deepEqual(snapshot(), before);
-  const p = path.join(project, '.harness/project.json');
-  const cfg = h.readJson(p); cfg.capabilities = ['product']; write('.harness/project.json', cfg);
+  const p = path.join(project, '.notth/project.json');
+  const cfg = h.readJson(p); cfg.capabilities = ['product']; write('.notth/project.json', cfg);
   cli(['update', '--source', source]);
   const outside = path.join(base, 'outside'); fs.mkdirSync(outside);
   fs.symlinkSync(outside, path.join(project, 'docs'), process.platform === 'win32' ? 'junction' : 'dir');
@@ -117,12 +117,12 @@ test('new-doc needs installed Product; rejects symlink target without writing ou
 test('capability selection change preserves user docs and removes deselected files safely', () => {
   cli(['init', '--source', source, '--capabilities', 'product']);
   cli(['new-doc', 'prd']); write('docs/product/prd.md', 'Approved release plan');
-  write('.harness/project.json', {schema_version:1,adapters:[],capabilities:[]});
+  write('.notth/project.json', {schema_version:1,adapters:[],capabilities:[]});
   assert.equal(cli(['check'], 1).status, 'error');
   cli(['update', '--source', source]);
   assert.equal(cli(['check']).status, 'ok');
   assert.ok(!fs.existsSync(path.join(project, '.agents/skills/harness-product-prd-generation/SKILL.md')));
-  assert.ok(!fs.existsSync(path.join(project, '.harness/capabilities/product/templates/brd.md')));
+  assert.ok(!fs.existsSync(path.join(project, '.notth/capabilities/product/templates/brd.md')));
   assert.equal(fs.readFileSync(path.join(project,'docs/product/prd.md'),'utf8'), 'Approved release plan');
 });
 
@@ -152,7 +152,7 @@ test('invalid Product role/template manifests are refused before any writes', ()
 
 test('tampered installed Product skills and templates block reads and update', () => {
   cli(['init', '--source', source, '--capabilities', 'product']);
-  write('.harness/capabilities/product/templates/prd.md', 'compromised');
+  write('.notth/capabilities/product/templates/prd.md', 'compromised');
   const before = snapshot();
   cli(['check'], 1);
   cli(['skills'], 1);

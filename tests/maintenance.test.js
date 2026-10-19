@@ -37,7 +37,7 @@ test('every Core rule is installed and directly discoverable from generated cons
   const { files } = bundle(SOURCE, { schema_version: 1, adapters: [], capabilities: [] });
   const entry = files['AGENTS.md'].toString();
   for (const name of fs.readdirSync(path.join(SOURCE, 'core/rules')).filter(name => name.endsWith('.md'))) {
-    const installed = `.harness/core/rules/${name}`;
+    const installed = `.notth/core/rules/${name}`;
     assert.ok(files[installed], `Core rule is not distributed: ${name}`);
     assert.ok(entry.includes(installed), `Generated AGENTS cannot discover Core rule: ${name}`);
   }
@@ -49,7 +49,7 @@ test('registered adapter rules remain discoverable through their installed index
   for (const id of manifest(SOURCE).adapters) {
     const adapter = loadAdapter(SOURCE, id);
     const { files } = bundle(SOURCE, { schema_version: 1, adapters: [id], capabilities: [] });
-    const prefix = `.harness/adapters/${id}/`;
+    const prefix = `.notth/adapters/${id}/`;
     assert.ok(files['AGENTS.md'].toString().includes(prefix + 'rules.md'));
     const index = files[prefix + 'rules.md'].toString();
     for (const rule of adapter.rules) {

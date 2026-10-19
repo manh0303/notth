@@ -16,7 +16,7 @@ aih skills
 aih skill harness-product-knowledge-analysis
 ```
 
-Nếu repository **đã cài** Harness, chỉnh `.harness/project.json` nếu cần thêm capability rồi `aih update --dry-run`, `aih update`, `aih check`. Không thực hiện init chồng lên bộ cài do dự án đã quản lý.
+Nếu repository **đã cài** Harness, chỉnh `.notth/project.json` nếu cần thêm capability rồi `aih update --dry-run`, `aih update`, `aih check`. Không thực hiện init chồng lên bộ cài do dự án đã quản lý.
 
 ## 2. Cung cấp tài liệu có quyền truy cập
 

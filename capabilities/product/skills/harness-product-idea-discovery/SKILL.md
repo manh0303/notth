@@ -27,7 +27,7 @@ description: Collaboratively refine a developer's rough software idea into an ev
 - An idea can remain a draft indefinitely; do not force implementation.
 
 ## Template
-Read `.harness/capabilities/product/templates/idea.md`; `aih new-doc idea` creates only a missing
+Read `.notth/capabilities/product/templates/idea.md`; `aih new-doc idea` creates only a missing
 draft. Apply the shared document contract for authority, preservation and review.
 
 ## Example
@@ -37,4 +37,4 @@ Synthetic illustration: Original idea is preserved; clarify prototype versus usa
 - Original words, assumptions, actual answers and non-goals stay visible.
 
 ## Handoff
-Read the shared installed contract `.harness/capabilities/product/common/document-contract.md`; pass only affected scope and relevant perspectives.
+Read the shared installed contract `.notth/capabilities/product/common/document-contract.md`; pass only affected scope and relevant perspectives.

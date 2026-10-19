@@ -7,8 +7,8 @@ export { readConfig } from './project-config.js';
 import { artifactReport } from './artifacts.js';
 import { projectDecisionReport } from './project-decisions.js';
 
-export const ENVIRONMENT = '.harness/environment.json';
-export const MACHINE = '.harness/machine.json';
+export const ENVIRONMENT = '.notth/environment.json';
+export const MACHINE = '.notth/machine.json';
 export const emptyEnvironment = () => ({ schema_version: 1, tools: {}, files: {}, commands: {} });
 const validText = s => typeof s === 'string' && s.trim().length > 0 && !/[\0\r\n]/.test(s);
 const own = (o, k) => Object.hasOwn(o, k);
@@ -163,7 +163,7 @@ export function setupPlan(root, adapters, env = process.env, host) {
   return { status: environment.problems.length ? 'blocked' : 'planned', environment, artifacts, questions,
     project_decisions: projectDecisionReport(root),
     agent_configuration: agentPlan(root, host),
-    next_steps: ['Read AGENTS.md, .harness/local.md and the installed project-setup workflow.',
+    next_steps: ['Read AGENTS.md, .notth/local.md and the installed project-setup workflow.',
       'Apply installed Core project-conventions.md and relevant adapter conventions; establish mode per affected module even when no setup questions are suggested.',
       'Inspect comparable code and search public shared APIs before creating files, dependencies or abstractions; record source paths and reuse/new-code rationale.',
       'Skip answered questions; ask at most 1–3 consequential questions with evidence-based recommendations.',

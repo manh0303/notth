@@ -4,7 +4,7 @@
 phần thực sự cần. Không mặc định nghiệp vụ, hệ điều hành, service topology hay database.
 Những lệnh dưới cần CLI/source đã review chứa tính năng; feature PR chưa phải release npm/PyPI.
 
-Bản hướng dẫn ngắn offline nằm ở `.harness/templates/QUICKSTART.md`.
+Bản hướng dẫn ngắn offline nằm ở `.notth/templates/QUICKSTART.md`.
 
 ## Task và change
 
@@ -24,7 +24,7 @@ Không cần OpenSpec cho một task nhỏ: `start --goal change --task <text>` 
 ## Knowledge tùy chọn
 
 Project nhỏ giữ local.md ngắn và tận dụng docs sẵn có. Nếu nhiều module/nguồn, AI theo Core
-project-knowledge.md để tạo một index từ `.harness/templates/knowledge-index.md` tại canonical
+project-knowledge.md để tạo một index từ `.notth/templates/knowledge-index.md` tại canonical
 storage đã chọn. Chỉ thêm phần có ích: module map, flows, glossary/rules/ADRs, source catalog và
 "muốn làm X → đọc gì". Không tạo sẵn cả cây thư mục hoặc chép cùng facts vào nhiều tài liệu.
 

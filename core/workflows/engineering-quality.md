@@ -33,5 +33,5 @@ Review has two perspectives, not mandatory extra agents: requirement compliance 
 Use actual diff and evidence, verify actionable findings and recheck fixes. State unknowns and residual
 risk; no runtime security guarantee or business approval follows from a review.
 
-Optional upstream reference inventory: .harness/integrations/engineering-sources.md.
+Optional upstream reference inventory: .notth/integrations/engineering-sources.md.
 No upstream library is automatically installed, no subagent is required, and no installer executes tests.

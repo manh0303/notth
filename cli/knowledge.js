@@ -5,9 +5,9 @@ import { readConfig } from './project-config.js';
 import { frontmatter } from './structured.js';
 import { check, loadLock, guard, transaction } from './harness.js';
 
-export const KNOWLEDGE = '.harness/knowledge.json';
-const CONTEXT = ['.harness/local.md', '.harness/environment.json', '.harness/agents.json', '.harness/artifacts.json', '.harness/integrations.json', '.harness/decisions.json'];
-const EXCLUDE = new Set(['.git', '.harness', '.agents', '.kiro', '.claude', 'node_modules', 'target', 'build', 'dist', '.next', '.venv', 'vendor']);
+export const KNOWLEDGE = '.notth/knowledge.json';
+const CONTEXT = ['.notth/local.md', '.notth/environment.json', '.notth/agents.json', '.notth/artifacts.json', '.notth/integrations.json', '.notth/decisions.json'];
+const EXCLUDE = new Set(['.git', '.notth', '.harness', '.agents', '.kiro', '.claude', 'node_modules', 'target', 'build', 'dist', '.next', '.venv', 'vendor']);
 const RELEVANT = /^(?:AGENTS\.md|README\.md|OVERVIEW\.md|pom\.xml|package\.json|build\.gradle(?:\.kts)?|pyproject\.toml|[^/]*(?:conventions|workflow|testing)[^/]*\.md)$/i;
 function assert(ok, message) { if (!ok) throw new HarnessError(message); }
 function bytes(root, name) {
@@ -16,8 +16,8 @@ function bytes(root, name) {
   return info ? fs.readFileSync(p) : null;
 }
 export function localContext(root) {
-  const body = bytes(root, '.harness/local.md')?.toString('utf8') ?? '';
-  const parsed = frontmatter(body, '.harness/local.md');
+  const body = bytes(root, '.notth/local.md')?.toString('utf8') ?? '';
+  const parsed = frontmatter(body, '.notth/local.md');
   if (!parsed) return { structured: false, value: null };
   const value = parsed.value;
   assert(value.schema_version === 1 && Object.keys(value).every(k => ['schema_version', 'stack', 'build', 'approved_deviations', 'sources'].includes(k)), 'Invalid local.md schema');
@@ -33,7 +33,7 @@ export function localContext(root) {
   assert(Array.isArray(sources) && sources.length <= 128 && new Set(sources).size === sources.length, 'Invalid local.md sources');
   for (const name of sources) {
     safe(root, name);
-    assert(!name.startsWith('.harness/') && !name.startsWith('.agents/') && !name.startsWith('.kiro/') && !name.startsWith('.claude/') && !/(?:^|\/)(?:\.git|node_modules|machine\.json|\.env(?:\..*)?)(?:\/|$)/.test(name), 'Private or unsupported knowledge source');
+    assert(!name.startsWith('.notth/') && !name.startsWith('.harness/') && !name.startsWith('.agents/') && !name.startsWith('.kiro/') && !name.startsWith('.claude/') && !/(?:^|\/)(?:\.git|node_modules|machine\.json|\.env(?:\..*)?)(?:\/|$)/.test(name), 'Private or unsupported knowledge source');
   }
   return { structured: true, value };
 }
@@ -75,7 +75,7 @@ export function knowledgeReport(root) {
   for (const group of ['source_hashes', 'context_hashes']) for (const name of new Set([...Object.keys(current[group]), ...Object.keys(saved?.[group] ?? {})])) {
     if (current[group][name] !== saved?.[group]?.[name]) changed.push(name);
   }
-  if (saved && current.bundle_sha256 !== saved.bundle_sha256) changed.push('.harness/lock.json');
+  if (saved && current.bundle_sha256 !== saved.bundle_sha256) changed.push('.notth/lock.json');
   return { status: !saved ? 'missing' : changed.length ? 'stale' : 'current', structured: current.local.structured,
     changed_sources: [...new Set(changed)].sort(), sources: Object.keys(current.source_hashes),
     knowledge_hash: saved?.knowledge_hash ?? null,

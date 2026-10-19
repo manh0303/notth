@@ -5,9 +5,9 @@ The AI host executes tools; Harness validates declarations and provides workflow
 
 | Project-owned file | Purpose |
 | --- | --- |
-| .harness/artifacts.json | Input/output locations, source revisions, canonical ownership, write policy and dependencies |
-| .harness/integrations.json | Dynamic connection IDs, host bindings, purpose, intended access and scope |
-| .harness/environment.json | Existing executable/file/build/test contract; unchanged |
+| .notth/artifacts.json | Input/output locations, source revisions, canonical ownership, write policy and dependencies |
+| .notth/integrations.json | Dynamic connection IDs, host bindings, purpose, intended access and scope |
+| .notth/environment.json | Existing executable/file/build/test contract; unchanged |
 
 Init/update seed empty contracts if absent and preserve existing bytes. No secrets, native MCP
 server configuration or account credentials belong in these files.
@@ -28,7 +28,7 @@ For existing docs, preserve approved sources and create only needed derived tech
 
 ## Repository example
 
-.harness/artifacts.json:
+.notth/artifacts.json:
 ```json
 {
   "schema_version": 1,
@@ -69,7 +69,7 @@ docs/discovery and docs/product (or other capability) defaults remain.
 
 ## External sources and arbitrary tools
 
-Example .harness/integrations.json:
+Example .notth/integrations.json:
 ```json
 {
   "schema_version": 1,
@@ -131,7 +131,7 @@ The host prepares/reviews the draft or publishes only within existing explicit s
   Unconfigured maps are empty. IDs and kinds are lowercase hyphenated slugs.
 - Each artifact has kind and exactly one location path or HTTPS URL. Local inputs can name files
   or directories; local output paths are directories. Paths stay inside the project, without
-  symlinks, traversal or managed/private output folders (.git/.harness/.agents/node_modules/AGENTS.md).
+  symlinks, traversal or managed/private output folders (.git/.notth/.agents/node_modules/AGENTS.md).
 - Optional owner/revision are recorded facts; status is draft/approved/superseded. Defaults are draft,
   not business approval. canonical defaults false; at most one canonical artifact per kind/capability.
   Use different kinds for distinct authoritative artifacts or a collection input for a source set.

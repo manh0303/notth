@@ -27,7 +27,7 @@ aih init --host codex --adapters java-spring --capabilities product,architecture
 ```
 
 Frontend chọn react-nextjs hoặc react-native; không cài cả ba nếu không cần. Project đã cài: giữ các
-lựa chọn trong .harness/project.json, bổ sung module cần thiết rồi backup, update --dry-run, update,
+lựa chọn trong .notth/project.json, bổ sung module cần thiết rồi backup, update --dry-run, update,
 check trên branch. Nếu không có global aih, dùng supporting CLI local/offline đã review. Package CLI
 và snapshot project là hai thứ khác nhau; merge source chưa chứng minh đã phát hành npm/PyPI.
 

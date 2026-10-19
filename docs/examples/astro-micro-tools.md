@@ -27,7 +27,7 @@ aih skill harness-astro-project-architecture
 aih skill harness-astro-seo
 ```
 
-`product,uiux` đều **tùy chọn**; dự án chỉ cần Core + Astro có thể dùng `aih init --adapters astro`. Trong repo *đã cài Harness*, chỉnh `.harness/project.json` để thêm `astro`, sau đó `aih update --dry-run`, `aih update`, `aih check`. Không chạy lại init với cấu hình khác khi có file snapshot.
+`product,uiux` đều **tùy chọn**; dự án chỉ cần Core + Astro có thể dùng `aih init --adapters astro`. Trong repo *đã cài Harness*, chỉnh `.notth/project.json` để thêm `astro`, sau đó `aih update --dry-run`, `aih update`, `aih check`. Không chạy lại init với cấu hình khác khi có file snapshot.
 
 Để thử detector an toàn:
 
@@ -104,7 +104,7 @@ Prompt ra quyết định:
 
 ## Optional: AdSense revenue model
 
-Nếu mục tiêu website là quảng cáo, có thể cài capability `monetization` bên cạnh adapter Astro. Dự án đã cài hãy cập nhật `.harness/project.json` và dùng `aih update` sau khi review. Đọc [Astro + AdSense walkthrough](astro-adsense-microtools.md) để phân biệt build tool với publisher compliance, đặt quảng cáo tránh Generate/Download và đo Page RPM. `aih` không tự nhúng script, tạo ad account hay cam kết doanh thu.
+Nếu mục tiêu website là quảng cáo, có thể cài capability `monetization` bên cạnh adapter Astro. Dự án đã cài hãy cập nhật `.notth/project.json` và dùng `aih update` sau khi review. Đọc [Astro + AdSense walkthrough](astro-adsense-microtools.md) để phân biệt build tool với publisher compliance, đặt quảng cáo tránh Generate/Download và đo Page RPM. `aih` không tự nhúng script, tạo ad account hay cam kết doanh thu.
 
 ## 7. Test và PR review
 

@@ -158,7 +158,7 @@ Compact trả JSON task/stack/module để định hướng, bỏ source scan/in
 
 ## Quyết định dùng chung và phạm vi
 
-`.harness/decisions.json` dùng schema 1; không thay decisions.json của từng OpenSpec change:
+`.notth/decisions.json` dùng schema 1; không thay decisions.json của từng OpenSpec change:
 
 ```json
 {

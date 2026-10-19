@@ -20,18 +20,18 @@ test('readable install summarizes modules; default JSON remains parseable and in
 });
 test('all host chat entry paths are read-only and next action is not the entry invocation',t=>{
  for(const host of ['kiro','codex','claude-code','copilot','gemini-cli','cursor','windsurf','opencode']) {
-  const r=root(t,{host});const lock=bytes(r,'.harness/lock.json');
+  const r=root(t,{host});const lock=bytes(r,'.notth/lock.json');
   const plan=JSON.parse(run(r,['start','--chat','--host',host]).stdout);
   assert.ok(plan.entry_action);assert.notEqual(plan.next_action,plan.entry_action);assert.equal(plan.context.freshness,'unchecked');
-  assert.equal(fs.existsSync(path.join(r,'.harness/start.json')),false);assert.equal(lock,bytes(r,'.harness/lock.json'));
+  assert.equal(fs.existsSync(path.join(r,'.notth/start.json')),false);assert.equal(lock,bytes(r,'.notth/lock.json'));
   assert.doesNotMatch(run(r,['start','--chat','--host',host,'--format','human']).stdout,/Goal: 1\./);
  }
 });
 test('invalid presentation/chat options reject before mutation',t=>{
- const r=root(t,{host:'codex'});saveStart(r,{goal:'change',task:'Preserve task'});const before=bytes(r,'.harness/start.json');
+ const r=root(t,{host:'codex'});saveStart(r,{goal:'change',task:'Preserve task'});const before=bytes(r,'.notth/start.json');
  for(const args of [['start','--chat','--goal','change','--task','Replace'],['start','--chat','--compact'],['start','--chat','--clear'],['init','--format','xml'],['check','--format','human']])run(r,args,2);
- assert.equal(bytes(r,'.harness/start.json'),before);
- const out=run(r,['start','--clear','--format','human']);assert.match(out.stdout,/Backup:/);assert.equal(fs.existsSync(path.join(r,'.harness/start.json')),false);
+ assert.equal(bytes(r,'.notth/start.json'),before);
+ const out=run(r,['start','--clear','--format','human']);assert.match(out.stdout,/Backup:/);assert.equal(fs.existsSync(path.join(r,'.notth/start.json')),false);
 });
 test('status gives candidate work without claiming checked tasks are verified or delivered',t=>{
  const r=root(t,{host:'codex'});newChange(r,'export');write(r,'openspec/changes/export/tasks.md','- [x] Implement\n- [ ] Exercise permission boundary\n');saveStart(r,{goal:'change',task:'Export',changeId:'export'});
@@ -53,13 +53,13 @@ test('recovery prioritizes blockers and uncertain operations, then stale baselin
  assert.equal(JSON.parse(run(r,['start','--chat'],1).stdout).status,'blocked');
 });
 test('consumer update installs canonical workflow and neutral UI route while preserving custom context',t=>{
- const r=root(t,{host:'codex',capabilities:['uiux']});write(r,'.harness/local.md','# Project facts\nKeep these');
- const before=bytes(r,'.harness/local.md');const preview=install(r,SOURCE,{command:'update',dryRun:true});assert.equal(preview.changes.length,0);
- install(r,SOURCE,{command:'update'});assert.equal(bytes(r,'.harness/local.md'),before);assert.equal(check(r).status,'ok');
- assert.ok(fs.existsSync(path.join(r,'.harness/core/workflows/task-experience.md')));
- assert.ok(fs.existsSync(path.join(r,'.harness/capabilities/uiux/workflows/design-delivery.md')));
+ const r=root(t,{host:'codex',capabilities:['uiux']});write(r,'.notth/local.md','# Project facts\nKeep these');
+ const before=bytes(r,'.notth/local.md');const preview=install(r,SOURCE,{command:'update',dryRun:true});assert.equal(preview.changes.length,0);
+ install(r,SOURCE,{command:'update'});assert.equal(bytes(r,'.notth/local.md'),before);assert.equal(check(r).status,'ok');
+ assert.ok(fs.existsSync(path.join(r,'.notth/core/workflows/task-experience.md')));
+ assert.ok(fs.existsSync(path.join(r,'.notth/capabilities/uiux/workflows/design-delivery.md')));
  assert.ok(fs.existsSync(path.join(r,'.agents/skills/harness-uiux-figma-design/SKILL.md')));
- const bare=root(t,{host:'codex'});assert.equal(fs.existsSync(path.join(bare,'.harness/capabilities/uiux')),false);
+ const bare=root(t,{host:'codex'});assert.equal(fs.existsSync(path.join(bare,'.notth/capabilities/uiux')),false);
 });
 
 test('chat mode bypasses the interview when both streams are terminals',t=>{
@@ -67,5 +67,5 @@ test('chat mode bypasses the interview when both streams are terminals',t=>{
  const script=`Object.defineProperty(process.stdin,'isTTY',{value:true}); Object.defineProperty(process.stdout,'isTTY',{value:true}); const {main}=await import(${JSON.stringify(new URL('../cli/main.js',import.meta.url).href)}); process.exitCode=await main(['start','--chat','--host','codex']);`;
  const result=spawnSync(process.execPath,['--input-type=module','-e',script],{cwd:r,encoding:'utf8',timeout:10000});
  assert.equal(result.status,0,result.stderr);assert.equal(JSON.parse(result.stdout).status,'planned');
- assert.equal(fs.existsSync(path.join(r,'.harness/start.json')),false);
+ assert.equal(fs.existsSync(path.join(r,'.notth/start.json')),false);
 });

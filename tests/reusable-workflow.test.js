@@ -18,11 +18,11 @@ for(const [host,adapters] of [['codex',[]],['kiro',['java-spring']],['claude-cod
  test(host+': same status/change workflow without domain assumptions',t=>{
   const r=project(t,{host,adapters});assert.equal(cli(r,['status']).task,null);assert.deepEqual(cli(r,['changes']).changes,[]);
   newChange(r,'feature');write(r,'openspec/changes/feature/tasks.md','- [x] 1. Implement public behavior\n- [ ] 2. Verify cross-boundary outcome\n```md\n- [ ] ignored example\n```\n- [ ] 3. Review\n');
-  const lock=read(r,'.harness/lock.json');const saved=cli(r,['start','--goal','change','--change','feature','--task','Implement accepted scope']);assert.equal(saved.saved.change_id,'feature');
+  const lock=read(r,'.notth/lock.json');const saved=cli(r,['start','--goal','change','--change','feature','--task','Implement accepted scope']);assert.equal(saved.saved.change_id,'feature');
   const before=snapshot(r),status=cli(r,['status']);assert.equal(status.task,'Implement accepted scope');assert.equal(status.change,'feature');assert.equal(status.tasks.checked,1);assert.equal(status.tasks.unchecked,2);assert.equal(status.tasks.first_unchecked,'2. Verify cross-boundary outcome');assert.equal(status.executed,false);assert.deepEqual(snapshot(r),before);
-  assert.equal(cli(r,['changes']).changes[0].active,true);assert.equal(read(r,'.harness/lock.json'),lock);
-  assert.ok(fs.existsSync(path.join(r,'.harness/templates/knowledge-index.md')));assert.ok(!fs.existsSync(path.join(r,'docs/knowledge')));
-  const cleared=cli(r,['start','--clear']);assert.ok(cleared.backup);assert.equal(loadStartConfig(r),null);assert.ok(fs.existsSync(path.join(r,'openspec/changes/feature/tasks.md')));assert.equal(read(r,'.harness/lock.json'),lock);assert.deepEqual(clearStart(r).changes,[]);
+  assert.equal(cli(r,['changes']).changes[0].active,true);assert.equal(read(r,'.notth/lock.json'),lock);
+  assert.ok(fs.existsSync(path.join(r,'.notth/templates/knowledge-index.md')));assert.ok(!fs.existsSync(path.join(r,'docs/knowledge')));
+  const cleared=cli(r,['start','--clear']);assert.ok(cleared.backup);assert.equal(loadStartConfig(r),null);assert.ok(fs.existsSync(path.join(r,'openspec/changes/feature/tasks.md')));assert.equal(read(r,'.notth/lock.json'),lock);assert.deepEqual(clearStart(r).changes,[]);
  });
 }
 test('selection rejects missing proposal, unsafe IDs and incompatible flags without changing state',t=>{
@@ -30,12 +30,12 @@ test('selection rejects missing proposal, unsafe IDs and incompatible flags with
  for(const args of [['start','--goal','change','--change','missing','--task','Work'],['start','--goal','change','--change','../escape','--task','Work'],['start','--goal','idea','--change','feature','--task','Work']])cli(r,args,1);
  for(const args of [['start','--clear','--goal','change'],['status','--clear'],['changes','--host','kiro']])cli(r,args,2);
  assert.deepEqual(snapshot(r),before);
- write(r,'.harness/start.json',{schema_version:1,goal:'change',task:'Keep me'});write(r,'openspec/changes/feature/tasks.md','- [ ] x'.repeat(160000));const prior=read(r,'.harness/start.json');assert.throws(()=>changesReport(r),/1 MiB/);assert.equal(read(r,'.harness/start.json'),prior);
+ write(r,'.notth/start.json',{schema_version:1,goal:'change',task:'Keep me'});write(r,'openspec/changes/feature/tasks.md','- [ ] x'.repeat(160000));const prior=read(r,'.notth/start.json');assert.throws(()=>changesReport(r),/1 MiB/);assert.equal(read(r,'.notth/start.json'),prior);
 });
 test('clear backs up only intake, can be restored, and refuses invalid state',t=>{
- const r=project(t);saveStart(r,{goal:'change',task:'Work'});const body=read(r,'.harness/start.json'),cleared=clearStart(r);
- cli(r,['restore','--from',cleared.backup]);assert.equal(read(r,'.harness/start.json'),body);
- write(r,'.harness/start.json','{}');assert.throws(()=>clearStart(r),/schema/);assert.equal(read(r,'.harness/start.json'),'{}');
+ const r=project(t);saveStart(r,{goal:'change',task:'Work'});const body=read(r,'.notth/start.json'),cleared=clearStart(r);
+ cli(r,['restore','--from',cleared.backup]);assert.equal(read(r,'.notth/start.json'),body);
+ write(r,'.notth/start.json','{}');assert.throws(()=>clearStart(r),/schema/);assert.equal(read(r,'.notth/start.json'),'{}');
 });
 test('status exposes stale baseline/unknown operations and blocks trusting changed evidence',t=>{
  const r=project(t);newChange(r,'feature');write(r,'code.txt','baseline');write(r,'evidence.txt','observed result');
@@ -46,12 +46,12 @@ test('status exposes stale baseline/unknown operations and blocks trusting chang
 });
 test('file arguments reuse machine overrides/environment without executing or printing private paths',t=>{
  const r=project(t);const file=path.join(r,'private-config.txt');fs.writeFileSync(file,'private');
- write(r,'.harness/environment.json',{schema_version:1,tools:{runner:{executable:process.execPath}},files:{config:{path:'${UNSET_FILE}'}},commands:{test:{tool:'runner',args:['--config=${files.config}']}}});
- write(r,'.harness/machine.json',{schema_version:1,files:{config:{path:file}}});
+ write(r,'.notth/environment.json',{schema_version:1,tools:{runner:{executable:process.execPath}},files:{config:{path:'${UNSET_FILE}'}},commands:{test:{tool:'runner',args:['--config=${files.config}']}}});
+ write(r,'.notth/machine.json',{schema_version:1,files:{config:{path:file}}});
  const ok=environmentReport(r,{});assert.deepEqual(ok.problems,[]);assert.equal(ok.entries.find(e=>e.group==='commands').status,'declared');assert.ok(!JSON.stringify(ok).includes(file));
- write(r,'.harness/machine.json',{schema_version:1,files:{config:{path:'${MY_FILE}'}}});assert.equal(environmentReport(r,{MY_FILE:file}).entries.find(e=>e.group==='commands').status,'declared');
+ write(r,'.notth/machine.json',{schema_version:1,files:{config:{path:'${MY_FILE}'}}});assert.equal(environmentReport(r,{MY_FILE:file}).entries.find(e=>e.group==='commands').status,'declared');
  const missing=environmentReport(r,{});assert.ok(missing.problems.length);assert.ok(missing.entries.find(e=>e.group==='commands').missing_variables.includes('MY_FILE'));
- const cfg=JSON.parse(read(r,'.harness/environment.json'));cfg.commands.test.args=['${files.missing}'];write(r,'.harness/environment.json',cfg);assert.ok(environmentReport(r,{}).entries.find(e=>e.group==='commands').missing_variables.includes('files.missing'));
+ const cfg=JSON.parse(read(r,'.notth/environment.json'));cfg.commands.test.args=['${files.missing}'];write(r,'.notth/environment.json',cfg);assert.ok(environmentReport(r,{}).entries.find(e=>e.group==='commands').missing_variables.includes('files.missing'));
  assert.equal(check(r).status,'ok');
 });
 

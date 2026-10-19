@@ -26,7 +26,7 @@ decision. Do not manufacture options, measurements or an approval to satisfy the
 A project-owned ADR, e.g. docs/architecture/decisions/adr-001.md, linked from project-map and active OpenSpec design.
 
 ## Template
-Read `.harness/capabilities/architecture/templates/adr.md` from the installed snapshot.
+Read `.notth/capabilities/architecture/templates/adr.md` from the installed snapshot.
 Use `aih new-doc adr --capability architecture` only for a missing draft;
 reuse existing authoritative docs or a compact task note when appropriate. Never overwrite approved content.
 

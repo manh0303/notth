@@ -12,11 +12,11 @@ import { loadStartConfig } from './start-config.js';
 import { resolveModules } from './composition.js';
 import { PROJECT_DECISIONS, loadProjectDecisions } from './project-decisions.js';
 
-export const USER_FILES = ['.harness/project.json', '.harness/agents.json', '.harness/artifacts.json',
-  '.harness/integrations.json', '.harness/environment.json', '.harness/local.md', '.harness/start.json', PROJECT_DECISIONS, 'openspec/config.yaml'];
+export const USER_FILES = ['.notth/project.json', '.notth/agents.json', '.notth/artifacts.json',
+  '.notth/integrations.json', '.notth/environment.json', '.notth/local.md', '.notth/start.json', PROJECT_DECISIONS, 'openspec/config.yaml'];
 const MAX_FILE = 1024 * 1024, MAX_ARCHIVE = 12 * MAX_FILE;
 const fail = (ok, message) => { if (!ok) throw new HarnessError(message); };
-export const backupName = () => '.harness/backups/config-' + new Date().toISOString().replace(/[:.]/g, '-') + '-' + randomUUID() + '.json';
+export const backupName = () => '.notth/backups/config-' + new Date().toISOString().replace(/[:.]/g, '-') + '-' + randomUUID() + '.json';
 function readText(root, name) {
   const filename = safe(root, name), info = stat(filename);
   if (!info) return null;
@@ -31,20 +31,30 @@ export function configArchive(root) {
     const content = readText(root, name);
     if (content !== null) files[name] = { content, sha256: digest(Buffer.from(content)) };
   }
-  fail(Object.hasOwn(files, '.harness/project.json'), 'Missing .harness/project.json; initialize or restore project configuration first');
-  return { schema_version: 1, kind: 'ai-harness-user-config', cli_version: JSON.parse(fs.readFileSync(path.join(SOURCE, 'package.json'))).version,
+  fail(Object.hasOwn(files, '.notth/project.json'), 'Missing .notth/project.json; initialize or restore project configuration first');
+  return { schema_version: 1, kind: 'notth-user-config', cli_version: JSON.parse(fs.readFileSync(path.join(SOURCE, 'package.json'))).version,
     files };
 }
 function validateArchive(value) {
   fail(isObject(value) && Object.keys(value).sort().join(',') === 'cli_version,files,kind,schema_version'
-    && value.schema_version === 1 && value.kind === 'ai-harness-user-config' && VERSION.test(value.cli_version)
-    && isObject(value.files) && Object.hasOwn(value.files, '.harness/project.json'), 'Unsupported configuration backup schema');
+    && value.schema_version === 1 && ['notth-user-config', 'ai-harness-user-config'].includes(value.kind) && VERSION.test(value.cli_version)
+    && isObject(value.files) && Object.hasOwn(value.files, '.notth/project.json'), 'Unsupported configuration backup schema');
   for (const [name, file] of Object.entries(value.files)) {
     fail(USER_FILES.includes(name), 'Backup contains an unapproved configuration path');
     fail(isObject(file) && Object.keys(file).sort().join(',') === 'content,sha256' && typeof file.content === 'string'
       && Buffer.byteLength(file.content) <= MAX_FILE && /^[a-f0-9]{64}$/.test(file.sha256)
       && digest(Buffer.from(file.content)) === file.sha256, 'Backup content/digest mismatch: ' + name);
   }
+}
+function normalizeLegacyArchive(value) {
+  if (!isObject(value) || value.kind !== 'ai-harness-user-config' || !isObject(value.files)) return;
+  const mapped = {};
+  for (const [name, file] of Object.entries(value.files)) {
+    const target = name.startsWith('.harness/') ? '.notth/' + name.slice('.harness/'.length) : name;
+    fail(!Object.hasOwn(mapped, target), 'Backup contains conflicting namespace paths');
+    mapped[target] = file;
+  }
+  value.files = mapped;
 }
 function validateFiles(files) {
   const temp = fs.mkdtempSync(path.join(os.tmpdir(), 'aih-config-'));
@@ -59,8 +69,8 @@ function validateFiles(files) {
   } finally { fs.rmSync(temp, { recursive: true, force: true }); }
 }
 function outputPath(root, name) {
-  fail(typeof name === 'string' && name.endsWith('.json') && !/^(?:\.git|\.agents|\.claude|node_modules)(?:\/|$)/.test(name) && !USER_FILES.includes(name) && !name.startsWith('.harness/core/') && !name.startsWith('openspec/changes/')
-    && (!name.startsWith('.harness/') || name.startsWith('.harness/backups/')), 'Use a backup path outside active Harness configuration');
+  fail(typeof name === 'string' && !name.startsWith('.harness/') && name.endsWith('.json') && !/^(?:\.git|\.agents|\.claude|node_modules)(?:\/|$)/.test(name) && !USER_FILES.includes(name) && !name.startsWith('.notth/core/') && !name.startsWith('openspec/changes/')
+    && (!name.startsWith('.notth/') || name.startsWith('.notth/backups/')), 'Use a backup path outside active Harness configuration');
   const filename = safe(root, name); fail(!stat(filename), 'Backup destination already exists'); return filename;
 }
 export function backupConfig(root, output = backupName()) {
@@ -76,14 +86,14 @@ export function backupConfig(root, output = backupName()) {
 }
 export function restoreConfig(root, from, { dryRun = false, transfer = false, replace = false, writer } = {}) {
   const filename = safe(root, from); fail(stat(filename)?.size <= MAX_ARCHIVE, 'Missing or oversized configuration backup');
-  const archive = readConfigArchive(filename); validateArchive(archive); validateFiles(archive.files);
+  const archive = readConfigArchive(filename); normalizeLegacyArchive(archive); validateArchive(archive); validateFiles(archive.files);
   return guard(root, () => {
-    const files = transfer ? Object.fromEntries(Object.entries(archive.files).filter(([name]) => ['.harness/project.json', '.harness/agents.json'].includes(name))) : archive.files;
-    if (transfer && files['.harness/agents.json']) {
-      const config = JSON.parse(files['.harness/agents.json'].content);
+    const files = transfer ? Object.fromEntries(Object.entries(archive.files).filter(([name]) => ['.notth/project.json', '.notth/agents.json'].includes(name))) : archive.files;
+    if (transfer && files['.notth/agents.json']) {
+      const config = JSON.parse(files['.notth/agents.json'].content);
       delete config.execution.autonomy; // Repository-scoped decisions never move to a different project.
       for (const agent of Object.values(config.agents)) delete agent.extensions;
-      files['.harness/agents.json'] = { content: encode(config).toString() };
+      files['.notth/agents.json'] = { content: encode(config).toString() };
     }
     const changes = {}, conflicts = [];
     for (const [name, file] of Object.entries(files)) {
@@ -101,7 +111,7 @@ export function restoreConfig(root, from, { dryRun = false, transfer = false, re
     }
     validateFiles(merged);
     // Validate declared artifact paths against actual target symlinks, not only temporary files.
-    const artifacts = merged['.harness/artifacts.json'] ? JSON.parse(merged['.harness/artifacts.json'].content) : null;
+    const artifacts = merged['.notth/artifacts.json'] ? JSON.parse(merged['.notth/artifacts.json'].content) : null;
     for (const group of ['inputs','outputs']) for (const item of Object.values(artifacts?.[group] ?? {})) {
       if (item.location.path) safe(root, item.location.path + (group === 'outputs' || stat(path.join(root, item.location.path))?.isDirectory() ? '/.artifact-probe' : ''));
     }

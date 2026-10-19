@@ -129,8 +129,8 @@ export function ready(root, id, stage = 'implement', workflowId) {
   // Snapshot-less legacy use keeps working. Installed legacy stages validate the new declaration,
   // but do not retroactively add approvals to previously supported structural gates.
   const legacy = workflowId === undefined && ['implement', 'review'].includes(stage);
-  const lockPath = safe(root, '.harness/lock.json'), lock = stat(lockPath) ? readJson(lockPath) : null;
-  const source = path.join(root, '.harness');
+  const lockPath = safe(root, '.notth/lock.json'), lock = stat(lockPath) ? readJson(lockPath) : null;
+  const source = path.join(root, '.notth');
   if (legacy) {
     if (stat(safe(source, 'core/workflows/spec-to-code.workflow.json'))) loadWorkflow(source, 'spec-to-code', lock?.capabilities ?? []);
     return structuralReady(root, id, stage);

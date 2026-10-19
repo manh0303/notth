@@ -2,7 +2,7 @@
 
 Use when a project already supplies authorized BA/PO materials (Confluence, BRD, PRD, SRS, tickets, PDF/DOCX or repository docs). **Do not regenerate or replace approved artifacts by default.**
 
-Before authoring, apply `.harness/core/workflows/artifact-contract.md`: reuse storage/canonical
+Before authoring, apply `.notth/core/workflows/artifact-contract.md`: reuse storage/canonical
 ownership decisions or ask only what is missing, then record input/output routes and write policy.
 Respect configured destinations; docs below are the legacy Git defaults, not permission to copy
 an external source into a second master. Maintain impacted artifacts through the OpenSpec change.

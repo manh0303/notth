@@ -24,7 +24,7 @@ npx --yes @manhd_d/notth start
 Terminal tương tác hỏi mục tiêu và task, input còn thiếu, nơi lưu draft docs khi cần.
 Có cấu hình input/output thì không hỏi lại. Có task đã lưu thì chọn tiếp tục hoặc nhiệm vụ mới;
 model/agent giữ mặc định của host trừ khi bạn muốn cấu hình khác. Lựa chọn được lưu trong
-`.harness/start.json` và `.harness/artifacts.json`; thay cấu hình hiện có tạo backup trước.
+`.notth/start.json` và `.notth/artifacts.json`; thay cấu hình hiện có tạo backup trước.
 
 Không có TTY (CI/pipe), `start` chỉ xuất JSON plan và không chờ stdin hoặc tự ghi lựa chọn.
 Có thể lưu lựa chọn bằng flags:

@@ -45,14 +45,6 @@ mỗi file nguồn tối đa 64 MiB. Locator là chỉ dẫn do host ghi, chưa 
 không có --change dùng saved task làm gợi ý; nếu chưa có task thì trả hướng dẫn, không tự chọn.
 Context blocked trả exit 1; host xử lý nguồn bị ảnh hưởng thay vì bỏ qua lỗi hoặc đổi hash cho qua.
 
-## Beads tùy chọn
-
-Nếu project đã có `.beads/metadata.json`, context báo ứng viên Beads nhưng access vẫn unverified.
-AI theo [integration contract](../integrations/beads/README.md) để xác minh tool, nối issue ID,
-claim task và cập nhật bằng công cụ host. Beads giữ trạng thái/phụ thuộc/owner; NOTTH giữ nguồn,
-yêu cầu và evidence. Không tự cài Beads, không thêm runtime dependency vào NOTTH.
-Backend Beads đã map mà mất kết nối thì chặn coordinated writes, không chuyển âm thầm sang local.
-
 ## Cập nhật, backup và giới hạn
 
 Update bằng bundle đã review theo [versioning](versioning.md), giữ context/history trong OpenSpec.
@@ -76,3 +68,8 @@ a changed capture invalidates the older context. External freshness observations
 provenance; changed/unavailable/unknown/not-checked observations require dependent reconciliation.
 An unchanged-at-check receipt remains time-qualified and requires host rechecking for current work.
 Context can retain an unavailable source as memory, without certifying it usable for execution.
+
+Project context lives under `.notth/`. After an upgrade the host uses namespace-migration.json to
+reconcile relevant old namespace pointers; [migration](notth-migration.md) retains original evidence.
+Retired optional backend declarations in older context files are ignored and dropped on the next
+guarded context save; there is no external task-backend discovery or installation.

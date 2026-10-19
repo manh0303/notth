@@ -29,7 +29,7 @@ Do not expose secrets or request production credentials. Ask for missing evidenc
 Do not call a speculative edit a confirmed fix.
 
 ## Continuous changes
-Start with `.harness/core/workflows/continuous-development.md`: verify expected behavior against
+Start with `.notth/core/workflows/continuous-development.md`: verify expected behavior against
 current approved requirements and actual code revision, not only the old handoff. Preserve a compact
 bug note, regression evidence and affected artifacts with unchanged reasons; avoid unrelated BRD/PRD/ADR.
 Return newly discovered out-of-scope defects as proposed backlog items, not automatic extra work.

@@ -19,7 +19,7 @@ Plan, stakeholder/source constraints, technical/operational findings and actual 
 docs/delivery/risk-register.md and evidence-based status draft.
 
 ## Template
-Read `.harness/capabilities/delivery/templates/risk-register.md` from the installed snapshot.
+Read `.notth/capabilities/delivery/templates/risk-register.md` from the installed snapshot.
 Use `aih new-doc risk-register --capability delivery` only for a missing draft;
 reuse existing authoritative docs or a compact task note when appropriate. Never overwrite approved content.
 

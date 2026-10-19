@@ -32,7 +32,7 @@ aih skills
 
 Lệnh trên là **ví dụ một repo chứa BE/FE/manifests**; nếu frontend/backend thuộc nhiều repo, `aih init` được chạy tại từng repo và chỉ chọn module phù hợp. `aih resolve` không tự bổ sung module được recommend. Không dùng `--detect` như công cụ quét toàn monorepo.
 
-**Project input:** `AGENTS.md`, `.harness/local.md`, source repo, scope và branch, quyền truy cập nguồn; tạo `change-id` và xác định nguồn của từng artifact.
+**Project input:** `AGENTS.md`, `.notth/local.md`, source repo, scope và branch, quyền truy cập nguồn; tạo `change-id` và xác định nguồn của từng artifact.
 
 ## 1. Các stage, outputs và human gates
 

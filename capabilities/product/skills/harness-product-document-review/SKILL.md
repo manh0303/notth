@@ -23,7 +23,7 @@ revision. Label FACT, INTERPRETATION/proposal and UNKNOWN; static inspection can
 Detect duplicated owners, contradictory values, broken source links and stale exports. Update affected
 sections only, preserving unrelated edits and accepted history. Review examples/commands for actual
 prerequisites and safe placeholders; do not advertise unmeasured results.
-If Word/PDF/slides are requested, follow `.harness/capabilities/product/workflows/document-export.md`.
+If Word/PDF/slides are requested, follow `.notth/capabilities/product/workflows/document-export.md`.
 Separate substantive review, actual rendered layout QA and business acceptance. Missing render tooling
 means visual QA NOT_RUN, not a fabricated screenshot or automatic dependency installation.
 
@@ -36,7 +36,7 @@ means visual QA NOT_RUN, not a fabricated screenshot or automatic dependency ins
 - Do not treat missing information as implicit consent.
 
 ## Template
-Read `.harness/capabilities/product/templates/review-report.md`; `aih new-doc review-report` creates only a missing
+Read `.notth/capabilities/product/templates/review-report.md`; `aih new-doc review-report` creates only a missing
 draft. Apply the shared document contract for authority, preservation and review.
 
 ## Example
@@ -46,4 +46,4 @@ Synthetic illustration: Flag conflicting duplicate policies with exact source re
 - Findings include source, impact and decision owner.
 
 ## Handoff
-Read the shared installed contract `.harness/capabilities/product/common/document-contract.md`; pass only affected scope and relevant perspectives.
+Read the shared installed contract `.notth/capabilities/product/common/document-contract.md`; pass only affected scope and relevant perspectives.

@@ -102,7 +102,7 @@ Options:
 
 All hosts: init --host <host> → first AI chat: invoke/read harness-start.
 Kiro exposes /harness-start; other clients can read .agents/skills/harness-start/SKILL.md.
-User settings: .harness/; backup exports only documented user files.
+User settings: .notth/; backup exports only documented user files.
 Restore config before init on a fresh project; --transfer excludes old sources/tasks.
 The host runs application tests; verify prints plans or validates supplied evidence.
 Update a global CLI with npm install -g @manhd_d/notth@latest,
@@ -217,7 +217,7 @@ export function main(argv = process.argv.slice(2)) {
     else if (command === 'changes') result = changesReport(root);
     else if (command === 'workflow') {
       if (check(root).status !== 'ok') throw new Error('Fix installation drift before reading workflows');
-      result = workflowReport(path.join(root, '.harness'), loadLock(root).capabilities ?? []);
+      result = workflowReport(path.join(root, '.notth'), loadLock(root).capabilities ?? []);
     } else if (command === 'start') {
       if (values.clear) { print(clearStart(root)); return 0; }
       if (!values.chat && !values.compact && !values.goal && values.host !== 'kiro' && process.stdin.isTTY && process.stdout.isTTY) return guidedStart(root, { host: values.host }).then(value => { print(value); return value.status === 'blocked' ? 1 : 0; }).catch(error => { console.error(JSON.stringify({ status: 'error', message: error.message })); return 1; });

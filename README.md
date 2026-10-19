@@ -1,14 +1,13 @@
-# Notth
+# NOTTH
 
 **English** · [Tiếng Việt](docs/i18n/README.vi.md) · [简体中文](docs/i18n/README.zh-CN.md) · [Español](docs/i18n/README.es.md)
 
 Reusable agent workflows for software development: **Requirements → Design → Code → Test → Review.**
 
-Give an idea, existing docs or a change request to your AI coding tool. Harness helps it inspect the project, clarify open decisions, implement accepted scope and maintain relevant specs/docs. Use only the roles and skills the task needs.
+Give an idea, existing docs or a change request to your AI coding tool. NOTTH helps it inspect the project, clarify open decisions, implement accepted scope and maintain relevant specs/docs. Use only the roles and skills the task needs.
 
 Works with any project through Core workflows. Optional stack support: Spring Boot, React/Next.js, React Native, Python, Astro and Kubernetes. Stack selection does not choose infrastructure or architecture.
 
-Previously **AI Harness**. [Existing installation → Notth](docs/notth-migration.md).
 Registry commands require a published package containing the selected host support.
 If npm returns E404, use the [reviewed source/offline path](docs/getting-started.md#cài-từ-source-khi-registry-chưa-có-package).
 
@@ -21,7 +20,7 @@ npx --yes @manhd_d/notth init --host codex
 ```
 
 Set `--host` to `codex`, `claude-code`, `cursor`, `copilot`, `gemini-cli`, `kiro`, `opencode` or `windsurf`.
-Choose the one tool you use; Notth installs only its required bridge.
+Choose the one tool you use; NOTTH installs only its required bridge.
 [Shared setup and migration](docs/tool-portability.md).
 In your first AI session, invoke **harness-start** if the host exposes it, or send:
 
@@ -47,13 +46,14 @@ The agent chooses the necessary depth, reuses confirmed decisions and reports co
 blockers and the next action. You do not need to select roles or gates.
 
 [Short prompts & troubleshooting](docs/simple-use.md) · [pip/offline](docs/python-installation.md) · [Settings & backup](docs/configuration-backup.md).
+Project configuration lives in `.notth/`; [upgrade an existing installation](docs/notth-migration.md#project-folder-harness--notth).
 [UI design, previews & optional design skills](docs/ui-design.md).
 [Coding & technical documentation](docs/engineering-quality.md).
 Python installation still requires Node.js 22+; it does not call npm. Registry availability must be verified.
 
 ## Where it runs
 
-| AI tool | Environment | Install the tool | Harness setup |
+| AI tool | Environment | Install the tool | NOTTH setup |
 | --- | --- | --- | --- |
 | **Codex** | CLI, IDE or connected cloud workspace | [Install](https://developers.openai.com/codex/quickstart/) | [Guide](docs/tool-setup/codex.md) |
 | **Claude Code** | Project terminal | [Install](https://code.claude.com/docs/en/setup) | [Guide](docs/tool-setup/claude-code.md) |
@@ -68,6 +68,6 @@ Local/cloud execution and external inputs depend on the host's actual access. MC
 
 [Daily use & recovery](docs/reusable-workflows.md) · [Getting started](docs/getting-started.md) · [Docs & examples](docs/README.md) · [Input/output](docs/artifact-contract.md) · [Agent configuration](docs/agent-configuration.md) · [Continuous development](docs/continuous-development.md)
 
-[Contributing](CONTRIBUTING.md) · [Harness maintenance](docs/harness-maintenance.md) · [MIT](LICENSE)
+[Contributing](CONTRIBUTING.md) · [NOTTH maintenance](docs/harness-maintenance.md) · [MIT](LICENSE)
 
 [Persistent input documents: originals, Markdown and recovery](docs/document-sources.md).

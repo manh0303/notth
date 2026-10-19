@@ -19,7 +19,7 @@ Reviewed problem/MVP, personas, source evidence, available instrumentation and a
 Project-owned docs/product/outcomes.md linked to MVP and PRD.
 
 ## Template
-Read `.harness/capabilities/product/templates/outcomes.md` from the installed snapshot.
+Read `.notth/capabilities/product/templates/outcomes.md` from the installed snapshot.
 Use `aih new-doc outcomes` only for a missing draft;
 reuse existing authoritative docs or a compact task note when appropriate. Never overwrite approved content.
 
@@ -32,7 +32,7 @@ For customer lookup, propose task completion and observed latency as measures. W
 - Experiment does not silently expand collection or release scope
 
 ## Handoff
-Read the shared installed contract `.harness/capabilities/product/common/document-contract.md`; pass only affected scope and relevant perspectives.
+Read the shared installed contract `.notth/capabilities/product/common/document-contract.md`; pass only affected scope and relevant perspectives.
 
 ## Constraints
 Follow Core permissions, clarification and project-conventions. Ask only consequential unknowns with

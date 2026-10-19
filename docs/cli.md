@@ -34,7 +34,7 @@ dependency and use `npx aih`. Application tests must be executed separately.
 Source and target cannot contain one another, except source inside target/node_modules for local npm installs. Symlinks in roots, source
 payload or destination paths are rejected. IDs are lowercase hyphenated slugs; archive is reserved.
 Astro projects are detected from `astro` in package.json dependencies; `react-dom` used only for Astro islands is not a standalone React/Next.js detection when `next` is absent. Explicit `--adapters astro,react-nextjs` remains valid. `aih init --adapters astro` installs static-first rules/skills but no Astro packages or Cloudflare deployment.
-Selection changes belong in .harness/project.json; unknown or duplicate adapters fail validation.
+Selection changes belong in .notth/project.json; unknown or duplicate adapters fail validation.
 
 ## Optional monetization capability
 
@@ -43,7 +43,7 @@ Selection changes belong in .harness/project.json; unknown or duplicate adapters
 ## Project environment and clarification
 
 See [Project configuration](project-configuration.md) for the schema and Maven example.
-Init/update seed a project-owned environment.json and append /machine.json to .harness/.gitignore,
+Init/update seed a project-owned environment.json and append /machine.json to .notth/.gitignore,
 preserving previous content. Private machine files are not created, locked or published by the CLI.
 Doctor returns nonzero for configured required paths/variables that are missing; diagnostics omit values.
 Setup returns questions/options/recommendations for the AI host; it does not read stdin or write answers.
@@ -66,7 +66,7 @@ application code, external tools, remote origin or model behavior. The lock is n
 ## Recovering failures
 For conflicts, preserve custom work in Git, move project-specific rules to local.md and restore managed
 files from the last install commit. Re-run dry-run. Do not manually regenerate hashes to suppress drift.
-For an interrupted install inspect .harness-install.lock, confirm no installer is running, remove the
+For an interrupted install inspect .notth-install.lock, confirm no installer is running, remove the
 stale marker and restore a known-good installation from Git. Then check and retry on a branch.
 There is no uninstall command; revert the installation commit. No command merges or publishes changes.
 
@@ -89,7 +89,7 @@ Any false criterion returns status fail and exit 1, including a list of critical
 - `aih skills` lists **installed** names/descriptions and paths only (no full skill bodies).
 - `aih skill harness-uiux-figma-design` returns only that single installed, locked skill text.
 - Invalid, duplicate and unknown capability IDs fail before installing. Custom capabilities must have a registered and valid source manifest.
-- For existing installs, edit the `capabilities` array in `.harness/project.json`, then use `aih update --dry-run` followed by `aih update`. Init refuses an already installed conflicting selection.
+- For existing installs, edit the `capabilities` array in `.notth/project.json`, then use `aih update --dry-run` followed by `aih update`. Init refuses an already installed conflicting selection.
 - Selecting a capability copies only its managed snapshot and exposed skills into the consumer. npm package transport itself still contains all bundled capabilities.
 - Neither `skills` nor `skill` contacts the network or runs model/tool integrations. Both require a drift-free installed snapshot.
 
@@ -99,11 +99,11 @@ Any false criterion returns status fail and exit 1, including a list of critical
   Product workflows, role contracts, document templates and skill pointers.
 - `aih list` returns capability agents/templates metadata alongside skills/workflows.
 - `aih new-doc brd`, `aih new-doc prd`, `aih new-doc backlog`, etc. safely
-  copy **one** locked template from `.harness/capabilities/product/templates/` to
+  copy **one** locked template from `.notth/capabilities/product/templates/` to
   the project-owned `docs/product/<type>.md`. An existing file is never overwritten.
 - `aih skills` lists descriptions only; `aih skill harness-product-brd-generation`
   loads specific task guidance when needed.
-- For installed projects, change `.harness/project.json` selection and run update/check.
+- For installed projects, change `.notth/project.json` selection and run update/check.
 - Documents must be populated by an authorized AI host using source references;
   no command retrieves Confluence, calls an LLM or claims stakeholder approval.
 
@@ -128,7 +128,7 @@ All types must be declared templates in the installed, hash-locked Product manif
 
 ### Convention setup guidance
 
-`aih setup` suggests a new/maintain/mixed scope question for unconfigured environments without guessing an answer. Regardless of suggested questions, the host must inspect existing conventions and reuse opportunities; a configured tool does not establish project mode. Answers stay in project-owned `.harness/local.md`. See [Project conventions](project-conventions.md). No application scanning, scaffolding or commands are executed.
+`aih setup` suggests a new/maintain/mixed scope question for unconfigured environments without guessing an answer. Regardless of suggested questions, the host must inspect existing conventions and reuse opportunities; a configured tool does not establish project mode. Answers stay in project-owned `.notth/local.md`. See [Project conventions](project-conventions.md). No application scanning, scaffolding or commands are executed.
 
 ## Architecture and Delivery drafts
 
@@ -269,4 +269,4 @@ reports affected dependencies. `--report <file>` saves a host-prepared schema-1 
 requires `--expected <observed-sha256>` and the current report revision. See
 [Session continuity](session-continuity.md) for the contract, ownership and limits.
 Start/chat exposes saved-task context as a hint; resume revalidates linked sources automatically.
-No model or Beads process is executed. Users need not run these commands during normal AI chat.
+No model process is executed. Users need not run these commands during normal AI chat.

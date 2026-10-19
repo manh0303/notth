@@ -24,7 +24,7 @@ const contract = () => ({ schema_version: 1, mode: 'idea-driven', inputs: {
   spec: { kind: 'spec', location: { path: 'openspec' }, depends_on: ['product'] },
 } });
 const configure = (a = contract(), i = emptyIntegrations()) => {
-  write('.harness/artifacts.json', a); write('.harness/integrations.json', i);
+  write('.notth/artifacts.json', a); write('.notth/integrations.json', i);
 };
 const cli = args => spawnSync(process.execPath, [path.join(SOURCE, 'bin/aih.js'), ...args], { cwd: root, encoding: 'utf8' });
 
@@ -34,31 +34,31 @@ test('init/update seed unconfigured project contracts without locking or overwri
   assert.deepEqual(loadArtifactContract(root).artifacts, emptyArtifacts());
   assert.deepEqual(JSON.parse(fs.readFileSync(path.join(SOURCE, 'templates/artifacts.json'))), emptyArtifacts());
   assert.deepEqual(JSON.parse(fs.readFileSync(path.join(SOURCE, 'templates/integrations.json'))), emptyIntegrations());
-  assert.ok(!Object.hasOwn(loadLock(root).files, '.harness/artifacts.json'));
-  configure(); const before = fs.readFileSync(path.join(root, '.harness/artifacts.json'));
+  assert.ok(!Object.hasOwn(loadLock(root).files, '.notth/artifacts.json'));
+  configure(); const before = fs.readFileSync(path.join(root, '.notth/artifacts.json'));
   install(root, SOURCE, { command: 'update' });
-  assert.ok(fs.readFileSync(path.join(root, '.harness/artifacts.json')).equals(before));
+  assert.ok(fs.readFileSync(path.join(root, '.notth/artifacts.json')).equals(before));
   assert.equal(check(root).status, 'ok');
-  fs.unlinkSync(path.join(root, '.harness/artifacts.json'));
-  fs.unlinkSync(path.join(root, '.harness/integrations.json'));
+  fs.unlinkSync(path.join(root, '.notth/artifacts.json'));
+  fs.unlinkSync(path.join(root, '.notth/integrations.json'));
   assert.equal(check(root).status, 'ok');
   install(root, SOURCE, { command: 'update' });
   assert.deepEqual(loadArtifactContract(root).artifacts, emptyArtifacts());
 });
 
 test('invalid project contracts fail before install writes and never echo unknown credential fields or malformed JSON', () => {
-  write('.harness/integrations.json', { schema_version: 1, connections: { db: { via: 'mcp', binding: 'db', purpose: 'test', token: 'PRIVATE_VALUE' } } });
+  write('.notth/integrations.json', { schema_version: 1, connections: { db: { via: 'mcp', binding: 'db', purpose: 'test', token: 'PRIVATE_VALUE' } } });
   const before = fs.readdirSync(root);
   assert.throws(() => install(root, SOURCE), e => !e.message.includes('PRIVATE_VALUE') && /Invalid fields/.test(e.message));
   assert.deepEqual(fs.readdirSync(root), before);
-  assert.ok(!fs.existsSync(path.join(root, '.harness/lock.json')));
-  write('.harness/integrations.json', 'null');
+  assert.ok(!fs.existsSync(path.join(root, '.notth/lock.json')));
+  write('.notth/integrations.json', 'null');
   assert.throws(() => loadArtifactContract(root), /Invalid integrations schema/);
-  write('.harness/integrations.json', emptyIntegrations());
-  write('.harness/artifacts.json', 'null');
+  write('.notth/integrations.json', emptyIntegrations());
+  write('.notth/artifacts.json', 'null');
   assert.throws(() => loadArtifactContract(root), /Invalid artifacts schema/);
-  fs.unlinkSync(path.join(root, '.harness/artifacts.json'));
-  write('.harness/integrations.json', '{"PRIVATE_VALUE":');
+  fs.unlinkSync(path.join(root, '.notth/artifacts.json'));
+  write('.notth/integrations.json', '{"PRIVATE_VALUE":');
   assert.throws(() => loadArtifactContract(root), e => /Invalid JSON/.test(e.message) && !e.message.includes('PRIVATE_VALUE'));
 });
 
@@ -96,7 +96,7 @@ test('unknown refs, cycles, duplicate canonical owners and ambiguous doc routes 
 
 test('traversal, managed destinations, credential URLs, unsafe values and symlinked directories fail closed', () => {
   for (const loc of [
-    { path: '../outside' }, { path: '.harness/templates' }, { path: '.git' }, { path: 'node_modules/foo' },
+    { path: '../outside' }, { path: '.notth/templates' }, { path: '.git' }, { path: 'node_modules/foo' },
     { path: 'AGENTS.md' }, { path: 'nested/.GIT/docs' }, { path: '.Harness/docs' }, { path: 7 }, { path: 'docs/out', url: 'https://example.com' },
     { url: 'https://user:password@example.com/a' }, { url: 'https://example.com/a?access_token=PRIVATE_VALUE' },
   ]) {
@@ -126,10 +126,10 @@ test('external write declarations require scoped connection and an observed revi
 test('setup asks storage independently of build tools, reuses declared routes, and artifacts command is read-only', () => {
   install(root, SOURCE); assert.ok(setupPlan(root, []).questions.some(q => q.id === 'artifact-storage'));
   configure(); assert.ok(!setupPlan(root, []).questions.some(q => q.id === 'artifact-storage'));
-  const before = fs.readFileSync(path.join(root, '.harness/artifacts.json'));
+  const before = fs.readFileSync(path.join(root, '.notth/artifacts.json'));
   const r = cli(['artifacts']); assert.equal(r.status, 0, r.stderr);
   assert.equal(JSON.parse(r.stdout).executed, false);
-  assert.ok(fs.readFileSync(path.join(root, '.harness/artifacts.json')).equals(before));
+  assert.ok(fs.readFileSync(path.join(root, '.notth/artifacts.json')).equals(before));
   assert.equal(cli(['artifacts', '--host', 'codex']).status, 2);
 });
 
@@ -183,6 +183,6 @@ test('artifact seeds participate in atomic rollback with the rest of installatio
     if (filename.endsWith('integrations.json')) throw Error('Simulated write failure');
     fs.mkdirSync(path.dirname(filename), { recursive: true }); fs.writeFileSync(filename, data);
   } }), /Simulated/);
-  assert.ok(!fs.existsSync(path.join(root, '.harness/artifacts.json')));
-  assert.ok(!fs.existsSync(path.join(root, '.harness/lock.json')));
+  assert.ok(!fs.existsSync(path.join(root, '.notth/artifacts.json')));
+  assert.ok(!fs.existsSync(path.join(root, '.notth/lock.json')));
 });

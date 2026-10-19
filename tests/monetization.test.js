@@ -59,8 +59,8 @@ test('Minimal monetization-only install exposes five skills without Astro, Produ
   const lock = h.loadLock(root);
   assert.deepEqual(lock.adapters, []);
   assert.deepEqual(lock.capabilities, ['monetization']);
-  assert.ok(!fs.existsSync(path.join(root,'.harness/capabilities/product')));
-  assert.ok(!fs.existsSync(path.join(root,'.harness/adapters/astro')));
+  assert.ok(!fs.existsSync(path.join(root,'.notth/capabilities/product')));
+  assert.ok(!fs.existsSync(path.join(root,'.notth/adapters/astro')));
   assert.equal(cli(['check']).status,'ok');
   const catalog = cli(['skills']);
   assert.equal(catalog.skills.length, fs.readdirSync(path.join(source, 'core/skills'), { withFileTypes: true }).filter(entry => entry.isDirectory()).length + loadCapability(source, 'monetization').skills.length);
@@ -96,7 +96,7 @@ test('Monetization composes optionally with Astro, Product and UIUX without coll
 
 test('Monetization templates require explicit owner selection rather than changing the Product default', () => {
   cli(['init','--source',source,'--capabilities','monetization']);
-  assert.ok(fs.existsSync(path.join(root,'.harness/capabilities/monetization/templates/site-monetization-plan.md')));
+  assert.ok(fs.existsSync(path.join(root,'.notth/capabilities/monetization/templates/site-monetization-plan.md')));
   assert.equal(cli(['new-doc','site-monetization-plan'],1).status,'error');
   assert.ok(!fs.existsSync(path.join(root,'docs/monetization')));
   const explicit = cli(['new-doc','site-monetization-plan','--capability','monetization']);
@@ -107,7 +107,7 @@ test('Monetization templates require explicit owner selection rather than changi
 test('Monetization update removes managed skills but preserves project-owned documents', () => {
   cli(['init','--source',source,'--capabilities','monetization']);
   write('docs/monetization/site-monetization-plan.md','Human-reviewed site plan');
-  write('.harness/project.json',JSON.stringify({schema_version:1,adapters:[],capabilities:[]}));
+  write('.notth/project.json',JSON.stringify({schema_version:1,adapters:[],capabilities:[]}));
   assert.equal(cli(['check'],1).status,'error');
   cli(['update','--source',source]);
   assert.equal(cli(['check']).status,'ok');
@@ -125,7 +125,7 @@ test('Monetization malformed or tampered manifests fail closed without project m
   assert.deepEqual(snapshot(),before);
   fs.writeFileSync(target,pristine);
   cli(['init','--source',source,'--capabilities','monetization']);
-  write('.harness/capabilities/monetization/workflows/site-to-adsense.md','tampered');
+  write('.notth/capabilities/monetization/workflows/site-to-adsense.md','tampered');
   assert.equal(cli(['check'],1).status,'error');
   assert.equal(cli(['verify','--scope','capabilities'],1).status,'error');
 });

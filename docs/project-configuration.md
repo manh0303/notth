@@ -2,17 +2,17 @@
 
 | File | Nội dung | Git |
 | --- | --- | --- |
-| `.harness/start.json` | Mục tiêu/task và ID change/proposal hoặc checkpoint khi có | Commit |
-| `.harness/project.json` | Adapter/capability | Commit |
-| `.harness/agents.json` | Provider/model/reasoning theo role, execution preferences và host mappings | Commit |
-| `.harness/artifacts.json` | Input/output/storage, canonical ownership và source-write policy | Commit |
-| `.harness/integrations.json` | Dynamic host connection aliases và scope; không chứa credentials | Commit |
-| `.harness/local.md` | Nghiệp vụ, kiến trúc, nguồn và quyết định chung | Commit |
-| `.harness/environment.json` | Công cụ, lệnh, file cần có | Commit |
-| `.harness/machine.json` | Đường dẫn riêng của máy, tùy chọn | Ignore |
+| `.notth/start.json` | Mục tiêu/task và ID change/proposal hoặc checkpoint khi có | Commit |
+| `.notth/project.json` | Adapter/capability | Commit |
+| `.notth/agents.json` | Provider/model/reasoning theo role, execution preferences và host mappings | Commit |
+| `.notth/artifacts.json` | Input/output/storage, canonical ownership và source-write policy | Commit |
+| `.notth/integrations.json` | Dynamic host connection aliases và scope; không chứa credentials | Commit |
+| `.notth/local.md` | Nghiệp vụ, kiến trúc, nguồn và quyết định chung | Commit |
+| `.notth/environment.json` | Công cụ, lệnh, file cần có | Commit |
+| `.notth/machine.json` | Đường dẫn riêng của máy, tùy chọn | Ignore |
 
 Init/update tạo environment rỗng nếu chưa có và thêm `/backups/` và `/machine.json` vào cuối
-`.harness/.gitignore`. File đã được Git track vẫn được track: ignore không xóa khỏi index/history.
+`.notth/.gitignore`. File đã được Git track vẫn được track: ignore không xóa khỏi index/history.
 CLI không tạo file machine và không đọc nội dung Maven settings. Không ghi mật khẩu/token vào các
 file Harness; credentials thuộc cơ chế quản lý riêng của công cụ.
 
@@ -38,7 +38,7 @@ Cấu hình chung:
 }
 ```
 
-Máy Windows của bạn có thể đặt `.harness/machine.json`:
+Máy Windows của bạn có thể đặt `.notth/machine.json`:
 
 ```json
 {

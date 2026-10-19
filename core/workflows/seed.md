@@ -17,11 +17,11 @@ project/module decisions; do not repeat a full repository scan each session.
    do not universally require Maven or a settings flag.
 
 Keep local.md compact with evidence paths and unresolved facts. Save confirmed project-wide/module
-choices in .harness/decisions.json and change-specific choices under the active OpenSpec change.
+choices in .notth/decisions.json and change-specific choices under the active OpenSpec change.
 Keep superseded answers traceable. Source changes invalidate affected assumptions; inspect the
 changed source and any relevant scoped instructions, update only affected context, then seed --record.
 Save partial observations after each useful step; do not fabricate completion or a confidence score.
 Continue the authorized task when its relevant facts are sufficient; do not make exhaustive discovery
 a gate for a small fix. Semantic understanding and token/time savings require actual host measurement.
 
-For repeated multi-module/domain discovery, use `.harness/core/workflows/project-knowledge.md` to maintain optional source-linked context at existing canonical docs destinations; no mandatory knowledge tree or full-repository interview.
+For repeated multi-module/domain discovery, use `.notth/core/workflows/project-knowledge.md` to maintain optional source-linked context at existing canonical docs destinations; no mandatory knowledge tree or full-repository interview.

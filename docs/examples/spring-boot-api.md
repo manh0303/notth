@@ -17,7 +17,7 @@ aih skills
 
 Trong service không triển khai trên Kubernetes thì **bỏ `kubernetes`**; không dùng `aih detect` thay cho việc xác nhận stack. `aih init` chỉ chép Harness, không scaffold Spring Boot.
 
-Input: source revision, business owner, endpoint contract đang có, auth/tenant rules, schema migration policy, test/build tool, environment/approver. Ghi fact và unknown trong `.harness/local.md` hoặc change riêng, không thay Core managed files.
+Input: source revision, business owner, endpoint contract đang có, auth/tenant rules, schema migration policy, test/build tool, environment/approver. Ghi fact và unknown trong `.notth/local.md` hoặc change riêng, không thay Core managed files.
 
 ## 2. BA/PO → reviewed requirements
 

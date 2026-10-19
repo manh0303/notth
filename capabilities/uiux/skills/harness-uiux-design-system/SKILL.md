@@ -13,7 +13,7 @@ description: Define semantic design tokens and reusable components before genera
 0. Use `harness-uiux-design-direction` when the visual direction is open. Locate the canonical
    DESIGN.md or existing brand/token master first; inspect its revision and actual components.
    Do not create a parallel master. For a new system only, use the outline in
-   `.harness/capabilities/uiux/templates/design-system.md` as project-owned data; the installer
+   `.notth/capabilities/uiux/templates/design-system.md` as project-owned data; the installer
    never creates or overwrites the project's DESIGN.md. Small fixes need only an affected-section note.
 1. Inspect existing components and tokens before creating new ones.
 2. Define foundations: type scale, semantic colors, spacing, radius, elevation and motion.

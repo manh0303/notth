@@ -14,7 +14,7 @@ A Confluence page, approved brief, BRD/PRD requirement or business rule changed.
 ## Output
 Impact in the active OpenSpec design or existing canonical change-impact document (do not create a parallel log), mapping `old source version → new version → affected IDs → proposed change → owner/status` and explicit review checkpoints. No automatic external updates.
 
-Apply `.harness/core/workflows/artifact-contract.md` for canonical source revisions and storage/write
+Apply `.notth/core/workflows/artifact-contract.md` for canonical source revisions and storage/write
 policies. Record configured output impact in artifact-impact.json; complete docs/spec/UI updates or
 report blocking dependencies with evidence before review. Do not treat structural readiness as approval.
 

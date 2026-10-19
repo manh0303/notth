@@ -24,7 +24,7 @@ description: Maintain bidirectional links from document sources through BRD/PRD/
 - Never rewrite approved artifacts automatically based on Confluence updates.
 
 ## Template
-Read `.harness/capabilities/product/templates/traceability.md`; `aih new-doc traceability` creates only a missing
+Read `.notth/capabilities/product/templates/traceability.md`; `aih new-doc traceability` creates only a missing
 draft. Apply the shared document contract for authority, preservation and review.
 
 ## Example
@@ -34,7 +34,7 @@ Synthetic illustration: SRC-001 → FR-001 → US-001 → AC-US-001-01 → ADR-0
 - Stable IDs, source versions and downstream gaps are maintained.
 
 ## Handoff
-Read the shared installed contract `.harness/capabilities/product/common/document-contract.md`; pass only affected scope and relevant perspectives.
+Read the shared installed contract `.notth/capabilities/product/common/document-contract.md`; pass only affected scope and relevant perspectives.
 
 ## Continuous changes
 Extend the same matrix through scoped code/contracts and tests/raw evidence with their revisions.

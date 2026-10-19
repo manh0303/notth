@@ -1,12 +1,12 @@
-# Notth
+# NOTTH
 
-原名 **AI Harness**。[迁移到 Notth](../notth-migration.md)。npm 命令需要已发布的包；遇到 E404 请使用[源码/离线安装](../getting-started.md#cài-từ-source-khi-registry-chưa-có-package)。
+npm 命令需要已发布的包；遇到 E404 请使用[源码/离线安装](../getting-started.md#cài-từ-source-khi-registry-chưa-có-package)。
 
 [English](../../README.md) · [Tiếng Việt](README.vi.md) · **简体中文** · [Español](README.es.md)
 
 可复用的软件开发 Agent workflows: **Requirements → Design → Code → Test → Review.**
 
-把想法、已有 docs 或 change request 交给 AI coding tool。Harness 帮助 AI 检查项目、澄清待定决策、实现已确认的 scope，并维护相关 spec/docs。只加载任务需要的 roles 和 skills。
+把想法、已有 docs 或 change request 交给 AI coding tool。NOTTH 帮助 AI 检查项目、澄清待定决策、实现已确认的 scope，并维护相关 spec/docs。只加载任务需要的 roles 和 skills。
 
 Core workflows 可用于任何项目。Stack support 是可选的，不会自动选择 infrastructure 或 architecture。
 

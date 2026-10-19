@@ -1,12 +1,12 @@
-# Notth
+# NOTTH
 
-Antes **AI Harness**. [Migración a Notth](../notth-migration.md). Los comandos npm requieren un paquete publicado; ante E404 usa [código fuente/offline](../getting-started.md#cài-từ-source-khi-registry-chưa-có-package).
+Los comandos npm requieren un paquete publicado; ante E404 usa [código fuente/offline](../getting-started.md#cài-từ-source-khi-registry-chưa-có-package).
 
 [English](../../README.md) · [Tiếng Việt](README.vi.md) · [简体中文](README.zh-CN.md) · **Español**
 
 Agent workflows reutilizables para desarrollar software: **Requirements → Design → Code → Test → Review.**
 
-Entrega una idea, docs existentes o un change request a tu AI coding tool. Harness ayuda a inspeccionar el proyecto, aclarar decisiones, implementar el scope aceptado y mantener los spec/docs afectados. Carga solo los roles y skills necesarios.
+Entrega una idea, docs existentes o un change request a tu AI coding tool. NOTTH ayuda a inspeccionar el proyecto, aclarar decisiones, implementar el scope aceptado y mantener los spec/docs afectados. Carga solo los roles y skills necesarios.
 
 Los Core workflows sirven para cualquier proyecto. El stack support es opcional y no elige infrastructure ni architecture.
 
