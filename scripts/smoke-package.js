@@ -253,6 +253,9 @@ try {
   assert.match(fs.readFileSync(path.join(productTarget, draft.path), 'utf8'), /UNVERIFIED/);
   assert.ok(names.includes('scripts/compare-tasks.js'));
   assert.ok(names.includes('cli/checkpoint.js'));
+  assert.ok(names.includes('cli/task-context.js'));
+  assert.ok(names.includes('core/workflows/session-continuity.md'));
+  assert.ok(names.includes('integrations/beads/README.md'));
   assert.ok(names.includes('capabilities/analysis/capability.json'));
   assert.ok(names.includes('docs/i18n/README.zh-CN.md'));
   assert.ok(!names.some(n => ['harness-java-spring-kafka-outbox','harness-java-spring-database-migration','harness-astro-cloudflare','harness-astro-microfrontend'].some(id => n.includes('/skills/'+id+'/'))));
@@ -298,6 +301,18 @@ try {
   const checkpoint=JSON.parse(run(['checkpoint','package-smoke','--report','handoff.json']));
   assert.ok(checkpoint.checkpoint_sha256);
   assert.equal(JSON.parse(run(['resume','package-smoke'])).revalidate_required,false);
+  const contextSource = 'openspec/changes/package-smoke/proposal.md';
+  const contextFixture = {schema_version:1,change_id:'package-smoke',revision:0,
+    intent:{problem:'Fresh sessions lose task intent',outcome:'Recover the source-linked task'},
+    sources:[{id:'request',path:contextSource,sha256:digest(fs.readFileSync(path.join(target,contextSource))),locator:'Why'}],
+    links:[{id:'PP-1',kind:'painpoint',source_refs:['request'],depends_on:[]}],task_backend:{kind:'local'}};
+  fs.writeFileSync(path.join(target,'context-report.json'),JSON.stringify(contextFixture));
+  const contextSaved=JSON.parse(run(['context','--change','package-smoke','--report','context-report.json']));
+  assert.equal(contextSaved.revision,1);
+  assert.equal(JSON.parse(run(['context','--change','package-smoke'])).intent.problem,contextFixture.intent.problem);
+  assert.equal(JSON.parse(run(['resume','package-smoke'])).task_context.revision,1);
+  assert.ok(fs.existsSync(path.join(target,'.harness/templates/task-context.json')));
+
   const profileTarget=path.join(temp,'profile consumer');fs.mkdirSync(profileTarget);
   const profileRun=args=>process.platform==='win32'
     ? command(process.env.ComSpec||'cmd.exe',['/d','/s','/c',`""${bin}" ${args.join(' ')}"`],profileTarget,{windowsVerbatimArguments:true})

@@ -8,6 +8,10 @@ The current user request, AGENTS.md, project-owned .harness/ configuration and a
 The native Kiro wrapper exposes this skill as /harness-start. Other hosts can load this canonical skill.
 
 ## Procedure
+Automatically apply `.harness/core/workflows/session-continuity.md` for every task/resume. Pin the
+change ID from the current request; read `aih context --change <id>` when applicable. Saved start.json
+is a hint shared across sessions, never permission to switch this session to another task. Maintain
+source-linked intent and checkpoint progress without asking the user to manage memory.
 First apply `.harness/core/workflows/task-experience.md`: select depth by impact. For a small task, do only task-relevant setup below; do not turn all steps into a mandatory interview.
 1. Read AGENTS.md and the installed project-setup workflow. Identify the installed CLI invocation
    already used by the user (npm/pip aih, npx, or offline node/aih.cmd); reuse it without downloading

@@ -29,6 +29,8 @@ In your first AI session, invoke **harness-start** if the host exposes it, or se
 
 The agent inspects the project, asks only missing questions, saves context and continues your task.
 Review its changes and test results. In later sessions, describe the next task directly or ask to resume saved work.
+The agent maintains task context and checks linked sources as part of the workflow;
+[session continuity and limits](docs/session-continuity.md).
 No terminal interview, model configuration or manual skill sequence is required. Kiro exposes
 `/harness-start`; native discovery varies by client. [Host guides](docs/tool-setup/README.md).
 `npx` does not create a global command; use `npx --yes @manhd_d/notth check` to check integrity.

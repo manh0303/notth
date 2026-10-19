@@ -1,3 +1,4 @@
+import { taskContextReport, saveTaskContext } from './task-context.js';
 import { importSource, sourceReport, checkSource } from './sources.js';
 import { statusReport, changesReport } from './status.js';
 import { seed } from './knowledge.js';
@@ -49,6 +50,7 @@ Usage: aih <command> [options]
   setup                Suggest questions; --apply scaffolds missing user config only
   decisions            Read shared decisions; --scope module:<name> narrows context
   source-check <id>   Record host freshness --report with raw evidence --input
+  context              Read task context; --change selects scope; --report saves with --expected
   sources              List preserved sources and verify their content hashes
   import-source <id>   Preserve --input; attach host conversion with --normalized <md>
   artifacts            Show input/output/storage and connection declarations (read-only)
@@ -88,8 +90,8 @@ Options:
                       Choose one tool per command
   --scope <type>      verify/eval: adapters (default), capabilities, core, all
   --adaptive          verify: discover a read-only project verification plan
-  --expected <sha>    checkpoint: observed prior checkpoint digest for replacement
-  --report <file>     checkpoint: save handoff; eval: score; verify: validate evidence; new-doc techspec: link evidence
+  --expected <sha>    context/checkpoint: observed prior checkpoint digest for replacement
+  --report <file>     context/checkpoint: save handoff; eval: score; verify: validate evidence; new-doc techspec: link evidence
   --adapters <a,b>     init/resolve: java-spring,react-nextjs,react-native,ai-python,kubernetes,astro
   --capabilities <a,b> init/resolve: uiux,product,architecture,delivery,devops,monetization
   --source <directory> init/update/list/detect/resolve: trusted alternate bundle directory
@@ -159,12 +161,17 @@ export function main(argv = process.argv.slice(2)) {
     if (args.values.help || !argv.length) { console.log(HELP); return 0; }
     if (args.values.version) { console.log(readJson(path.join(SOURCE, 'package.json')).version); return 0; }
     const [command, name, ...extra] = args.positionals;
-    if (!['source-check', 'sources', 'import-source', 'status', 'changes', 'workflow', 'decisions', 'seed', 'sync-integrations', 'change-sidecars', 'start', 'backup', 'restore', 'init', 'update', 'check', 'doctor', 'new-change', 'new-doc', 'list', 'detect', 'resolve', 'verify', 'eval', 'skills', 'skill', 'setup', 'ready', 'artifacts', 'agents', 'checkpoint', 'resume'].includes(command)) throw new Error(`Unknown command: ${command}`);
+    if (!['context', 'source-check', 'sources', 'import-source', 'status', 'changes', 'workflow', 'decisions', 'seed', 'sync-integrations', 'change-sidecars', 'start', 'backup', 'restore', 'init', 'update', 'check', 'doctor', 'new-change', 'new-doc', 'list', 'detect', 'resolve', 'verify', 'eval', 'skills', 'skill', 'setup', 'ready', 'artifacts', 'agents', 'checkpoint', 'resume'].includes(command)) throw new Error(`Unknown command: ${command}`);
     if (extra.length || (!['source-check', 'import-source', 'workflow', 'change-sidecars', 'new-change', 'new-doc', 'skill', 'ready', 'checkpoint', 'resume'].includes(command) && name !== undefined) || (['source-check', 'import-source', 'workflow', 'change-sidecars', 'new-change', 'new-doc', 'skill', 'ready', 'checkpoint', 'resume'].includes(command) && name === undefined)) throw new Error('Unexpected or missing positional argument; run aih --help');
     const allowed = new Set(['target', ...(['init', 'update'].includes(command) ? ['source', 'dry-run', 'allow-major'] : []), ...(['init', 'resolve'].includes(command) ? ['adapters', 'capabilities'] : []), ...(command === 'init' ? ['detect'] : []), ...(['list', 'detect', 'resolve'].includes(command) ? ['source'] : []), ...(command === 'eval' ? ['report'] : []), ...(command === 'ready' ? ['stage'] : []), ...(['verify', 'eval'].includes(command) ? ['scope'] : [])]);
     if (['init','update','start','status','changes'].includes(command)) allowed.add('format');
     if (args.values.format !== undefined && !['human','json'].includes(args.values.format)) throw new Error('--format must be human or json');
     if (command === 'source-check') { for (const key of ['report', 'input', 'dry-run']) allowed.add(key); if (!args.values.report || !args.values.input) throw new Error('source-check requires --report and --input'); }
+    if (command === 'context') {
+      for (const key of ['change', 'report', 'expected']) allowed.add(key);
+      if (args.values.report && !args.values.change) throw new Error('context --report requires --change');
+      if (args.values.expected !== undefined && !args.values.report) throw new Error('context --expected requires --report');
+    }
     if (command === 'import-source') { for (const key of ['input', 'normalized', 'metadata', 'dry-run']) allowed.add(key); if (!args.values.input) throw new Error('import-source requires --input'); }
     if (command === 'workflow' && name !== 'validate') throw new Error('Usage: aih workflow validate');
     if (command === 'ready') allowed.add('workflow');
@@ -203,6 +210,7 @@ export function main(argv = process.argv.slice(2)) {
     const print = result => console.log(values.format === 'human' ? renderResult(command, result, values) : JSON.stringify(result, null, 2));
     let result;
     if (command === 'source-check') result = checkSource(root, name, { report: values.report, input: values.input, dryRun: values['dry-run'] });
+    else if (command === 'context') result = values.report ? saveTaskContext(root, values.change, values.report, values.expected) : taskContextReport(root, values.change);
     else if (command === 'sources') result = sourceReport(root);
     else if (command === 'import-source') result = importSource(root, name, { input: values.input, normalized: values.normalized, metadataFile: values.metadata, dryRun: values['dry-run'] });
     else if (command === 'status') result = statusReport(root);

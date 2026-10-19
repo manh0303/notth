@@ -106,3 +106,6 @@ interface, distinguish real/mocked dependencies, and include user-facing outcome
 BLOCKED/NOT_RUN reasons before completion. API/unit/build success cannot replace required browser/device flows.
 
 Use [task experience](task-experience.md) for the canonical Quick/Standard/Full decision table, minimum context, scoped approvals and concise next-action handoff.
+
+Apply [automatic session continuity](session-continuity.md) on task entry, source changes and handoff.
+Keep intent/trace pointers in the active change and actual progress in existing checkpoints/backend.

@@ -147,6 +147,19 @@
         "Canonical document/ADR facts and proposals reconciled; render/device/export gaps explicitly NOT_RUN or BLOCKED"
       ],
       "execution": "manual"
+    },
+    {
+      "id": "session-continuity",
+      "title": "Review source-linked task intent and handoff freshness",
+      "command": [],
+      "when_file": null,
+      "evidence": [
+        "Pinned task scope matches the current request, not another session saved intake",
+        "Canonical source revision/locator, affected links and semantic reconciliation",
+        "Original painpoint to acceptance/evidence links and meaningful-step checkpoint",
+        "Actual Beads owner/sync receipts if selected; offline declarations are not live verification"
+      ],
+      "execution": "manual"
     }
   ]
 }
