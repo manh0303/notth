@@ -251,3 +251,8 @@ Project-owned docs/sources is outside managed payload and config backup. Indepen
 records content-addressed originals and conversions; artifacts.json remains ownership/routing truth.
 Core source-intake routes host conversion and source review. No converter, network, shell or model
 runtime is added. See [Document sources](document-sources.md).
+
+External provenance extends source manifests to schema 2 on explicit metadata import. Captures bind
+canonical resource/scope, observed revision, time and completeness to exact snapshot bytes; immutable
+checks bind raw host evidence to a capture. source-provenance.js validates envelopes and derives
+time-qualified freshness, not live access. Schema-1 local stores remain readable without rewrite.

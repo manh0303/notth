@@ -444,6 +444,18 @@
         "Distinguishes complete source-folder backup from config-only backup"
       ],
       "critical": true
+    },
+    {
+      "id": "external-source-freshness",
+      "prompt": "The user supplies a Jira link through MCP. Description is readable but comments are paginated and an attachment is denied. A later session has an old snapshot and MCP access now fails.",
+      "criteria": [
+        "Fetches only authorized scope and records missing pages/attachment as partial rather than complete",
+        "Binds exact saved response to canonical source/revision/time in metadata",
+        "Records real unavailable evidence instead of claiming current data from matching local hashes",
+        "Preserves canonical ownership and snapshots without credentials",
+        "Does not treat retrieved snippets or converted Markdown as approved requirements; reports offline limits"
+      ],
+      "critical": true
     }
   ]
 }

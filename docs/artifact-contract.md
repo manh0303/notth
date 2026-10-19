@@ -197,3 +197,8 @@ schemas remain 1. Review update --dry-run, then update/check and application tes
 [Documentation workflows](documentation-workflows.md) · [MCP contract](../integrations/mcp/README.md).
 
 [Persistent input documents: originals, Markdown and recovery](document-sources.md).
+
+External input ownership/canonical declarations remain here. The source store records derived local
+snapshots using the same permalink/resource identity and observed revision; connection aliases are
+labels, not access proof. Host intake reconciles them with artifacts/integrations and does not overwrite
+canonical sources. See the source guide for capture completeness and evidence-backed freshness.

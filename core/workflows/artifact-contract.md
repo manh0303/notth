@@ -60,3 +60,7 @@ blocked. Do not mark a proposed source patch as an actual publication.
 For local attachments and authorized snapshots, apply `source-intake.md`. The project-owned
 source manifest indexes preserved originals/conversions; artifacts.json remains the canonical
 ownership/routing contract. Register only actual saved inputs, never treat conversion as approval.
+
+For URL/MCP/API sources, source-intake records an observed snapshot envelope and scoped completeness.
+Compare the saved capture against actual host observations before claiming current requirements;
+unchanged-at-check is time-qualified and never overrides partial/missing content or approval.

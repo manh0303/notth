@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased — External source provenance
+
+- Add a shared file/URL/MCP/connector/API metadata envelope, exact snapshot binding, revision/time, scope and completeness.
+- Record evidence-bound source-check observations; distinguish changed, unchanged-at-check, unavailable and unknown without claiming live freshness.
+- Opt source manifests into schema 2 only on metadata import; preserve schema-1 reads, file/history ownership and config-only backup.
+- Extend Core intake, templates, tests and recovery docs; no provider SDK, fetcher, background sync or RAG dependency.
+
 ## Unreleased — Persistent document sources
 
 - Preserve original inputs and versioned Markdown in project-owned docs/sources with SHA-256 provenance.
