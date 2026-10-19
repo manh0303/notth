@@ -26,3 +26,5 @@ No CRM, provider, IDE, database or architecture is implied by this workflow.
 Review whether a new user/agent can locate the authoritative source, selected skill and current task
 without loading the whole repository. Record unknown/missing access honestly; token savings and
 understanding quality need actual host measurement.
+
+For selective verified experience capture/reuse, follow `.notth/core/workflows/experience-learning.md`.

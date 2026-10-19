@@ -1,0 +1,5 @@
+- [x] Add project-local verified experience, lifecycle/history and freshness/applicability checks.
+- [x] Wire procedural retrieval and selective host workflow; preserve legacy data.
+- [x] Extend A–G comparison/protocol and deterministic concurrency fixture, with no fabricated live results.
+- [x] Add experience/comparison tests and package checks; update docs/migration/CHANGELOG.
+- [x] Run final gates, record actual limitations and prepare stacked owner-review PR.

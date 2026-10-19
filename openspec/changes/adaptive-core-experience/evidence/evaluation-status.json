@@ -1,0 +1,28 @@
+{
+  "live_status": "NOT_RUN",
+  "reason": "No connected independent host client discovered in PATH; Work Mode source implementation is not a controlled fresh-session trial. Existing driver is Read-only hypothetical.",
+  "host_clients": {
+    "codex": false,
+    "claude": false,
+    "kiro": false
+  },
+  "template_slots": 42,
+  "observed_live_runs": 0,
+  "observed_task_success_rates": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+  ],
+  "scope": "Template/report validation only; no model calls, live scores or token estimates"
+}

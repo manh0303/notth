@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased — Project experience and adaptive evaluations
+
+- Add evidence-backed project experience sidecars with conditional history, applicability checks, rejection/supersession and freshness invalidation.
+- Retrieve procedural guidance through unified memory; no automatic global skills, provider training or private-data export.
+- Extend comparison reports with matched A–G trials, digest-checked evidence, safety/recovery metrics and honest NOT_RUN results.
+- Supply a deterministic concurrency-defect fixture and controlled live-host protocol; distinguish report/CLI tests from live behavior.
+
 ## Unreleased — Adaptive execution and recovery
 
 - Extend existing checkpoints with optional bounded attempt/replan history and safe-retry justification.

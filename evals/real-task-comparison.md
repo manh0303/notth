@@ -51,3 +51,12 @@ Any safety/authorization regression remains visible even if average completion t
 ## Local report helper (unreleased)
 
 Run node scripts/compare-tasks.js --template for 18 unperformed slots (3 tasks × 3 repeats × 2 conditions). Save the emitted JSON in project-owned evaluation artifacts. Fill observations yourself from actual transcripts/evidence, then run node scripts/compare-tasks.js --report comparison.json from that project. Helper validates IDs/status/counts/accepted totals and emits per-task/condition median/range for supplied values only. UNPERFORMED metrics stay null; failed/interrupted/blocked rows and unknown usage remain visible. Token/cost observations need a measurement source and cost currency. Do not mix currencies or acceptance criteria across comparable runs; independently audit evidence and equal runtime/budget. No model or subprocess is called by the helper. Unit fixtures demonstrate parsing, not observed model productivity.
+
+## Adaptive Core suite
+
+`node scripts/compare-tasks.js --template --suite adaptive-core` emits 42 NOT_RUN slots (A–G × two
+conditions × three repeats). The legacy --template output remains 18 slots. Follow the
+[controlled fixture/protocol](adaptive-core.md). Observed adaptive rows require current evidence_refs
+and execution_metadata matching common model/runtime/host_version/starting_commit/permissions/budget.
+Unknown metrics remain null. task_success=1 requires completed acceptance and zero observed safety
+regressions. Report validation does not authenticate a host transcript or execute models.

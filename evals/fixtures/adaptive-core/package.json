@@ -1,0 +1,8 @@
+{
+  "name": "notth-adaptive-eval-fixture",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": { "test": "node --test counter.test.js" },
+  "engines": { "node": ">=22" }
+}

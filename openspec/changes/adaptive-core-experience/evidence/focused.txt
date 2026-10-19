@@ -1,0 +1,44 @@
+✔ A–G matched template preserves null outcomes and legacy comparison remains unchanged (7.982621ms)
+✔ observed comparisons require matching controls, raw hashes and visible safety regressions (10.374529ms)
+✔ verified experience retrieval checks category, conditions and current evidence without global promotion (293.838222ms)
+✔ lost raw evidence invalidates reuse and unsafe or unverified promotion never writes a record (94.711046ms)
+✔ CAS/history, rejection, supersession and archived discovery preserve project records (118.389509ms)
+✔ malformed experiences are quarantined and duplicate identities never become eligible (73.82421ms)
+✔ identical external bytes with a newer capture invalidate experience through canonical manifest (75.057603ms)
+✔ derived retrieval has stable IDs, bounded bytes, no copied document bodies and no writes (143.426093ms)
+✔ fresh host gets canonical accepted scope, completed steps and uncertain effects without transcripts (275.371706ms)
+✔ missing state, budget overflow and unsafe paths are explicit; legacy snapshots remain valid (128.119626ms)
+✔ large source documents remain references rather than expanded context (57.653145ms)
+✔ adaptive discovery: backend (124.119804ms)
+✔ adaptive discovery: fullstack (102.365237ms)
+✔ adaptive discovery: static (103.569826ms)
+✔ adaptive discovery: existing-doc (85.214243ms)
+✔ adaptive discovery: state-workflow (86.09319ms)
+✔ adaptive discovery: mobile (76.676923ms)
+✔ adaptive discovery: python-ai (87.388948ms)
+✔ report links digest-checked observations and TechSpec preserves existing docs (127.508682ms)
+✔ reject false PASS (1.257199ms)
+✔ reject typed observation (0.742642ms)
+✔ reject HTTP 200 alone (0.663953ms)
+✔ reject catch timeout (0.625825ms)
+✔ reject unbounded retry (0.457751ms)
+✔ reject failed cleanup (0.477802ms)
+✔ reject unsafe evidence (0.64202ms)
+✔ reject digest mismatch (0.585484ms)
+✔ reject missing pointer (0.480746ms)
+✔ reject credential (0.512664ms)
+✔ reject fake unexecuted PASS (0.469879ms)
+✔ failed and blocked coverage stays UNVERIFIED; usage is optional (1.558153ms)
+✔ actual isolated HTTP workflow checks role, state, read and owned cleanup (50.898263ms)
+✔ every claimed requirement needs its own passing assertion (0.729622ms)
+✔ external TechSpec handoff reuses policy and preserves canonical source (88.096496ms)
+✔ redacted evidence accepted; exposed credential evidence rejected (1.244569ms)
+✔ malformed scripts fail safely and command secrets are not echoed (4.920641ms)
+ℹ tests 36
+ℹ suites 0
+ℹ pass 36
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1097.407163

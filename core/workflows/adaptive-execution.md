@@ -40,3 +40,5 @@ legacy evidence returns a blocked plan with retained progress; saving completed 
 valid evidence. Historical failed events may remain stale; new observations must be current. Preserve
 completed valid work; invalidate and rerun only affected verification. All receipts remain producer-
 declared: the host/reviewer must inspect actual tools, evidence authenticity and semantic coverage.
+
+For selective verified experience capture/reuse, follow `.notth/core/workflows/experience-learning.md`.

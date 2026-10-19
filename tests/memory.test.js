@@ -59,3 +59,10 @@ test('missing state, budget overflow and unsafe paths are explicit; legacy snaps
   const before = hash(base + 'checkpoint.json'); install(root, SOURCE, { command: 'update', host: 'claude-code' });
   assert.equal(hash(base + 'checkpoint.json'), before); assert.equal(check(root).status, 'ok');
 });
+
+test('large source documents remain references rather than expanded context', () => {
+  write('large.md', 'source '.repeat(200000));
+  const source = memoryReference(root, 'large.md');
+  assert.equal(source.freshness, 'current'); assert.equal(source.sha256, hash('large.md'));
+  assert.ok(JSON.stringify(source).length < 512);
+});

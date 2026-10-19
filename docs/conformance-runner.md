@@ -62,3 +62,7 @@ do judge chấm và cần human audit. Assertion false khiến report fail kể 
 
 Codex, Cursor, Copilot, Gemini CLI và Kiro có status NOT_RUN, chưa có driver được kiểm chứng.
 Temporal adapter/LLM gateway không nằm trong bản này.
+
+Adaptive execution/continuity trials require actual edit/test/interruption capabilities; the existing
+Read-only hypothetical driver always marks those trials NOT_RUN. Follow the separate
+[controlled A–G protocol](../evals/adaptive-core.md), with matched baselines and actual raw evidence.

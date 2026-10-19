@@ -375,3 +375,12 @@ Older readers cannot enforce adaptive budgets. New resume returns BLOCKED with r
 for stale/missing evidence rather than a bare error. New checkpoint writes enforce append-only history,
 fixed budgets and scoped verification. Reviewed update installs the optional template/workflow,
 preserves project files; rollback restores matching CLI/snapshot. No release/version bump.
+
+## Project experience and adaptive evaluation (unreleased)
+
+New project-owned experience sidecar uses independent schema 1 under existing changes. No eager
+migration, project/lock/checkpoint version change or distribution bump. Existing projects without
+records remain valid. Reviewed update adds optional template/workflow; npm/pip share cli/*.js and
+evals allowlists. Config-only backup still omits project task data. Rollback snapshot/CLI together and
+retain complete project state/history. Older CLIs do not read experiences or the adaptive comparison
+suite; legacy three-task comparison stays compatible. Live results remain NOT_RUN until executed.

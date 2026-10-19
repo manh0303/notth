@@ -255,6 +255,9 @@ try {
   assert.ok(names.includes('cli/checkpoint.js'));
   assert.ok(names.includes('cli/task-context.js'));
   assert.ok(names.includes('cli/adaptive.js'));
+  assert.ok(names.includes('cli/experience.js'));
+  assert.ok(names.includes('evals/adaptive-core.md'));
+  assert.ok(names.includes('evals/fixtures/adaptive-core/counter.js'));
   assert.ok(names.includes('cli/memory-reference.js'));
   assert.ok(names.includes('cli/namespace-migration.js'));
   assert.ok(names.includes('core/workflows/session-continuity.md'));
@@ -318,6 +321,9 @@ try {
   assert.equal(JSON.parse(run(['handoff','package-smoke','--budget','65536'])).contract,'notth-project-handoff-v1');
   assert.ok(fs.existsSync(path.join(target,'.notth/templates/task-context.json')));
   assert.ok(fs.existsSync(path.join(target,'.notth/templates/adaptive-state.json')));
+  assert.ok(fs.existsSync(path.join(target,'.notth/templates/experience.json')));
+  assert.equal(JSON.parse(run(['experiences'])).records.length,0);
+  assert.equal(JSON.parse(run(['experience','package-smoke'])).configured,false);
   assert.match(JSON.parse(run(['resume','package-smoke'])).verification_revision,/^sha256:[a-f0-9]{64}$/);
   const namespaceTarget=path.join(temp,'legacy namespace consumer');fs.mkdirSync(namespaceTarget);
   const legacyNamespace=readJson(path.join(SOURCE,'tests/fixtures/npm-v0.2.0.json'));

@@ -86,3 +86,5 @@ authorized synchronization. Do not import provider transcripts or assume private
 
 For bounded multi-step work apply `.notth/core/workflows/adaptive-execution.md`; keep optional
 adaptive events inside checkpoint.json. `resume` exposes counters and invalidated verification.
+
+For selective verified experience capture/reuse, follow `.notth/core/workflows/experience-learning.md`.

@@ -1,0 +1,29 @@
+✔ isolated counters and sequential increments (0.784143ms)
+✖ concurrent increments preserve all accepted updates (1.715968ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 1
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 87.261538
+
+✖ failing tests:
+
+test at evals/fixtures/adaptive-core/counter.test.js:9:1
+✖ concurrent increments preserve all accepted updates (1.715968ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  1 !== 100
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/c7055b054bc9/notth/evals/fixtures/adaptive-core/counter.test.js:12:10)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 100,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

@@ -33,3 +33,6 @@ Start with `.notth/core/workflows/continuous-development.md`: verify expected be
 current approved requirements and actual code revision, not only the old handoff. Preserve a compact
 bug note, regression evidence and affected artifacts with unchanged reasons; avoid unrelated BRD/PRD/ADR.
 Return newly discovered out-of-scope defects as proposed backlog items, not automatic extra work.
+
+For recurring defects, consult evidence-backed project experiences through
+`.notth/core/workflows/experience-learning.md`; inspect applicability and verify the new fix independently.

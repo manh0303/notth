@@ -280,3 +280,11 @@ Both are read-only; no tool/remote execution or memory database. See [Adaptive C
 
 Checkpoint reports may include optional `adaptive` state. `resume <id>` derives attempt/replan
 counters, budget exhaustion and current verification. See [adaptive execution](adaptive-core.md).
+
+## Project experiences
+
+`aih experience <change-id> [--report <input> --expected <digest>]` reads or conditionally saves an
+evidence-backed record. Initial writes omit --expected and use revision 0.
+`aih experiences [--category <id>] [--tags <tag,tag>]` checks candidate applicability/freshness.
+Memory includes procedural references; actual applicability and new-task verification stay host-owned.
+See [Adaptive Core](adaptive-core.md). No global promotion or commands are executed.

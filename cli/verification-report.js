@@ -24,7 +24,7 @@ export function redacted(value) {
     redacted(v);
   }
 }
-function evidence(root, refs) {
+export function reviewEvidence(root, refs) {
   assert(Array.isArray(refs), 'Invalid evidence list');
   return refs.map(ref => {
     assert(isObject(ref) && text(ref.path) && typeof ref.sha256 === 'string' && /^[a-f0-9]{64}$/.test(ref.sha256), 'Invalid evidence reference');
@@ -105,7 +105,7 @@ export function reviewVerification(root, reportPath) {
     assert(typeof row.mutates === 'boolean' && isObject(row.cleanup) && text(row.cleanup.strategy) && statuses.includes(row.cleanup.status), 'Scenario needs mutation/cleanup classification');
     if (row.error !== undefined) assert(isObject(row.error) && errorKinds.includes(row.error.kind) && text(row.error.message), 'Invalid error classification');
     assert(row.expected_error === undefined || ['http', 'application'].includes(row.expected_error), 'Expected errors must name HTTP/application semantics, never arbitrary exceptions');
-    const refs = evidence(root, row.evidence);
+    const refs = reviewEvidence(root, row.evidence);
     const assertionIds = new Set();
     assert(Array.isArray(row.assertions), 'Invalid assertions');
     const assertions = row.assertions.map(a => {

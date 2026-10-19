@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "change_id": "replace-with-change-id",
+  "revision": 0,
+  "status": "candidate",
+  "category": "replace-with-problem-category",
+  "problem": "Observed problem",
+  "context": "Relevant project context",
+  "hypothesis": "Initial evidence-based hypothesis",
+  "approach": "Actual approach taken",
+  "failures": [
+    "Observed failed approach and evidence location"
+  ],
+  "solution": "Verified solution; retain candidate until actual verification",
+  "conditions": [
+    {
+      "path": "docs/architecture.md",
+      "sha256": "replace-with-current-sha256"
+    }
+  ],
+  "required_tags": [],
+  "applies_when": "Explicit architectural and requirement conditions",
+  "limitations": [
+    "Known limits and exclusions"
+  ],
+  "baseline": [
+    {
+      "path": "docs/requirements.md",
+      "sha256": "replace-with-tested-sha256"
+    }
+  ],
+  "source_revision": "replace-with-resume-verification-revision",
+  "verification": {
+    "path": "verification/report.json",
+    "sha256": "replace-with-report-sha256"
+  },
+  "created_at": "replace-with-actual-timezone-timestamp",
+  "updated_at": "replace-with-actual-timezone-timestamp"
+}
