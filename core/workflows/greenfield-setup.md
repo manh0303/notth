@@ -19,7 +19,7 @@ also needs the relevant existing-module seed and scoped conventions.
    Defer irrelevant CI/MCP/IDE details rather than blocking useful requirements or implementation.
 
 Ask at most 1–3 questions per turn with options, trade-offs and an evidence-based recommendation.
-Save each established answer incrementally in existing configs and .harness/decisions.json; reuse
+Save each established answer incrementally in existing configs and .notth/decisions.json; reuse
 confirmed answers while their scope/sources apply. Mark unknowns/proposals explicitly, preserve
 superseded decisions, and reopen only material affected choices when new evidence warrants it.
 Before seed --record, create/link actual inspected project sources (such as accepted requirements);

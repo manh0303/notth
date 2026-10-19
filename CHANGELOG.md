@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased — NOTTH project namespace
+
+- Install project rules, workflows and configuration under `.notth/`; update canonical instructions, host bridges, CLI paths and translated READMEs.
+- Automatically migrate validated `.harness/` installations on update with a no-write preview, guarded rollback, original-byte backup and preserved user files.
+- Export `notth-user-config` archives and accept validated legacy archive paths/kinds on restore; preserve evidence for host reconciliation.
+- Remove optional external task-backend detection, mapping behavior and bundled Beads guide; retain source-linked context and local checkpoints.
+- Keep historical fixtures, technical skill IDs and ownership markers compatible; distribution version remains release-owned.
+
 ## Unreleased — External source provenance
 
 - Add a shared file/URL/MCP/connector/API metadata envelope, exact snapshot binding, revision/time, scope and completeness.

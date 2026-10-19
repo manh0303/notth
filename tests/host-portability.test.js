@@ -25,17 +25,17 @@ for (const host of ['kiro','claude-code','codex','cursor','copilot','gemini-cli'
   for(const p of ['AGENTS.md','CLAUDE.md','GEMINI.md','.github/copilot-instructions.md']) assert.ok(read(root,p).startsWith('# Team instructions\r\nPreserve me.\r\n'));
   if(host==='claude-code') assert.match(read(root,'.claude/skills/harness-start/SKILL.md'),/\.agents\/skills\/harness-start\/SKILL.md/);
   if(host==='kiro') { assert.match(read(root,'.kiro/skills/harness-start/SKILL.md'),/\.agents\/skills\/harness-start\/SKILL.md/); assert.equal(JSON.parse(read(root,'.kiro/hooks/harness-session.json')).hooks[0].action.type,'agent'); }
-  assert.equal(JSON.parse(read(root,'.harness/agents.json')).provider,host==='claude-code'?'anthropic':'host');
+  assert.equal(JSON.parse(read(root,'.notth/agents.json')).provider,host==='claude-code'?'anthropic':'host');
   for(const p of userFiles) assert.equal(read(root,p),'team-owned');
   const before=snapshot(root); assert.equal(install(root,SOURCE,{command:'update'}).changes.length,0); assert.deepEqual(snapshot(root),before);
  });
 }
 test('changing tool preserves project state, old Kiro bridge and dry-run bytes',t=>{
  const root=project(t); install(root,SOURCE,{host:'kiro'});
- write(root,'.harness/local.md','# Verified project facts\n'); write(root,'.harness/start.json','{"schema_version":1,"goal":"change","task":"Keep active task"}');
+ write(root,'.notth/local.md','# Verified project facts\n'); write(root,'.notth/start.json','{"schema_version":1,"goal":"change","task":"Keep active task"}');
  const before=snapshot(root); const plan=install(root,SOURCE,{command:'update',host:'gemini-cli',dryRun:true}); assert.ok(plan.changes.some(c=>c.path==='GEMINI.md')); assert.deepEqual(snapshot(root),before);
  install(root,SOURCE,{command:'update',host:'gemini-cli'});
- for(const p of ['.harness/local.md','.harness/start.json','.harness/agents.json','.kiro/hooks/harness-session.json']) assert.equal(snapshot(root)[p],before[p]);
+ for(const p of ['.notth/local.md','.notth/start.json','.notth/agents.json','.kiro/hooks/harness-session.json']) assert.equal(snapshot(root)[p],before[p]);
  write(root,'GEMINI.md',read(root,'GEMINI.md')+'\nNew team guidance\n'); install(root,SOURCE,{command:'update'}); assert.match(read(root,'GEMINI.md'),/New team guidance/); assert.equal(check(root).status,'ok');
 });
 test('managed bridge edits, malformed markers, skill collisions and invalid lists fail before writes',t=>{

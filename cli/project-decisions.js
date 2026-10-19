@@ -1,7 +1,7 @@
 import { readConfig } from './project-config.js';
 import { safe, stat, isObject, HarnessError } from './files.js';
 
-export const PROJECT_DECISIONS = '.harness/decisions.json';
+export const PROJECT_DECISIONS = '.notth/decisions.json';
 export const emptyProjectDecisions = () => ({ schema_version: 1, decisions: [] });
 const text = value => typeof value === 'string' && value.trim().length > 0 && value.length <= 4096 && !/[\x00-\x1f\x7f]/.test(value);
 const id = value => typeof value === 'string' && /^[A-Za-z][A-Za-z0-9_-]{0,63}$/.test(value);

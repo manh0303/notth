@@ -18,7 +18,7 @@ aih skill harness-monetization-adsense-integration
 aih skill harness-monetization-seo-growth
 ```
 
-Product/UIUX are optional; the smallest setup is `aih init --adapters astro --capabilities monetization`. An existing installation must update `.harness/project.json` and use `aih update` instead.
+Product/UIUX are optional; the smallest setup is `aih init --adapters astro --capabilities monetization`. An existing installation must update `.notth/project.json` and use `aih update` instead.
 
 ## 2. Start with product and SEO, no ad code
 

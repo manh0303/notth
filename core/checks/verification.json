@@ -157,7 +157,7 @@
         "Pinned task scope matches the current request, not another session saved intake",
         "Canonical source revision/locator, affected links and semantic reconciliation",
         "Original painpoint to acceptance/evidence links and meaningful-step checkpoint",
-        "Actual Beads owner/sync receipts if selected; offline declarations are not live verification"
+        "Local write-conflict receipts; independent checkout ownership/sync remains unverified"
       ],
       "execution": "manual"
     }

@@ -33,7 +33,7 @@ The CLI rejects unknown fields and unsupported schemas rather than guessing. Req
 
 Skill files have name/description frontmatter and Input, Procedure, Output, Constraints sections.
 Installer copies declared SKILL.md files to .agents/skills and retains the whole adapter snapshot under
-.harness/adapters. Each exposed skill must be self-contained or refer to installed .harness paths;
+.notth/adapters. Each exposed skill must be self-contained or refer to installed .notth paths;
 relative source-only sibling assets are not automatically exposed. AGENTS points to selected adapters.
 The assistant host determines skill discovery; the CLI does not start agents or configure personal plugins.
 

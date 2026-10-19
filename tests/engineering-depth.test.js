@@ -15,11 +15,11 @@ function root(t) {
 
 test('Core-only exposes deeper coding with no optional modules or generated documents', t => {
   const p = root(t); h.install(p, h.SOURCE, {}); const lock = h.loadLock(p);
-  assert.ok(lock.files['.harness/core/workflows/engineering-quality.md']);
-  assert.ok(lock.files['.harness/integrations/engineering-sources.md']);
+  assert.ok(lock.files['.notth/core/workflows/engineering-quality.md']);
+  assert.ok(lock.files['.notth/integrations/engineering-sources.md']);
   assert.match(readSkill(p, lock, 'harness-debugging').content, /falsifiable/);
   assert.match(readSkill(p, lock, 'harness-tdd').content, /characterize observable behavior/);
-  assert.ok(!fs.existsSync(path.join(p, '.harness/capabilities/product')));
+  assert.ok(!fs.existsSync(path.join(p, '.notth/capabilities/product')));
   assert.ok(!fs.existsSync(path.join(p, 'docs')));
   assert.ok(!Object.keys(lock.files).some(k => /[.](docx|pdf|pptx)$/.test(k)));
 });
@@ -31,13 +31,13 @@ test('Selected stacks install registered engineering rules and contextual checks
   for (const id of ['java-spring', 'react-nextjs', 'react-native']) {
     const adapter = loadAdapter(h.SOURCE, id);
     assert.ok(adapter.rules.includes('rules/engineering.md'));
-    assert.ok(lock.files[`.harness/adapters/${id}/rules/engineering.md`]);
+    assert.ok(lock.files[`.notth/adapters/${id}/rules/engineering.md`]);
     assert.ok(adapter.checks.some(c => c.id === 'engineering-depth'));
   }
   const cap = loadCapability(h.SOURCE, 'product');
   assert.ok(cap.workflows.includes('workflows/document-export.md'));
-  assert.ok(lock.files['.harness/capabilities/product/workflows/document-export.md']);
-  assert.ok(lock.files['.harness/capabilities/architecture/templates/overview.md']);
+  assert.ok(lock.files['.notth/capabilities/product/workflows/document-export.md']);
+  assert.ok(lock.files['.notth/capabilities/architecture/templates/overview.md']);
   assert.match(readSkill(p, lock, 'harness-product-techspec').content, /transaction\/concurrency/);
 });
 
@@ -45,11 +45,11 @@ test('Updated snapshots preserve project documents/configuration and reject mana
   const p = root(t); h.install(p, h.SOURCE, { capabilities: ['product', 'architecture'] });
   fs.mkdirSync(path.join(p, 'docs/architecture'), { recursive: true });
   fs.writeFileSync(path.join(p, 'docs/architecture/overview.md'), 'User-approved custom architecture');
-  fs.writeFileSync(path.join(p, '.harness/local.md'), 'Custom context');
+  fs.writeFileSync(path.join(p, '.notth/local.md'), 'Custom context');
   h.install(p, h.SOURCE, { command: 'update' });
   assert.equal(fs.readFileSync(path.join(p, 'docs/architecture/overview.md'), 'utf8'), 'User-approved custom architecture');
-  assert.equal(fs.readFileSync(path.join(p, '.harness/local.md'), 'utf8'), 'Custom context');
-  fs.appendFileSync(path.join(p, '.harness/core/workflows/engineering-quality.md'), '\nLocal edit');
+  assert.equal(fs.readFileSync(path.join(p, '.notth/local.md'), 'utf8'), 'Custom context');
+  fs.appendFileSync(path.join(p, '.notth/core/workflows/engineering-quality.md'), '\nLocal edit');
   assert.throws(() => h.install(p, h.SOURCE, { command: 'update' }));
 });
 
@@ -85,13 +85,13 @@ test('A synthetic prior module snapshot updates additively without replacing use
   adapter.module_version = '1.2.0'; fs.writeFileSync(adapterPath, JSON.stringify(adapter));
   fs.unlinkSync(path.join(source, 'adapters/java-spring/rules/engineering.md'));
   h.install(p, source, { adapters: ['java-spring'], capabilities: ['product'] });
-  const config = fs.readFileSync(path.join(p, '.harness/agents.json'), 'utf8');
-  assert.ok(!fs.existsSync(path.join(p, '.harness/capabilities/product/workflows/document-export.md')));
+  const config = fs.readFileSync(path.join(p, '.notth/agents.json'), 'utf8');
+  assert.ok(!fs.existsSync(path.join(p, '.notth/capabilities/product/workflows/document-export.md')));
   const preview = h.install(p, h.SOURCE, { command: 'update', dryRun: true });
   assert.ok(preview.changes.length > 0);
-  assert.ok(!fs.existsSync(path.join(p, '.harness/capabilities/product/workflows/document-export.md')));
+  assert.ok(!fs.existsSync(path.join(p, '.notth/capabilities/product/workflows/document-export.md')));
   h.install(p, h.SOURCE, { command: 'update' });
-  assert.ok(fs.existsSync(path.join(p, '.harness/capabilities/product/workflows/document-export.md')));
-  assert.ok(fs.existsSync(path.join(p, '.harness/adapters/java-spring/rules/engineering.md')));
-  assert.equal(fs.readFileSync(path.join(p, '.harness/agents.json'), 'utf8'), config);
+  assert.ok(fs.existsSync(path.join(p, '.notth/capabilities/product/workflows/document-export.md')));
+  assert.ok(fs.existsSync(path.join(p, '.notth/adapters/java-spring/rules/engineering.md')));
+  assert.equal(fs.readFileSync(path.join(p, '.notth/agents.json'), 'utf8'), config);
 });

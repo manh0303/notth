@@ -22,9 +22,9 @@ AI đọc repo và câu trả lời đã lưu trước, chỉ hỏi phần còn 
 | Thông tin | Nơi lưu dùng lại |
 | --- | --- |
 | Yêu cầu/AC, luồng và kết quả mong đợi | Nguồn chính trong artifacts.json / spec hiện có |
-| URL môi trường test và phạm vi được phép thao tác | `.harness/local.md` |
-| Lệnh start/test/build và tham chiếu môi trường | `.harness/environment.json` |
-| Tên tool browser/MCP trong host, nếu dùng | `.harness/integrations.json` |
+| URL môi trường test và phạm vi được phép thao tác | `.notth/local.md` |
+| Lệnh start/test/build và tham chiếu môi trường | `.notth/environment.json` |
+| Tên tool browser/MCP trong host, nếu dùng | `.notth/integrations.json` |
 | Tài khoản/role test | Reference trong context; credential giữ riêng ở host |
 | Nơi lưu báo cáo/bằng chứng | Output contract trong artifacts.json hoặc thư mục verification/ đã review |
 

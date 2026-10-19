@@ -77,7 +77,7 @@ npx --yes @manhd_d/notth@latest check
 ```
 
 Review the diff, run project tests and restart/reload your AI session if needed. With a global install,
-upgrade the CLI first. Keep project context in `.harness/local.md`; do not edit managed skills.
+upgrade the CLI first. Keep project context in `.notth/local.md`; do not edit managed skills.
 
 For cloud work, the connected workspace must contain the installed project files and application tools;
 commit the snapshot to the working branch when the host obtains code from Git. Local-only files,

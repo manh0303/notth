@@ -25,7 +25,7 @@ description: Produce a Business Requirements Document with actors, business rule
 - Avoid treating template placeholders as finished decisions.
 
 ## Template
-Read `.harness/capabilities/product/templates/brd.md`; `aih new-doc brd` creates only a missing
+Read `.notth/capabilities/product/templates/brd.md`; `aih new-doc brd` creates only a missing
 draft. Apply the shared document contract for authority, preservation and review.
 
 ## Example
@@ -35,4 +35,4 @@ Synthetic illustration: BRD links the customer-search goal to BR-001; cost/benef
 - Business outcomes and stakeholder decisions are traceable.
 
 ## Handoff
-Read the shared installed contract `.harness/capabilities/product/common/document-contract.md`; pass only affected scope and relevant perspectives.
+Read the shared installed contract `.notth/capabilities/product/common/document-contract.md`; pass only affected scope and relevant perspectives.

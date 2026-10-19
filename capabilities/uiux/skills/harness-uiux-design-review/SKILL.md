@@ -33,4 +33,4 @@ description: Review actual design or code previews against canonical decisions, 
 - Do not invent test results, accessibility measurements or reviewer approvals.
 - Do not infer UX quality solely from screenshot aesthetics.
 
-For tool-neutral scope/output selection, read `.harness/capabilities/uiux/workflows/design-delivery.md`. Verify actual output type and required/omitted sections; never equate a preview with an editable design.
+For tool-neutral scope/output selection, read `.notth/capabilities/uiux/workflows/design-delivery.md`. Verify actual output type and required/omitted sections; never equate a preview with an editable design.

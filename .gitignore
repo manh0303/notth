@@ -1,8 +1,8 @@
 __pycache__/
 *.py[cod]
 .venv/
-.harness-install.lock
-.harness-tmp-*
+.notth-install.lock
+.notth-tmp-*
 .env
 .env.*
 !.env.example

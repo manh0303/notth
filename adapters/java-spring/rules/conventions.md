@@ -1,6 +1,6 @@
 # Java / Spring coding conventions
 
-First apply `.harness/core/rules/project-conventions.md`. These are defaults for new code when the
+First apply `.notth/core/rules/project-conventions.md`. These are defaults for new code when the
 project has no applicable convention, not a migration mandate.
 
 ## New-project defaults

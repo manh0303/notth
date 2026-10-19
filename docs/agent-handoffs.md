@@ -102,7 +102,7 @@ IDs and source revisions with each handoff. Return gaps to the appropriate owner
 ## Model and execution preferences
 
 [Agent configuration](agent-configuration.md) resolves namespace:role without conflating Product PM
-with Delivery PM. `.harness/agents.json` is project-owned; missing mappings inherit/report defaults.
+with Delivery PM. `.notth/agents.json` is project-owned; missing mappings inherit/report defaults.
 Actual host settings/access and delegation rules control execution. Report actual model/effort if known,
 scoped context, round checkpoint and actual checks; do not claim JSON enforced token/concurrency limits.
 

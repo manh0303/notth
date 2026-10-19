@@ -28,11 +28,11 @@ const fixtures=[
 for(const [name,files,methods] of fixtures) test('adaptive discovery: '+name,t=>{
  const root=project(t);for(const [p,c] of Object.entries(files))write(root,p,c);
  install(root,SOURCE,{command:'init',capabilities:['product']});
- const before=fs.readFileSync(path.join(root,'.harness/artifacts.json'),'utf8');
+ const before=fs.readFileSync(path.join(root,'.notth/artifacts.json'),'utf8');
  const result=adaptiveVerification(root,SOURCE);
  assert.equal(result.executed,false);for(const m of methods)assert.ok(result.methods.some(x=>x.method===m),m);
  if(name==='static')assert.ok(!result.methods.some(x=>x.method==='api'));
- assert.equal(fs.readFileSync(path.join(root,'.harness/artifacts.json'),'utf8'),before);
+ assert.equal(fs.readFileSync(path.join(root,'.notth/artifacts.json'),'utf8'),before);
 });
 test('report links digest-checked observations and TechSpec preserves existing docs',t=>{
  const root=project(t);install(root,SOURCE,{command:'init',capabilities:['product']});const r=report(root);
@@ -86,8 +86,8 @@ test('every claimed requirement needs its own passing assertion',t=>{
 test('external TechSpec handoff reuses policy and preserves canonical source',t=>{
  const root=project(t);install(root,SOURCE,{command:'init',capabilities:['product']});report(root);const r=report(root);write(root,'report.json',r);
  write(root,'docs/approved.md','Approved user text');
- write(root,'.harness/artifacts.json',{schema_version:1,mode:'document-driven',inputs:{ba:{kind:'docs',location:{path:'docs/approved.md'},write_policy:'read-only'}},outputs:{docs:{kind:'docs',capability:'product',canonical:true,sources:['ba'],location:{url:'https://example.com/docs',connection:'wiki'},write_policy:'propose'}}});
- write(root,'.harness/integrations.json',{schema_version:1,connections:{wiki:{via:'mcp',binding:'existing-host-tool',purpose:'docs'}}});
+ write(root,'.notth/artifacts.json',{schema_version:1,mode:'document-driven',inputs:{ba:{kind:'docs',location:{path:'docs/approved.md'},write_policy:'read-only'}},outputs:{docs:{kind:'docs',capability:'product',canonical:true,sources:['ba'],location:{url:'https://example.com/docs',connection:'wiki'},write_policy:'propose'}}});
+ write(root,'.notth/integrations.json',{schema_version:1,connections:{wiki:{via:'mcp',binding:'existing-host-tool',purpose:'docs'}}});
  const result=newDoc(root,'techspec','product',{report:'report.json'});assert.equal(result.status,'planned');assert.equal(result.executed,false);assert.equal(result.write_policy,'propose');assert.match(result.template,/AC-1/);
  assert.equal(fs.readFileSync(path.join(root,'docs/approved.md'),'utf8'),'Approved user text');assert.ok(!fs.existsSync(path.join(root,'docs/product/techspec.md')));
 });

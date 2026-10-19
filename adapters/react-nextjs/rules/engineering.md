@@ -15,6 +15,6 @@ Measure the actual bottleneck before adding memoization, dynamic imports or virt
 bundle impact, repeated renders and request traces; compiler features change optimization trade-offs.
 Use a single coherent design master; preserve stable keys, semantic controls, focus and keyboard
 behavior. Test loading/empty/error/success, navigation/back/deep links and narrow/zoom/long text.
-Read .harness/integrations/engineering-sources.md only for optional reviewed Vercel skill knowledge;
+Read .notth/integrations/engineering-sources.md only for optional reviewed Vercel skill knowledge;
 no deployment skill or new hosting/provider is selected. Record functional/performance/browser
 evidence separately, including real/mocked dependency scope and NOT_RUN measurements.

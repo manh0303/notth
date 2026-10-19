@@ -7,7 +7,7 @@ No CRM, provider, IDE, database or architecture is implied by this workflow.
 1. Inspect artifacts.json/integrations.json, local.md, actual repository docs and source boundaries.
    Reuse an existing index before creating a new document. Keep canonical docs at declared storage;
    a source catalog is an index of references, not a replacement database for artifacts.json.
-2. If useful, adapt `.harness/templates/knowledge-index.md` into the approved project docs location.
+2. If useful, adapt `.notth/templates/knowledge-index.md` into the approved project docs location.
    Ask only unresolved storage/authority questions. Do not edit the locked template or automatically
    copy company facts into the reusable Harness source. Without write access, return a proposed patch.
 3. Add only relevant sections: architecture/module map, business vocabulary/rules, patterns/ADRs,

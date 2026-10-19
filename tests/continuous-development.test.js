@@ -20,12 +20,12 @@ const ids = ['feature', 'small-bug', 'business-rule', 'drift', 'resume', 'read-o
 test('Core-only consumers discover the workflow, scaffold continuity in existing records and export all seven unscored scenarios', () => {
   install(root, SOURCE);
   const lock = loadLock(root);
-  const workflow = '.harness/core/workflows/continuous-development.md';
+  const workflow = '.notth/core/workflows/continuous-development.md';
   assert.ok(read('AGENTS.md').includes(workflow));
   assert.equal(read(workflow), read('core/workflows/continuous-development.md', SOURCE));
   assert.ok(lock.files[workflow]);
   assert.deepEqual(lock.capabilities, []);
-  assert.ok(!fs.existsSync(path.join(root, '.harness/capabilities/product')));
+  assert.ok(!fs.existsSync(path.join(root, '.notth/capabilities/product')));
   newChange(root, 'accepted-feature');
   const files = fs.readdirSync(path.join(root, 'openspec/changes/accepted-feature')).sort();
   assert.deepEqual(files, ['.openspec.yaml', 'artifact-impact.json', 'decisions.json', 'design.md', 'proposal.md', 'specs', 'tasks.md', 'verification.json']);
@@ -55,39 +55,39 @@ test('reviewed update preserves current user docs, handoff, decisions and routes
     'docs/requirements.md': 'FR-002 rev 3, approved\nUser section must survive.\n',
     'docs/architecture/project-map.md': 'Code B; ADR-002 supersedes ADR-001\n',
     'src/existing.txt': 'User work at B\n',
-    '.harness/local.md': 'Canonical docs already chosen; do not ask again.\n',
+    '.notth/local.md': 'Canonical docs already chosen; do not ask again.\n',
     'openspec/changes/in-progress/tasks.md': '# Tasks\n- [ ] Reconcile A against B\nHandoff: PASS at A, not current proof\n',
     'openspec/changes/in-progress/decisions.json': { schema_version: 1, reviewed: true, decisions: [] },
-    '.harness/artifacts.json': { schema_version: 1, mode: 'document-driven', inputs: {}, outputs: {
+    '.notth/artifacts.json': { schema_version: 1, mode: 'document-driven', inputs: {}, outputs: {
       docs: { kind: 'docs', location: { path: 'docs' }, write_policy: 'propose' },
     } },
   };
   for (const [p, value] of Object.entries(owned)) write(p, value);
   write('AGENTS.md', 'User instructions\n' + read('AGENTS.md') + '\nUser footer\n');
   const before = Object.fromEntries(Object.keys(owned).map(p => [p, read(p)]));
-  const oldLock = read('.harness/lock.json');
+  const oldLock = read('.notth/lock.json');
   install(root, SOURCE, { command: 'update', dryRun: true });
-  assert.equal(read('.harness/lock.json'), oldLock);
+  assert.equal(read('.notth/lock.json'), oldLock);
   for (const [p, bytes] of Object.entries(before)) assert.equal(read(p), bytes);
   install(root, SOURCE, { command: 'update' });
   for (const [p, bytes] of Object.entries(before)) assert.equal(read(p), bytes);
   assert.ok(read('AGENTS.md').startsWith('User instructions\n'));
   assert.ok(read('AGENTS.md').endsWith('\nUser footer\n'));
-  assert.equal(read('.harness/templates/openspec/tasks.md'), read('templates/openspec/tasks.md', SOURCE));
+  assert.equal(read('.notth/templates/openspec/tasks.md'), read('templates/openspec/tasks.md', SOURCE));
   assert.equal(check(root).status, 'ok');
-  write('.harness/core/workflows/continuous-development.md', read('.harness/core/workflows/continuous-development.md') + '\nLocal managed edit\n');
-  const lockBeforeConflict = read('.harness/lock.json');
+  write('.notth/core/workflows/continuous-development.md', read('.notth/core/workflows/continuous-development.md') + '\nLocal managed edit\n');
+  const lockBeforeConflict = read('.notth/lock.json');
   assert.throws(() => install(root, SOURCE, { command: 'update' }));
-  assert.equal(read('.harness/lock.json'), lockBeforeConflict);
+  assert.equal(read('.notth/lock.json'), lockBeforeConflict);
   for (const [p, bytes] of Object.entries(before)) assert.equal(read(p), bytes);
 });
 
 test('read-only proposal handoff uses unchanged source plus existing evidence contract; required publication stays blocked', () => {
   install(root, SOURCE);
-  write('.harness/artifacts.json', { schema_version: 1, mode: 'document-driven', inputs: {
+  write('.notth/artifacts.json', { schema_version: 1, mode: 'document-driven', inputs: {
     canonical: { kind: 'requirements', location: { url: 'https://example.com/requirements', connection: 'wiki' }, revision: '17', write_policy: 'read-only', canonical: true },
   }, outputs: { derived: { kind: 'docs', location: { path: 'docs/derived' }, sources: ['canonical'] } } });
-  write('.harness/integrations.json', { schema_version: 1, connections: { wiki: { via: 'connector', binding: 'wiki', purpose: 'Read requirements', access: 'read-only' } } });
+  write('.notth/integrations.json', { schema_version: 1, connections: { wiki: { via: 'connector', binding: 'wiki', purpose: 'Read requirements', access: 'read-only' } } });
   const change = 'openspec/changes/source-proposal';
   const impact = { schema_version: 1, reviewed: true, items: [
     { artifact: 'input:canonical', action: 'unchanged', status: 'done', reason: 'Read-only; section proposal in design.md for owner review. No canonical publication performed.' },
@@ -115,7 +115,7 @@ test('cross-role evaluation is selected only with all relevant capabilities, and
   for (const name of ['harness-product-business-analysis', 'harness-product-traceability', 'harness-product-backlog-prioritization', 'harness-architecture-change-impact', 'harness-delivery-scope-change']) {
     assert.ok(read('.agents/skills/' + name + '/SKILL.md').includes('continuous-development.md'));
   }
-  const config = JSON.parse(read('.harness/project.json')); config.capabilities = ['product'];
-  write('.harness/project.json', config); install(root, SOURCE, { command: 'update' });
+  const config = JSON.parse(read('.notth/project.json')); config.capabilities = ['product'];
+  write('.notth/project.json', config); install(root, SOURCE, { command: 'update' });
   assert.ok(!evaluate(root, undefined, 'all').dataset.cases.some(c => c.id === id));
 });

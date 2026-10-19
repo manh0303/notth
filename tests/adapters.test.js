@@ -95,7 +95,7 @@ test('verify reads installed checks and never executes malicious wrapper content
   assert.equal(result.checks.find(c => c.id === 'gradle').applicability, 'not-detected'); assert.deepEqual(snapshot(), before);
 });
 test('verify and eval refuse drift in installed capability files', () => {
-  install(); write('.harness/adapters/java-spring/checks/verification.yaml', '{}');
+  install(); write('.notth/adapters/java-spring/checks/verification.yaml', '{}');
   assert.throws(() => verify(root), /drift/); assert.throws(() => evaluate(root), /drift/);
 });
 test('eval template binds selected cases to dataset and bundle; remains unscored', () => {
@@ -116,7 +116,7 @@ test('eval refuses stale bundle/dataset, omitted cases and empty evidence', () =
 });
 test('eval ignores future source edits and rejects unlocked injected capability metadata', () => {
   install(); const before = evaluate(root); write('adapters/java-spring/evals/cases.json', '{}', source); assert.deepEqual(evaluate(root), before);
-  const lock = h.loadLock(root); delete lock.files['.harness/adapters/java-spring/evals/cases.json']; lock.bundle_sha256 = h.digest(h.encode(lock.files)); write(h.LOCK, lock);
+  const lock = h.loadLock(root); delete lock.files['.notth/adapters/java-spring/evals/cases.json']; lock.bundle_sha256 = h.digest(h.encode(lock.files)); write(h.LOCK, lock);
   assert.throws(() => evaluate(root), /not locked/);
 });
 for (const nextRelease of [false, true]) test('real npm 0.2 migration keeps notes, replaces metadata and installs new skills' +
@@ -130,11 +130,11 @@ for (const nextRelease of [false, true]) test('real npm 0.2 migration keeps note
   }
   const fixture = h.readJson(path.join(h.SOURCE, 'tests/fixtures/npm-v0.2.0.json'));
   for (const [name, content] of Object.entries(fixture.files)) write(name, content);
-  assert.equal(h.check(root).version, '0.2.0'); assert.throws(() => verify(root), /aih update/);
+  assert.throws(() => h.check(root), /aih update/); assert.throws(() => verify(root), /aih update/);
   h.install(root, source, { command: 'update' });
   // Current source version changes with Release Please; the legacy fixture remains pinned to 0.2.0.
   assert.equal(h.check(root).version, h.manifest(source).version);
-  assert.ok(!fs.existsSync(path.join(root, '.harness/adapters/java-spring/adapter.json')));
+  assert.ok(!fs.existsSync(path.join(root, '.notth/adapters/java-spring/adapter.json')));
   assert.ok(!fs.existsSync(path.join(root, '.agents/skills/harness-java-spring-kafka-outbox/SKILL.md')));
   assert.ok(fs.existsSync(path.join(root, '.agents/skills/harness-java-spring-spring-api/SKILL.md')));
   assert.ok(fs.readFileSync(path.join(root, 'AGENTS.md'), 'utf8').endsWith('Keep npm project notes.\n'));
@@ -201,17 +201,17 @@ test('Astro init --detect and composition with Product and UI/UX remain selectiv
   const r = cli(['init', '--source', source, '--detect']);
   assert.equal(r.status, 'ok');
   assert.deepEqual(h.loadLock(root).adapters, ['astro']);
-  assert.ok(!fs.existsSync(path.join(root, '.harness/adapters/react-nextjs')));
+  assert.ok(!fs.existsSync(path.join(root, '.notth/adapters/react-nextjs')));
   assert.equal(cli(['check']).status, 'ok');
 });
 
 test('Astro deselection removes unmodified managed assets but preserves project-owned notes', () => {
   install(['astro']);
-  write('.harness/local.md', 'Original project guidance');
+  write('.notth/local.md', 'Original project guidance');
   write(h.CONFIG, { schema_version: 1, adapters: [] });
   cli(['update', '--source', source]);
   assert.deepEqual(h.loadLock(root).adapters, []);
-  assert.equal(fs.readFileSync(path.join(root, '.harness/local.md'), 'utf8'), 'Original project guidance');
+  assert.equal(fs.readFileSync(path.join(root, '.notth/local.md'), 'utf8'), 'Original project guidance');
   assert.ok(!fs.existsSync(path.join(root, '.agents/skills/harness-astro-islands/SKILL.md')));
   assert.equal(cli(['check']).status, 'ok');
 });

@@ -16,7 +16,7 @@ aih skill harness-monetization-ad-placement-ux
 aih verify --scope capabilities  # review checklist only, never a browser/policy scan
 ```
 
-For React/Next.js, substitute `--adapters react-nextjs`. Add `product,uiux` only when discovery/design workflow is useful: `aih init --adapters astro --capabilities product,uiux,monetization`. For a project already initialized with Harness, update the `.harness/project.json` capabilities array on a branch and run `aih update --dry-run`, `aih update`, `aih check` (do **not** re-init). No extra runtime dependencies or AdSense credentials are needed to install this instructional module.
+For React/Next.js, substitute `--adapters react-nextjs`. Add `product,uiux` only when discovery/design workflow is useful: `aih init --adapters astro --capabilities product,uiux,monetization`. For a project already initialized with Harness, update the `.notth/project.json` capabilities array on a branch and run `aih update --dry-run`, `aih update`, `aih check` (do **not** re-init). No extra runtime dependencies or AdSense credentials are needed to install this instructional module.
 
 ## Workflow A — website → AdSense application → approved integration
 
@@ -28,7 +28,7 @@ For React/Next.js, substitute `--adapters react-nextjs`. Add `product,uiux` only
 6. If approved to publish, use the actual Google-provided ad integration and owner-authorized publisher details. `ads.txt` at the root domain is **highly recommended, not universally mandatory**; never invent an account/seller ID.
 7. Human reviews actual changed pages, ad/no-fill/adblocked/consent UX and production release scope before deploy. `aih` cannot publish ads or deploy.
 
-Project-owned artifacts: `docs/monetization/site-monetization-plan.md`, `ad-placement-review.md`, `privacy-consent-checklist.md`. The templates are installed at `.harness/capabilities/monetization/templates/` and can be scaffolded with `aih new-doc <type> --capability monetization` **without overwrite**; the default new-doc owner remains Product.
+Project-owned artifacts: `docs/monetization/site-monetization-plan.md`, `ad-placement-review.md`, `privacy-consent-checklist.md`. The templates are installed at `.notth/capabilities/monetization/templates/` and can be scaffolded with `aih new-doc <type> --capability monetization` **without overwrite**; the default new-doc owner remains Product.
 
 ## Workflow B — traffic → financial learning
 

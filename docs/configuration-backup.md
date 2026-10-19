@@ -6,27 +6,27 @@ chỉ dùng với bản đã phát hành có các lệnh đó, hoặc checkout/p
 
 ## Thông tin của bạn nằm ở đâu?
 
-Ở **repo dự án áp dụng Harness**, phần cấu hình dùng chung nằm trong `.harness/`:
+Ở **repo dự án áp dụng Harness**, phần cấu hình dùng chung nằm trong `.notth/`:
 
 | File | Thông tin người dùng | Khi update |
 | --- | --- | --- |
-| `.harness/project.json` | Adapter/capability đã chọn | Giữ nguyên |
-| `.harness/agents.json` | Agent → provider/model/reasoning, execution preferences | Giữ nguyên |
-| `.harness/start.json` | Mục tiêu, task, ID change cần tiếp tục | Giữ nguyên |
-| `.harness/artifacts.json` | Đường dẫn/link input, nơi ghi output, owner, revision, write policy | Giữ nguyên |
-| `.harness/integrations.json` | Tên kết nối của host và phạm vi khai báo | Giữ nguyên |
-| `.harness/environment.json` | Tool/lệnh test và tham chiếu biến môi trường | Giữ nguyên |
-| `.harness/local.md` | Nghiệp vụ, convention và quyết định đã chốt | Giữ nguyên |
-| `.harness/decisions.json` | Quyết định dùng chung: phạm vi, trạng thái, nguồn/lý do và lịch sử thay thế | Giữ nguyên; backup cùng dự án, không transfer |
+| `.notth/project.json` | Adapter/capability đã chọn | Giữ nguyên |
+| `.notth/agents.json` | Agent → provider/model/reasoning, execution preferences | Giữ nguyên |
+| `.notth/start.json` | Mục tiêu, task, ID change cần tiếp tục | Giữ nguyên |
+| `.notth/artifacts.json` | Đường dẫn/link input, nơi ghi output, owner, revision, write policy | Giữ nguyên |
+| `.notth/integrations.json` | Tên kết nối của host và phạm vi khai báo | Giữ nguyên |
+| `.notth/environment.json` | Tool/lệnh test và tham chiếu biến môi trường | Giữ nguyên |
+| `.notth/local.md` | Nghiệp vụ, convention và quyết định đã chốt | Giữ nguyên |
+| `.notth/decisions.json` | Quyết định dùng chung: phạm vi, trạng thái, nguồn/lý do và lịch sử thay thế | Giữ nguyên; backup cùng dự án, không transfer |
 | `openspec/config.yaml` | Cấu hình OpenSpec của dự án | Giữ nguyên |
-| `.harness/machine.json` | Đường dẫn chỉ dùng trên máy này | Giữ nguyên, Git ignore; không vào backup cấu hình |
+| `.notth/machine.json` | Đường dẫn chỉ dùng trên máy này | Giữ nguyên, Git ignore; không vào backup cấu hình |
 | `openspec/changes/<id>/` | Spec, tiến độ, checkpoint/history và evidence | Giữ nguyên; backup cùng repo |
 
 **Input/output thực tế nằm ở nơi `artifacts.json` chỉ định**, ví dụ `docs/requirements/`,
 `docs/specs/`, Confluence hoặc Figma. Cấu hình lưu liên kết; không sao chép nội dung nguồn bên ngoài.
 Các skill riêng và native config của AI tool cũng cần giữ cùng cơ chế backup phù hợp của bạn.
 
-`.harness/core/`, `adapters/`, `capabilities/`, `templates/`, `integrations/` và `lock.json`
+`.notth/core/`, `adapters/`, `capabilities/`, `templates/`, `integrations/` và `lock.json`
 là snapshot do Harness quản lý. Không sửa các file này để tùy biến. Giữ toàn bộ repo trong Git
 để rollback snapshot chính xác; bản backup cấu hình chỉ chứa các file được liệt kê bên dưới.
 Không lưu API key/token/password trong cấu hình; host/secret manager quản lý chúng riêng.
@@ -37,7 +37,7 @@ Không lưu API key/token/password trong cấu hình; host/secret manager quản
 aih backup
 ```
 
-CLI trả đường dẫn `.harness/backups/config-<timestamp>-<id>.json`. **Copy file này ra nơi riêng
+CLI trả đường dẫn `.notth/backups/config-<timestamp>-<id>.json`. **Copy file này ra nơi riêng
 ngoài repo/máy**, ví dụ ổ backup hoặc kho riêng của bạn; file ở máy hiện tại chưa bảo vệ khỏi mất máy.
 Muốn tên dễ nhớ:
 
@@ -49,7 +49,7 @@ aih backup --output backups/harness-config.json
 Archive JSON giữ nguyên bytes UTF-8 của tối đa 9 file dùng chung ở bảng (nếu hiện có), kèm schema version,
 CLI version và SHA-256 từng file. Digest phát hiện sửa nhầm, không xác thực nguồn backup.
 Review file trước khi chia sẻ; bản backup là plain text và không tự dò/xóa mọi secret bạn có thể đã ghi nhầm.
-Folder mặc định `.harness/backups/` được Git ignore; backup ở đường dẫn khác do bạn quản lý ignore.
+Folder mặc định `.notth/backups/` được Git ignore; backup ở đường dẫn khác do bạn quản lý ignore.
 
 **Không có trong archive:** machine.json, biến môi trường/credentials, host login/native settings,
 snapshot/lock, custom skills, code, nội dung docs/UI bên ngoài, OpenSpec changes/checkpoints/history/evidence.
@@ -83,7 +83,7 @@ aih restore --from harness-config.json --dry-run --replace
 aih restore --from harness-config.json --replace
 ```
 
-Trước thay file, CLI tự tạo archive cấu hình hiện tại trong `.harness/backups/`; kết quả trả đường dẫn.
+Trước thay file, CLI tự tạo archive cấu hình hiện tại trong `.notth/backups/`; kết quả trả đường dẫn.
 Không xóa file người dùng không có trong archive. Validation/schema/digest/path/conflict được kiểm tra
 trước ghi; lỗi ghi thông thường rollback. Gián đoạn tiến trình/mất điện không phải transaction nhiều
 file an toàn tuyệt đối: kiểm tra trạng thái và phục hồi từ backup/Git trước khi tiếp tục.

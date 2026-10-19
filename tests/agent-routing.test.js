@@ -96,19 +96,19 @@ for (const preset of ['recommended', 'economy', 'custom']) test(`init preset ${p
   const config = loadAgentConfig(root), lock = loadLock(root);
   assert.equal(config.execution.mode, preset === 'economy' ? 'single-agent' : 'hybrid');
   assert.equal(config.execution.maxConcurrentAgents, preset === 'economy' ? 1 : 2);
-  assert.ok(!Object.hasOwn(lock.files, '.harness/agents.json'));
-  assert.ok(Object.hasOwn(lock.files, '.harness/templates/agents.default.json'));
+  assert.ok(!Object.hasOwn(lock.files, '.notth/agents.json'));
+  assert.ok(Object.hasOwn(lock.files, '.notth/templates/agents.default.json'));
   assert.deepEqual(cli(['init', '--source', source]).changes, []);
   const preserved = snapshot();
   cli(['init', '--source', source, '--agent-preset', 'recommended'], 1); assert.deepEqual(snapshot(), preserved);
 });
 
 test('invalid existing config and wrong flags fail before any persistent write', () => {
-  write('.harness/agents.json', '{"private":"SENSITIVE_TEXT",broken'); const before = snapshot();
+  write('.notth/agents.json', '{"private":"SENSITIVE_TEXT",broken'); const before = snapshot();
   const error = cli(['init', '--source', source], 1);
   assert.match(error.message, /Invalid JSON/); assert.ok(!error.message.includes('SENSITIVE_TEXT'));
   assert.deepEqual(snapshot(), before);
-  fs.unlinkSync(path.join(root, '.harness/agents.json'));
+  fs.unlinkSync(path.join(root, '.notth/agents.json'));
   for (const args of [['init', '--source', source, '--agent-preset', 'unknown'], ['init', '--source', source, '--agent-preset', '']]) {
     const prior = snapshot(); cli(args, args.at(-1) === '' ? 2 : 1); assert.deepEqual(snapshot(), prior);
   }
@@ -122,12 +122,12 @@ test('custom providers/roles and exact bytes survive update including native hos
   config.agents['product:project-manager'] = { provider: 'anthropic', model: 'claude-selected', reasoning: 'medium' };
   config.agents['delivery:project-manager'] = { provider: 'google', model: 'gemini-selected', reasoning: 'low' };
   config.agents['custom:helper'] = { model: '@economy' };
-  const bytes = JSON.stringify(config, null, 4) + '\r\n'; write('.harness/agents.json', bytes);
+  const bytes = JSON.stringify(config, null, 4) + '\r\n'; write('.notth/agents.json', bytes);
   write('CLAUDE.md', '@AGENTS.md\nKeep me'); write('.codex/config.toml', 'model = "user-choice"');
   const sourceConfig = agentDefaults(source); sourceConfig.defaultReasoning = 'high'; write('config/agents.default.json', sourceConfig, source);
   const before = snapshot(); install(root, source, { command: 'update', dryRun: true }); assert.deepEqual(snapshot(), before);
   install(root, source, { command: 'update' });
-  assert.equal(fs.readFileSync(path.join(root, '.harness/agents.json'), 'utf8'), bytes);
+  assert.equal(fs.readFileSync(path.join(root, '.notth/agents.json'), 'utf8'), bytes);
   assert.equal(fs.readFileSync(path.join(root, '.codex/config.toml'), 'utf8'), 'model = "user-choice"');
   assert.equal(check(root).status, 'ok');
   const plan = agentPlan(root, 'codex');
@@ -140,12 +140,12 @@ test('legacy snapshots and older alternate sources seed defaults on update witho
   fs.rmSync(path.join(source, 'config'), { recursive: true });
   const fixture = readJson(path.join(SOURCE, 'tests/fixtures/npm-v0.2.0.json'));
   for (const [name, value] of Object.entries(fixture.files)) write(name, value);
-  assert.equal(check(root).status, 'ok'); assert.equal(agentPlan(root).configured, false);
+  assert.throws(() => check(root), /aih update/);
   const beforeSource = snapshot(source), local = fs.readFileSync(path.join(root, '.harness/local.md'));
   install(root, source, { command: 'update' });
   assert.ok(loadAgentConfig(root)); assert.deepEqual(snapshot(source), beforeSource);
-  assert.ok(fs.readFileSync(path.join(root, '.harness/local.md')).equals(local));
-  const config = loadAgentConfig(root); delete config.agents['core:reviewer']; write('.harness/agents.json', config);
+  assert.ok(fs.readFileSync(path.join(root, '.notth/local.md')).equals(local));
+  const config = loadAgentConfig(root); delete config.agents['core:reviewer']; write('.notth/agents.json', config);
   assert.ok(agentPlan(root).missing_mappings.includes('core:reviewer'));
   assert.equal(agentPlan(root).roles.find(r => r.id === 'core:reviewer').source, 'project-default');
 });
@@ -155,7 +155,7 @@ test('setup host plans are read-only, signal incompatible providers and never cl
   const explicit = loadAgentConfig(root);
   explicit.provider = 'openai'; explicit.defaultModel = 'gpt-6.1-sol';
   explicit.models.balanced = 'gpt-6.1-sol'; explicit.models.economy = 'gpt-6-luna';
-  write('.harness/agents.json', explicit);
+  write('.notth/agents.json', explicit);
   const before = snapshot();
   assert.equal(cli(['setup', '--host', 'claude-code']).agent_configuration.status, 'host-incompatible');
   assert.equal(cli(['setup', '--host', 'gemini-cli']).agent_configuration.status, 'host-incompatible');
@@ -165,7 +165,7 @@ test('setup host plans are read-only, signal incompatible providers and never cl
   const config = loadAgentConfig(root);
   config.hosts['claude-code'] = { models: { 'openai/gpt-6.1-sol': 'native-claude-model', 'openai/gpt-6-luna': 'native-small-model' },
     reasoning: { high: 'high', medium: 'medium', low: 'low' } };
-  write('.harness/agents.json', config); const plan = agentPlan(root, 'claude-code');
+  write('.notth/agents.json', config); const plan = agentPlan(root, 'claude-code');
   assert.equal(plan.status, 'requires-host-verification');
   assert.equal(plan.roles.find(r => r.id === 'core:implementer').host_model, 'native-claude-model');
   assert.ok(plan.roles.every(role => role.runtime_verified === false));
@@ -173,12 +173,12 @@ test('setup host plans are read-only, signal incompatible providers and never cl
 
 test('symlink and managed-default drift cannot overwrite config or bypass snapshot ownership', () => {
   install(root, source);
-  write('.harness/templates/agents.default.json', '{}'); const before = snapshot();
+  write('.notth/templates/agents.default.json', '{}'); const before = snapshot();
   assert.equal(check(root).status, 'error');
   assert.throws(() => install(root, source, { command: 'update' }), /Managed files changed/); assert.deepEqual(snapshot(), before);
   if (process.platform !== 'win32') {
-    fs.unlinkSync(path.join(root, '.harness/agents.json')); write('outside.json', JSON.stringify(agentDefaults(source)));
-    fs.symlinkSync(path.join(root, 'outside.json'), path.join(root, '.harness/agents.json'));
+    fs.unlinkSync(path.join(root, '.notth/agents.json')); write('outside.json', JSON.stringify(agentDefaults(source)));
+    fs.symlinkSync(path.join(root, 'outside.json'), path.join(root, '.notth/agents.json'));
     assert.throws(() => loadAgentConfig(root), /Symlink/);
   }
 });

@@ -6,7 +6,7 @@ Cài mới với CLI đã review chứa UIUX 1.2.0:
 aih init --host codex --capabilities uiux
 ```
 
-Đổi host theo tool bạn dùng. Project đã cài: chọn uiux trong `.harness/project.json`, giữ các lựa chọn
+Đổi host theo tool bạn dùng. Project đã cài: chọn uiux trong `.notth/project.json`, giữ các lựa chọn
 khác, rồi review `aih update --dry-run`, `aih update`, `aih check` trên branch. Không chạy init để thay
 selection. Nếu không có lệnh global, dùng CLI local/offline đã review. Merge PR chưa phải npm release.
 

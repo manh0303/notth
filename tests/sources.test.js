@@ -54,7 +54,7 @@ test('sources survive init/update, removal of harness and complete-folder recove
   const before = read('docs/sources/manifest.json');
   install(root, SOURCE); install(root, SOURCE, { command: 'update' });
   assert.deepEqual(read('docs/sources/manifest.json'), before);
-  fs.rmSync(path.join(root, '.harness'), { recursive: true });
+  fs.rmSync(path.join(root, '.notth'), { recursive: true });
   install(root, SOURCE);
   assert.deepEqual(read('docs/sources/manifest.json'), before);
   const destination = fs.mkdtempSync(path.join(os.tmpdir(), 'notth-recovery-'));

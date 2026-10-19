@@ -28,7 +28,7 @@ description: Produce a testable Software Requirements Specification linked to ap
 - Never change code or claim stakeholder approval solely because a document was generated.
 
 ## Template
-Read `.harness/capabilities/product/templates/srs.md`; `aih new-doc srs` creates only a missing
+Read `.notth/capabilities/product/templates/srs.md`; `aih new-doc srs` creates only a missing
 draft. Apply the shared document contract for authority, preservation and review.
 
 ## Example
@@ -38,4 +38,4 @@ Synthetic illustration: FR-001 defines search behavior; NFR-001 target is pendin
 - FR/NFR contracts, exception paths and trace IDs remain consistent.
 
 ## Handoff
-Read the shared installed contract `.harness/capabilities/product/common/document-contract.md`; pass only affected scope and relevant perspectives.
+Read the shared installed contract `.notth/capabilities/product/common/document-contract.md`; pass only affected scope and relevant perspectives.

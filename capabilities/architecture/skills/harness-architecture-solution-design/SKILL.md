@@ -28,7 +28,7 @@ unknowns with invented systems. Reconcile diagrams, code boundaries and actual d
 docs/architecture/solution-design.md, linked ADRs and OpenSpec design/tasks, with explicit alternatives and accepted scope.
 
 ## Template
-Read `.harness/capabilities/architecture/templates/solution-design.md` from the installed snapshot.
+Read `.notth/capabilities/architecture/templates/solution-design.md` from the installed snapshot.
 Use `aih new-doc solution-design --capability architecture` only for a missing draft;
 reuse existing authoritative docs or a compact task note when appropriate. Never overwrite approved content.
 

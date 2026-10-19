@@ -1,6 +1,6 @@
 # React Native coding conventions
 
-First apply `.harness/core/rules/project-conventions.md`. These defaults do not authorize an Expo/bare,
+First apply `.notth/core/rules/project-conventions.md`. These defaults do not authorize an Expo/bare,
 navigation, native architecture, state-library or toolchain migration.
 
 ## New-project defaults

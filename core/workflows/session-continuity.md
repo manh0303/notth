@@ -7,7 +7,7 @@ It cannot run while the host is stopped or force a client that does not load pro
 
 ## Enter and pin scope
 1. Match the current user request to the existing change/task note. Pin its ID in this session.
-   `.harness/start.json` is a shared intake hint, not session identity or a lock. Another session's
+   `.notth/start.json` is a shared intake hint, not session identity or a lock. Another session's
    saved task must not switch this session. Ask only if multiple targets genuinely fit the request.
 2. For an existing change run `aih context --change <id>` automatically; start/chat also exposes a
    saved task's context as a hint. Read applicable shared/module decisions and the returned canonical
@@ -19,7 +19,7 @@ It cannot run while the host is stopped or force a client that does not load pro
 
 ## Preserve intent and traceability
 For Standard/Full changes, prepare a project-owned JSON report from
-`.harness/templates/task-context.json` after reading actual sources. Save with
+`.notth/templates/task-context.json` after reading actual sources. Save with
 `aih context --change <id> --report <path>`; on replacement pass the observed `--expected` digest
 and current revision from the read report. CLI increments revision and preserves prior bytes in
 context-history. Never edit context.json directly or refresh hashes just to silence a conflict.
@@ -48,16 +48,14 @@ after semantic reconciliation and matching current hashes; continue independent 
 An unexpected new revision during save means another writer won: re-read, merge scoped pointers
 and retry using the new digest. Never force overwrite or reuse stale --expected.
 
-If Beads is already initialized or declared for this task, follow
-`.harness/integrations/beads/README.md` using actual host tools. Do not install or initialize it merely
-to run this workflow. Local mode remains dependency-free; separate worktrees synchronize through
-reviewed Git changes, not live local file locks. Without shared coordination, serialize overlapping
-work and report ownership unverified instead of claiming exclusive task ownership.
+Separate worktrees synchronize through reviewed Git changes, not live local file locks. Without
+shared coordination, serialize overlapping work and report ownership unverified instead of claiming
+exclusive task ownership. No external task backend is required or auto-detected.
 
 ## Save progress without user maintenance
 After each meaningful step and before side effects, update the existing tasks/evidence and save a
 checkpoint using the existing contract. Reconcile context if its referenced content changed; save it
-before checkpointing. Keep completed/pending/operations in checkpoint or the selected task backend,
+before checkpointing. Keep completed/pending/operations in checkpoint,
 not a second progress list in context. Do not capture secrets or whole chat transcripts.
 Before final handoff, reload context for the pinned change; verify painpoint-to-AC-to-evidence links,
 actual test revision and remaining blockers. Missing/stale context prevents dependent completion

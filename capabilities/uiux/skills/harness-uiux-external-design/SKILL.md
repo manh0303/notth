@@ -7,7 +7,7 @@ description: Selectively hand off to reviewed local UI UX Pro Max or Google Stit
 
 ## Input
 - Canonical design source, scoped brief, host permissions and available reviewed external skill roots.
-- Pinned source inventory: `.harness/capabilities/uiux/integrations/design-skills.md`.
+- Pinned source inventory: `.notth/capabilities/uiux/integrations/design-skills.md`.
 
 ## Procedure
 1. Use the inventory to select one relevant capability, not two entire skill libraries. Locate the

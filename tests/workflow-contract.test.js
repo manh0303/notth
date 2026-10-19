@@ -56,7 +56,7 @@ test('installed workflow command validates locked declarations and rejects drift
   const args = [path.join(SOURCE, 'bin/aih.js'), 'workflow', 'validate'];
   let r = spawnSync(process.execPath, args, { cwd: root, encoding: 'utf8' }); assert.equal(r.status, 0, r.stderr);
   assert.equal(JSON.parse(r.stdout).workflows.length, 2);
-  write(root, '.harness/core/workflows/spec-to-code.workflow.json', '{}');
+  write(root, '.notth/core/workflows/spec-to-code.workflow.json', '{}');
   r = spawnSync(process.execPath, args, { cwd: root, encoding: 'utf8' }); assert.equal(r.status, 1);
 });
 test('assertions inspect observed tool inputs instead of a negated command mention', () => {

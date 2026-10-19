@@ -6,4 +6,4 @@ For new docs clarify unknown storage, then scaffold only missing documents. For 
 
 Use Core `continuous-development.md` for every resume: recheck revisions immediately before section writes, reconcile concurrent edits and invalidate affected stale evidence. Preserve stable IDs and unrelated sections; a proposed patch is not canonical publication.
 
-For grouped/long-running checks use Core `.harness/core/workflows/recoverable-verification.md`. Save actual observations and proposed section updates incrementally, use existing checkpoints with evidence hashes, reconcile process/side-effect ownership on resume, and rerun affected groups after baseline changes. Keep the procedure independent of stack, domain and host.
+For grouped/long-running checks use Core `.notth/core/workflows/recoverable-verification.md`. Save actual observations and proposed section updates incrementally, use existing checkpoints with evidence hashes, reconcile process/side-effect ownership on resume, and rerun affected groups after baseline changes. Keep the procedure independent of stack, domain and host.

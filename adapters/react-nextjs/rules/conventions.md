@@ -1,6 +1,6 @@
 # React / Next.js coding conventions
 
-First apply `.harness/core/rules/project-conventions.md`. Defaults fill gaps; retain the target module's
+First apply `.notth/core/rules/project-conventions.md`. Defaults fill gaps; retain the target module's
 router, language, layout, state management, styling and package manager in maintenance work.
 
 ## New-project defaults

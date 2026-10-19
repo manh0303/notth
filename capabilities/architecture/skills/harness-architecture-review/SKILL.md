@@ -20,7 +20,7 @@ Design/diff, approved requirements, ADRs, project map, tests, build results and 
 docs/architecture/review.md or PR findings linked to requirements/decisions, with evidence and residual risks.
 
 ## Template
-Read `.harness/capabilities/architecture/templates/review.md` from the installed snapshot.
+Read `.notth/capabilities/architecture/templates/review.md` from the installed snapshot.
 Use `aih new-doc review --capability architecture` only for a missing draft;
 reuse existing authoritative docs or a compact task note when appropriate. Never overwrite approved content.
 

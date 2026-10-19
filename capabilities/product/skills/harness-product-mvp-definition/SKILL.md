@@ -20,7 +20,7 @@ Original idea or approved requirements, users, constraints, business rules, know
 Project-owned docs/product/mvp.md or an MVP section linked from PRD, with scope owner and review status.
 
 ## Template
-Read `.harness/capabilities/product/templates/mvp.md` from the installed snapshot.
+Read `.notth/capabilities/product/templates/mvp.md` from the installed snapshot.
 Use `aih new-doc mvp` only for a missing draft;
 reuse existing authoritative docs or a compact task note when appropriate. Never overwrite approved content.
 
@@ -33,7 +33,7 @@ Customer-search MVP: an authorized employee creates and finds customers within p
 - Explicit exclusions, decision source and unresolved owner questions
 
 ## Handoff
-Read the shared installed contract `.harness/capabilities/product/common/document-contract.md`; pass only affected scope and relevant perspectives.
+Read the shared installed contract `.notth/capabilities/product/common/document-contract.md`; pass only affected scope and relevant perspectives.
 
 ## Constraints
 Follow Core permissions, clarification and project-conventions. Ask only consequential unknowns with

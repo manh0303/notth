@@ -1,7 +1,7 @@
 # GitHub integration
 
 This directory provides review/CI templates, not a GitHub API client. Installation copies templates into
-.harness/integrations; it never creates remote repositories, pushes code or overwrites existing CI.
+.notth/integrations; it never creates remote repositories, pushes code or overwrites existing CI.
 Copy/adapt pull_request_template.md to .github/pull_request_template.md after review.
 
 For a consumer pipeline, make a trusted pinned harness checkout available, then run:

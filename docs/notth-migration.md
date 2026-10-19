@@ -1,8 +1,45 @@
-# AI Harness → Notth
+# NOTTH migration
 
 GitHub: `manh0303/notth`. npm: `@manhd_d/notth`. CLI: `aih`.
 The npm name is a new package, not an automatic redirect. Old published versions remain available.
 The new name is usable only after its first reviewed publication; a feature PR is not a release.
+
+
+## Project folder: `.harness/` → `.notth/`
+
+Use a reviewed CLI/package containing namespace migration, in the consumer project root:
+
+```bash
+aih update --dry-run
+aih update
+aih check
+```
+
+The first command previews without target writes. Update validates the original lock, managed files,
+configuration, selected host bridges and destination collisions in a temporary workspace, then applies
+one rollback-protected change set. It moves all legacy project-owned bytes, custom files, machine
+settings and existing backups into `.notth/`; refreshes managed paths/host instructions; and removes
+empty old directories. Documents in docs/sources and OpenSpec work are not moved or rewritten.
+
+A complete original namespace and owned host files are retained under
+`.notth/backups/namespace-<legacy-lock-sha256>/`. These may include private machine settings; new files
+are mode 0600 where supported. The receipt `.notth/namespace-migration.json` records the backup and
+old/new roots. Never publish this backup by accident; the existing `.notth/.gitignore` excludes backups.
+
+Both namespaces already present, edited managed files, malformed config, symlinks or excessive input
+size stop migration before target writes. The migration is bounded to 20,000 legacy files / 512 MiB;
+individual external instruction files are bounded to 4 MiB. No overwriting one namespace with another.
+Ordinary write failures roll back; process kill/power loss retains the installer's existing partial-write
+limits. Keep a full project backup/commit and inspect the receipt/markers after interruption.
+
+Project-owned prose, commands and evidence keep their exact bytes. AI uses the migration receipt to
+reconcile relevant old path references and reverify affected evidence; it must not replace hashes just
+to make a checkpoint pass. Config backup export now uses notth-user-config; restore accepts original
+legacy archives after digest/path validation and maps their envelope paths into `.notth/`.
+
+Rollback requires the matching prior CLI plus original namespace/owned-host files from the recorded
+backup or prior project commit. Restore on a reviewed branch; do not run an old CLI against the new
+layout and expect it to understand the new paths. No release is published by this feature change.
 
 ## Existing projects
 
@@ -26,9 +63,10 @@ with the reviewed snapshot update. For one-off use, run
 `npx --yes @manhd_d/notth update --dry-run`, then `update` and `check` with the same package.
 Do not invoke the old npx name and expect a renamed release.
 
-`aih`, `.harness/`, `.agents/skills/harness-*`, `harness-start`, AGENTS/Claude ownership markers,
-config/lock schemas and `ai-harness-user-config` backup kind remain unchanged. Existing user-owned
-settings and OpenSpec work are preserved. Do not rename the markers or directories by hand.
+`aih`, `.agents/skills/harness-*`, `harness-start`, AGENTS/Claude ownership markers and
+config/lock schemas remain compatible. New installs use `.notth/` and `notth-user-config` backups;
+legacy backup paths/kinds are accepted only for migration. Existing user-owned
+settings and OpenSpec work are preserved. Use the namespace migration below instead of manually renaming managed paths.
 Managed drift must be resolved through the usual review, not by editing lock hashes.
 Rollback: restore the prior committed consumer snapshot/config and reinstall the matching old CLI
 version recorded before migration. Reinstalling an old CLI alone does not revert a newer snapshot.

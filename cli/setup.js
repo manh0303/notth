@@ -13,8 +13,8 @@ import { PROJECT_DECISIONS, emptyProjectDecisions, loadProjectDecisions } from '
 function validateCandidate(root, changes) {
   const temp = fs.mkdtempSync(path.join(os.tmpdir(), 'aih-setup-validate-'));
   try {
-    for (const name of [CONFIG, AGENT_CONFIG, ARTIFACTS, INTEGRATIONS, '.harness/environment.json',
-      '.harness/machine.json', '.harness/local.md', '.harness/start.json', PROJECT_DECISIONS]) {
+    for (const name of [CONFIG, AGENT_CONFIG, ARTIFACTS, INTEGRATIONS, '.notth/environment.json',
+      '.notth/machine.json', '.notth/local.md', '.notth/start.json', PROJECT_DECISIONS]) {
       const p = safe(root, name), data = changes[name] ?? (stat(p) ? fs.readFileSync(p) : null);
       if (data !== null) { const dest = safe(temp, name); fs.mkdirSync(path.dirname(dest), { recursive: true }); fs.writeFileSync(dest, data, { mode: 0o600 }); }
     }
@@ -40,7 +40,7 @@ export function setupProject(root, { apply = false, dryRun = false, greenfield =
     const changes = {};
     if (apply) {
       const template = name => {
-        const p = '.harness/templates/' + name;
+        const p = '.notth/templates/' + name;
         if (!Object.hasOwn(lock.files, p)) throw new HarnessError('Setup requires installed template ' + name + '; use a reviewed update');
         return fs.readFileSync(safe(root, p));
       };
@@ -50,7 +50,7 @@ export function setupProject(root, { apply = false, dryRun = false, greenfield =
         const data = template('agents.default.json'); validateAgentConfig(JSON.parse(data)); changes[AGENT_CONFIG] = data;
       }
       missingTemplate(ARTIFACTS, 'artifacts.json'); missingTemplate(INTEGRATIONS, 'integrations.json');
-      missingTemplate('.harness/environment.json', 'environment.json'); missingTemplate('.harness/local.md', 'local.md');
+      missingTemplate('.notth/environment.json', 'environment.json'); missingTemplate('.notth/local.md', 'local.md');
       missingTemplate('openspec/config.yaml', 'openspec/config.yaml');
       if (!stat(safe(root, PROJECT_DECISIONS))) changes[PROJECT_DECISIONS] = encode(emptyProjectDecisions());
       Object.assign(changes, userIgnoreChanges(root));
@@ -59,7 +59,7 @@ export function setupProject(root, { apply = false, dryRun = false, greenfield =
     }
     return { ...(dryRun ? { status: 'planned' } : setupPlan(root, lock.adapters, process.env, host)),
       changes: Object.keys(changes), applied: apply && !dryRun,
-      workflow: '.harness/core/workflows/' + (greenfield ? 'greenfield-setup.md' : 'seed.md'),
+      workflow: '.notth/core/workflows/' + (greenfield ? 'greenfield-setup.md' : 'seed.md'),
       note: 'Missing-only configuration scaffolding from the installed snapshot. Existing answers, machine paths, managed files and lock are preserved; host inspection/interview establishes facts.' };
   };
   return apply ? guard(root, operation) : operation();

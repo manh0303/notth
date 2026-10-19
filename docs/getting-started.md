@@ -32,7 +32,7 @@ npx --yes @manhd_d/notth init --host kiro --adapters java-spring --capabilities 
 ```
 
 Thêm `--capabilities uiux` khi cần UI/UX; `monetization` cho website có quảng cáo. [Danh mục đầy đủ](cli.md).
-Với project đã cài, đổi lựa chọn trong `.harness/project.json` rồi dùng `update`.
+Với project đã cài, đổi lựa chọn trong `.notth/project.json` rồi dùng `update`.
 
 ## 2. Mở chat và giao task
 
@@ -56,10 +56,10 @@ Xem [setup theo AI tool](tool-setup/README.md) cho từng tool:
 phân biệt cài tool, cài Harness và kiểm tra instructions đã được đọc.
 Lệnh `setup` chỉ xuất gợi ý thiết lập, không phải bước bắt buộc để bắt đầu.
 
-Review diff và test, rồi commit `AGENTS.md`, `.harness/`, `.agents/skills/` cùng code.
-Quy tắc riêng sửa trong `.harness/local.md`; giữ nguyên file do Harness quản lý.
-Lệnh/tool chung lưu trong `.harness/environment.json`; đường dẫn riêng máy trong `.harness/machine.json` được Git ignore. [Cấu hình Maven/JDK](project-configuration.md).
-Cấu hình model là tùy chọn trong `.harness/agents.json`; chọn model tương thích với công cụ AI: [hướng dẫn](agent-configuration.md).
+Review diff và test, rồi commit `AGENTS.md`, `.notth/`, `.agents/skills/` cùng code.
+Quy tắc riêng sửa trong `.notth/local.md`; giữ nguyên file do Harness quản lý.
+Lệnh/tool chung lưu trong `.notth/environment.json`; đường dẫn riêng máy trong `.notth/machine.json` được Git ignore. [Cấu hình Maven/JDK](project-configuration.md).
+Cấu hình model là tùy chọn trong `.notth/agents.json`; chọn model tương thích với công cụ AI: [hướng dẫn](agent-configuration.md).
 
 ## 3. Thêm tài liệu khi cần
 

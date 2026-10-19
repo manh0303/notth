@@ -7,7 +7,7 @@ does not approve content. Read harness-product-document-review before formatting
 1. Confirm requested format, audience, existing template, output destination and whether an editable
    file is required. Preserve source links, statuses, diagrams, tables and requirement/ADR IDs.
 2. Inspect actual host tools and existing format-specific skills, their versions, dependencies and
-   per-skill licenses. See .harness/integrations/engineering-sources.md. No exporter is bundled.
+   per-skill licenses. See .notth/integrations/engineering-sources.md. No exporter is bundled.
    Prefer available reviewed tooling; do not auto-install packages or upload private content.
 3. Export only the requested deliverable to an authorized project-owned destination. Do not replace
    canonical sources, overwrite user files or silently substitute PDF for editable DOCX/slides.

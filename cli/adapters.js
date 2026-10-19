@@ -62,13 +62,13 @@ export function detect(root, source) {
 function installedAdapters(root) {
   const result = check(root);
   requireThat(result.status === 'ok', 'Fix installation drift before reading capabilities');
-  const lock = loadLock(root), source = path.join(root, '.harness');
+  const lock = loadLock(root), source = path.join(root, '.notth');
   // Require capability files to be covered by the installed lock, not merely present nearby.
   const adapters = lock.adapters.map(id => {
-    requireThat(Object.hasOwn(lock.files, `.harness/adapters/${id}/adapter.yaml`), `Adapter ${id} needs aih update to enable capabilities`);
+    requireThat(Object.hasOwn(lock.files, `.notth/adapters/${id}/adapter.yaml`), `Adapter ${id} needs aih update to enable capabilities`);
     const a = loadAdapter(source, id);
     for (const file of [a.verification, a.evaluation, ...a.rules, ...a.skills.map(s => `skills/${s}/SKILL.md`)]) {
-      requireThat(Object.hasOwn(lock.files, `.harness/adapters/${id}/${file}`), `Capability is not locked: ${id}/${file}`);
+      requireThat(Object.hasOwn(lock.files, `.notth/adapters/${id}/${file}`), `Capability is not locked: ${id}/${file}`);
     }
     return a;
   });
@@ -79,16 +79,16 @@ const SCOPES = new Set(['adapters', 'capabilities', 'core', 'all']);
 function installedEvaluations(root, scope) {
   requireThat(SCOPES.has(scope), `Invalid evaluation scope: ${scope}`);
   const { adapters, lock } = installedAdapters(root);
-  const source = path.join(root, '.harness');
+  const source = path.join(root, '.notth');
   const include = part => part === scope || scope === 'all';
   const capabilities = [];
   if (include('capabilities')) {
     for (const id of lock.capabilities ?? []) {
-      const name = `.harness/capabilities/${id}/capability.json`;
+      const name = `.notth/capabilities/${id}/capability.json`;
       requireThat(Object.hasOwn(lock.files, name), `Capability is not locked: ${id}`);
       const c = loadCapability(source, id);
       for (const file of [c.verification, c.evaluation].filter(Boolean)) {
-        requireThat(Object.hasOwn(lock.files, `.harness/capabilities/${id}/${file}`),
+        requireThat(Object.hasOwn(lock.files, `.notth/capabilities/${id}/${file}`),
           `Capability is not locked: ${id}/${file}`);
       }
       capabilities.push(c);
@@ -97,7 +97,7 @@ function installedEvaluations(root, scope) {
   let core = { checks: [], cases: [] }, composition = [];
   if (include('core')) {
     for (const relative of ['core/checks/verification.json', 'core/evals/cases.json', 'core/evals/composition.json']) {
-      requireThat(Object.hasOwn(lock.files, `.harness/${relative}`), 'Core evaluation assets missing; run aih update');
+      requireThat(Object.hasOwn(lock.files, `.notth/${relative}`), 'Core evaluation assets missing; run aih update');
     }
     core = { checks: checksFrom(source, 'core/checks/verification.json'), cases: casesFrom(source, 'core/evals/cases.json') };
     const manifest = readJson(safe(source, 'core/evals/composition.json'));

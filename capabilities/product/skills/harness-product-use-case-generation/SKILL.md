@@ -26,7 +26,7 @@ description: Translate requirement and story IDs into consistent main, alternati
 - No assumptions about system behavior presented as approved facts.
 
 ## Template
-Read `.harness/capabilities/product/templates/use-cases.md`; `aih new-doc use-cases` creates only a missing
+Read `.notth/capabilities/product/templates/use-cases.md`; `aih new-doc use-cases` creates only a missing
 draft. Apply the shared document contract for authority, preservation and review.
 
 ## Example
@@ -36,4 +36,4 @@ Synthetic illustration: UC-001 contains main lookup, no-result, permission denia
 - Actor, precondition, result and alternate/error flows are explicit.
 
 ## Handoff
-Read the shared installed contract `.harness/capabilities/product/common/document-contract.md`; pass only affected scope and relevant perspectives.
+Read the shared installed contract `.notth/capabilities/product/common/document-contract.md`; pass only affected scope and relevant perspectives.

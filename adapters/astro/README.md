@@ -14,7 +14,7 @@ aih skill harness-astro-islands
 aih verify
 ```
 
-Only include `product` and `uiux` capabilities if required. For a preexisting Harness installation, edit `.harness/project.json` on a branch to add `astro` and run `aih update --dry-run`, `aih update`, `aih check`; do not reinitialize.
+Only include `product` and `uiux` capabilities if required. For a preexisting Harness installation, edit `.notth/project.json` on a branch to add `astro` and run `aih update --dry-run`, `aih update`, `aih check`; do not reinitialize.
 
 The detector checks for `astro` in the **target's root package.json declared dependencies**, without executing code; nested monorepo packages require `--target`. Using `@astrojs/react` / `react-dom` for islands should not cause an unnecessary React/Next.js adapter recommendation when there is no `next` dependency. Explicit adapter selections remain supported.
 

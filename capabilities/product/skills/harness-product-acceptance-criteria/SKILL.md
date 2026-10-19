@@ -26,7 +26,7 @@ description: Write verifiable acceptance criteria in Given/When/Then for each st
 - Avoid arbitrary time, availability and performance thresholds.
 
 ## Template
-Read `.harness/capabilities/product/templates/acceptance-criteria.md`; `aih new-doc acceptance-criteria` creates only a missing
+Read `.notth/capabilities/product/templates/acceptance-criteria.md`; `aih new-doc acceptance-criteria` creates only a missing
 draft. Apply the shared document contract for authority, preservation and review.
 
 ## Example
@@ -36,4 +36,4 @@ Synthetic illustration: Given an employee outside the organization, when searchi
 - Happy, negative and boundary cases are observable.
 
 ## Handoff
-Read the shared installed contract `.harness/capabilities/product/common/document-contract.md`; pass only affected scope and relevant perspectives.
+Read the shared installed contract `.notth/capabilities/product/common/document-contract.md`; pass only affected scope and relevant perspectives.

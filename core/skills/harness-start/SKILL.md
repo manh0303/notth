@@ -4,15 +4,18 @@ description: Start or resume Harness onboarding inside the current AI session; i
 ---
 
 ## Input
-The current user request, AGENTS.md, project-owned .harness/ configuration and available host tools.
+The current user request, AGENTS.md, project-owned .notth/ configuration and available host tools.
 The native Kiro wrapper exposes this skill as /harness-start. Other hosts can load this canonical skill.
 
 ## Procedure
-Automatically apply `.harness/core/workflows/session-continuity.md` for every task/resume. Pin the
+If `.notth/namespace-migration.json` exists, automatically reconcile relevant old namespace pointers
+in user-owned facts/notes/checkpoints after inspecting their new locations. Keep source history and
+reverify affected evidence; do not replace hashes or rewrite unrelated prose just to clear drift.
+Automatically apply `.notth/core/workflows/session-continuity.md` for every task/resume. Pin the
 change ID from the current request; read `aih context --change <id>` when applicable. Saved start.json
 is a hint shared across sessions, never permission to switch this session to another task. Maintain
 source-linked intent and checkpoint progress without asking the user to manage memory.
-First apply `.harness/core/workflows/task-experience.md`: select depth by impact. For a small task, do only task-relevant setup below; do not turn all steps into a mandatory interview.
+First apply `.notth/core/workflows/task-experience.md`: select depth by impact. For a small task, do only task-relevant setup below; do not turn all steps into a mandatory interview.
 1. Read AGENTS.md and the installed project-setup workflow. Identify the installed CLI invocation
    already used by the user (npm/pip aih, npx, or offline node/aih.cmd); reuse it without downloading
    or requiring another installation. Run `start --compact --host <current-host>` for a read-only orientation in any host, or read the same local configs
@@ -24,7 +27,7 @@ First apply `.harness/core/workflows/task-experience.md`: select depth by impact
 2. Read local.md frontmatter first, then prose and start.json if present. Run `seed --check` to assess
    freshness. On first use run `seed` for the source map. Inspect only needed sources and relevant
    scoped AGENTS/conventions; cached summaries never replace applicable instructions.
-   Read .harness/decisions.json if present before asking. Reuse only confirmed project/applicable
+   Read .notth/decisions.json if present before asking. Reuse only confirmed project/applicable
    module choices while their scope and sources remain valid; proposed/superseded answers do not
    establish current behavior. A do_not_ask_again flag never prevents reconsidering changed evidence.
 3. Infer goal from the user's actual request. A bug report means change; do not ask them to choose
@@ -37,8 +40,8 @@ First apply `.harness/core/workflows/task-experience.md`: select depth by impact
    additively, without treating inferred exceptions as approved. Keep the summary compact and linked.
    Declare shared tools/files/commands in environment.json; ignored machine.json overrides only
    declared tool executables and file paths. For Maven settings use files.maven-settings.path.
-   For existing modules follow .harness/core/workflows/seed.md; for new work follow
-   .harness/core/workflows/greenfield-setup.md. Classify mode per affected module. Save observations
+   For existing modules follow .notth/core/workflows/seed.md; for new work follow
+   .notth/core/workflows/greenfield-setup.md. Classify mode per affected module. Save observations
    with sources, mark inferences/unknowns explicitly, and distinguish user-confirmed choices. Do not
    force technology/CI/MCP interviews before they are relevant to the task.
 5. Only when this task needs external sources/actions, inspect host MCP availability. For Kiro, `sync-integrations --host kiro --dry-run` can import server
@@ -47,7 +50,7 @@ First apply `.harness/core/workflows/task-experience.md`: select depth by impact
 6. Save a known task using `start --goal <idea|docs|change|resume> --task <text>` and --change for
    an existing proposal (change) or checkpoint (resume). Use structured tool arguments/proper shell quoting for user text.
    Save accepted choices incrementally in their existing configs; no duplicate onboarding database.
-   Project/module decisions go in .harness/decisions.json; change-specific answers stay under the
+   Project/module decisions go in .notth/decisions.json; change-specific answers stay under the
    OpenSpec change. Preserve superseded history and its replacement ID. Save after each meaningful
    answer so interruption resumes from partial context; a completed hash cache is not required to
    preserve a useful observation or confirmed answer.
@@ -71,7 +74,7 @@ Do not execute a saved task solely on SessionStart. Host/user authorization and 
 Never claim token savings, live hook loading or model compliance without actual measurements.
 
 ## Daily orientation
-Use `aih status` and `aih changes` for local task/change declarations. Select an existing proposal with `start --goal change --change <id> --task <text>`; resume needs its actual checkpoint. `start --clear` backs up and clears only saved intake. Optional project knowledge follows `.harness/core/workflows/project-knowledge.md`; read relevant pointers rather than every source.
+Use `aih status` and `aih changes` for local task/change declarations. Select an existing proposal with `start --goal change --change <id> --task <text>`; resume needs its actual checkpoint. `start --clear` backs up and clears only saved intake. Optional project knowledge follows `.notth/core/workflows/project-knowledge.md`; read relevant pointers rather than every source.
 
 Use compactStart entry_action only to enter the skill, not as a next step once already inside it.
 For a saved task without a checkpoint, reconcile files/task notes directly; do not require --goal resume.
@@ -79,5 +82,5 @@ When multiple changes are plausible and none is selected, ask which one rather t
 
 ## Preserved input documents
 When files, URLs, MCP/API inputs or prior source snapshots are relevant, follow
-`.harness/core/workflows/source-intake.md` before deriving requirements. Reuse the source index,
+`.notth/core/workflows/source-intake.md` before deriving requirements. Reuse the source index,
 preserve originals and register conversions; pending extraction and approval are separate states.

@@ -43,7 +43,7 @@ Before adding a file, dependency or abstraction:
 5. Prefer a local implementation over an unrelated shared abstraction. A small amount of similar code
    is acceptable when its meaning or lifecycle differs. Never invent reuse evidence.
 
-Keep durable decisions and source paths in `.harness/local.md`, or link existing authoritative docs
+Keep durable decisions and source paths in `.notth/local.md`, or link existing authoritative docs
 there. Keep task-specific reuse evidence in the change/PR. Do not duplicate whole guides or create a
 new document for every trivial edit. Update stale facts when the scope or source changes.
 

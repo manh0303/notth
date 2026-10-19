@@ -1,6 +1,6 @@
 # Project artifact contract — Input → Output → Storage → Maintenance
 
-Read project-owned .harness/artifacts.json and .harness/integrations.json when present.
+Read project-owned .notth/artifacts.json and .notth/integrations.json when present.
 Use `aih artifacts` / `aih setup` for a read-only declaration report. Empty or absent configs are
 compatible with legacy/coding-only projects; they do not require a full documentation exercise.
 

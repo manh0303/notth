@@ -1,12 +1,12 @@
-# Notth
+# NOTTH
 
-Tên cũ: **AI Harness**. [Chuyển bản đã cài sang Notth](../notth-migration.md). Lệnh npm cần package đã phát hành có hỗ trợ host bạn chọn. Nếu gặp E404, dùng [source/offline](../getting-started.md#cài-từ-source-khi-registry-chưa-có-package).
+Lệnh npm cần package đã phát hành có hỗ trợ host bạn chọn. Nếu gặp E404, dùng [source/offline](../getting-started.md#cài-từ-source-khi-registry-chưa-có-package).
 
 [English](../../README.md) · **Tiếng Việt** · [简体中文](README.zh-CN.md) · [Español](README.es.md)
 
 Agent workflows tái sử dụng cho phát triển phần mềm: **Requirements → Design → Code → Test → Review.**
 
-Đưa ý tưởng, docs có sẵn hoặc change request cho AI coding tool. Harness giúp AI đọc project, làm rõ quyết định, triển khai scope đã chấp nhận và maintain spec/docs liên quan. Chỉ dùng roles và skills cần cho task.
+Đưa ý tưởng, docs có sẵn hoặc change request cho AI coding tool. NOTTH giúp AI đọc project, làm rõ quyết định, triển khai scope đã chấp nhận và maintain spec/docs liên quan. Chỉ dùng roles và skills cần cho task.
 
 Core dùng được với mọi project; stack adapter là tùy chọn.
 

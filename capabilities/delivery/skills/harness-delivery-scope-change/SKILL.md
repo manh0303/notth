@@ -20,7 +20,7 @@ Change request, reviewed baseline scope/MVP, affected requirements/ADRs, plan an
 docs/delivery/change-assessment.md and reviewed updates to existing plan/requirements/design.
 
 ## Template
-Read `.harness/capabilities/delivery/templates/change-assessment.md` from the installed snapshot.
+Read `.notth/capabilities/delivery/templates/change-assessment.md` from the installed snapshot.
 Use `aih new-doc change-assessment --capability delivery` only for a missing draft;
 reuse existing authoritative docs or a compact task note when appropriate. Never overwrite approved content.
 

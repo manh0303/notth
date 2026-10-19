@@ -10,7 +10,7 @@ Approved SA/ADR decisions for the affected scope, existing project conventions a
 Approved endpoint contract, actual Spring version, existing controller/service patterns and access policy.
 
 ## Procedure
-Read `.harness/adapters/java-spring/rules/engineering.md` for relevant API, transaction/concurrency,
+Read `.notth/adapters/java-spring/rules/engineering.md` for relevant API, transaction/concurrency,
 query/migration and integration risks before selecting tests. Keep vendor-specific evidence explicit.
 1. Map request, validation, success and error contracts to the spec.
 2. Implement authorization for both action and resource ownership; keep transaction boundaries in the application layer.

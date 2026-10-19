@@ -51,7 +51,7 @@ authorization/cache verification when relevant; the CLI does not run these tests
 ## End-user acceptance
 
 When affected AC requires the public UI/device journey, load Core harness-end-user-testing and
-`.harness/core/workflows/end-user-acceptance.md`. Run actual controls in the existing browser/device
+`.notth/core/workflows/end-user-acceptance.md`. Run actual controls in the existing browser/device
 runner, assert visible and persisted outcomes, and capture redacted evidence. Use schema-1 reports
 with verification_target=end-user and the expected surface; mocks/unknown dependencies do not verify
 full acceptance. Missing browser/device/account/environment is BLOCKED. Reuse the existing framework;

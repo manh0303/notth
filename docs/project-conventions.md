@@ -15,10 +15,10 @@ mode; `aih detect` chỉ đưa gợi ý stack. AI kiểm tra scope và quyết �
 
 ## Quy trình sử dụng
 
-1. Chạy `aih setup`; AI đọc `AGENTS.md`, `.harness/local.md`, build/lint/format và code tương tự.
+1. Chạy `aih setup`; AI đọc `AGENTS.md`, `.notth/local.md`, build/lint/format và code tương tự.
 2. Nếu thiếu lựa chọn quan trọng, AI hỏi A/B/C có trade-off và gợi ý dựa trên bằng chứng. Quyết định
    thông thường đã được scope/convention bao phủ không cần hỏi lại.
-3. Lưu các nguồn và quyết định bền vững vào `.harness/local.md`, hoặc liên kết tới tài liệu đang có.
+3. Lưu các nguồn và quyết định bền vững vào `.notth/local.md`, hoặc liên kết tới tài liệu đang có.
 4. Trước mỗi task, AI ghi ngắn: đã đọc đâu, tái sử dụng symbol nào, code mới đặt đâu, vì sao cần tạo mới.
    Đặt ghi chú trong change/PR hiện tại; sửa nhỏ không bắt tạo thêm một bộ tài liệu.
 5. Review diff và chạy các kiểm tra của dự án. `aih verify --scope all` xuất checklist gồm Core,
@@ -30,7 +30,7 @@ Trong phạm vi quyền và an toàn hiện có: quy định riêng đã thống
 trong module → mặc định adapter cho chỗ còn thiếu. Nếu tài liệu và code mâu thuẫn, AI nêu nguồn và
 hỏi khi ảnh hưởng đáng kể. Không lấy một file legacy làm chuẩn, không sao chép lỗi bảo mật để đồng bộ.
 
-Ví dụ nội dung ngắn trong `.harness/local.md` (thay bằng đường dẫn thật đã kiểm tra):
+Ví dụ nội dung ngắn trong `.notth/local.md` (thay bằng đường dẫn thật đã kiểm tra):
 
 ```markdown
 ## Development conventions
@@ -59,7 +59,7 @@ scope cần quyết định của người dùng. Không cài lint/framework m�
 
 Sau khi phiên bản chứa thay đổi được phát hành, nâng CLI rồi chạy `aih update --dry-run`, `aih update`,
 `aih check` trên nhánh consumer. Có thể kiểm thử trước bằng `--source /path/to/reviewed/notth`.
-Update giữ nguyên `.harness/local.md`, environment và các tài liệu dự án; host bổ sung thông tin còn
+Update giữ nguyên `.notth/local.md`, environment và các tài liệu dự án; host bổ sung thông tin còn
 thiếu vào file cũ thay vì ghi đè. Không có schema mới, auto-scaffold ứng dụng hay migration kiến trúc.
 
 `aih check` xác minh snapshot Harness; `aih verify` chỉ lập kế hoạch. Lint, test, build và kiểm tra ranh

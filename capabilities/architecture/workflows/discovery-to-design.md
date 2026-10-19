@@ -2,7 +2,7 @@
 
 Input: idea/reviewed BA documents or an existing project, actual source and Core context. Output:
 reviewed solution decisions linked to requirements and OpenSpec; no mandatory full template set.
-1. Read `.harness/core/workflows/solution-framing.md`; establish mode/depth and preserve prior answers.
+1. Read `.notth/core/workflows/solution-framing.md`; establish mode/depth and preserve prior answers.
 2. Load harness-architecture-project-context. Verify the affected project map and existing decisions;
    use an overview for new/material changes, compact source notes for a small task.
 3. Read reviewed MVP/AC or ask BA/PO about missing scope; use quality-attributes to identify testable

@@ -25,7 +25,7 @@ description: Rank proposed requirements transparently using explicit scoring ass
 - Do not equate an estimate with a delivery commitment.
 
 ## Template
-Read `.harness/capabilities/product/templates/backlog.md`; `aih new-doc backlog` creates only a missing
+Read `.notth/capabilities/product/templates/backlog.md`; `aih new-doc backlog` creates only a missing
 draft. Apply the shared document contract for authority, preservation and review.
 
 ## Example
@@ -35,7 +35,7 @@ Synthetic illustration: Rank secure create/search before optional import using a
 - Priority rationale uses evidence instead of fabricated effort scores.
 
 ## Handoff
-Read the shared installed contract `.harness/capabilities/product/common/document-contract.md`; pass only affected scope and relevant perspectives.
+Read the shared installed contract `.notth/capabilities/product/common/document-contract.md`; pass only affected scope and relevant perspectives.
 
 ## Feedback intake
 Under Core `continuous-development.md`, triage supplied bug reports, UAT findings, user feedback and

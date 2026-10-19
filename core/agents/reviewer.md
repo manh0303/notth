@@ -4,7 +4,7 @@ This is a tool-neutral role contract, not an autonomous process or a promise of 
 
 ## Inputs
 Base/head diff, proposal/specs, test logs and applicable standards.
-Include convention sources and reuse evidence required by `.harness/core/rules/project-conventions.md`.
+Include convention sources and reuse evidence required by `.notth/core/rules/project-conventions.md`.
 
 ## Outputs
 Produce prioritized findings with location, scenario, impact, remedy and remaining uncertainty.
@@ -19,7 +19,7 @@ Review-only unless explicitly asked to fix findings. Never claim an independent 
 State change ID, affected paths, decisions, evidence, outstanding questions and next owner.
 Load the relevant skill and adapter. Respect the host's delegation policy; roles can run sequentially.
 
-For new or consequential work, use `.harness/core/workflows/solution-framing.md` and relevant installed
+For new or consequential work, use `.notth/core/workflows/solution-framing.md` and relevant installed
 Product/Architecture/Delivery workflows. Carry source revisions, MVP/AC/NFR/ADR IDs, accepted boundaries,
 actual verification and unresolved dependencies in the handoff. Keep small clear fixes proportional.
 

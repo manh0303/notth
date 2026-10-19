@@ -46,13 +46,13 @@ for (const id of ['architecture', 'delivery']) test(`${id} installs alone, expos
   install(root, source, { capabilities: [id] });
   const lock = loadLock(root);
   assert.deepEqual(lock.capabilities, [id]);
-  assert.ok(!fs.existsSync(path.join(root, '.harness/capabilities/product')));
-  assert.ok(read('AGENTS.md').includes(`.harness/capabilities/${id}/workflows/`));
+  assert.ok(!fs.existsSync(path.join(root, '.notth/capabilities/product')));
+  assert.ok(read('AGENTS.md').includes(`.notth/capabilities/${id}/workflows/`));
   const catalog = skillCatalog(root, lock);
   assert.equal(catalog.skills.length, fs.readdirSync(path.join(source, 'core/skills'), { withFileTypes: true }).filter(entry => entry.isDirectory()).length + info.skills.length);
   for (const name of info.skills) {
     assert.ok(readSkill(root, lock, name).content.includes('## Quality checklist'));
-    assert.equal(lock.files[`.agents/skills/${name}/SKILL.md`], lock.files[`.harness/capabilities/${id}/skills/${name}/SKILL.md`]);
+    assert.equal(lock.files[`.agents/skills/${name}/SKILL.md`], lock.files[`.notth/capabilities/${id}/skills/${name}/SKILL.md`]);
   }
   for (const template of info.templates) {
     const name = path.basename(template, '.md');
@@ -81,11 +81,11 @@ test('Product defaults remain compatible and same-named plans have explicit name
 test('new-doc refuses a bundled but undeclared template and all managed drift', () => {
   write('capabilities/architecture/templates/hidden.md', '# Undeclared template', source);
   install(root, source, { capabilities: ['architecture'] });
-  assert.ok(loadLock(root).files['.harness/capabilities/architecture/templates/hidden.md']);
+  assert.ok(loadLock(root).files['.notth/capabilities/architecture/templates/hidden.md']);
   let before = snapshot();
   assert.throws(() => newDoc(root, 'hidden', 'architecture'), /Unknown document type/);
   assert.deepEqual(snapshot(), before);
-  write('.harness/capabilities/architecture/templates/overview.md', 'Edited managed template');
+  write('.notth/capabilities/architecture/templates/overview.md', 'Edited managed template');
   before = snapshot();
   assert.throws(() => newDoc(root, 'overview', 'architecture'), /drift/);
   assert.throws(() => install(root, source, { command: 'update' }), /Managed files changed/);
@@ -104,22 +104,22 @@ test('capability draft refuses an existing symlink destination without touching 
 test('selection upgrade/removal preserves approved docs, old Product plans, local facts and host bridges', () => {
   install(root, source, { capabilities: ['product'] });
   newDoc(root, 'delivery-plan'); write('docs/product/delivery-plan.md', 'Approved old plan');
-  write('.harness/local.md', 'Reviewed project facts'); write('CLAUDE.md', '@AGENTS.md\nUser rule');
+  write('.notth/local.md', 'Reviewed project facts'); write('CLAUDE.md', '@AGENTS.md\nUser rule');
   write('GEMINI.md', '@./AGENTS.md');
-  const config = readJson(path.join(root, '.harness/project.json'));
-  config.capabilities = ['product', 'architecture', 'delivery']; write('.harness/project.json', config);
+  const config = readJson(path.join(root, '.notth/project.json'));
+  config.capabilities = ['product', 'architecture', 'delivery']; write('.notth/project.json', config);
   const before = snapshot(); install(root, source, { command: 'update', dryRun: true });
   assert.deepEqual(snapshot(), before);
   install(root, source, { command: 'update' }); newDoc(root, 'overview', 'architecture');
   write('docs/architecture/overview.md', 'Approved architecture'); newDoc(root, 'delivery-plan', 'delivery');
-  config.capabilities = ['product']; write('.harness/project.json', config);
+  config.capabilities = ['product']; write('.notth/project.json', config);
   install(root, source, { command: 'update' });
-  assert.ok(!Object.keys(loadLock(root).files).some(name => name.startsWith('.harness/capabilities/architecture/')));
-  assert.ok(!fs.existsSync(path.join(root, '.harness/capabilities/architecture/capability.json')));
+  assert.ok(!Object.keys(loadLock(root).files).some(name => name.startsWith('.notth/capabilities/architecture/')));
+  assert.ok(!fs.existsSync(path.join(root, '.notth/capabilities/architecture/capability.json')));
   assert.ok(!fs.existsSync(path.join(root, '.agents/skills/harness-architecture-project-context/SKILL.md')));
   assert.equal(read('docs/architecture/overview.md'), 'Approved architecture');
   assert.equal(read('docs/product/delivery-plan.md'), 'Approved old plan');
-  assert.equal(read('.harness/local.md'), 'Reviewed project facts');
+  assert.equal(read('.notth/local.md'), 'Reviewed project facts');
   assert.equal(read('CLAUDE.md'), '@AGENTS.md\nUser rule'); assert.equal(read('GEMINI.md'), '@./AGENTS.md');
   assert.equal(check(root).status, 'ok');
 });
@@ -140,8 +140,8 @@ test('three-role composition exports locked manual checks and unscored traceable
   configWithoutDelivery();
   assert.ok(!evaluate(root, undefined, 'all').dataset.cases.some(c => c.id === 'composition/product-solution-delivery'));
   function configWithoutDelivery() {
-    const config = readJson(path.join(root, '.harness/project.json')); config.capabilities = ['product', 'architecture'];
-    write('.harness/project.json', config); install(root, source, { command: 'update' });
+    const config = readJson(path.join(root, '.notth/project.json')); config.capabilities = ['product', 'architecture'];
+    write('.notth/project.json', config); install(root, source, { command: 'update' });
   }
 });
 
@@ -151,7 +151,7 @@ test('Product/Architecture/Delivery skill bodies link templates with examples an
     for (const name of info.skills) {
       const body = fs.readFileSync(path.join(source, `capabilities/${id}/skills/${name}/SKILL.md`), 'utf8');
       for (const heading of ['## Template', '## Example', '## Quality checklist', '## Handoff']) assert.ok(body.includes(heading), `${name}: ${heading}`);
-      const matches = [...body.matchAll(/\.harness\/capabilities\/([a-z-]+)\/templates\/([a-z-]+)\.md/g)];
+      const matches = [...body.matchAll(/\.notth\/capabilities\/([a-z-]+)\/templates\/([a-z-]+)\.md/g)];
       assert.ok(matches.length > 0, `${name}: no installed template reference`);
       for (const [, owner, type] of matches) assert.ok(loadCapability(source, owner).templates.includes(`templates/${type}.md`));
     }

@@ -36,5 +36,6 @@
   "workflow_contracts": [
     "core/workflows/spec-to-code.workflow.json",
     "capabilities/product/workflows/idea-to-prd.workflow.json"
-  ]
+  ],
+  "project_directory": ".notth"
 }

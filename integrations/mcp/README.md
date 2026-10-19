@@ -15,7 +15,7 @@ If a server is unavailable, report the missing capability rather than inventing 
 The example inventory is deliberately not a host-specific runnable configuration. Translate it to the
 chosen client's supported schema and test permission denials before enabling write tools.
 
-Project-owned .harness/integrations.json declares dynamic connection aliases, access and scope;
-.harness/artifacts.json maps their input/output locations. See [Artifact contract](../../docs/artifact-contract.md).
+Project-owned .notth/integrations.json declares dynamic connection aliases, access and scope;
+.notth/artifacts.json maps their input/output locations. See [Artifact contract](../../docs/artifact-contract.md).
 `aih artifacts` does not discover/start MCP servers or authorize tool calls. Resolve aliases against
 the actual host tools and keep native configs/credentials outside Git.

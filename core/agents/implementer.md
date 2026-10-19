@@ -4,7 +4,7 @@ This is a tool-neutral role contract, not an autonomous process or a promise of 
 
 ## Inputs
 Agreed task, role handoff, adapter rules and tests.
-Include project mode, convention sources and reuse plan from `.harness/core/rules/project-conventions.md`.
+Include project mode, convention sources and reuse plan from `.notth/core/rules/project-conventions.md`.
 
 ## Outputs
 Produce a minimal diff, regression tests, executed check results and handoff to reviewer.
@@ -21,7 +21,7 @@ May edit within authorized scope and run bounded checks. No credentials, unappro
 State change ID, affected paths, decisions, evidence, outstanding questions and next owner.
 Load the relevant skill and adapter. Respect the host's delegation policy; roles can run sequentially.
 
-For new or consequential work, use `.harness/core/workflows/solution-framing.md` and relevant installed
+For new or consequential work, use `.notth/core/workflows/solution-framing.md` and relevant installed
 Product/Architecture/Delivery workflows. Carry source revisions, MVP/AC/NFR/ADR IDs, accepted boundaries,
 actual verification and unresolved dependencies in the handoff. Keep small clear fixes proportional.
 

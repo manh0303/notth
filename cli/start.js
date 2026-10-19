@@ -66,13 +66,13 @@ export function startPlan(root, host) {
     installed_modules: { adapters: lock.adapters, capabilities: lock.capabilities ?? [] },
     setup_questions: setup.questions, environment: setup.environment,
     resume,
-    configuration: { directory: '.harness/', task: START_CONFIG, inputs_outputs: '.harness/artifacts.json', models_agents: '.harness/agents.json',
+    configuration: { directory: '.notth/', task: START_CONFIG, inputs_outputs: '.notth/artifacts.json', models_agents: '.notth/agents.json',
       backup: 'aih backup', restore: 'aih restore --from <project-relative-backup.json>', transfer: 'aih restore --from <backup.json> --transfer' },
-    host_prompt: (Object.hasOwn(lock.files, '.agents/skills/harness-start/SKILL.md') ? 'Read .agents/skills/harness-start/SKILL.md and follow its session onboarding procedure. ' : '') + 'Read AGENTS.md, .harness/start.json if present, .harness/local.md, .harness/decisions.json if present and .harness/core/workflows/project-setup.md. '
+    host_prompt: (Object.hasOwn(lock.files, '.agents/skills/harness-start/SKILL.md') ? 'Read .agents/skills/harness-start/SKILL.md and follow its session onboarding procedure. ' : '') + 'Read AGENTS.md, .notth/start.json if present, .notth/local.md, .notth/decisions.json if present and .notth/core/workflows/project-setup.md. '
       + 'Inspect declared input/output locations and current code. Reuse saved answers; ask only missing consequential decisions with options and a grounded recommendation. '
-      + 'Use .harness/core/workflows/' + workflow + '. Discover only relevant installed agents/skills; suggest missing modules before editing project.json. '
+      + 'Use .notth/core/workflows/' + workflow + '. Discover only relevant installed agents/skills; suggest missing modules before editing project.json. '
       + 'Keep model defaults unless requested; save accepted source/output/connection choices in their project-owned configs. '
-      + 'For each task apply .harness/core/workflows/session-continuity.md automatically; pin the change in this session and use context --change <id>. Do not let a saved task from another session switch your scope. '
+      + 'For each task apply .notth/core/workflows/session-continuity.md automatically; pin the change in this session and use context --change <id>. Do not let a saved task from another session switch your scope. '
       + 'For resumed tasks inspect checkpoint freshness and side effects. Implement accepted scope with actual verification and maintain affected docs.',
     next_steps: [host === 'kiro' ? 'In Kiro select /harness-start; complete the interview in the current AI session. This CLI plan never asks terminal questions for --host kiro.' : 'In a terminal start interviews and saves answers; without a TTY it prints this plan. Use --goal/--task to save non-interactively.',
       'Open this project in your AI tool and send host_prompt; CLI does not launch a model or read remote document contents.',
@@ -106,7 +106,7 @@ export function saveStart(root, { goal, task, changeId, input, output, host } = 
       }
       // Reuse the existing contract validator in a temporary workspace, before touching the target.
       validateProposed(root, artifacts);
-      changes['.harness/artifacts.json'] = encode(artifacts);
+      changes['.notth/artifacts.json'] = encode(artifacts);
     }
     for (const [name, bytes] of Object.entries(changes)) if (stat(safe(root, name)) && fs.readFileSync(safe(root, name)).equals(bytes)) delete changes[name];
     const replacing = Object.keys(changes).some(name => stat(safe(root, name)));
@@ -121,9 +121,9 @@ function validateProposed(root, artifacts) {
   // Validate cross-file references with existing integrations and validate target paths through the canonical loader.
   const temp = fs.mkdtempSync(path.join(os.tmpdir(), 'aih-start-'));
   try {
-    fs.mkdirSync(path.join(temp, '.harness'));
-    fs.writeFileSync(path.join(temp, '.harness/artifacts.json'), encode(artifacts));
-    fs.writeFileSync(path.join(temp, '.harness/integrations.json'), encode(loadArtifactContract(root).integrations));
+    fs.mkdirSync(path.join(temp, '.notth'));
+    fs.writeFileSync(path.join(temp, '.notth/artifacts.json'), encode(artifacts));
+    fs.writeFileSync(path.join(temp, '.notth/integrations.json'), encode(loadArtifactContract(root).integrations));
     loadArtifactContract(temp);
     for (const group of ['inputs', 'outputs']) for (const item of Object.values(artifacts[group])) {
       const name = item.location.path;

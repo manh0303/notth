@@ -1,3 +1,4 @@
+import { legacyInstallation, migrateNamespace } from './namespace-migration.js';
 import fs from 'node:fs';
 import { HOST_BRIDGES, isHostBridge } from './host-bridges.js';
 import { localContext } from './knowledge.js';
@@ -31,11 +32,11 @@ export function projectConfig(root, adapters, capabilities, required = false) {
   validateCapabilities(config.capabilities ?? []);
   if (adapters !== undefined && stat(filename)
       && JSON.stringify([...adapters].sort()) !== JSON.stringify([...config.adapters].sort())) {
-    throw new HarnessError('Edit .harness/project.json to select adapters, then run update');
+    throw new HarnessError('Edit .notth/project.json to select adapters, then run update');
   }
   if (capabilities !== undefined && stat(filename)
       && JSON.stringify([...capabilities].sort()) !== JSON.stringify([...(config.capabilities ?? [])].sort())) {
-    throw new HarnessError('Edit .harness/project.json to select capabilities, then run update');
+    throw new HarnessError('Edit .notth/project.json to select capabilities, then run update');
   }
   return config;
 }
@@ -66,7 +67,7 @@ export function bundle(source, config) {
   const files = {};
   for (const folder of ['core', 'integrations', 'templates', ...adapters.map(a => `adapters/${a}`), ...capabilities.map(c => `capabilities/${c}`), ...[...new Set(capabilities.map(c => loadCapability(source, c).asset_owner).filter(Boolean))].map(c => `capabilities/${c}`)]) {
     for (const [name, data] of Object.entries(collect(source, folder))) {
-      files[`.harness/${name}`] = data;
+      files[`.notth/${name}`] = data;
       if (name.startsWith('core/skills/')) files[`.agents/skills/${name.slice('core/skills/'.length)}`] = data;
     }
   }
@@ -78,7 +79,7 @@ export function bundle(source, config) {
       files[dest] = fs.readFileSync(safe(source, `adapters/${a}/skills/${name}/SKILL.md`));
     }
   }
-  files['.harness/templates/agents.default.json'] = encode(agentDefaults(source));
+  files['.notth/templates/agents.default.json'] = encode(agentDefaults(source));
   for (const c of capabilities) {
     const info = loadCapability(source, c);
     for (const name of info.skills) {
@@ -88,9 +89,9 @@ export function bundle(source, config) {
       files[dest] = data;
     }
   }
-  const capabilityLinks = capabilities.map(c => `- For ${c} tasks, read \`.harness/capabilities/${loadCapability(source,c).asset_owner ?? c}/workflows/\` and discover relevant \`.agents/skills/harness-${loadCapability(source,c).asset_owner ?? c}-*/SKILL.md\` by description.`).join('\n')
+  const capabilityLinks = capabilities.map(c => `- For ${c} tasks, read \`.notth/capabilities/${loadCapability(source,c).asset_owner ?? c}/workflows/\` and discover relevant \`.agents/skills/harness-${loadCapability(source,c).asset_owner ?? c}-*/SKILL.md\` by description.`).join('\n')
     || '- No optional capability selected.';
-  const links = adapters.map(a => `- Read \`.harness/adapters/${a}/rules.md\` and \`.harness/adapters/${a}/adapter.yaml\`; load relevant skills from \`.agents/skills/harness-${a}-*\`.`).join('\n') || '- No technology adapter selected.';
+  const links = adapters.map(a => `- Read \`.notth/adapters/${a}/rules.md\` and \`.notth/adapters/${a}/adapter.yaml\`; load relevant skills from \`.agents/skills/harness-${a}-*\`.`).join('\n') || '- No technology adapter selected.';
   const template = fs.readFileSync(safe(source, 'templates/AGENTS.md'), 'utf8');
   const generated = Buffer.from(template.replaceAll('{{version}}', m.version).replaceAll('{{adapters}}', links).replaceAll('{{capabilities}}', capabilityLinks).trim());
   if (!block(generated)?.equals(generated)) throw new HarnessError('AGENTS template must be one managed block');
@@ -100,7 +101,7 @@ export function bundle(source, config) {
 }
 
 function managedName(name) {
-  return name === 'AGENTS.md' || name === 'CLAUDE.md' || isHostBridge(name) || name === KIRO_HOOK || ['.harness/core/', '.harness/adapters/', '.harness/capabilities/', '.harness/integrations/', '.harness/templates/', '.agents/skills/harness-', '.claude/skills/harness-', '.kiro/skills/harness-'].some(prefix => name.startsWith(prefix));
+  return name === 'AGENTS.md' || name === 'CLAUDE.md' || isHostBridge(name) || name === KIRO_HOOK || ['.notth/core/', '.notth/adapters/', '.notth/capabilities/', '.notth/integrations/', '.notth/templates/', '.agents/skills/harness-', '.claude/skills/harness-', '.kiro/skills/harness-'].some(prefix => name.startsWith(prefix));
 }
 
 export function loadLock(root) {
@@ -127,15 +128,23 @@ function drift(root, lock) {
 }
 
 export function guard(root, operation) {
-  const filename = safe(root, '.harness-install.lock');
-  let fd;
-  try { fd = fs.openSync(filename, 'wx', 0o600); }
-  catch (error) {
-    if (error.code === 'EEXIST') throw new HarnessError('Another installation is active; inspect .harness-install.lock before removing a stale lock');
-    throw error;
+  const markers = ['.notth-install.lock', '.harness-install.lock'];
+  const acquired = [];
+  try {
+    for (const name of markers) {
+      const filename = safe(root, name);
+      let fd;
+      try { fd = fs.openSync(filename, 'wx', 0o600); }
+      catch (error) {
+        if (error.code === 'EEXIST') throw new HarnessError('Another installation is active; inspect ' + name + ' before removing a stale lock');
+        throw error;
+      }
+      acquired.push({ filename, fd }); fs.writeSync(fd, String(process.pid));
+    }
+    return operation();
+  } finally {
+    for (const { filename, fd } of acquired.reverse()) { fs.closeSync(fd); fs.unlinkSync(filename); }
   }
-  try { fs.writeSync(fd, String(process.pid)); return operation(); }
-  finally { fs.closeSync(fd); fs.unlinkSync(filename); }
 }
 
 export function snapshotCheck(root) {
@@ -144,7 +153,7 @@ export function snapshotCheck(root) {
 }
 
 export function userIgnoreChanges(root) {
-  const name = '.harness/.gitignore', filename = safe(root, name);
+  const name = '.notth/.gitignore', filename = safe(root, name);
   const data = stat(filename) ? fs.readFileSync(filename, 'utf8') : '';
   return data.trimEnd().split(/\r?\n/).slice(-2).join('\n') === '/backups/\n/machine.json' ? {}
     : { [name]: Buffer.from(data + (data && !data.endsWith('\n') ? '\n' : '') + '/backups/\n/machine.json\n') };
@@ -152,7 +161,7 @@ export function userIgnoreChanges(root) {
 
 export function atomicWrite(filename, data, mode = 0o644) {
   fs.mkdirSync(path.dirname(filename), { recursive: true });
-  const tmp = path.join(path.dirname(filename), `.harness-tmp-${randomUUID()}`);
+  const tmp = path.join(path.dirname(filename), `.notth-tmp-${randomUUID()}`);
   try {
     fs.writeFileSync(tmp, data, { flag: 'wx', mode: 0o600 });
     fs.chmodSync(tmp, stat(filename) ? fs.statSync(filename).mode & 0o777 : mode);
@@ -183,7 +192,14 @@ export function transaction(root, changes, writer = atomicWrite) {
   }
 }
 
-export function install(root, source, { command = 'init', adapters, capabilities, agentPreset, dryRun = false, allowMajor = false, host, linkClaude: linkClaudeOpt = false, claudeSkills = false, writer } = {}) {
+export function install(root, source, options = {}) {
+  assertSeparate(root, source);
+  if (legacyInstallation(root)) return guard(root, () => migrateNamespace(root, source, options,
+    { install: installCurrent, bundle, transaction, atomicWrite }));
+  return installCurrent(root, source, options);
+}
+
+function installCurrent(root, source, { command = 'init', adapters, capabilities, agentPreset, dryRun = false, allowMajor = false, host, linkClaude: linkClaudeOpt = false, claudeSkills = false, writer } = {}) {
   assertSeparate(root, source);
   if (host !== undefined && (typeof host !== 'string' || !SLUG.test(host))) throw new HarnessError('Invalid host ID; choose one tool');
   return guard(root, () => {
@@ -254,9 +270,9 @@ export function install(root, source, { command = 'init', adapters, capabilities
       [ARTIFACTS]: encode(emptyArtifacts()),
       [INTEGRATIONS]: encode(emptyIntegrations()),
       [PROJECT_DECISIONS]: encode(emptyProjectDecisions()),
-      '.harness/environment.json': encode(emptyEnvironment()),
+      '.notth/environment.json': encode(emptyEnvironment()),
       'openspec/config.yaml': fs.readFileSync(safe(source, 'templates/openspec/config.yaml')),
-      '.harness/local.md': stat(safe(source, 'templates/local.md')) ? fs.readFileSync(safe(source, 'templates/local.md')) : Buffer.from('# Project overrides\n\nRecord project facts and reviewed exceptions here.\n'),
+      '.notth/local.md': stat(safe(source, 'templates/local.md')) ? fs.readFileSync(safe(source, 'templates/local.md')) : Buffer.from('# Project overrides\n\nRecord project facts and reviewed exceptions here.\n'),
     };
     for (const [name, data] of Object.entries(seeds)) if (!stat(safe(root, name))) changes[name] = data;
     // Project-owned ignore file: preserve all prior rules, place our anchored rule last.
@@ -291,7 +307,7 @@ export function changeSidecars(root, name) {
     if (!stat(safe(root, base + '/proposal.md'))) throw new HarnessError('Sidecars require an existing proposal.md');
     const lock = loadLock(root), changes = {};
     for (const file of ['.openspec.yaml', 'decisions.json', 'verification.json', 'artifact-impact.json']) {
-      const template = '.harness/templates/openspec/' + file;
+      const template = '.notth/templates/openspec/' + file;
       if (!Object.hasOwn(lock.files, template)) throw new HarnessError('Update Harness to install sidecar templates');
       const destination = base + '/' + file;
       if (!stat(safe(root,destination))) changes[destination] = Buffer.from(fs.readFileSync(safe(root,template),'utf8').replaceAll('{{change_id}}',name));
@@ -311,11 +327,11 @@ export function newChange(root, name) {
     const mapping = { 'proposal.md': 'proposal.md', 'design.md': 'design.md', 'tasks.md': 'tasks.md', 'spec.md': `specs/${name}/spec.md`, '.openspec.yaml': '.openspec.yaml' };
     const locked = loadLock(root);
     for (const name of ['decisions.json', 'verification.json', 'artifact-impact.json']) {
-      if (Object.hasOwn(locked.files, '.harness/templates/openspec/' + name)) mapping[name] = name;
+      if (Object.hasOwn(locked.files, '.notth/templates/openspec/' + name)) mapping[name] = name;
     }
     const changes = {};
     for (const [src, dest] of Object.entries(mapping)) {
-      const text = fs.readFileSync(safe(root, `.harness/templates/openspec/${src}`), 'utf8');
+      const text = fs.readFileSync(safe(root, `.notth/templates/openspec/${src}`), 'utf8');
       changes[`openspec/changes/${name}/${dest}`] = Buffer.from(text.replaceAll('{{change_id}}', name));
     }
     transaction(root, changes);
@@ -332,21 +348,21 @@ export function newDoc(root, name, capability = 'product', options = {}) {
     const lock = loadLock(root);
     const selected = lock.capabilities ?? [];
     const profile = selected.find(id => {
-      const info = loadCapability(path.join(root, '.harness'), id);
+      const info = loadCapability(path.join(root, '.notth'), id);
       return info.asset_owner === capability && info.templates.includes('templates/' + name + '.md');
     });
     if (!selected.includes(capability) && !profile) {
       throw new HarnessError(capability === 'product' ? 'Product capability is not installed' : `Capability is not installed: ${capability}`);
     }
-    const info = loadCapability(path.join(root, '.harness'), capability);
+    const info = loadCapability(path.join(root, '.notth'), capability);
     const owner = info.asset_owner ?? capability;
     const sourceName = info.template_aliases?.['templates/' + name + '.md']
-      ? '.harness/' + info.template_aliases['templates/' + name + '.md']
-      : `.harness/capabilities/${owner}/templates/${name}.md`;
-    if (!Object.hasOwn(lock.files, `.harness/capabilities/${capability}/capability.json`)) {
+      ? '.notth/' + info.template_aliases['templates/' + name + '.md']
+      : `.notth/capabilities/${owner}/templates/${name}.md`;
+    if (!Object.hasOwn(lock.files, `.notth/capabilities/${capability}/capability.json`)) {
       throw new HarnessError(`Capability metadata is not locked: ${capability}`);
     }
-    const declared = loadCapability(path.join(root, '.harness'), capability).templates;
+    const declared = loadCapability(path.join(root, '.notth'), capability).templates;
     if (!declared.includes(`templates/${name}.md`)) throw new HarnessError(`Unknown document type for ${capability}: ${name}`);
     if (!Object.hasOwn(lock.files, sourceName)) throw new HarnessError(`Document template is not locked: ${capability}/${name}`);
     if (options.report && (owner !== 'product' || name !== 'techspec')) throw new HarnessError('--report is supported only for product techspec');

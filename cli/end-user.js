@@ -13,7 +13,7 @@ export function endUserPlan({ adapters, frameworks, hasStaticPage, hasApi, hasCl
       : surface === 'cli' ? ['authorized host terminal and existing CLI tests'] : ['existing HTTP/API test client'],
   }));
   return { executed: false, status: 'planned', surface_hints: surfaces, tools,
-    workflow: '.harness/core/workflows/end-user-acceptance.md', skill: 'harness-end-user-testing', role: 'core:test-engineer',
+    workflow: '.notth/core/workflows/end-user-acceptance.md', skill: 'harness-end-user-testing', role: 'core:test-engineer',
     required_context: ['Reviewed AC and affected user journeys/roles; inspect input sources before asking.',
       'Actual app URL/start command or public CLI/API entry; reachable test environment and test-account references.',
       'Existing runner or available host tools, isolated fixtures and permitted mutations/cleanup.',

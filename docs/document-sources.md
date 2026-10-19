@@ -74,8 +74,8 @@ aih sources
 aih source-check app-123 --report observation.json --input evidence.json
 ```
 
-Hai file mẫu cài tại `.harness/templates/source-metadata.json` và
-`.harness/templates/source-observation.json`; AI điền bằng dữ liệu thực, không dùng nguyên placeholder.
+Hai file mẫu cài tại `.notth/templates/source-metadata.json` và
+`.notth/templates/source-observation.json`; AI điền bằng dữ liệu thực, không dùng nguyên placeholder.
 Cả hai command ghi dữ liệu đều hỗ trợ `--dry-run` và `--target`.
 
 Metadata mẫu (thay hash/thời gian bằng giá trị thực):

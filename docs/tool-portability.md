@@ -62,7 +62,7 @@ không bị đổi tự động. Cài mới dùng default phù hợp host đã c
 
 ## Sang project mới
 
-Khởi tạo snapshot bằng `aih init --host <tool>` thay vì copy toàn bộ `.harness` từ project cũ.
+Khởi tạo snapshot bằng `aih init --host <tool>` thay vì copy toàn bộ `.notth` từ project cũ.
 Khi muốn mang lựa chọn module/model sang, xem [backup transfer](configuration-backup.md): restore
 với `--transfer` trước init. Transfer không sao chép custom skills, task hay project facts.
 
@@ -76,7 +76,7 @@ với `--transfer` trước init. Transfer không sao chép custom skills, task 
 | `artifacts.json`, `integrations.json` | Khai báo nguồn/output/kết nối thực tế; không copy credentials |
 | Custom skills | Chỉ mang skill được phép tái sử dụng, đủ supporting files và không gắn domain cũ |
 
-Snapshot cài `.harness/templates/SETUP.md` và `.harness/templates/local.md` để tham khảo offline.
+Snapshot cài `.notth/templates/SETUP.md` và `.notth/templates/local.md` để tham khảo offline.
 Không chỉnh lock bằng tay hoặc tạo start.json giả để biểu thị trạng thái rỗng.
 
 ## Kiểm chứng

@@ -63,11 +63,11 @@ kết quả. Ít nhất một check hoặc manual review đã pass phải đư�
   bằng chứng là thật. Reviewer vẫn kiểm tra nguồn, diff và log; dùng OpenSpec CLI riêng để validate.
 
 Change cũ không bị tự sửa. Nếu muốn dùng ready, copy hai template từ
-`.harness/templates/openspec/` sau khi update, chỉ khi file đích chưa có; điền theo thực tế.
+`.notth/templates/openspec/` sau khi update, chỉ khi file đích chưa có; điền theo thực tế.
 Sửa nhỏ, ít rủi ro không cần full change: ghi rationale và bằng chứng ngay trong PR.
 
 ## Artifact maintenance
-With configured outputs in .harness/artifacts.json, readiness also reads artifact-impact.json.
+With configured outputs in .notth/artifacts.json, readiness also reads artifact-impact.json.
 Cover each output plus affected input IDs, record reviewed impact/reasons and respect read-only
 sources. Implement allows pending plans; review requires done items and evidence for changes.
 Unconfigured/legacy projects keep their existing readiness behavior. See [Artifact contract](artifact-contract.md).

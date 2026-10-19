@@ -16,7 +16,7 @@ aih skill harness-monetization-ad-placement-ux
 aih verify --scope capabilities
 ```
 
-Use `aih resolve --adapters astro --capabilities monetization` or `aih init ... --dry-run` before installing. For an already installed project, edit the `capabilities` array in `.harness/project.json`, then `aih update --dry-run`, `aih update`, `aih check` on a branch.
+Use `aih resolve --adapters astro --capabilities monetization` or `aih init ... --dry-run` before installing. For an already installed project, edit the `capabilities` array in `.notth/project.json`, then `aih update --dry-run`, `aih update`, `aih check` on a branch.
 
 All five skills are **instructions** exposed only if selected; `aih verify` is advisory and never checks remote approval status or runs a browser. Both workflows are Markdown contracts, not orchestrated jobs.
 
@@ -27,7 +27,7 @@ All five skills are **instructions** exposed only if selected; `aih verify` is a
 - [Traffic → Revenue review](workflows/traffic-to-revenue-review.md)
 - [Publication and policy references](../../docs/monetization.md)
 
-Project-owned drafts belong in `docs/monetization/`. Review and copy the installed Markdown templates from `.harness/capabilities/monetization/templates/` **manually or through an authorized AI IDE**. `aih new-doc` is reserved for Product templates and does not generate monetization drafts.
+Project-owned drafts belong in `docs/monetization/`. Review and copy the installed Markdown templates from `.notth/capabilities/monetization/templates/` **manually or through an authorized AI IDE**. `aih new-doc` is reserved for Product templates and does not generate monetization drafts.
 
 ## Non-negotiable boundaries
 

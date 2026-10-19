@@ -15,8 +15,23 @@
     }
   ],
   "links": [
-    { "id": "PP-1", "kind": "painpoint", "source_refs": ["request"], "depends_on": [] },
-    { "id": "REQ-1", "kind": "requirement", "source_refs": ["request"], "depends_on": ["PP-1"] }
-  ],
-  "task_backend": { "kind": "local" }
+    {
+      "id": "PP-1",
+      "kind": "painpoint",
+      "source_refs": [
+        "request"
+      ],
+      "depends_on": []
+    },
+    {
+      "id": "REQ-1",
+      "kind": "requirement",
+      "source_refs": [
+        "request"
+      ],
+      "depends_on": [
+        "PP-1"
+      ]
+    }
+  ]
 }

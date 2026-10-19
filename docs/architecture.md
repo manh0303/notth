@@ -26,13 +26,13 @@ It is not an LLM gateway, an orchestration server or a sandbox.
 | project overrides | Domain facts, actual versions, approved exceptions | Consumer project |
 
 ## Installation design
-The consumer receives a vendored .harness snapshot and .agents/skills/harness-* files. AGENTS.md gets
-one marked block. The CLI leaves text outside that block intact. The generated .harness/lock.json records
+The consumer receives a vendored .notth snapshot and .agents/skills/harness-* files. AGENTS.md gets
+one marked block. The CLI leaves text outside that block intact. The generated .notth/lock.json records
 schema version, release version, selected adapters, each owned content hash and an aggregate hash.
 The hashes detect accidental drift; they are not signatures and cannot detect a coordinated malicious
 edit to both payload and lock. Review source commit provenance and consumer lock diffs in Git.
 
-Project-owned seeds: .harness/project.json, .harness/local.md and openspec/config.yaml. Updates preserve
+Project-owned seeds: .notth/project.json, .notth/local.md and openspec/config.yaml. Updates preserve
 their contents. Existing openspec specs/changes are never rewritten. Only previously owned, unchanged
 files can be deleted when a new bundle removes them. Unknown user files are never swept away.
 Identical pre-existing payload may be adopted; conflicting payload aborts the entire preflight.
@@ -62,7 +62,7 @@ own model-backed runtime; actual permissions, cost limits and network allowlists
 
 ## Advertising monetization capability
 
-`capabilities/monetization/` is an optional, stack-neutral guide for legitimate publisher readiness, safe ad UX, SEO and revenue analysis. It does not install provider SDKs, access Google accounts, claim consent compliance or guarantee approval/revenue. Templates are vendored into the selected consumer under `.harness/capabilities/monetization/templates/`; `aih new-doc` defaults to Product; explicit `--capability monetization` selects a declared installed template into project-owned `docs/monetization/`. Review [Monetization guide](monetization.md).
+`capabilities/monetization/` is an optional, stack-neutral guide for legitimate publisher readiness, safe ad UX, SEO and revenue analysis. It does not install provider SDKs, access Google accounts, claim consent compliance or guarantee approval/revenue. Templates are vendored into the selected consumer under `.notth/capabilities/monetization/templates/`; `aih new-doc` defaults to Product; explicit `--capability monetization` selects a declared installed template into project-owned `docs/monetization/`. Review [Monetization guide](monetization.md).
 
 ## Astro static-first adapter
 
@@ -91,7 +91,7 @@ are excluded from distribution. Only the development smoke script launches npm s
 Capabilities differ from technology adapters: they represent reusable workflows such as UI/UX,
 not runtime stack defaults. A registered capability contains `capability.json` schema 1,
 namespaced `SKILL.md` files and workflow contracts, installed only when selected. CLI copies
-the selected capability under `.harness/capabilities/<id>/` and exposes its skills to
+the selected capability under `.notth/capabilities/<id>/` and exposes its skills to
 `.agents/skills/`. The existing Core and technology adapter contracts remain unchanged.
 
 `aih skills` exposes metadata-only catalog and `aih skill <name>` retrieves a single locked
@@ -226,7 +226,7 @@ command is generated. See [Tool portability](tool-portability.md).
 status/changes read local declarations; start --change selects an existing proposal or checkpoint,
 and start --clear removes only saved intake after a config backup. No second task-state database or
 process runner is introduced. Optional knowledge is a source-linked index in the project's actual docs,
-not a mandated .harness tree; knowledge.json remains only a hash cache. Core recoverable-verification
+not a mandated .notth tree; knowledge.json remains only a hash cache. Core recoverable-verification
 uses existing checkpoint/evidence contracts and actual host process support. Product 1.8.0 connects
 incremental TechSpec and related flows. `${files.<id>}` in command args reuses project/machine file
 paths without executable interpolation or shell execution. See [Reusable workflows](reusable-workflows.md).
@@ -265,5 +265,14 @@ Start/chat returns the saved task as a hint; explicit context --change pins sess
 source-catalog current paths and dependency propagation identify affected links; resume includes this
 report. Guarded digest/revision writes retain history. No network, shell, model or distributed lock is
 introduced. Core session-continuity delegates automatic read/reconcile/checkpoint behavior to the host.
-Optional Beads integration is a host contract with unverified marker detection and explicit issue mapping;
-it neither installs Beads nor runs claims. See [Session continuity](session-continuity.md).
+See [Session continuity](session-continuity.md).
+
+## NOTTH namespace migration
+
+New snapshots/configs use .notth; harness.yaml declares project_directory. cli/namespace-migration.js
+preflights old .harness consumers in a bounded isolated workspace using the same current installer,
+then commits the namespace/host-file changes through the existing guard/transaction. Both namespaces,
+managed drift and unsafe paths fail before writes. Original bytes are backed up under ignored
+.notth/backups and the receipt guides host reconciliation of old user-owned references. Legacy and new
+installer markers cooperate during migration; this remains a local guard, not a crash-safe or distributed
+transaction. No executable external task backend is discovered or bundled. See [Migration](notth-migration.md).

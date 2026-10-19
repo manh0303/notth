@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { safe, stat, readJson, isObject, SLUG, SOURCE, HarnessError } from './files.js';
 
-export const AGENT_CONFIG = '.harness/agents.json';
+export const AGENT_CONFIG = '.notth/agents.json';
 export const DEFAULT_AGENTS = 'config/agents.default.json';
 export const PRESETS = ['recommended', 'economy', 'custom'];
 export const REASONING = ['none', 'minimal', 'low', 'medium', 'high', 'xhigh', 'max', 'ultra'];
@@ -57,7 +57,7 @@ export function validateAgentConfig(config) {
     fields(agent, ['model', 'provider', 'reasoning', 'enabled', 'extensions'], [], id);
     if (agent.extensions !== undefined) {
       requireThat(Array.isArray(agent.extensions) && agent.extensions.length <= 16 && new Set(agent.extensions).size === agent.extensions.length, id + ' extensions');
-      for (const file of agent.extensions) requireThat(typeof file === 'string' && /^[A-Za-z0-9._/-]+[.]md$/.test(file) && !file.startsWith('/') && !file.split('/').some(p => !p || p === '.' || p === '..') && !/^\.harness\/(?:core|adapters|capabilities|templates)\//.test(file), id + ' extension path must be project-owned Markdown');
+      for (const file of agent.extensions) requireThat(typeof file === 'string' && /^[A-Za-z0-9._/-]+[.]md$/.test(file) && !file.startsWith('/') && !file.split('/').some(p => !p || p === '.' || p === '..') && !/^\.notth\/(?:core|adapters|capabilities|templates)\//.test(file), id + ' extension path must be project-owned Markdown');
     }
     if (agent.model !== undefined) { reference(agent.model, id); resolveModel(config, agent.model); }
     if (agent.provider !== undefined) provider(agent.provider, id);
@@ -166,8 +166,8 @@ export function agentPlan(root, host) {
     { label: 'C', value: 'custom', description: 'Edit provider/model/reasoning and role/host mappings explicitly.' }];
   const note = 'Read-only declaration. No provider/model probing, native config writes, agent spawning, permission/concurrency/token enforcement or usage tracking. Autonomy and budget are declarations; verify actual user authorization and host limits. Verify model access, effort and delegation in the actual host before execution.';
   if (!config) return { status: 'not-configured', configured: false, presets, roles: [], note };
-  const lock = readJson(safe(root, '.harness/lock.json'));
-  const registry = registeredRoles(path.join(root, '.harness'), lock.capabilities ?? []);
+  const lock = readJson(safe(root, '.notth/lock.json'));
+  const registry = registeredRoles(path.join(root, '.notth'), lock.capabilities ?? []);
   const ids = [...new Set([...Object.keys(registry), ...Object.keys(config.agents)])].sort();
   const profile = config.hosts?.[host] ?? {};
   const roles = ids.map(id => {
@@ -179,9 +179,9 @@ export function agentPlan(root, host) {
       (host === 'gemini-cli' && (!['host', 'google', 'vertex'].includes(requested.provider) || requested.model.startsWith('gpt-'))));
     const parts = registry[id]?.split('/');
     const canonical = parts ? (parts[0] === 'core' ? 'core:' : parts[1] + ':') + path.basename(registry[id], '.md') : id;
-    const skills = registry[id] ? preferredSkills(fs.readFileSync(safe(path.join(root, '.harness'), registry[id]), 'utf8')) : { required: [], optional: [] };
+    const skills = registry[id] ? preferredSkills(fs.readFileSync(safe(path.join(root, '.notth'), registry[id]), 'utf8')) : { required: [], optional: [] };
     const extensionFiles = requested.extensions.map(file => { const info = stat(safe(root,file)); requireThat(!info || info.size <= 65536, 'extension exceeds 64 KiB'); return { path: file, status: info ? 'present' : 'missing' }; });
-    return { ...requested, extension_files: extensionFiles, contract_load_order: [registry[id] ? '.harness/' + registry[id] : null, ...requested.extensions].filter(Boolean), active, canonical_id: canonical, skills, contract: registry[id] ? '.harness/' + registry[id] : null,
+    return { ...requested, extension_files: extensionFiles, contract_load_order: [registry[id] ? '.notth/' + registry[id] : null, ...requested.extensions].filter(Boolean), active, canonical_id: canonical, skills, contract: registry[id] ? '.notth/' + registry[id] : null,
       host_model: mapping ?? requested.model, host_reasoning: profile.reasoning?.[requested.reasoning] ?? requested.reasoning,
       mapping: mapping ? 'explicit-user-host-mapping' : 'requested',
       availability: active && incompatible ? 'incompatible-provider' : 'unverified',

@@ -1,6 +1,6 @@
 import { readConfig } from './project-config.js';
 import { isObject, SLUG, HarnessError, safe, stat } from './files.js';
-export const START_CONFIG = '.harness/start.json';
+export const START_CONFIG = '.notth/start.json';
 export const GOALS = ['idea', 'docs', 'change', 'resume'];
 export function loadStartConfig(root) {
   const value = readConfig(root, START_CONFIG);

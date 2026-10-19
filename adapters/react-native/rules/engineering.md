@@ -11,5 +11,5 @@ Cover permission denied/revoked, background/foreground, interrupted network and 
 affected. Mocked JS tests cannot prove OS permissions, native navigation or real-device performance.
 Keep secrets out of bundles/logs. Use platform-appropriate secure storage only through approved project
 patterns. Record iOS/Android coverage separately; lacking a device/toolchain means NOT_RUN/BLOCKED.
-Optional external React Native guidance comes from .harness/integrations/engineering-sources.md;
+Optional external React Native guidance comes from .notth/integrations/engineering-sources.md;
 inspect compatibility and dependencies before adopting advice, never auto-install a new native library.

@@ -3,8 +3,8 @@ import path from 'node:path';
 import { safe, stat, isObject, SLUG, HarnessError } from './files.js';
 import { readConfig } from './project-config.js';
 
-export const ARTIFACTS = '.harness/artifacts.json';
-export const INTEGRATIONS = '.harness/integrations.json';
+export const ARTIFACTS = '.notth/artifacts.json';
+export const INTEGRATIONS = '.notth/integrations.json';
 export const emptyArtifacts = () => ({ schema_version: 1, mode: 'unconfigured', inputs: {}, outputs: {} });
 export const emptyIntegrations = () => ({ schema_version: 1, connections: {} });
 const policies = ['read-only', 'propose', 'write'];
@@ -12,7 +12,7 @@ const text = s => typeof s === 'string' && s.trim().length > 0 && !/[\0\r\n]/.te
 const assert = (ok, message) => { if (!ok) throw new HarnessError(message); };
 const fields = (o, allowed, label) => assert(isObject(o) && Object.keys(o).every(k => allowed.includes(k)), 'Invalid fields: ' + label);
 const strings = a => Array.isArray(a) && a.every(text) && new Set(a).size === a.length;
-const reserved = p => /(?:^|\/)(?:\.git|\.harness|\.agents|node_modules|AGENTS\.md)(?:\/|$)/i.test(p);
+const reserved = p => /(?:^|\/)(?:\.git|\.notth|\.harness|\.agents|node_modules|AGENTS\.md)(?:\/|$)/i.test(p);
 
 function location(root, value, label, output) {
   fields(value, ['path', 'url', 'connection'], label);

@@ -73,7 +73,7 @@ export function adaptiveVerification(root, source) {
   if (detected.adapters.includes('react-native')) add('component', 'Mobile stack detected; device E2E only when needed and available', 'adapter:react-native');
   if (!methods.size) add('manual-review', 'No supported test entry point discovered; inspect source and clarify essential gaps', 'project discovery');
   return { status: 'planned', executed: false, discovery: { adapters: detected.adapters, languages: [...languages],
-    frameworks: [...frameworks], signals, commands: Object.keys(env.shared.commands).map(id => ({ id, source: '.harness/environment.json#commands.' + id })) },
+    frameworks: [...frameworks], signals, commands: Object.keys(env.shared.commands).map(id => ({ id, source: '.notth/environment.json#commands.' + id })) },
     end_user_acceptance: endUserPlan({ adapters: detected.adapters, frameworks: [...frameworks], hasStaticPage, hasApi, hasCli: typeof pkg.bin === 'string' || (pkg.bin !== null && typeof pkg.bin === 'object' && !Array.isArray(pkg.bin) && Object.keys(pkg.bin).length > 0) }),
     methods: [...methods.values()], connections: Object.entries(contract.integrations.connections).map(([id]) => ({ id, availability: 'unverified' })),
     unknowns: ['Inspect scoped source to determine architecture, routes/auth, database/service dependencies and business patterns.',

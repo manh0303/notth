@@ -1,7 +1,7 @@
 # Bugfix workflow
 
 1. Capture expected versus observed behavior using redacted inputs and an environment fingerprint.
-   Apply `.harness/core/rules/project-conventions.md`; inspect comparable code and reuse existing
+   Apply `.notth/core/rules/project-conventions.md`; inspect comparable code and reuse existing
    helpers before adding a fix. A small bugfix needs only a compact task note, not a full survey.
 2. Create the smallest reproducible failing test or repeatable observation. If blocked, document access
    or data needed; label an unverified hypothesis as such.

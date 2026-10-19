@@ -17,11 +17,11 @@ No arbitrary coverage target or implementation-mirroring tests. Do not mark unex
 State change ID, affected paths, decisions, evidence, outstanding questions and next owner.
 Load the relevant skill and adapter. Respect the host's delegation policy; roles can run sequentially.
 
-For proportional checks and evidence integrity, use `.harness/core/workflows/adaptive-verification.md` and `harness-verification`.
+For proportional checks and evidence integrity, use `.notth/core/workflows/adaptive-verification.md` and `harness-verification`.
 
 ## Preferred skills
 - Required: `harness-verification`
 - Optional: `harness-tdd`, `harness-ai-evaluation`, `harness-end-user-testing`
 Optional skills may be absent in a selective installation. Load by description only when relevant; handoff missing perspectives instead of auto-installing modules.
 
-For grouped checks/processes and interrupted work, apply `.harness/core/workflows/recoverable-verification.md`; hand off owned process/fixture identity, current baseline, saved evidence and groups requiring revalidation.
+For grouped checks/processes and interrupted work, apply `.notth/core/workflows/recoverable-verification.md`; hand off owned process/fixture identity, current baseline, saved evidence and groups requiring revalidation.
