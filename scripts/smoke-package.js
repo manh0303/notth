@@ -312,6 +312,8 @@ try {
   assert.equal(contextSaved.revision,1);
   assert.equal(JSON.parse(run(['context','--change','package-smoke'])).intent.problem,contextFixture.intent.problem);
   assert.equal(JSON.parse(run(['resume','package-smoke'])).task_context.revision,1);
+  assert.ok(JSON.parse(run(['memory','--change','package-smoke','--budget','2048'])).budget.used <= 2048);
+  assert.equal(JSON.parse(run(['handoff','package-smoke','--budget','65536'])).contract,'notth-project-handoff-v1');
   assert.ok(fs.existsSync(path.join(target,'.notth/templates/task-context.json')));
   const namespaceTarget=path.join(temp,'legacy namespace consumer');fs.mkdirSync(namespaceTarget);
   const legacyNamespace=readJson(path.join(SOURCE,'tests/fixtures/npm-v0.2.0.json'));

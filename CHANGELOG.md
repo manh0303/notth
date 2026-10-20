@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased — Adaptive Core memory and host contract
+
+- Derive bounded semantic/episodic/working memory references from canonical project artifacts.
+- Add host-neutral handoff with source/baseline reconciliation, side-effect receipts and explicit capability uncertainty.
+- Preserve existing schemas, bridges, project data and lightweight installation; no provider runtime or new database.
+
 ## Unreleased — NOTTH project namespace
 
 - Install project rules, workflows and configuration under `.notth/`; update canonical instructions, host bridges, CLI paths and translated READMEs.

@@ -9,7 +9,10 @@ It cannot run while the host is stopped or force a client that does not load pro
 1. Match the current user request to the existing change/task note. Pin its ID in this session.
    `.notth/start.json` is a shared intake hint, not session identity or a lock. Another session's
    saved task must not switch this session. Ask only if multiple targets genuinely fit the request.
-2. For an existing change run `aih context --change <id>` automatically; start/chat also exposes a
+2. Use `aih memory --change <id> --query <relevant terms> --budget 8192` for a bounded, derived
+   index of canonical references. Read only relevant original sections. Semantic facts, episodic outcomes,
+   procedural experiences and working state are logical views, never new competing stores.
+   For an existing change run `aih context --change <id>` automatically; start/chat also exposes a
    saved task's context as a hint. Read applicable shared/module decisions and the returned canonical
    sections, not every document. For Quick tasks use the existing issue/PR/task note with intent,
    source references and next action; do not manufacture a full OpenSpec change or an empty sidecar.
@@ -72,3 +75,11 @@ a changed capture invalidates the older context. External freshness observations
 provenance; changed/unavailable/unknown/not-checked observations require dependent reconciliation.
 An unchanged-at-check receipt remains time-qualified and requires host rechecking for current work.
 Context can retain an unavailable source as memory, without certifying it usable for execution.
+
+## Host-neutral handoff
+On a host switch read `aih handoff <id>` using the same synchronized project artifacts. Check
+required capabilities against actual host tools; the report never grants them. Inspect accepted scope
+through context source locators, decisions through their canonical files, and completed work through
+checkpoint evidence. An oversized handoff returns BLOCKED with pointers: load bounded sections without
+discarding constraints, unresolved questions or next actions. Missing state in another workspace requires
+authorized synchronization. Do not import provider transcripts or assume private model reasoning.

@@ -360,3 +360,10 @@ Project/lock/config/archive schemas and distribution/module versions remain unch
 and Core guidance ship through the existing allowlist/bundle; reviewed update installs them.
 Full-folder backup now includes observations; config-only backup scope is unchanged. No live connector
 or RAG implementation is added. See [source guide](document-sources.md).
+
+## Adaptive Core memory (unreleased)
+
+Additive memory/handoff commands and installed guidance reuse existing schemas and canonical data.
+No eager data migration or distribution bump. Reviewed update preserves project-owned records and
+existing host bridges. Use the matching CLI/lock to roll back; retain full project state separately
+from config backup. See [Adaptive Core](adaptive-core.md).

@@ -276,3 +276,5 @@ managed drift and unsafe paths fail before writes. Original bytes are backed up 
 .notth/backups and the receipt guides host reconciliation of old user-owned references. Legacy and new
 installer markers cooperate during migration; this remains a local guard, not a crash-safe or distributed
 transaction. No executable external task backend is discovered or bundled. See [Migration](notth-migration.md).
+
+[Adaptive Core: canonical memory and host-neutral handoff](adaptive-core.md).

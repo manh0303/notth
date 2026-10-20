@@ -1,0 +1,16 @@
+✔ complete synthetic report validates without claiming model execution (2.511398ms)
+✔ critical failure blocks pass (1.359223ms)
+✔ missing, duplicate and unknown cases rejected (4.638964ms)
+✔ evidence and true boolean scores required (0.48988ms)
+✔ dataset mismatch rejected (0.405162ms)
+✔ derived retrieval has stable IDs, bounded bytes, no copied document bodies and no writes (156.197576ms)
+✔ fresh host gets canonical accepted scope, completed steps and uncertain effects without transcripts (195.166934ms)
+✔ missing state, budget overflow and unsafe paths are explicit; legacy snapshots remain valid (99.003838ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 8
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 601.836009
