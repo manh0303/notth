@@ -34,6 +34,9 @@ test('derived retrieval has stable IDs, bounded bytes, no copied document bodies
   assert.ok(report.records.some(r => r.id === 'working:context'));
   assert.equal(JSON.stringify(report).includes('Lost continuity'), false);
   assert.equal(hash(base + 'context.json'), before);
+  const cli = spawnSync(process.execPath, [path.join(SOURCE, 'bin/aih.js'), 'memory', '--change', 'alpha', '--query', 'constraints', '--budget', '2048'], { cwd: root, encoding: 'utf8' });
+  assert.equal(cli.status, 0, cli.stderr);
+  assert.deepEqual(JSON.parse(cli.stdout), report);
   assert.equal(check(root).status, 'ok');
 });
 test('fresh host gets canonical accepted scope, completed steps and uncertain effects without transcripts', () => {

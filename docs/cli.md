@@ -271,6 +271,20 @@ requires `--expected <observed-sha256>` and the current report revision. See
 Start/chat exposes saved-task context as a hint; resume revalidates linked sources automatically.
 No model process is executed. Users need not run these commands during normal AI chat.
 
+## Native session runtime (optional)
+
+`init` / `update --host codex|claude-code --session-hooks` merges native SessionStart, PreCompact and
+Stop commands without executing them. Explicit host required when enabling. Existing settings and
+handlers survive; modified owned hooks fail. `--dry-run` previews without writes.
+
+- `aih compact <change-id> [--record] [--budget 8000]`: build/optionally persist a durable-state capsule.
+- `aih session <native-session-id> --host <host> --change <id> [--expected <binding-sha>]`: bind native scope with CAS on switches.
+- `aih recover [--host <host> --session <native-id>] [--change <id>] [--budget 8000]`: fresh read-only recovery; zero/multiple candidates require selection.
+
+All support `--target`. Budget is bytes, 1024–65536; overflow drops nothing and blocks recording.
+No command restores internal reasoning or executes checkpoint operations.
+[Hook settings, state schema, tests and rollback](session-runtime.md).
+
 ## Unified memory and handoff
 
 `aih memory [--change <id>] [--query <terms>] [--budget <bytes>]` returns canonical references.

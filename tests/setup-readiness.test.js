@@ -42,7 +42,7 @@ test('install/update preserve project and machine content and append a scoped ig
   install(root, SOURCE);
   assert.equal(read('.notth/environment.json'), JSON.stringify(emptyEnvironment()));
   assert.equal(read('.notth/machine.json'), before);
-  assert.equal(read('.notth/.gitignore'), '# Existing rule\ncache/\n!/machine.json\n/backups/\n/machine.json\n');
+  assert.equal(read('.notth/.gitignore'), '# Existing rule\ncache/\n!/machine.json\n/backups/\n/machine.json\n/sessions/\n');
   assert.equal(check(root).status, 'ok');
   assert.deepEqual(install(root, SOURCE, { command: 'update' }).changes, []);
   assert.equal(read('.notth/machine.json'), before);

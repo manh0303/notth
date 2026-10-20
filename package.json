@@ -35,7 +35,8 @@
     "SECURITY.md",
     "CONTRIBUTING.md",
     "scripts/compare-tasks.js",
-    "scripts/conformance-runner.js"
+    "scripts/conformance-runner.js",
+    "scripts/recovery-runner.js"
   ],
   "scripts": {
     "test": "node --test tests/*.test.js",
@@ -45,6 +46,7 @@
     "check:release": "node scripts/check-release.js",
     "build:python": "python scripts/build-python.py",
     "test:python": "python scripts/smoke-python.py",
-    "eval:conformance": "node scripts/conformance-runner.js"
+    "eval:conformance": "node scripts/conformance-runner.js",
+    "eval:recovery": "node scripts/recovery-runner.js"
   }
 }

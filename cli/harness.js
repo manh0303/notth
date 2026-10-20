@@ -1,3 +1,6 @@
+import { sessionHookChanges } from './session-hooks.js';
+import { guard, transaction, atomicWrite } from '../core/runtime/files.js';
+export { guard, transaction, atomicWrite } from '../core/runtime/files.js';
 import { legacyInstallation, migrateNamespace } from './namespace-migration.js';
 import fs from 'node:fs';
 import { HOST_BRIDGES, isHostBridge } from './host-bridges.js';
@@ -14,7 +17,6 @@ import { AGENT_CONFIG, agentDefaults, loadAgentConfig } from './agents.js';
 import { reviewVerification, techspecEvidence } from './verification-report.js';
 import { ARTIFACTS, INTEGRATIONS, emptyArtifacts, emptyIntegrations, loadArtifactContract, artifactReport, docRoute } from './artifacts.js';
 import path from 'node:path';
-import { randomUUID } from 'node:crypto';
 import { loadAdapter } from './adapter-schema.js';
 import { loadCapability } from './capabilities.js';
 import { resolveModules } from './composition.js';
@@ -127,25 +129,6 @@ function drift(root, lock) {
   }).map(([name]) => name);
 }
 
-export function guard(root, operation) {
-  const markers = ['.notth-install.lock', '.harness-install.lock'];
-  const acquired = [];
-  try {
-    for (const name of markers) {
-      const filename = safe(root, name);
-      let fd;
-      try { fd = fs.openSync(filename, 'wx', 0o600); }
-      catch (error) {
-        if (error.code === 'EEXIST') throw new HarnessError('Another installation is active; inspect ' + name + ' before removing a stale lock');
-        throw error;
-      }
-      acquired.push({ filename, fd }); fs.writeSync(fd, String(process.pid));
-    }
-    return operation();
-  } finally {
-    for (const { filename, fd } of acquired.reverse()) { fs.closeSync(fd); fs.unlinkSync(filename); }
-  }
-}
 
 export function snapshotCheck(root) {
   const lock = loadLock(root), problems = drift(root, lock);
@@ -155,42 +138,10 @@ export function snapshotCheck(root) {
 export function userIgnoreChanges(root) {
   const name = '.notth/.gitignore', filename = safe(root, name);
   const data = stat(filename) ? fs.readFileSync(filename, 'utf8') : '';
-  return data.trimEnd().split(/\r?\n/).slice(-2).join('\n') === '/backups/\n/machine.json' ? {}
-    : { [name]: Buffer.from(data + (data && !data.endsWith('\n') ? '\n' : '') + '/backups/\n/machine.json\n') };
+  return data.trimEnd().split(/\r?\n/).slice(-3).join('\n') === '/backups/\n/machine.json\n/sessions/' ? {}
+    : { [name]: Buffer.from(data + (data && !data.endsWith('\n') ? '\n' : '') + '/backups/\n/machine.json\n/sessions/\n') };
 }
 
-export function atomicWrite(filename, data, mode = 0o644) {
-  fs.mkdirSync(path.dirname(filename), { recursive: true });
-  const tmp = path.join(path.dirname(filename), `.notth-tmp-${randomUUID()}`);
-  try {
-    fs.writeFileSync(tmp, data, { flag: 'wx', mode: 0o600 });
-    fs.chmodSync(tmp, stat(filename) ? fs.statSync(filename).mode & 0o777 : mode);
-    fs.renameSync(tmp, filename);
-  } finally { fs.rmSync(tmp, { force: true }); }
-}
-
-export function transaction(root, changes, writer = atomicWrite) {
-  const originals = {}, applied = [];
-  for (const name of Object.keys(changes)) {
-    const filename = safe(root, name);
-    originals[name] = stat(filename) ? fs.readFileSync(filename) : null;
-  }
-  try {
-    for (const [name, data] of Object.entries(changes)) {
-      const filename = safe(root, name);
-      if (data === null) fs.rmSync(filename, { force: true });
-      else writer(filename, data);
-      applied.push(name);
-    }
-  } catch (error) {
-    for (const name of applied.reverse()) {
-      const filename = safe(root, name);
-      if (originals[name] === null) fs.rmSync(filename, { force: true });
-      else atomicWrite(filename, originals[name]);
-    }
-    throw error;
-  }
-}
 
 export function install(root, source, options = {}) {
   assertSeparate(root, source);
@@ -199,8 +150,9 @@ export function install(root, source, options = {}) {
   return installCurrent(root, source, options);
 }
 
-function installCurrent(root, source, { command = 'init', adapters, capabilities, agentPreset, dryRun = false, allowMajor = false, host, linkClaude: linkClaudeOpt = false, claudeSkills = false, writer } = {}) {
+function installCurrent(root, source, { command = 'init', adapters, capabilities, agentPreset, dryRun = false, allowMajor = false, host, linkClaude: linkClaudeOpt = false, claudeSkills = false, sessionHooks = false, writer } = {}) {
   assertSeparate(root, source);
+  if (sessionHooks && host === undefined) throw new HarnessError('--session-hooks requires explicit --host codex or claude-code');
   if (host !== undefined && (typeof host !== 'string' || !SLUG.test(host))) throw new HarnessError('Invalid host ID; choose one tool');
   return guard(root, () => {
     const hasLock = Boolean(stat(safe(root, LOCK)));
@@ -278,10 +230,23 @@ function installCurrent(root, source, { command = 'init', adapters, capabilities
     // Project-owned ignore file: preserve all prior rules, place our anchored rule last.
     // This does not remove an already tracked machine file from the Git index.
     Object.assign(changes, userIgnoreChanges(root));
+    if (sessionHooks) {
+      const hookChanges = sessionHookChanges(root, host);
+      for (const [name, data] of Object.entries(hookChanges)) {
+        const filename = safe(root, name), original = stat(filename) ? fs.readFileSync(filename) : null;
+        if (original) {
+          const archive = '.notth/backups/session-hooks-' + digest(Buffer.concat([Buffer.from(name + '\0'), original])) + '.json';
+          const value = encode({ schema_version: 1, kind: 'notth-session-hooks-before', path: name, sha256: digest(original), content_base64: original.toString('base64') });
+          if (stat(safe(root, archive)) && !fs.readFileSync(safe(root, archive)).equals(value)) throw new HarnessError('Session hook backup collision');
+          if (!stat(safe(root, archive))) changes[archive] = value;
+        }
+        changes[name] = data;
+      }
+    }
     const newLock = encode(lock);
     if (!hasLock || !fs.readFileSync(safe(root, LOCK)).equals(newLock)) changes[LOCK] = newLock;
     const plan = Object.entries(changes).map(([name, data]) => ({ path: name, action: data === null ? 'delete' : 'write' }));
-    if (!dryRun) transaction(root, changes, writer);
+    if (!dryRun) transaction(root, changes, writer ?? ((filename, data) => atomicWrite(filename, data, filename.includes(path.sep + 'backups' + path.sep) ? 0o600 : 0o644)));
     return { status: dryRun ? 'planned' : 'ok', version: lock.version, changes: plan, warnings };
   });
 }

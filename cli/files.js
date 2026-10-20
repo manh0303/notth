@@ -1,6 +1,7 @@
+import { safe, stat, digest, encode, isObject, SLUG, HarnessError } from '../core/runtime/files.js';
+export { safe, stat, digest, encode, isObject, SLUG, HarnessError } from '../core/runtime/files.js';
 import fs from 'node:fs';
 import path from 'node:path';
-import { createHash } from 'node:crypto';
 import { claudeBlock } from './claude.js';
 import { isHostBridge } from './host-bridges.js';
 import { fileURLToPath } from 'node:url';
@@ -12,44 +13,7 @@ export const END = '<!-- ai-harness:end -->';
 export const LOCK = '.notth/lock.json';
 export const CONFIG = '.notth/project.json';
 export const VERSION = /^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)$/;
-export const SLUG = /^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$/;
-export const isObject = value => value !== null && typeof value === 'object' && !Array.isArray(value);
 
-export class HarnessError extends Error {}
-
-export function encode(value) {
-  // Matches v0.1 Python json.dumps(indent=2, sort_keys=True, ensure_ascii=False).
-  const sorted = item => Array.isArray(item) ? item.map(sorted) : isObject(item)
-    ? Object.fromEntries(Object.keys(item).sort().map(k => [k, sorted(item[k])])) : item;
-  return Buffer.from(JSON.stringify(sorted(value), null, 2) + '\n');
-}
-export const digest = data => createHash('sha256').update(data).digest('hex');
-
-export function stat(filename) {
-  try { return fs.lstatSync(filename); }
-  catch (error) { if (error.code === 'ENOENT') return undefined; throw error; }
-}
-
-export function safe(root, name) {
-  if (typeof name !== 'string' || !name || !/^[a-zA-Z0-9._/-]+$/.test(name)
-      || path.posix.isAbsolute(name) || path.posix.normalize(name) !== name
-      || name.split('/').some(p => !p || p === '.' || p === '..' || p.endsWith('.')
-        || /^(con|prn|aux|nul|com[1-9]|lpt[1-9])(?:\.|$)/i.test(p))) {
-    throw new HarnessError(`Unsafe relative path: ${name}`);
-  }
-  let current = root;
-  const parts = name.split('/');
-  for (const [index, part] of parts.entries()) {
-    current = path.join(current, part);
-    const info = stat(current);
-    if (!info) continue;
-    if (info.isSymbolicLink()) throw new HarnessError(`Symlink is not supported: ${current}`);
-    if (index < parts.length - 1 ? !info.isDirectory() : !info.isFile()) {
-      throw new HarnessError(`Unexpected filesystem entry: ${current}`);
-    }
-  }
-  return current;
-}
 
 export function targetRoot(value) {
   const root = path.resolve(value);

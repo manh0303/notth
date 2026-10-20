@@ -42,3 +42,10 @@ Reuse saved answers; do not start a second terminal interview. Client-specific i
 still apply. [pip/offline prerequisites and updates](../python-installation.md).
 
 For the shared task-first flow, see [simple use](../simple-use.md). On a supporting CLI, `start --chat --host <your-host> --format human` never opens a terminal interview. Native discovery still requires a real client check.
+
+## Optional native session hooks
+
+Enable once with `aih update --host codex --session-hooks` after reviewing `--dry-run`.
+Restart the client to reload settings. SessionStart injects canonical recovery and PreCompact/Stop
+save durable capsules. Native conversation compression stays host-owned.
+[Contract, executable prerequisites, live-test gaps and rollback](../session-runtime.md).

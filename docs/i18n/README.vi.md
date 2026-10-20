@@ -60,3 +60,11 @@ Sau khi AI đã đọc điểm vào, chỉ cần nói “Sửa lỗi này”, �
 [Bắt đầu, prompt ngắn và xử lý lỗi](../simple-use.md). Với source/release có hỗ trợ: `aih start --chat --format human` để định hướng trong chat, `aih status --format human` để xem tiến độ. JSON vẫn là mặc định. Các flag mới chưa được coi là đã phát hành chỉ vì có trên main.
 
 [Persistent input documents: originals, Markdown and recovery](../document-sources.md).
+
+## Runtime session tùy chọn
+
+Bật một lần bằng `aih update --host codex --session-hooks` hoặc host `claude-code`.
+Host tự gọi runtime Node cục bộ để nạp context khi mở session và lưu capsule trước compaction/khi dừng.
+Chưa xác thực trên host thật; Kiro command hook chưa được hỗ trợ. Đây là lưu trạng thái ngoài model,
+không khôi phục reasoning nội bộ hoặc tự nén hội thoại bằng LLM.
+[Xem hợp đồng và kiểm thử](../session-runtime.md).
