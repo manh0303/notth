@@ -43,7 +43,7 @@ and stakeholder review to complete the draft.
 
 ## Workflow selection
 - `workflows/idea-driven.md`: idea → collaborative discussion, authorized research, PRD-lite or BRD/PRD/SRS.
-- `workflows/document-driven.md`: existing BA documents → gap analysis → approved spec handoff without rewriting official sources.
+- `workflows/document-driven.md`: existing requirements documents (BRD/PRD/SRS) → gap analysis → approved spec handoff without rewriting official sources.
 - `workflows/idea-to-prd.md`: original idea-to-PRD flow (still supported).
 - `workflows/confluence-to-spec.md`: evidence-backed corpus to requirements and backlog.
 - `workflows/change-impact-analysis.md`: trace requirement changes across downstream artifacts.

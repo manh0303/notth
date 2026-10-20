@@ -13,7 +13,7 @@ aih check
 aih skills
 ~~~
 
-Chỉ thêm `kubernetes` nếu repo cũng sở hữu manifest/chart. Nếu backend/frontend nằm **hai Git repository** độc lập, cài `aih` riêng từng repo theo stack tương ứng, liên kết hai PR bằng cùng change ID; không cố ép cả hai vào một Git root. `aih detect` không quét lồng `apps/web` / `services/api`.
+Chỉ thêm `kubernetes` nếu repo cũng sở hữu manifest/chart. Nếu backend/frontend nằm **hai Git repository** độc lập, cài `aih` riêng từng repo theo stack tương ứng, liên kết hai PR bằng cùng change ID; không cố ép cả hai vào một Git root. `aih detect` đọc package metadata ở root; với Maven, chỉ theo module khai báo tối đa hai tầng (64 POMs). Không tự quét tùy ý `apps/web` / `services/api`.
 
 ## 2. Product discovery và gate
 

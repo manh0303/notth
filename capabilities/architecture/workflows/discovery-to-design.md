@@ -1,6 +1,6 @@
 # Scope → solution design → implementation boundaries
 
-Input: idea/reviewed BA documents or an existing project, actual source and Core context. Output:
+Input: idea/reviewed requirements documents or an existing project, actual source and Core context. Output:
 reviewed solution decisions linked to requirements and OpenSpec; no mandatory full template set.
 1. Read `.notth/core/workflows/solution-framing.md`; establish mode/depth and preserve prior answers.
 2. Load harness-architecture-project-context. Verify the affected project map and existing decisions;

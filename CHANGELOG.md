@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased — Documentation refresh
+
+- Name requirements documents (BRD/PRD/SRS) explicitly in setup, navigation and document-driven guides instead of the vague “BA documents” label; retain BA references for the actual role.
+- Align CLI tables, detector/model defaults, native hook boundaries and examples with current source; remove obsolete pre-merge setup instructions and frozen verification counts.
+- Document npm/PyPI publication and partial-failure recovery separately; distinguish historical migration baselines from current install/update instructions.
+
 ## Unreleased — Native session runtime
 
 - Optional offline Codex/Claude session lifecycle hooks, source-linked durable-state capsules and workspace-scoped native session bindings. Oversized context fails without truncation; native history compaction remains host-owned.

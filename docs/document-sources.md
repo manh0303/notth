@@ -126,7 +126,7 @@ người cung cấp đã gọi API trung thực hay dữ liệu đúng nghĩa. C
 ## Tương thích kho nguồn
 
 Đọc kho schema 1 không thay đổi file. Lần nhập `--metadata` đầu tiên nâng riêng manifest nguồn lên
-schema 2 để chứa captures/checks, giữ nguyên originals/normalized và lịch sử cũ. CLI cũ từ PR #64
+schema 2 để chứa captures/checks, giữ nguyên originals/normalized và lịch sử cũ. CLI cũ chỉ hỗ trợ schema 1
 sẽ từ chối schema 2; dùng CLI mới hoặc phục hồi bản backup schema 1 đầy đủ khi rollback. Không sửa số
 schema bằng tay. Config/lock/backup vẫn giữ schema cũ và không tự chứa tài liệu.
 

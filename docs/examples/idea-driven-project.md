@@ -4,7 +4,7 @@
 
 ## 1. Chuẩn bị dự án và cài Harness
 
-Yêu cầu: Node.js 22+, Git, CLI `aih` đã cài từ bản nguồn được review, và một thư mục dự án tồn tại. Xem [Getting started](../getting-started.md) để cài CLI từ source; bản tính năng này nằm trong PR cho tới khi merge.
+Yêu cầu: Node.js 22+, Git, CLI `aih` đã cài từ package/source được review, và một thư mục dự án tồn tại. Xem [Getting started](../getting-started.md) để chọn npm, pip hoặc source/offline.
 
 ```bash
 mkdir expense-app

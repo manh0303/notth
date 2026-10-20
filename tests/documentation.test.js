@@ -199,7 +199,9 @@ test('Kiro setup distinguishes canonical reading from native discovery and prese
   assert.match(guide, /update --host kiro/);
   assert.match(guide, /harness-session\.json/);
   assert.match(guide, /session.*harness-start/);
-  assert.match(guide, /IDE 1\.x \/ CLI V3/);
+  assert.match(guide, /hook schema v1/);
+  assert.match(guide, /chưa kiểm chứng activation/);
+  assert.match(guide, /không phải command runtime/);
   assert.match(guide, /canonical.*write scope/);
   assert.match(read('docs/tool-setup/claude-code.md'), /supporting reviewed CLI/);
 });

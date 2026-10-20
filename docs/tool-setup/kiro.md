@@ -2,7 +2,7 @@
 
 **Cài trong project → mở session Kiro đầu tiên → chọn `/harness-start`.**
 Kiro đọc project trước, chỉ hỏi phần còn thiếu và lưu context cho session sau.
-Cần reviewed source/release chứa tính năng này; không mặc định npm 0.14.0 đã có.
+Dùng CLI đã review theo [hướng dẫn cài đặt](../getting-started.md); với bản cũ, nâng CLI rồi update snapshot trước.
 
 ## Cài mới và session đầu tiên
 
@@ -14,7 +14,7 @@ npx --yes @manhd_d/notth init --host kiro
 
 Thêm `--adapters java-spring` cho Spring, `--adapters react-nextjs` cho React/Next.js
 hoặc `--detect` khi muốn nhận diện stack hỗ trợ. Chỉ thêm `--capabilities product`
-khi cần tài liệu BA. [common setup](README.md) dành cho các host khác.
+khi cần tài liệu yêu cầu (BRD/PRD/SRS). [common setup](README.md) dành cho các host khác.
 
 Mở cùng project trong Kiro IDE, tạo **session chat đầu tiên**, gõ `/` và chọn:
 
@@ -92,9 +92,10 @@ Harness does not assume native discovery of `.agents/skills` trong Kiro.
 hoặc file người dùng trùng tên khác nội dung chặn update. Steering/hooks/skills khác được giữ.
 Update sau tự giữ bridge, không cần lặp `--host kiro`.
 
-Hook v1 dành cho **Kiro IDE 1.x / CLI V3** theo tài liệu chính thức. Client cũ cần nâng cấp
-hoặc bridge phù hợp riêng. Web không chạy SessionStart; dùng skill/prompt bằng tay và xác minh
-workspace access. CLI không auto-detect phiên bản hoặc chép cấu hình đăng nhập.
+NOTTH cài bridge agent-prompt với hook schema v1. Khả năng nhận hook phụ thuộc client/version;
+chưa kiểm chứng activation trên Kiro thật. Với CLI/Web hoặc client không nhận bridge, dùng
+skill/prompt dự phòng và xác minh workspace access. Đây không phải command runtime
+`--session-hooks` của Codex/Claude; installer không dò phiên bản hoặc chép cấu hình đăng nhập.
 
 Nếu chưa thấy `/harness-start`, mở session mới, kiểm tra **Agent Steering & Skills** và
 `.kiro/skills/harness-start/SKILL.md`. Prompt dự phòng:

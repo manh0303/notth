@@ -1,13 +1,13 @@
-# Documentation workflows — developer idea or existing BA documentation
+# Documentation workflows — ideas or existing requirements documents
 
-Notth intentionally supports **two entry points feeding one engineering pipeline**. The Product capability supplies role contracts, skills and drafts to an authorized AI host; the `aih` CLI never performs conversations, web research, ingestion, writes to Confluence or automatic approval.
+Notth intentionally supports **two entry points feeding one engineering pipeline**. The Product capability supplies role contracts, skills and drafts to an authorized AI host; the `aih` CLI never performs conversations, web research, remote retrieval, writes to Confluence or automatic approval.
 
 ## Bắt đầu nhanh — ví dụ đầy đủ
 
 - [Walkthrough A: Từ ý tưởng developer đến spec và PR](examples/idea-driven-project.md): lệnh CLI, prompt thảo luận/research, cách review và chuyển sang OpenSpec.
-- [Walkthrough B: Dự án có BRD/PRD/SRS của BA](examples/document-driven-project.md): đọc đúng nguồn, kiểm tra gap, tránh viết lại tài liệu chính thức và tạo OpenSpec theo approved AC.
+- [Walkthrough B: Dự án đã có tài liệu yêu cầu (BRD/PRD/SRS)](examples/document-driven-project.md): đọc đúng nguồn, kiểm tra gap, tránh viết lại tài liệu chính thức và tạo OpenSpec theo approved AC.
 
-Để thử tài liệu chưa merge, cài CLI từ **branch PR #10 đã review** thay vì mặc định `main` (xem [Getting started](getting-started.md)).
+Dùng CLI/package đã review theo [Getting started](getting-started.md). Các walkthrough là ví dụ tham khảo; trong chat, bạn giao mục tiêu và để host chọn tài liệu cần thiết.
 
 ## Mode A — Idea-driven (developer → BA/PM/PO)
 
@@ -22,13 +22,13 @@ Notth intentionally supports **two entry points feeding one engineering pipeline
 
 This is not an automatic document-writing command: each `new-doc` simply copies a pinned template into the **consumer** repository. An AI assistant with filesystem permissions must populate the draft; the human reviews.
 
-## Mode B — Document-driven (existing BA sources → engineering)
+## Mode B — Document-driven (existing requirements sources → engineering)
 
 1. Register official BRD, PRD, SRS, Confluence page URLs/revisions, owners and permission scopes in `docs/product/source-register.md`.
 2. Use the `document-driven` workflow in the installed Product capability to inspect authorized input and build requirements / AC traceability. If an official SRS already exists, do **not** generate a competing one by default.
 3. Create only missing artifacts or project-specific derived docs; identify contradictions/staleness and obtain explicit owner decisions.
 4. Approved source-linked requirements → UI/UX if applicable → OpenSpec change → implementation/testing/PR review. Carry source/version and FR/US/AC IDs through each handoff.
-5. When upstream BA documents change, run change-impact analysis and propose diffs; do not rewrite approved BA sources or code without review.
+5. When upstream requirements documents change, run change-impact analysis and propose diffs; do not rewrite approved requirements sources or code without review.
 
 ## Storage and ownership
 
@@ -37,7 +37,7 @@ This is not an automatic document-writing command: each `new-doc` simply copies 
 | Harness roles, skills, workflows, templates | `notth/capabilities/product/` | Versioned framework source; not real customer requirements |
 | Original developer idea and evidence summary | Consumer `docs/discovery/` | Project-owned, Git versioned; `idea.md`, `research.md` |
 | Project product artifacts | Consumer `docs/product/` | BRD/PRD/PRD-lite/SRS/UC/backlog/AC/traceability |
-| Source enterprise Confluence/BA documents | Existing authorized external system | Canonical source; keep URLs/revisions and permission scope, avoid copying confidential content |
+| Enterprise requirements documents (BRD/PRD/SRS, including Confluence pages) | Existing authorized external system | Canonical source; keep URLs/revisions and permission scope, avoid copying confidential content |
 | Technical change specifications | Consumer `openspec/` | OpenSpec design/tasks/delta specs linked to approved requirement IDs |
 | UI designs | Figma or approved system of record | Store screen-to-URL/node ID mapping, not copies of entire design |
 | Large binary documentation | Authorized object storage | Store references rather than large sensitive binaries in Git |
@@ -72,7 +72,7 @@ Human reviewer: developer or named BA/PO
 
 ## Product → solution → delivery
 
-For new/material journeys, reuse existing BA documents and continue with [Solution workflow](solution-workflow.md).
+For new/material journeys, reuse existing requirements documents and continue with [Solution workflow](solution-workflow.md).
 PO defines a usable MVP and evidence-backed outcomes, SA evaluates quality/architecture/contracts,
 PM sequences dependent value slices. Accepted decisions and requirement IDs feed OpenSpec and adapters.
 Depth scales to the task; no mandatory full document set for small fixes. Use [tool setup](tool-setup/README.md).

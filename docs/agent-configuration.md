@@ -57,7 +57,7 @@ explicit role mappings. enabled:false disables a dedicated route, not required r
 This is a partial example; omitted registered roles inherit defaults. The shipped default covers Core,
 Product, Architecture and Delivery roles. Orchestrator/Planner/Architect/Reviewer/Security Reviewer
 use declared high/medium reasoning preferences; new seeds retain host-selected models and documentation uses low reasoning. Explicit provider/model examples below illustrate configuration and are not defaults.
-Economy is Luna low with single-agent/one concurrent session; it is a preference, not a cost guarantee.
+Economy selects the configured @economy alias, low reasoning and one concurrent agent. The default alias follows the host-selected model (Claude seeds use native aliases); it does not force Luna or guarantee cost.
 
 Reasoning levels structurally accepted: none, minimal, low, medium, high, xhigh, max, ultra. Actual
 supported levels vary by model/client. Mode is single-agent, hybrid or multi-agent; concurrency is
@@ -80,8 +80,7 @@ models. For example, after inspecting the real Claude picker, replace this illus
 ```json
 { "models": { "openai/gpt-6.1-sol": "native-claude-model-id" }, "reasoning": { "medium": "medium" } }
 ```
-Put it inside hosts.claude-code. Configure every active request that needs translation, including Luna
-for documentation if used; unmapped incompatible routes are reported. setup marks availability unverified
+Put it inside hosts.claude-code. Configure every active request that needs translation, including explicit documentation-role mappings if used; unmapped incompatible routes are reported. setup marks availability unverified
 and runtime_verified:false even when a mapping is supplied. Unknown hosts also require verification.
 
 ## Actual native integration
@@ -98,7 +97,7 @@ one lead plus at most one independent helper when supported. Keep inputs scoped,
 before one needed body and checkpoint unresolved work. Actual usage/quotas come from the host; no fake
 budget meter is inferred from model tiers, maxRounds or concurrency. See [Agent handoffs](agent-handoffs.md).
 
-## Agent-first defaults and declarations (unreleased)
+## Agent-first defaults and declarations
 
 New seeds use host/host-default so the actual host model remains selected; old agents.json is preserved. Claude host init offers native aliases only when absent. aih agents resolves canonical role IDs and required/optional skill preferences. Optional execution.autonomy and execution.budget are validated declarations, not execution permission or quota enforcement. Checkpoint real usage or unknown; never infer cost or auto-escalate. See [Agent-first guide](agent-first.md).
 

@@ -39,7 +39,11 @@ First ask the AI host to inspect the project and plan tool-specific pages with u
 
 > Read AGENTS.md plus harness-astro-project-architecture and harness-monetization-seo-growth. Plan three public micro-tools focused on real search intent, good mobile UX and static/browser-only processing. Separate verified keyword data, inference and unknowns. Do not add backend, database, web scraping, advertising scripts, ad account credentials or mock visitor counts. Propose routes, validation and meaningful descriptions; request my approval before code changes.
 
-If Product is selected, use `aih new-doc prd-lite` for the product scope if needed. The monetization documents are **not** supported by `aih new-doc`; review and copy named installed templates into project-owned `docs/monetization/` once with a permitted filesystem tool.
+If Product is selected, use `aih new-doc prd-lite` for the product scope if needed. Monetization drafts use the installed capability explicitly, for example `aih new-doc site-monetization-plan --capability monetization`. This copies a blank template to project-owned `docs/monetization/` and refuses overwrite; the host fills it from actual evidence.
+
+```bash
+aih new-doc site-monetization-plan --capability monetization
+```
 
 ## 3. Publisher readiness and policy review
 
