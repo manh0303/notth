@@ -11,3 +11,6 @@
 6. Open a PR with the reproduction command, evidence before/after and remaining uncertainty.
 
 Use [task experience](task-experience.md) for the canonical Quick/Standard/Full decision table, minimum context, scoped approvals and concise next-action handoff.
+
+For repeated failures or multi-step recovery, follow `.notth/core/workflows/adaptive-execution.md`.
+Observe actual results, preserve completed evidence and bound retries/replanning in the existing checkpoint.

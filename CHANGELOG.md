@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased — Adaptive execution and recovery
+
+- Extend existing checkpoints with optional bounded attempt/replan history and safe-retry justification.
+- Bind passing attempts to scoped source hashes and existing raw-evidence verification; prevent stale completion.
+- Return actionable blocked recovery for changed/missing evidence, uncertain effects and exhausted budgets.
+- Retain legacy checkpoints, CAS/history, host execution ownership and permission boundaries.
+
 ## Unreleased — Adaptive Core memory and host contract
 
 - Derive bounded semantic/episodic/working memory references from canonical project artifacts.

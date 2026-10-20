@@ -367,3 +367,11 @@ Additive memory/handoff commands and installed guidance reuse existing schemas a
 No eager data migration or distribution bump. Reviewed update preserves project-owned records and
 existing host bridges. Use the matching CLI/lock to roll back; retain full project state separately
 from config backup. See [Adaptive Core](adaptive-core.md).
+
+## Adaptive execution (unreleased)
+
+Optional checkpoint adaptive schema 1 is additive; top-level checkpoint/project/lock stay schema 1.
+Older readers cannot enforce adaptive budgets. New resume returns BLOCKED with retained progress
+for stale/missing evidence rather than a bare error. New checkpoint writes enforce append-only history,
+fixed budgets and scoped verification. Reviewed update installs the optional template/workflow,
+preserves project files; rollback restores matching CLI/snapshot. No release/version bump.

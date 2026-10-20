@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "phase": "recall",
+  "objective": {
+    "path": "openspec/changes/replace-with-change-id/proposal.md",
+    "sha256": "replace-with-current-sha256",
+    "locator": "Accepted objective"
+  },
+  "acceptance": [
+    {
+      "path": "openspec/changes/replace-with-change-id/specs/feature/spec.md",
+      "sha256": "replace-with-current-sha256",
+      "locator": "Accepted requirements and scenarios"
+    }
+  ],
+  "limits": {
+    "max_attempts_per_step": 3,
+    "max_replans": 2,
+    "max_no_progress": 2
+  },
+  "events": []
+}

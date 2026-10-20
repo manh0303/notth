@@ -277,3 +277,6 @@ No model process is executed. Users need not run these commands during normal AI
 `aih handoff <id> [--budget <bytes>]` derives cross-host continuity from context/checkpoint.
 Budget: 1024–65536 bytes, default 8192. Oversized handoff returns BLOCKED without losing critical fields.
 Both are read-only; no tool/remote execution or memory database. See [Adaptive Core](adaptive-core.md).
+
+Checkpoint reports may include optional `adaptive` state. `resume <id>` derives attempt/replan
+counters, budget exhaustion and current verification. See [adaptive execution](adaptive-core.md).

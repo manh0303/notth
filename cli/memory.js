@@ -9,16 +9,9 @@ import { taskContextReport, contextPath } from './task-context.js';
 import { resumePlan, checkpointPath } from './checkpoint.js';
 import { redacted } from './verification-report.js';
 
-export function memoryReference(root, name, expected) {
-  safe(root, name);
-  if (/(?:^|\/)(?:\.git|node_modules|\.venv|\.env(?:\.[^/]*)?|machine\.json|backups|credentials?(?:\.[^/]*)?|id_rsa|id_ed25519)(?:\/|$)/i.test(name))
-    throw new HarnessError('Memory cannot reference private paths');
-  const info = stat(safe(root, name));
-  if (info && info.size > 1024 * 1024) throw new HarnessError('Memory reference exceeds 1 MiB');
-  const hash = info ? digest(fs.readFileSync(safe(root, name))) : null;
-  return { path: name, sha256: expected ?? hash, current_sha256: hash,
-    freshness: hash === null ? 'missing' : expected && expected !== hash ? 'stale' : 'current' };
-}
+export { memoryReference } from './memory-reference.js';
+import { memoryReference } from './memory-reference.js';
+
 function ready(root) { if (check(root).status !== 'ok') throw new HarnessError('Fix installation drift before memory access'); }
 export function memoryBudget(value = 8192) {
   const budget = Number(value);
@@ -86,7 +79,7 @@ export function handoffReport(root, id, { budget: limit } = {}) {
   const checkpoint = stat(safe(root, checkpointPath(id))) ? resumePlan(root, id) : null;
   const pointers = [...new Set([...(context.pointers ?? []), '.notth/local.md', '.notth/decisions.json', ...(context.configured ? [context.path] : [])])]
     .filter(name => stat(safe(root, name))).map(name => memoryReference(root, name));
-  const report = { status: context.status === 'blocked' || checkpoint?.revalidate_required || checkpoint?.blockers.length || checkpoint?.operations_to_reconcile.length ? 'blocked' : 'planned',
+  const report = { status: context.status === 'blocked' || checkpoint?.status === 'blocked' || checkpoint?.revalidate_required || checkpoint?.blockers.length || checkpoint?.operations_to_reconcile.length ? 'blocked' : 'planned',
     schema_version: 1, change_id: id, executed: false, intent: context.intent ?? null,
     contract: 'notth-project-handoff-v1', authority: 'guidance-only', pointers,
     // Requirements/constraints/decisions stay canonical; links locate their actual source sections.

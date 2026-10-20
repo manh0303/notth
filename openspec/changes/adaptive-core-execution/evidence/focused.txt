@@ -1,0 +1,32 @@
+✔ failure -> justified replan -> verified current revision survives a fresh recovery read (163.375037ms)
+✔ retry budgets, no-progress guard, history and CAS cannot be silently reset (91.498091ms)
+✔ unverified attempts, old revision reports and unsafe external retries cannot complete (95.238158ms)
+✔ lost verification evidence yields an actionable blocked recovery without deleting progress (92.640295ms)
+✔ legacy checkpoint without adaptive state remains readable and optional state cannot be dropped (83.950886ms)
+✔ brownfield init-detect, Claude opt-in, custom skill preservation and drift (447.195185ms)
+✔ default init preserves CLAUDE and doctor warns; imports in code are not active (65.404081ms)
+✔ managed Claude block is checked; outside edits survive update and failures roll back (97.224671ms)
+✔ native skill collisions fail before mutations; user agents/model settings are preserved (50.196736ms)
+✔ Maven declared modules are bounded and produce per-module evidence (7.670091ms)
+✔ analysis/discovery reuse canonical Product assets, union without duplicate skills and old routes (252.289667ms)
+✔ retired recipes are removed, old IDs yield migration guidance (59.535243ms)
+✔ unknown preferred skills and unscoped autopilot are rejected (0.925837ms)
+✔ checkpoint resume detects stale baseline and unknown side effects; CAS/history preserve progress (71.691321ms)
+✔ checkpoint missing evidence, secret fields, wrong change and unsafe paths fail before write (63.631282ms)
+✔ comparison preserves null metrics and failures; no model runs or fabricated productivity (3.186397ms)
+✔ actual released 0.12 snapshot upgrades, retires recipes, preserves config/docs and is idempotent (1040.47956ms)
+✔ edited retired recipe blocks actual 0.12 update before any write (258.692814ms)
+✔ analysis TechSpec uses canonical external Product route without local fallback (101.549824ms)
+✔ README translations share selectors, quick start and real setup links (0.550048ms)
+✔ comparison does not aggregate incompatible acceptance totals or currencies (0.566102ms)
+✔ derived retrieval has stable IDs, bounded bytes, no copied document bodies and no writes (135.645635ms)
+✔ fresh host gets canonical accepted scope, completed steps and uncertain effects without transcripts (287.339903ms)
+✔ missing state, budget overflow and unsafe paths are explicit; legacy snapshots remain valid (137.707105ms)
+ℹ tests 24
+ℹ suites 0
+ℹ pass 24
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2697.361962

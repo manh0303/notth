@@ -1,0 +1,12 @@
+{
+  "cli/adaptive.js": "4c487fca85a6733ec5bcf3289fda775e9bc23176fc992de6437ee45cbb436e5b",
+  "cli/checkpoint.js": "1ccdae605f2258064860d31b66354b221fa21e60e63f9b655a666e6d60bf4256",
+  "cli/harness.js": "b96f7a04d4b291c52ba035c245c6822f700981b35ed51c10bfd9a39702bebdc5",
+  "cli/memory-reference.js": "f8089586bda15bcf5dedd3459b9bcc577e9ae8908dddb7685fda77993cc6e16d",
+  "cli/memory.js": "c18d20afafde03dcaaec92efc1437dd9e5b8cd6c6e3cf274e4383d40921b6153",
+  "cli/status.js": "ef489b8c2c23d788aec5d6403e0dda04987269e22d39d03810dbd157f701c78e",
+  "tests/adaptive.test.js": "cc65dd23c2070cd956906b98d63ec5506a8651eb37339937ffee01b708950f5c",
+  "tests/agent-first.test.js": "edf42d0594936bc07b9963eb8bc2e055aa431288a3d3320d4a5378629c55476e",
+  "scripts/smoke-package.js": "6a543dda5330f2ce5b319c9258b65b158b0841f7315c3f3d7608875e07fdb476",
+  "core/evals/cases.json": "c2dd8471c2e4bb30301502a824b92c0ae170cf72e1eea9ab9932a01d7c2bef76"
+}
