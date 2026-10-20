@@ -63,8 +63,8 @@ Sau khi AI đã đọc điểm vào, chỉ cần nói “Sửa lỗi này”, �
 
 ## Runtime session tùy chọn
 
-Bật một lần bằng `aih update --host codex --session-hooks` hoặc host `claude-code`.
-Host tự gọi runtime Node cục bộ để nạp context khi mở session và lưu capsule trước compaction/khi dừng.
-Chưa xác thực trên host thật; Kiro command hook chưa được hỗ trợ. Đây là lưu trạng thái ngoài model,
+Bật một lần bằng `aih update --host codex --session-hooks` hoặc host `claude-code` / `kiro` (IDE 1.x / CLI V3), bằng CLI có hỗ trợ thay đổi này.
+Host tự gọi runtime Node cục bộ để nạp lại context mỗi lượt chat và trước khi dùng công cụ; lifecycle hooks lưu capsule khi dừng/trước compaction nếu host hỗ trợ.
+Chưa xác thực activation và hành vi AI trên host thật. Đây là lưu trạng thái ngoài model,
 không khôi phục reasoning nội bộ hoặc tự nén hội thoại bằng LLM.
 [Xem hợp đồng và kiểm thử](../session-runtime.md).

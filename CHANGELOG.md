@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased — Continuity within one chat
+
+- Refresh current source-linked task context on every prompt and pre-tool event for opted-in Codex/Claude hooks; retain existing bootstrap and settings ownership.
+- Add optional Kiro IDE 1.x / CLI V3 command registration for per-turn/per-tool refresh and AgentStop snapshots, without npm or new dependencies.
+- Bound prompt/tool receipts to latest metadata; never persist prompts or tool inputs. Require canonical reconciliation in the workflow; semantic compliance and native activation remain unverified.
+
 ## Unreleased — Documentation refresh
 
 - Name requirements documents (BRD/PRD/SRS) explicitly in setup, navigation and document-driven guides instead of the vague “BA documents” label; retain BA references for the actual role.

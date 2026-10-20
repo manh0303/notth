@@ -66,11 +66,20 @@ try {
   const runtimeTarget = path.join(temp, 'runtime-consumer'); fs.mkdirSync(runtimeTarget);
   run(['init', '--target', runtimeTarget, '--host', 'codex', '--session-hooks']);
   fs.writeFileSync(path.join(runtimeTarget, 'package.json'), '{"type":"commonjs"}');
-  const lifecycle = JSON.parse(fs.readFileSync(path.join(runtimeTarget, '.codex/hooks.json'))).hooks.SessionStart[0].hooks[0].command;
-  const nativeFixture = spawnSync(lifecycle, { shell: true, cwd: runtimeTarget, encoding: 'utf8', timeout: 10000,
-    input: JSON.stringify({ hook_event_name: 'SessionStart', session_id: 'package-fixture', cwd: runtimeTarget }) });
-  assert.equal(nativeFixture.status, 0, nativeFixture.stderr);
-  assert.match(JSON.parse(nativeFixture.stdout).hookSpecificOutput.additionalContext, /needs-selection/);
+  const runtimeHooks = JSON.parse(fs.readFileSync(path.join(runtimeTarget, '.codex/hooks.json'))).hooks;
+  for (const event of ['SessionStart', 'UserPromptSubmit', 'PreToolUse']) {
+    const nativeFixture = spawnSync(runtimeHooks[event][0].hooks[0].command, { shell: true, cwd: runtimeTarget, encoding: 'utf8', timeout: 10000,
+      input: JSON.stringify({ hook_event_name: event, session_id: 'package-fixture', cwd: runtimeTarget }) });
+    assert.equal(nativeFixture.status, 0, nativeFixture.stderr);
+    assert.equal(JSON.parse(nativeFixture.stdout).hookSpecificOutput.hookEventName, event);
+    assert.match(JSON.parse(nativeFixture.stdout).hookSpecificOutput.additionalContext, /needs-selection/);
+  }
+  run(['update', '--target', runtimeTarget, '--host', 'kiro', '--session-hooks']);
+  const kiroRefresh = JSON.parse(fs.readFileSync(path.join(runtimeTarget, '.kiro/hooks/notth-continuity.json'))).hooks.find(h => h.trigger === 'PromptSubmit');
+  const kiroFixture = spawnSync(kiroRefresh.action.command, { shell: true, cwd: runtimeTarget, encoding: 'utf8', timeout: 10000,
+    input: JSON.stringify({ hook_event_name: 'PromptSubmit', session_id: 'package-kiro', cwd: runtimeTarget }) });
+  assert.equal(kiroFixture.status, 0, kiroFixture.stderr);
+  assert.match(kiroFixture.stdout, /needs-selection/);
 
   fs.writeFileSync(path.join(target, 'requirements.txt'), 'Preserve source evidence');
   const importedSource = JSON.parse(run(['import-source', 'requirements', '--input', 'requirements.txt']));

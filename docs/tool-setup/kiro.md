@@ -95,7 +95,19 @@ Update sau tự giữ bridge, không cần lặp `--host kiro`.
 NOTTH cài bridge agent-prompt với hook schema v1. Khả năng nhận hook phụ thuộc client/version;
 chưa kiểm chứng activation trên Kiro thật. Với CLI/Web hoặc client không nhận bridge, dùng
 skill/prompt dự phòng và xác minh workspace access. Đây không phải command runtime
-`--session-hooks` của Codex/Claude; installer không dò phiên bản hoặc chép cấu hình đăng nhập.
+mặc định. Muốn nạp lại context trong một chat, dùng CLI hỗ trợ thay đổi này:
+
+```bash
+aih update --host kiro --session-hooks --dry-run
+aih update --host kiro --session-hooks
+```
+
+Hook command riêng `.kiro/hooks/notth-continuity.json` dùng schema v1 của Kiro IDE 1.x / CLI V3:
+SessionStart, PromptSubmit và PreToolUse đọc context hiện tại; AgentStop lưu capsule.
+Khởi động lại host sau khi bật. Node 22+ phải có trên PATH, không cần npm khi dùng source ZIP.
+Đây là kiểm chứng subprocess offline, chưa kiểm chứng activation trên Kiro thật; Web/Mobile không
+có event hooks theo tài liệu hiện tại. Installer không dò phiên bản hoặc chép cấu hình đăng nhập.
+Hợp đồng, quyền sở hữu và rollback: [session runtime](../session-runtime.md).
 
 Nếu chưa thấy `/harness-start`, mở session mới, kiểm tra **Agent Steering & Skills** và
 `.kiro/skills/harness-start/SKILL.md`. Prompt dự phòng:

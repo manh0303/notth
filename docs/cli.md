@@ -297,8 +297,9 @@ No model process is executed. Users need not run these commands during normal AI
 
 ## Native session runtime (optional)
 
-`init` / `update --host codex|claude-code --session-hooks` merges native SessionStart, PreCompact and
-Stop commands without executing them. Explicit host required when enabling. Existing settings and
+`init` / `update --host codex|claude-code|kiro --session-hooks` registers native session-start,
+per-prompt and pre-tool context refresh plus lifecycle snapshots without executing commands.
+Kiro uses a separate `.kiro/hooks/notth-continuity.json`; Codex/Claude merge existing native settings. Explicit host required when enabling. Existing settings and
 handlers survive; modified owned hooks fail. `--dry-run` previews without writes.
 
 - `aih compact <change-id> [--record] [--budget 8000]`: build/optionally persist a durable-state capsule.

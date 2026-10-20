@@ -70,6 +70,8 @@ test('native lifecycle command works offline in a CommonJS project and a subdire
     assert.equal(result.status, 0, result.stderr); return JSON.parse(result.stdout);
   }
   assert.match(invoke('SessionStart').hookSpecificOutput.additionalContext, /Resume the correct task/);
+  assert.match(invoke('UserPromptSubmit').hookSpecificOutput.additionalContext, /Resume the correct task/);
+  assert.match(invoke('PreToolUse').hookSpecificOutput.additionalContext, /Resume the correct task/);
   invoke('PreCompact'); invoke('Stop');
   assert.equal(recoverSession(root, { host: 'codex', sessionId: 'real-session' }).saved_capsule.current, true);
   const sessions = fs.readdirSync(path.join(root, '.notth/sessions'), { withFileTypes: true }).filter(d => d.isDirectory());
@@ -97,4 +99,60 @@ test('runtime edits and capsule tampering fail closed; CLI flags reach runtime',
   assert.equal(result.status, 0, result.stderr);
   const saved = JSON.parse(result.stdout); write(saved.path, '{}'); assert.throws(() => recoverSession(root), /integrity/);
   write('.notth/core/runtime/session.js', '// edited'); assert.throws(() => compactionPlan(root, 'alpha'), /modified/);
+});
+
+test('each prompt/tool refreshes canonical constraints in the same session without persisting prompts', async () => {
+  const invoke = event => runHook('codex', root, { hook_event_name: event, session_id: 'continuous', cwd: root, prompt: 'private-chat-only', tool_input: { command: 'private-tool-only' } });
+  await invoke('SessionStart');
+  write('.notth/decisions.json', { schema_version: 1, decisions: [{ id: 'no-extra-service', status: 'confirmed', summary: 'Use local files only' }] });
+  const prompt = await invoke('UserPromptSubmit');
+  assert.equal(prompt.hookSpecificOutput.hookEventName, 'UserPromptSubmit');
+  assert.match(prompt.hookSpecificOutput.additionalContext, /Use local files only/);
+  write('.notth/decisions.json', { schema_version: 1, decisions: [{ id: 'no-extra-service', status: 'superseded', summary: 'Use local files only' }, { id: 'replacement', status: 'confirmed', summary: 'An optional runtime is accepted' }] });
+  const tool = await invoke('PreToolUse');
+  assert.match(tool.hookSpecificOutput.additionalContext, /An optional runtime is accepted/);
+  assert.match(tool.hookSpecificOutput.additionalContext, /superseded/);
+  assert.equal(tool.hookSpecificOutput.permissionDecision, undefined);
+  write('openspec/changes/alpha/proposal.md', 'User corrected the request');
+  const changed = await invoke('PreToolUse');
+  assert.match(changed.hookSpecificOutput.additionalContext, /"status":"blocked"/);
+  const key = digest(Buffer.from('codex\0continuous'));
+  const folder = path.join(root, '.notth/sessions', key);
+  assert.equal(fs.readdirSync(path.join(folder, 'events')).length, 1);
+  const receipts = ['latest-UserPromptSubmit.json', 'latest-PreToolUse.json'].map(p => fs.readFileSync(path.join(folder, p), 'utf8')).join();
+  assert.doesNotMatch(receipts, /private-chat-only|private-tool-only/);
+  assert.equal(fs.existsSync(path.join(root, 'openspec/changes/alpha/compaction.json')), false);
+});
+test('Kiro command hooks refresh each prompt/tool offline and preserve user hook files', () => {
+  write('.kiro/hooks/user.json', { version: 'v1', hooks: [] });
+  install(root, SOURCE, { command: 'update', host: 'kiro', sessionHooks: true, dryRun: true });
+  assert.equal(fs.existsSync(path.join(root, '.kiro/hooks/notth-continuity.json')), false);
+  install(root, SOURCE, { command: 'update', host: 'kiro', sessionHooks: true });
+  const filename = path.join(root, '.kiro/hooks/notth-continuity.json'), bytes = fs.readFileSync(filename);
+  const { hooks } = JSON.parse(bytes);
+  assert.deepEqual(hooks.map(h => h.trigger), ['SessionStart', 'PromptSubmit', 'PreToolUse', 'AgentStop']);
+  for (const hook of hooks) {
+    const result = spawnSync(hook.action.command, { shell: true, cwd: root, input: JSON.stringify({ hook_event_name: hook.trigger, session_id: 'kiro-continuous', cwd: root }), encoding: 'utf8' });
+    assert.equal(result.status, 0, result.stderr);
+    if (hook.trigger !== 'AgentStop') assert.match(result.stdout, /Resume the correct task/);
+  }
+  assert.equal(recoverSession(root, { host: 'kiro', sessionId: 'kiro-continuous' }).saved_capsule.current, true);
+  install(root, SOURCE, { command: 'update', host: 'kiro', sessionHooks: true });
+  assert.deepEqual(fs.readFileSync(filename), bytes);
+  assert.deepEqual(JSON.parse(fs.readFileSync(path.join(root, '.kiro/hooks/user.json'))), { version: 'v1', hooks: [] });
+  write('.kiro/hooks/notth-continuity.json', { version: 'v1', hooks: [] });
+  assert.throws(() => install(root, SOURCE, { command: 'update', host: 'kiro', sessionHooks: true }), /differs/);
+});
+
+test('enabling an older lifecycle installation adds refresh events without changing existing handlers', () => {
+  const filename = path.join(root, '.codex/hooks.json');
+  const old = JSON.parse(fs.readFileSync(filename));
+  delete old.hooks.UserPromptSubmit; delete old.hooks.PreToolUse;
+  write('.codex/hooks.json', old);
+  install(root, SOURCE, { command: 'update', host: 'codex' });
+  assert.deepEqual(JSON.parse(fs.readFileSync(filename)), old);
+  install(root, SOURCE, { command: 'update', host: 'codex', sessionHooks: true });
+  const upgraded = JSON.parse(fs.readFileSync(filename));
+  for (const event of ['SessionStart', 'PreCompact', 'Stop']) assert.deepEqual(upgraded.hooks[event], old.hooks[event]);
+  assert.ok(upgraded.hooks.UserPromptSubmit); assert.ok(upgraded.hooks.PreToolUse);
 });

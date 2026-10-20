@@ -389,3 +389,13 @@ Additive memory/handoff commands and installed guidance reuse existing schemas a
 No eager data migration or distribution bump. Reviewed update preserves project-owned records and
 existing host bridges. Use the matching CLI/lock to roll back; retain full project state separately
 from config backup. See [Adaptive Core](adaptive-core.md).
+
+## Single-chat continuity (migration notes)
+
+Use the supporting CLI to update the managed runtime, then rerun `update --host <host> --session-hooks`
+once to register new per-turn/pre-tool handlers. Existing Codex/Claude handler bytes are unchanged.
+Kiro IDE 1.x / CLI V3 uses a new project-owned hook file; other hook files remain untouched. Restart
+the host. Native activation still needs live verification. Canonical/binding/capsule schemas and
+package allowlist are unchanged; no distribution bump. Rollback restores matching CLI/runtime/lock
+and removes only new handlers/file, preserving unrelated host settings and project data. See
+[session runtime](session-runtime.md) for limitations and backup behavior.
