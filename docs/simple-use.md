@@ -6,8 +6,8 @@ Install once in the project root with your existing npm/pip/offline CLI. Choose 
 npx --yes @manhd_d/notth init --host codex
 ```
 
-The new optional `--format human` flag requires a release containing this change, or a reviewed
-source checkout. It is not assumed available in the currently published registry package.
+Use the same reviewed CLI version for installation and project updates. `--format human` is optional;
+check `aih --help` when diagnosing an older CLI.
 In AI chat invoke harness-start if exposed, or use the portable first-session fallback:
 
 > Read .agents/skills/harness-start/SKILL.md and use Notth for this task: [your request].
@@ -28,7 +28,7 @@ bridge alone is not proof the host loaded instructions. See [host guides](tool-s
 
 ## Optional terminal orientation
 
-For a supporting source/release:
+With the installed CLI:
 
 ```sh
 aih start --chat --host codex --format human

@@ -4,8 +4,10 @@ Hai kênh dùng cùng Core, Agents, Skills, Workflows, Adapters và CLI JavaScri
 pip cần Python 3.9+ **và Node.js 22+**. Wheel không tải Node, không phụ thuộc package Python khác,
 không chạy npm/npx và không kết nối mạng khi chạy `aih`. Host AI có yêu cầu mạng riêng.
 
-PyPI name: `notth`. Đây là kênh bổ sung của bản phát hành tiếp theo; không coi feature
-PR là package đã xuất bản. Maintainer phải đăng ký tên/Trusted Publisher trước lần publish đầu.
+PyPI name: `notth`. Chỉ dùng lệnh pip khi phiên bản cần cài đã có trên registry;
+workflow build thành công hoặc GitHub Release không chứng minh PyPI publish đã thành công.
+Nếu chưa có, dùng wheel offline được build/kiểm tra từ đúng release tag. Maintainer cấu hình
+Trusted Publisher trước lần publish đầu; xem mục phát hành bên dưới.
 
 ## Cài và dùng
 
@@ -17,7 +19,7 @@ aih init --host codex
 aih check
 ```
 
-Chọn host `codex`, `claude-code`, `cursor`, `copilot`, `gemini-cli` hoặc `kiro`. Mở session AI,
+Chọn host `codex`, `claude-code`, `cursor`, `copilot`, `gemini-cli`, `kiro`, `opencode` hoặc `windsurf`. Mở session AI,
 gọi skill harness-start nếu host nhận diện; nếu không, gửi prompt đọc
 `.agents/skills/harness-start/SKILL.md`. Xem [setup đa IDE](tool-setup/README.md).
 

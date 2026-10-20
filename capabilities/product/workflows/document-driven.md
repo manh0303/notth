@@ -15,7 +15,7 @@ an external source into a second master. Maintain impacted artifacts through the
 6. **Engineering handoff:** create OpenSpec change from *approved* requirements, source version, tests and impact analysis; reuse `FR-###`/`US-###`/`AC-US-###-##` in design/tasks. Follow normal implementation/test/PR flow.
 7. **Source changes:** compare actual source revisions and propose a reviewed requirements/code impact diff rather than overwriting user-owned artifacts.
 
-Canonical enterprise source stays in the enterprise system; consumer repo stores pointers, versioned derived docs and project-local engineering artifacts. RAG is optional permission-scoped retrieval, not a replacement for a system of record. The `aih` CLI does not ingest data or run agents.
+Canonical enterprise source stays in the enterprise system; consumer repo stores pointers, versioned derived docs and project-local engineering artifacts. RAG is optional permission-scoped retrieval, not a replacement for a system of record. The `aih` CLI can preserve supplied local files with `import-source`; the host retrieves remote content and performs conversion. The CLI does not run agents.
 
 For new/material journeys, continue with `product-to-solution.md` after resolving the relevant scope.
 Use reviewed MVP/outcomes and optional Architecture/Delivery to assess solution/dependencies before

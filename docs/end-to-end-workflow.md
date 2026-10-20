@@ -50,7 +50,7 @@ Lệnh trên là **ví dụ một repo chứa BE/FE/manifests**; nếu frontend/
 | **Optional: Monetization** | Website/tool hoạt động hợp lệ, có traffic, quyền publisher | `monetization`: `adsense-integration`, `ad-placement-ux`, `seo-growth`, `analytics-revenue`, `publisher-compliance` | Plan ads.txt/consent, ads UX and revenue scenarios; **Gate: owner approves provider/production changes** |
 | **8. Operations** | Authorized release, metrics/logs/traces và runbooks | DevOps: `observability`, `incident-response`; Kubernetes khi liên quan | SLO signals, incident timeline/postmortem, follow-up changes; không tự động thay đổi production |
 
-**Nhớ:** bảng stage sử dụng tên kỹ năng viết gọn; sử dụng [skill-matrix.md](skill-matrix.md) để lấy **ID chính xác** và command `aih skill <name>`. Technical architecture hiện là trách nhiệm của Core + adapter, chưa có capability Architecture chuyên biệt.
+**Nhớ:** bảng stage sử dụng tên kỹ năng viết gọn; sử dụng [skill-matrix.md](skill-matrix.md) để lấy **ID chính xác** và command `aih skill <name>`. Core và adapter xử lý phạm vi kỹ thuật cơ bản; capability `architecture` bổ sung phân tích giải pháp, NFR/ADR và review khi cần.
 
 ## 2. Luồng thực tế qua các handoff
 
@@ -119,7 +119,7 @@ aih check
 
 **Checklist hoàn thành một change:** scope và approved AC rõ; diff có trace; tests thực chạy với kết quả chính xác; security/permissions đã review; CI xanh; PR được human quyết định; deployment (nếu có) có artifact/environment approval; OpenSpec archive/sync **chỉ sau khi các PR liên quan đã merge**, thông qua upstream CLI/human được quyền.
 
-Xem [handoff contracts](agent-handoffs.md), [OpenSpec integration](openspec.md), [DevOps PR-to-production](../capabilities/devops/workflows/pr-to-production.md) và các [ví dụ theo stack](getting-started.md#ví-dụ-thực-hành).
+Xem [handoff contracts](agent-handoffs.md), [OpenSpec integration](openspec.md), [DevOps PR-to-production](../capabilities/devops/workflows/pr-to-production.md) và các [ví dụ theo stack](README.md#ví-dụ).
 
 For new/material journeys use [Solution workflow](solution-workflow.md); for existing clear fixes keep
 a compact source/impact note. Set up the host with [Coding tools](tool-setup/README.md).

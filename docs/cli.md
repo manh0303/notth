@@ -7,23 +7,44 @@ Exit 0 means the requested operation succeeded; 1 means validation/I/O/drift fai
 
 | Command | Options | Effect |
 | --- | --- | --- |
-| list | --source | List validated adapters and namespaced skills |
-| detect | --source | Read target build files and return heuristic matches with evidence |
-| resolve | --source; --adapters a,b; --capabilities a,b | Validate module selection and compatibility; read-only |
-| verify | --scope adapters/core/capabilities/all or --adaptive or --report file | Advisory checks, metadata plan or evidence consistency; executed false, no subprocesses |
-| eval | --scope adapters/core/capabilities/all; --report FILE | Emit unscored template or aggregate reviewed report; no model calls |
-| init | --host ID (optional); --detect OR --adapters a,b; --capabilities a,b; --agent-preset recommended/economy/custom; --source; --dry-run; --allow-major | Install a snapshot and seed project agent preferences; exact rerun without explicit preset is idempotent |
-| update | --host ID (optional); --source; --dry-run; --allow-major | Update unedited owned files and seed missing project files |
-| check | none | Compare installed files/block with lock and selection; no writes |
-| doctor | --skill NAME (optional) | check plus configured environment/path diagnostics and generic PATH hints; no execution |
-| setup | --host; --apply [--dry-run]; --greenfield | Read-only by default; --apply creates missing user config from installed templates without reinstalling the snapshot |
-| decisions | --scope project/module:name (optional) | Read confirmed/proposed/superseded shared choices; project scope is included in module results; no approval or writes |
-| artifacts | none | Report declared inputs/outputs/storage/write policy and host connection aliases; no discovery or tool calls |
-| ready ID | --stage implement/review | Structural readiness; blocked returns exit 1, ready returns exit 0; no business approval |
-| new-change ID | none | Create an unapproved OpenSpec draft using installed templates |
-| new-doc TYPE | --capability ID (default product) | Copy one selected locked template into the owner's project docs without overwrite; Product idea/research use `docs/discovery/`, other Product types use `docs/product/` |
-| skills | none | List installed skill metadata only |
-| skill NAME | none | Read one installed, locked skill |
+| list | --source | List validated adapters and capabilities from the CLI bundle |
+| detect | --source | Read bounded build metadata and return heuristic adapter matches |
+| resolve | --source; --adapters; --capabilities | Validate module selection/compatibility; no installation |
+| init | --host; --detect OR --adapters; --capabilities; --agent-preset; --link-claude; --claude-skills; --session-hooks; --source; --dry-run; --allow-major; --format | Install selected snapshot and seed missing project configuration |
+| update | --host; --link-claude; --claude-skills; --session-hooks; --source; --dry-run; --allow-major; --format | Update unedited owned files; preserve project-owned state |
+| check | none | Check snapshot integrity/selection; no application tests |
+| doctor | --skill NAME | Check installation, configured paths and skill prerequisites; no execution |
+| setup | --host; --apply [--dry-run]; --greenfield | Plan by default; optionally scaffold missing user configuration |
+| agents | --host | Read resolved canonical roles and declared preferences |
+| skills | none | List installed skill metadata |
+| skill NAME | none | Read one installed locked skill |
+| start | --host; --chat; --compact; --clear; --goal; --task; --change; --input; --output; --format | Intake or read-only orientation; combinations are validated |
+| status | --format | Read current task/change/recovery hints |
+| changes | --format | Read local changes and declared checkbox counts |
+| decisions | --scope project/module:name | Read shared decision status; never approve |
+| seed | --record OR --check | Plan context reads, record reconciled hashes or check freshness |
+| sync-integrations | --host kiro; --from; --dry-run | Import MCP aliases only; no server execution or tool-access proof |
+| artifacts | none | Read source/output/storage/connection declarations |
+| backup | --output | Export allowlisted user configuration, not documents/checkpoints |
+| restore | --from (required); --transfer; --replace; --dry-run | Validate and restore configuration with conflict guards |
+| new-change ID | none | Scaffold an unapproved OpenSpec change |
+| change-sidecars ID | none | Add missing sidecars without overwriting existing work |
+| new-doc TYPE | --capability (default product); --report (product techspec only) | Scaffold a declared template or return an external host handoff |
+| workflow validate | none | Validate installed workflow contracts |
+| ready ID | --stage; --workflow | Check structural entry/readiness; no execution or approval |
+| verify | --scope OR --adaptive OR --report | Plan checks or validate supplied evidence; no test execution |
+| eval | --scope; --report | Emit unscored cases/report or aggregate reviewed scores |
+| checkpoint ID | --report (required); --expected | Save conditional project-owned checkpoint/history |
+| resume ID | none | Read checkpoint freshness and uncertain side effects |
+| context | --change; --report; --expected | Read source-linked intent or save a conditional revision |
+| memory | --change; --query; --budget | Retrieve bounded canonical references |
+| handoff ID | --budget | Derive host-neutral task handoff without execution |
+| sources | none | Read preserved sources and verify local bytes |
+| import-source ID | --input (required); --normalized; --metadata; --dry-run | Preserve supplied local bytes and optional host conversion/provenance |
+| source-check ID | --report and --input (required); --dry-run | Record host freshness observation with raw evidence |
+| compact ID | --record; --budget | Build or persist a bounded durable-state capsule |
+| session NATIVE-ID | --host and --change (required); --expected | Bind a native session to a task with conditional switching |
+| recover | --host; --session; --change; --budget | Rebuild deterministic recovery; ambiguous scope blocks |
 
 All commands default --target to the current directory. --source defaults to the installed package.
 For a global install, upgrade the CLI with `npm install -g @manhd_d/notth@latest` before
@@ -31,7 +52,8 @@ For a global install, upgrade the CLI with `npm install -g @manhd_d/notth@latest
 version; `aih check` reports the project snapshot version. For a local install, update the local
 dependency and use `npx aih`. Application tests must be executed separately.
 --help/-h and --version/-v are available. Unknown, duplicate and inapplicable flags fail.
-Source and target cannot contain one another, except source inside target/node_modules for local npm installs. Symlinks in roots, source
+Source and target cannot contain one another, except an installed package inside target/node_modules
+or target/.venv site-packages for the supported local npm/Python layouts. Symlinks in roots, source
 payload or destination paths are rejected. IDs are lowercase hyphenated slugs; archive is reserved.
 Astro projects are detected from `astro` in package.json dependencies; `react-dom` used only for Astro islands is not a standalone React/Next.js detection when `next` is absent. Explicit `--adapters astro,react-nextjs` remains valid. `aih init --adapters astro` installs static-first rules/skills but no Astro packages or Cloudflare deployment.
 Selection changes belong in .notth/project.json; unknown or duplicate adapters fail validation.
@@ -43,7 +65,7 @@ Selection changes belong in .notth/project.json; unknown or duplicate adapters f
 ## Project environment and clarification
 
 See [Project configuration](project-configuration.md) for the schema and Maven example.
-Init/update seed a project-owned environment.json and append /machine.json to .notth/.gitignore,
+Init/update seed a project-owned environment.json and append /backups/, /machine.json and /sessions/ to .notth/.gitignore,
 preserving previous content. Private machine files are not created, locked or published by the CLI.
 Doctor returns nonzero for configured required paths/variables that are missing; diagnostics omit values.
 Setup returns questions/options/recommendations for the AI host; it does not read stdin or write answers.
@@ -66,15 +88,17 @@ application code, external tools, remote origin or model behavior. The lock is n
 ## Recovering failures
 For conflicts, preserve custom work in Git, move project-specific rules to local.md and restore managed
 files from the last install commit. Re-run dry-run. Do not manually regenerate hashes to suppress drift.
-For an interrupted install inspect .notth-install.lock, confirm no installer is running, remove the
-stale marker and restore a known-good installation from Git. Then check and retry on a branch.
+For an interrupted install inspect .notth-install.lock and the compatibility marker
+.harness-install.lock. Confirm no installer is running before removing stale markers and
+restoring a known-good installation from Git. Then check and retry on a branch.
 There is no uninstall command; revert the installation commit. No command merges or publishes changes.
 
 ## Capability commands
 list/detect read the CLI package or explicit --source. verify/eval require a valid installed snapshot and
 read its pinned metadata, rules and cases. Every referenced capability file must be covered by the lock.
-Detection reads only declared paths directly in --target, capped at 1 MiB per file; malformed package JSON
-and symlink probes fail. It does not infer framework versions or recurse into workspaces/node_modules.
+Detection reads declared root metadata, capped at 1 MiB per file. Maven additionally follows declared
+modules to depth 2, up to 64 POMs / 4 MiB total. Malformed package JSON and symlink probes fail.
+It does not infer framework versions or arbitrarily recurse into other workspaces/node_modules.
 init --detect refuses empty detection; it cannot be combined with --adapters or used on update.
 verify labels file presence as candidate/not-detected, and manual checks as review-required. This is not
 proof that a script exists, a command is safe, or a native toolchain is available. Commands are never run.
@@ -117,7 +141,7 @@ Any false criterion returns status fail and exit 1, including a list of critical
 
 ## Human workflows and examples
 
-See [Getting started](getting-started.md) for CLI boundaries, [Full SDLC](end-to-end-workflow.md) for review gates, [Skill matrix](skill-matrix.md) for valid skill IDs and [Agent handoffs](agent-handoffs.md) for role responsibilities. The four [examples](examples/fullstack-web.md) distinguish advisory `aih` commands from external build, AI and deployment tools.
+See [Getting started](getting-started.md) for CLI boundaries, [Full SDLC](end-to-end-workflow.md) for review gates, [Skill matrix](skill-matrix.md) for valid skill IDs and [Agent handoffs](agent-handoffs.md) for role responsibilities. The [examples](README.md#ví-dụ) distinguish advisory `aih` commands from external build, AI and deployment tools.
 
 
 ## Product document templates — discovery and specifications
@@ -161,11 +185,11 @@ review stage requires declared completion/evidence. No remote calls, source writ
 
 See [Adaptive verification and TechSpec](adaptive-verification.md) for read-only discovery, evidence reports and selective technical documentation.
 
-## Agent-first additions (unreleased)
+## Agent-first commands
 
 aih agents shows canonical IDs, skill preferences and model declarations. init --host claude-code seeds a native preset only when agents.json is absent. init/update --link-claude and --claude-skills opt in to managed import/wrappers; native settings remain user-owned. checkpoint <id> --report saves project-owned recovery state; --expected supplies prior digest for replacement. resume <id> is read-only. See [Agent-first guide](agent-first.md). No command launches agents, probes providers, merges or measures quota.
 
-## Start, backup và restore (bản nâng cấp này)
+## Start, backup và restore
 
 | Lệnh | Hành vi |
 | --- | --- |
@@ -182,7 +206,7 @@ không đổi target hoặc chờ stdin. Fresh repo restore trước init; insta
 selection đổi. Đọc [Start](start.md) và [Configuration backup](configuration-backup.md) cho giới hạn,
 phục hồi checkpoint và rollback. Các lệnh không truy cập remote, chạy model, cấp quyền hay auto-merge.
 
-## End-user acceptance (unreleased)
+## End-user acceptance
 
 verify --adaptive exports end_user_acceptance with metadata surface/tool candidates, required context,
 Core skill/workflow references and a host prompt. The CLI does not execute interfaces or install tooling.
@@ -206,7 +230,7 @@ See [Kiro quick start](tool-setup/kiro.md) and [schema/ownership](session-onboar
 | sync-integrations | --host kiro; --from FILE; --dry-run | Import aliases only; no credentials/server execution/tool inference |
 | change-sidecars ID | none | Add missing external proposal sidecars; no overwrite |
 
-New commands require supporting reviewed source/release.
+Use `aih --help` to diagnose a CLI older than the installed snapshot; upgrade the CLI before updating the project.
 
 ## Workflow contract (schema 1)
 

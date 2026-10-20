@@ -4,7 +4,7 @@ Dùng chế độ **Document-driven** cho dự án doanh nghiệp hoặc bất k
 
 ## 1. Cài Harness trong repository hiện có
 
-Ví dụ một backend Spring Boot đã được checkout. Cần Node.js 22+, Git và `aih` đã cài từ bản nguồn được review.
+Ví dụ một backend Spring Boot đã được checkout. Cần Node.js 22+, Git và `aih` đã cài từ package/source được review theo [Getting started](../getting-started.md).
 
 ```bash
 cd /path/to/existing-spring-project

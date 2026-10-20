@@ -87,9 +87,10 @@ Source paths resolve relative to the package, not cwd. The target defaults to cw
 installation is an explicit exception to overlap rejection; payload destinations never include node_modules.
 The npm files allowlist ships runtime assets including the hidden OpenSpec template. A smoke test packs
 and installs a real tarball globally and locally without registry access. Development tests and fixtures
-are excluded from distribution. Only the development smoke script launches npm subprocesses.
+are excluded from distribution. Build/package smoke and separate host test drivers may launch subprocesses under scripts/;
+the Python launcher invokes the shared local Node CLI. Installer modules never launch hosts or npm.
 
-## Optional capabilities (0.4.0)
+## Optional capabilities
 
 Capabilities differ from technology adapters: they represent reusable workflows such as UI/UX,
 not runtime stack defaults. A registered capability contains `capability.json` schema 1,
@@ -102,7 +103,7 @@ skill after drift validation. The agent host controls actual skill activation an
 For package size, source npm distribution currently bundles all capabilities, but consumer
 snapshot and AI context are selective; split distributable packages only when size warrants it.
 
-## Product documentation capability (0.5.0)
+## Product documentation capability
 
 An optional `product` capability owns business-analysis and product-documentation
 role contracts and templates. Capability schema-1 now supports optional unique safe
@@ -116,11 +117,11 @@ Selected capability artifacts are hashed and installed with the existing lock sa
 destinations. It never fills confidential content, fetches Confluence or auto-approves.
 The approved PRD/BRD/stories/AC serve as source of truth for UI/UX and OpenSpec.
 
-## DevOps and Kubernetes composition (0.6.0)
+## DevOps and Kubernetes composition
 
 DevOps is an optional stack-neutral capability for release procedures and SRE; the Kubernetes adapter owns workload/Helm details. Product role/template support from 0.5 remains unchanged. Both are installed only when selected, vendored and hash-locked alongside existing modules. Integrations/runtime permissions are independently administered; no instructions can grant cloud access, override Core approval gates or trigger production changes. `aih verify`/`aih eval` use adapter-only defaults; opt in to Core and capability scenarios with `--scope all`, without executing runtime checks.
 
-## Foundation hardening (in source; candidate not published)
+## Module composition and validation
 
 `cli/composition.js` validates a selected module graph before copying managed content. Optional `module_version`, hard `requires`, soft `recommends`, `conflicts` and `compatible_adapters` use namespaced refs like `adapter:kubernetes`. Cycles, unknown refs, missing required or explicitly incompatible modules fail before writes; recommendations only warn. Config and lock schemas remain 1, and module metadata is pinned inside installed snapshots.
 
@@ -138,7 +139,7 @@ installation; soft recommendations never auto-select them. Core solution-framing
 overview/MVP/NFR/architecture/impact context without requiring every capability or document.
 new-doc gains explicit --capability (default Product), validating installed metadata and declared
 templates and preserving project-owned outputs. See [Solution workflow](solution-workflow.md).
-Host configuration bridges are user-owned recipes in [tool setup](tool-setup/README.md); no host
+Host bridges use managed blocks/wrappers described in [tool setup](tool-setup/README.md), preserving user-owned content; no host
 account configuration, native-agent installation, new dependency or orchestration engine is supplied.
 
 ## Agent configuration boundary
@@ -164,13 +165,14 @@ See [Adaptive verification and TechSpec](adaptive-verification.md) for read-only
 
 The [continuous-development workflow](continuous-development.md) composes existing Core and optional Product/Architecture/Delivery contracts. Baseline/impact and handoff sections extend existing OpenSpec Markdown templates; no schema, runtime, state store or CLI command is added. Hosts reconcile revisions and perform authorized section edits; structural readiness cannot enforce semantic freshness.
 
-## Agent-first changes (unreleased)
+## Agent-first contracts
 
-Optional capability profiles declare asset_owner for a canonical owner; loading validates subset membership, and installation vendors canonical assets while exposing selected skills once. Optional agent/template aliases retain old IDs/routes. Root CLAUDE managed import and native skill wrappers are opt-in locked payloads; external native settings remain project-owned. Checkpoint commands store declarations/history and compute local drift without a runtime/state server. See [Agent-first migration](agent-first.md).
+Optional capability profiles declare asset_owner for a canonical owner; loading validates subset membership, and installation vendors canonical assets while exposing selected skills once. Optional agent/template aliases retain old IDs/routes. Claude host selection or the explicit flags enable a managed import and native skill wrappers as locked payloads; external native settings remain project-owned. Checkpoint commands store declarations/history and compute local drift without a runtime/state server. See [Agent-first migration](agent-first.md).
 
 ## Guided intake and portable configuration
 
-start uses terminal prompts or a non-TTY plan with saved user-owned start.json; canonical source/output
+start --chat/--compact is read-only for every host; bare start can interview on a TTY except --host kiro.
+Saved intake is project-owned start.json; canonical source/output
 declarations remain artifacts.json. backup exports an allowlisted, bounded UTF-8 config archive only.
 restore validates schema/digests/configs/paths, previews conflicts, requires explicit replacement and
 saves a before-backup through the same installation guard/rollback machinery. Transfer copies only
@@ -187,7 +189,7 @@ end-user requirements by matching surface and dependency scope. Receipts are pro
 not authenticated browser/model execution or UAT approval. No browser dependency/runner enters the CLI.
 See [End-user testing](end-user-testing.md).
 
-## Session onboarding and Kiro bridge (unreleased)
+## Session onboarding and Kiro bridge
 
 Core harness-start delegates semantic seed/questions to the host. Optional local.md frontmatter is
 bounded YAML/JSON; legacy prose is preserved. CLI seed stores local source/config hashes in project

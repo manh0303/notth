@@ -1,4 +1,4 @@
-# npm publishing — automated releases
+# npm and PyPI publishing — automated releases
 
 The public distribution is `@manhd_d/notth` (CLI command `aih`). The GitHub repository is `manh0303/notth`. The previous npm name was `@manhd_d/ai-harness`; the rename does not move its published versions. See [Notth migration](notth-migration.md) for the first publication and consumer update.
 
@@ -28,13 +28,15 @@ Use **npm CLI >= 11.5.1** and Node 22.14+ for OIDC; this workflow runs Node 24 a
 3. `.github/workflows/npm-publish.yml` runs CI on `main` then Release Please. It opens/updates a separate **Release PR**, proposing version/changelog changes. It also explicitly dispatches `harness.yml` for the generated Release PR branch; the `GITHUB_TOKEN` does not trigger arbitrary downstream workflows.
 4. **You review and merge the Release PR** once satisfied. That `main` push triggers the same workflow. After tests pass, Release Please creates a `vX.Y.Z` Git tag and GitHub Release.
 5. The **same** `npm-publish.yml` run checks out that tag, checks ancestry on `main`, verifies scope/manifest/changelog, runs tests and an actual npm tarball smoke test, then executes `npm publish --access public` with GitHub OIDC.
-6. Confirm the new version with `npm view @manhd_d/notth version`. npm processing can take a few minutes. Consumers run `npm install -g @manhd_d/notth@latest`, then `aih update --dry-run`, `aih update` and `aih check` inside each project.
+6. The tested Python wheel/sdist artifact passes to `publish-pypi`, which publishes via PyPI Trusted Publishing after npm succeeds. Configure owner `manh0303`, repository `notth`, workflow `npm-publish.yml`, environment `pypi` on PyPI separately; the npm binding is not reused.
+7. Confirm the new version with `npm view @manhd_d/notth version`. npm processing can take a few minutes. Consumers run `npm install -g @manhd_d/notth@latest`, then `aih update --dry-run`, `aih update` and `aih check` inside each project.
 
 **Why one workflow?** Release Please uses `GITHUB_TOKEN`. GitHub usually suppresses new workflow runs in response to events created by `GITHUB_TOKEN`, including its `release.published` event. Publishing in the same `push main` workflow avoids silently skipping npm publication. For a **manually published** GitHub Release, the same file also supports `release.published` as a fallback, with matching version and main-ancestry guards. Do not create a manual GitHub Release for a version already present on npm; npm versions cannot be overwritten.
 
-## Bootstrap from manually published v0.6.0
+## Historical bootstrap: manually published v0.6.0
 
-`.release-please-manifest.json` starts at `{".":"0.6.0"}` and `release-please-config.json` pins `bootstrap-sha` to the main commit from which v0.6.0 was published. This prevents replaying all historical changes or treating an older branch's releases as new. For the root npm package Release Please uses:
+The release manifest initially started at `{".":"0.6.0"}`; its current version follows reviewed releases.
+`release-please-config.json` originally pinned `bootstrap-sha` to the main commit from which v0.6.0 was published. This prevents replaying all historical changes or treating an older branch's releases as new. For the root npm package Release Please uses:
 
 - `release-type: node` to update `package.json`, `package-lock.json`, and `CHANGELOG.md`.
 - `include-v-in-tag: true` and `include-component-in-tag: false` to create tags like `v0.6.1`.
@@ -43,6 +45,13 @@ Use **npm CLI >= 11.5.1** and Node 22.14+ for OIDC; this workflow runs Node 24 a
 `scripts/check-release.js` blocks mismatched versions across the three distribution metadata files and Release Please manifest, and accepts old and Release Please-generated changelog version headings. Feature PRs should not edit `bootstrap-sha`; it becomes irrelevant after the first automated release.
 
 ## Security and recovery
+
+A green workflow may have run only `release-please`: inspect job results. Successful npm publication
+is the `publish` job; Python publication is `publish-pypi`. If PyPI reports `invalid-publisher`, compare
+its registered repository/workflow/environment with the claims in that job. After correcting the
+binding, rerun **only publish-pypi** using the original artifact. Do not rerun successful npm publish.
+If artifacts expired, rebuild/test from the exact release tag before publishing the missing channel.
+See [Python publishing and recovery](python-installation.md#build-và-phát-hành).
 
 No workflow automatically merges a PR. The release job uses only `contents: read` and `id-token: write`; the Release Please job has separately scoped permissions to open PRs/create releases. GitHub-hosted runners are required for npm OIDC. If a Release PR appears without CI checks, use the explicitly dispatched CI run linked from Actions. Never merge an unreviewed release PR.
 

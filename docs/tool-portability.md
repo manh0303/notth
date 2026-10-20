@@ -56,9 +56,11 @@ không bị đổi tự động. Cài mới dùng default phù hợp host đã c
   `/opsx-*` vẫn là giao diện riêng theo tool; Notth không di chuyển hay cập nhật chúng.
 - Giữ nguyên `.claude/settings.json`, `.kiro/steering`, MCP, plugin marketplace và native commands.
   Các cấu hình nội bộ không phải template dùng chung cho dự án mới.
-- Hook Notth hiện tại dùng action `agent`, đường dẫn project-relative; không gọi PowerShell/git,
+- Bridge Kiro dùng action `agent`, đường dẫn project-relative; không gọi PowerShell/git,
   không chứa ổ đĩa máy. Hook cũ do project sở hữu cần được review riêng trước khi tắt/sửa;
   nếu cùng tên file managed mà khác nội dung, installer báo conflict trước khi ghi.
+- Codex/Claude có command hooks tùy chọn qua `--session-hooks`; host gọi runtime Node vendored.
+  Không bật cho Kiro. Xem [session runtime](session-runtime.md) về giới hạn và rollback.
 
 ## Sang project mới
 

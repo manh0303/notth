@@ -1,6 +1,6 @@
-# Agent-first delivery and migration from 0.12.0
+# Agent-first delivery and recovery
 
-Unreleased additions require a reviewed source bundle until published. Distribution stays release-PR owned.
+Use the same reviewed CLI and project snapshot. Upgrade older installations using the migration steps below; distribution versions remain release-PR owned.
 
 ## Responsibility and scope
 Core Orchestrator selects only needed BA, PO/Product Manager, SA, PM, Developer and QA/Reviewer perspectives. Single host performs them sequentially; independent workers require actual host delegation. Inspect scope, approved requirements/ADRs and existing conventions first. Open architecture/technology choices go to SA with alternatives/trade-offs and actual owner decision. Reuse accepted choices without asking again. Adapters implement accepted designs; they do not choose infrastructure.
@@ -37,7 +37,7 @@ aih init --detect --host claude-code --link-claude --claude-skills
 aih doctor
 ```
 
-Default init/update preserves CLAUDE.md. --link-claude appends only a managed @AGENTS.md import, preserving BOM/line endings/user text; existing active imports are left alone. The managed block is drift-checked and subsequent updates preserve it. --claude-skills installs locked wrappers directing the host to full canonical .agents skills; custom native skills/settings survive and collisions abort before writes. Verify actual loading with Claude /context and invoke a wrapper in an authorized session. CLI tests do not prove live skill loading.
+Without Claude host selection or opt-in flags, init/update preserves CLAUDE.md. Selecting --host claude-code enables the import/wrappers; --link-claude appends only a managed @AGENTS.md import, preserving BOM/line endings/user text; existing active imports are left alone. The managed block is drift-checked and subsequent updates preserve it. --claude-skills installs locked wrappers directing the host to full canonical .agents skills; custom native skills/settings survive and collisions abort before writes. Verify actual loading with Claude /context and invoke a wrapper in an authorized session. CLI tests do not prove live skill loading.
 
 Doctor examines root CLAUDE.md/CLAUDE.local.md and .claude/CLAUDE.md, excluding imports mentioned inside code/comments. It warns about possible instruction shadowing, not a proven host failure. Claude version, ancestor/global files, plugins and settings remain unverified. Official documentation: https://code.claude.com/docs/en/memory and https://code.claude.com/docs/en/skills .
 
@@ -63,4 +63,4 @@ Use existing adaptive verification/report/TechSpec contracts and source-write po
 
 Local tests and real tarball smoke validate contracts, preservation, drift, alias routes and recovery; live agents remain unscored until authorized host/model/budget. For 18-run manually entered comparison use [real-task protocol](../evals/real-task-comparison.md) and scripts/compare-tasks.js; missing observations remain null.
 
-Review update --dry-run/update/check, snapshot Git diff and changed catalog. No custom configs, source documents, native settings or work records are automatically migrated. Re-export eval reports because bundle/dataset hashes change. Revert the consumer snapshot commit to roll back. Suggested next release is minor with retained old module/role/template routes and explicit retired-skill migration; consumers depending on retired recipes must review this behavioral change before upgrading.
+Review update --dry-run/update/check, snapshot Git diff and changed catalog. No custom configs, source documents, native settings or work records are automatically migrated. Re-export eval reports because bundle/dataset hashes change. Revert the consumer snapshot commit to roll back. Existing module/role/template routes are retained; consumers depending on retired recipes must review the migration before upgrading.

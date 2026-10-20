@@ -55,7 +55,7 @@ remaining dependency. Every configured output still needs an action/reason; unch
 need rewritten files. Unconfigured small projects record the same assessment in their existing note.
 
 ## Verification, feedback and completion
-Reuse [adaptive verification & TechSpec](adaptive-verification.md), already introduced by PR #40.
+Reuse [adaptive verification & TechSpec](adaptive-verification.md).
 Record AC-to-observed-result links and current revision, with BLOCKED/NOT_RUN for missing execution.
 Static inspection does not prove runtime success. Proposed documentation is not business approval.
 Feedback from bugs/UAT/users/operations goes into the existing backlog or a reviewable proposal;
@@ -87,6 +87,6 @@ its optional document templates/TechSpec skill. Existing docs/configs/changes ar
 add missing baseline/handoff sections selectively, do not regenerate old changes. Revert the consumer
 installation commit to roll back; re-export evaluations after bundle hashes change.
 
-## Agent-first checkpoint additions (unreleased)
+## Checkpoint and recovery
 
 Use aih agents for canonical responsibilities and preferred skills; load only needed perspectives. For a machine-readable meaningful-step handoff use aih checkpoint <id> --report file.json and aih resume <id>. Keep design/tasks/decisions and evidence authoritative; checkpoint references them instead of copying chat. Reconcile baseline drift and unknown side effects before retry; quota/usage remains unknown without actual host data. See [Agent-first guide](agent-first.md).

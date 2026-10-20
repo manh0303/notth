@@ -4,6 +4,8 @@ Với tính năng cần spec:
 
 ```bash
 aih new-change add-customer-search
+# Trước ready: hoàn thiện proposal/design/tasks/spec và decisions.json từ yêu cầu thực tế.
+# Draft vừa tạo còn TODO nên chưa đạt readiness.
 aih ready add-customer-search --stage implement
 # Sau khi implement và ghi bằng chứng:
 aih ready add-customer-search --stage review

@@ -1,6 +1,20 @@
 # Versioning and migration
 
-## Optional session runtime (unreleased)
+## Current upgrade procedure
+
+Upgrade the CLI using the installed npm/pip/offline channel, commit/back up the consumer, then review
+`aih update --dry-run`, `aih update` and `aih check` with the same CLI. Versions come from
+`package.json`, `harness.yaml`, `package-lock.json` and the release manifest; do not hardcode a version
+from an old migration note. [Getting started](getting-started.md) · [Release policy](release-policy.md).
+
+## How to read the migration notes
+
+The sections below record feature introduction/compatibility decisions. Old baseline/module numbers
+and original rollout plans are historical context, not the current CLI version or proof of registry
+publication. Use the current [CLI contract](cli.md) and source for supported commands; verify npm/PyPI
+publication separately. Keep rollback tied to the matching CLI/snapshot/lock and project backup.
+
+## Optional session runtime (migration notes)
 
 Adds schema-1 compaction snapshots/pointer and ignored local session bindings/receipts. Existing
 context/checkpoint/project/lock schemas and distribution version are unchanged. Managed Core gains
@@ -8,7 +22,7 @@ an ESM runtime. Host settings remain project-owned, opt-in and backed up before 
 Update runtime and lock together; disable owned handlers and restart host before rollback.
 [Migration/rollback details](session-runtime.md#upgrade-and-rollback). No live host recovery claim.
 
-## Project namespace (unreleased)
+## Project namespace (migration notes)
 
 New layouts use `.notth/`; update auto-migrates validated legacy consumers with full original-byte
 namespace/owned-host backup, dry-run and rollback. Existing project/lock schemas stay 1; new config
@@ -19,7 +33,7 @@ Use the [migration procedure](notth-migration.md); historical release notes belo
 release behavior and do not override this namespace migration. Source/checkpoint hashes are never
 silently refreshed. Distribution version remains release-PR owned.
 
-## Automatic session continuity (unreleased)
+## Automatic session continuity (migration notes)
 
 Optional schema-1 context.json/context-history under each existing change adds source-linked intent
 and guarded revision writes. Project/lock/config schemas and distribution version stay unchanged.
@@ -29,7 +43,7 @@ inspection, never auto-migrates or approves facts. New CLI also reads legacy sna
 missing-context guidance. Context/history require full project backup, not config backup. Roll back
 consumer snapshot with its matching CLI; retain optional user data. External task-backend guidance has been retired; context/checkpoints remain local and host-owned. See [continuity](session-continuity.md).
 
-## PyPI distribution name (unreleased)
+## PyPI distribution name (migration notes)
 
 The Python distribution changes from the earlier source-build name `manhd-ai-harness` to `notth`.
 Wheel/sdist names and metadata, the bundled overlap marker and release configuration use `notth`;
@@ -39,7 +53,7 @@ new one because they own the same files. Configure the PyPI project `notth` and 
 before publication. Distribution version stays Release Please-owned. Migration and rollback:
 [Notth migration](notth-migration.md#python--pypi). Historical rename notes below describe the earlier decision.
 
-## Engineering depth (unreleased)
+## Engineering depth (migration notes)
 
 Product 1.9.0, Architecture 1.3.0, Java/Spring 1.3.0 and React/Next.js/React Native 1.5.0 deepen existing
 IDs and add supporting workflow/rules. Distribution version stays release-PR owned; all serialized
@@ -48,7 +62,7 @@ project docs/configs. Existing generated docs are not rewritten; hosts selective
 sections. No external skill/exporter is installed; format prerequisites remain host-owned. Re-export
 eval datasets after bundle changes. Roll back the consumer installation commit with matching CLI/lock.
 
-## Contextual UI design quality (unreleased)
+## Contextual UI design quality (migration notes)
 
 UIUX 1.2.0 adds two skills and supporting templates/integration guidance, retaining Figma IDs and
 schema 1. Distribution version remains Release Please-owned. Reviewed update --dry-run/update/check
@@ -83,7 +97,7 @@ See [release policy](release-policy.md) for independently versioned module contr
 4. Inspect the install/update diff in a sample consumer; document source commit and limitations.
 5. Merge feature PR by human decision. Release Please opens a separate version/changelog PR; after human review and merge, the release workflow creates the tag and GitHub Release and publishes npm from the same workflow through OIDC. Merge of feature PR alone does not publish.
 
-## Project setup and readiness additions (unreleased)
+## Project setup and readiness additions (migration notes)
 
 The project/lock schema remains 1. Update adds optional project-owned environment.json plus the
 scoped machine.json ignore rule and new managed workflows/templates. Existing local.md, environment,
@@ -162,15 +176,15 @@ No new configuration/lock schema version: 0.5 Product templates, `aih new-doc`, 
 
 Module contracts gain optional version and dependency fields without changing config/lock schema 1. Existing consumer snapshots retain default adapter-only verify/eval. After a reviewed update, `--scope all` enables locked Core/capability/composition evaluation, and `--scope core` works in core-only projects. Feature branches keep the latest release version; Release Please's generated PR chooses and synchronizes the next number. Use tagged releases for other consumers rather than interpreting an unreleased commit as a published update.
 
-## Project coding conventions (unreleased)
+## Project coding conventions (migration notes)
 
 Config and lock remain schema 1. Core adds project-conventions.md; Java/Spring, React/Next.js and React Native module contracts advance to 1.1.0 with conventions, manual checks and evaluation cases. Distribution version remains release-PR owned. Reviewed update adds managed assets and preserves existing local.md, environment and unmanaged AGENTS text. Old local.md is not rewritten; the host can append missing facts after inspection. Re-export evaluation datasets/reports after update because bundle hashes change. See [Project conventions](project-conventions.md).
 
-## Harness maintenance contract (unreleased)
+## Harness maintenance contract (migration notes)
 
 Maintainer guidance and impact templates do not alter consumer instructions or schemas. Kubernetes module 1.0.1 adds discovery links to its existing rules; use the usual reviewed update dry-run/update/check sequence. Project-owned files remain preserved, and rollback uses the consumer installation commit. Distribution version remains Release Please-owned.
 
-## Product, Architecture and Delivery (unreleased)
+## Product, Architecture and Delivery (migration notes)
 
 Product module 1.2.0 is additive; Architecture/Delivery start at 1.0.0 and are optional. Distribution
 version remains Release Please-owned. Config/lock/capability schemas stay 1. Existing new-doc calls
@@ -180,7 +194,7 @@ On a consumer branch add architecture/delivery to project.json if needed, review
 update and check; existing docs, local facts and host bridges remain project-owned. Re-export eval
 reports for the changed bundle. No automatic old-plan migration; revert installation commit to roll back.
 
-## Agent routing and release-test repair (unreleased)
+## Agent routing and release-test repair (migration notes)
 
 Agent config uses independent schema 1; project/lock schema remains 1. Reviewed update adds a locked
 default and seeds agents.json only if absent; custom bytes and host files survive. Old alternate source
@@ -189,7 +203,7 @@ role gaps inherit/report project defaults. Inspect new payload/update diff; re-e
 bundle changes. Revert consumer installation commit for rollback. Release update tests use relative
 versions instead of hardcoded 0.7.0, preserving downgrade refusal on future release branches.
 
-## Frontend/mobile coding and onboarding (unreleased)
+## Frontend/mobile coding and onboarding (migration notes)
 
 React/Next.js and React Native module contracts advance from 1.1.0 to 1.2.0 additively: existing skill
 IDs remain, feature/screen and behavior-testing skills plus manual checks/unscored cases are added.
@@ -198,7 +212,7 @@ usual reviewed update dry-run/update/check; local.md, agents.json, native host c
 project-owned and preserved. Re-export eval reports after bundle changes; revert the consumer install
 commit for rollback. See [Frontend/mobile coding](frontend-mobile.md).
 
-## Artifact contract and integrations (unreleased)
+## Artifact contract and integrations (migration notes)
 New project-owned schema-1 artifacts.json/integrations.json are optional on legacy installs and
 seeded when absent; custom bytes, source docs and native host configs are preserved. Project/lock
 schemas remain 1. Product 1.3.0 and UIUX 1.0.1 connect routing/maintenance guidance. Configured docs
@@ -207,19 +221,19 @@ Configured output contracts require artifact-impact.json in existing changes whe
 the installed template and record reviewed impact. No automatic migration of source documents or
 external publication. Review update --dry-run/update/check; rollback through Git. See [Artifact contract](artifact-contract.md).
 
-## Adaptive verification migration (unreleased)
+## Adaptive verification migration (migration notes)
 
 Project/lock/artifact schemas and distribution version remain unchanged. Review source, update --dry-run, update and check to receive new managed Core skills and Product 1.4.0 templates. Existing project docs/configs remain owned by the project; new-doc never overwrites. New --adaptive/--report flags are optional; plain verify remains advisory. Revert the snapshot update commit to roll back.
 
-## Continuous development migration (unreleased)
+## Continuous development migration (migration notes)
 
-Product advances to 1.5.0; Architecture and Delivery to 1.1.0. Distribution version remains 0.11.0 and release-PR owned; no publish is part of this change. Config/lock/artifact/decision/evidence schemas stay unchanged. Reviewed update --dry-run/update/check adds the Core workflow and refreshed templates/skills. Existing project docs, changes, configs and handoffs remain project-owned; append missing baseline/handoff fields selectively. Re-export eval datasets after bundle changes; revert the consumer snapshot commit to roll back. See [Continuous development](continuous-development.md).
+Product advances to 1.5.0; Architecture and Delivery to 1.1.0. At introduction the distribution baseline was 0.11.0; subsequent versions remain release-PR owned. Config/lock/artifact/decision/evidence schemas stay unchanged. Reviewed update --dry-run/update/check adds the Core workflow and refreshed templates/skills. Existing project docs, changes, configs and handoffs remain project-owned; append missing baseline/handoff fields selectively. Re-export eval datasets after bundle changes; revert the consumer snapshot commit to roll back. See [Continuous development](continuous-development.md).
 
-## Agent-first migration from 0.12.0 (unreleased)
+## Agent-first migration from 0.12.0 (migration notes)
 
-Distribution version remains 0.12.0 until Release Please prepares a reviewed release. Plan a minor release with optional profiles/config fields and retained product/PM/template routes; four named recipes are retired with explicit migration guidance. Module versions advance; project/lock/config schema versions stay 1, with opt-in Claude managed paths. Old edited managed recipes/imports block update. Model/native settings and user docs are preserved; existing agent config is not replaced by host-native defaults. Check reviewed update --dry-run/update/check, retired catalog, required skill references and aliases; re-export evaluations and revert consumer snapshot commit for rollback. See [Agent-first guide](agent-first.md).
+The 0.12.0 baseline preceded optional profiles/config fields and retained product/PM/template routes; four named recipes are retired with explicit migration guidance. Module versions advance; project/lock/config schema versions stay 1, with opt-in Claude managed paths. Old edited managed recipes/imports block update. Model/native settings and user docs are preserved; existing agent config is not replaced by host-native defaults. Check reviewed update --dry-run/update/check, retired catalog, required skill references and aliases; re-export evaluations and revert consumer snapshot commit for rollback. See [Agent-first guide](agent-first.md).
 
-## Tool setup documentation (unreleased)
+## Tool setup documentation (migration notes)
 
 Kiro and the six-host onboarding refresh change documentation only. Distribution/module versions,
 registry manifests, schemas and installed payload remain unchanged; this is a patch-level documentation
@@ -228,7 +242,7 @@ for these guides. Kiro skill pointers are optional, project-owned and not genera
 keep existing native configs. Claude agent-first flags are not in the 0.12.0 npm baseline: use the manual
 import or a reviewed version that supports them. See [Tool setup](tool-setup/README.md).
 
-## Guided start and portable user configuration (unreleased)
+## Guided start and portable user configuration (migration notes)
 
 Distribution remains release-PR owned. Project/lock/agent/artifact schemas stay 1; optional user-owned
 start.json and a separate allowlisted archive schema start at 1. update preserves user settings and
@@ -239,7 +253,7 @@ transfer intentionally omits sources/tasks/state/autonomy. Unknown schema versio
 not automatic migration. Roll back the consumer snapshot via Git and settings via before-backup.
 See [Configuration backup](configuration-backup.md).
 
-## End-user acceptance (unreleased after 0.14.0)
+## End-user acceptance (migration from the 0.14.0 baseline)
 
 Core adds a tool-neutral skill/workflow and optional adaptive-plan output. React/Next.js and React Native
 modules advance to 1.4.0 for additive Core QA routing. Distribution stays release-PR owned; project/lock/
@@ -251,7 +265,7 @@ Review update --dry-run/update/check; re-export eval datasets after bundle chang
 attachments are project-owned. Roll back the consumer snapshot commit and retain previous reports.
 See [End-user guide](end-user-testing.md).
 
-## Session onboarding migration (unreleased)
+## Session onboarding migration (migration notes)
 
 Distribution version stays release-PR owned. Project/lock/config schemas remain 1; optional structured
 local.md and knowledge cache use independent schema 1. Legacy prose/configs survive. Use reviewed CLI:
@@ -260,7 +274,7 @@ collisions/edited files block writes. Hook v1 targets IDE 1.x/CLI V3; older clie
 bridge. Revert consumer snapshot in Git, then reconcile cache. Config backup omits knowledge cache;
 transfer removes old role extensions/autonomy. [Guide](tool-setup/kiro.md).
 
-## Missing-only setup and shared decisions (unreleased)
+## Missing-only setup and shared decisions (migration notes)
 
 Distribution version remains release-PR owned. init/update seed project-owned decisions.json only
 when absent; old snapshots without it remain valid. Existing local prose, agent extensions/budget,
@@ -276,7 +290,7 @@ or configuration backup. No machine/start/cache values are guessed. Reviewed upd
 seed/greenfield workflows and decision-aware Kiro prompt. Roll back consumer snapshot and config
 with Git/before-backup, then inspect/reconcile the cache. [Contracts](session-onboarding.md).
 
-## Workflow contracts and pip distribution (unreleased)
+## Workflow contracts and pip distribution (migration notes)
 
 Project/lock/decision/eval schemas stay 1. Distribution version remains Release Please-owned;
 Python metadata derives dynamically from package.json, not a second hand-bumped version.
@@ -295,7 +309,7 @@ launcher in PATH. Downgrades still refuse; restore the matching prior snapshot f
 PyPI Trusted Publisher configuration is a maintainer prerequisite outside this PR; feature merge does
 not publish. See [pip guide](python-installation.md), [workflow guide](workflow-contract.md).
 
-## Notth rename (unreleased)
+## Notth rename (migration notes)
 
 GitHub moves to manh0303/notth and npm to @manhd_d/notth. Distribution version remains
 Release Please-owned, continuing the existing version sequence. CLI aih, .notth, harness-*
@@ -303,7 +317,7 @@ skills, ownership markers, config/archive schemas and Python distribution manhd-
 compatible. [Migration and first publication](notth-migration.md) covers switching global/local
 packages, rollback, Trusted Publishers and deferring old-package deprecation until verification.
 
-## Portable tool support (unreleased)
+## Portable tool support (migration notes)
 
 Distribution version remains Release Please-owned; project/lock/config schemas stay 1.
 A supporting CLI accepts one init/update --host ID; only the chosen tool bridge is added. Selecting claude-code now
@@ -315,7 +329,7 @@ for check/update. Roll back the consumer installation commit together with its m
 No source ZIP, internal URL, model setting or third-party skill is imported automatically.
 See [Tool portability](tool-portability.md). Live host loading remains unverified.
 
-## Reusable project workflows (unreleased)
+## Reusable project workflows (migration notes)
 
 Distribution version stays Release Please-owned. Product advances to 1.8.0; no stack adapter version
 or project/lock/evidence schema changes. start schema 1 additively permits change_id with goal=change;
@@ -328,14 +342,14 @@ Core grouped verification reuses checkpoint/evidence, no process runner or new t
 Review update --dry-run/update/check; re-export eval datasets after changed bundle/cases.
 See [Reusable workflows](reusable-workflows.md). Live-host compliance remains NOT_RUN.
 
-## First-session guidance (unreleased)
+## First-session guidance (migration notes)
 
 Install/update next_steps now directs every host to harness-start in chat. Terminal start remains
 optional and unchanged. No schema/module/distribution version change; reviewed update refreshes
 the packaged QUICKSTART. Existing tasks/configuration are preserved. Roll back via the matching
 consumer snapshot/CLI. Live host loading remains NOT_RUN.
 
-## Simple task experience (unreleased)
+## Simple task experience (migration notes)
 
 No distribution bump in the feature PR. New --format human|json on init/update/start/status/changes
 and start --chat require the supporting CLI. Default JSON, bare start TTY behavior, schemas and saved
@@ -349,7 +363,7 @@ Live host evaluations remain NOT_RUN until actual transcript evidence exists.
 Historical “unreleased” notes above describe development changes; they are not a registry inventory.
 Use reviewed release tags and package contents to establish availability, not headings or main alone.
 
-## Persistent sources (unreleased)
+## Persistent sources (migration notes)
 
 Additive import-source/sources commands require the supporting CLI; reviewed update installs
 source-intake guidance. New docs/sources/manifest.json uses independent schema 1. Existing config,
@@ -359,7 +373,7 @@ removal/recreation of .notth. Copy the complete source folder separately for rec
 the CLI leaves files intact but older CLIs cannot inspect them. Roll back snapshot/CLI together,
 retain source data, and restore corrupted source folders from the matching complete backup.
 
-## External source provenance (unreleased)
+## External source provenance (migration notes)
 
 Metadata/observation envelopes use schema 1; the source manifest opts into schema 2 on --metadata
 import. Legacy schema-1 stores remain untouched unless explicitly enriched. Old source CLI rejects
@@ -369,7 +383,7 @@ and Core guidance ship through the existing allowlist/bundle; reviewed update in
 Full-folder backup now includes observations; config-only backup scope is unchanged. No live connector
 or RAG implementation is added. See [source guide](document-sources.md).
 
-## Adaptive Core memory (unreleased)
+## Adaptive Core memory (migration notes)
 
 Additive memory/handoff commands and installed guidance reuse existing schemas and canonical data.
 No eager data migration or distribution bump. Reviewed update preserves project-owned records and

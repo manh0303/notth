@@ -1,8 +1,8 @@
 # Lưu cấu hình, backup và chuyển dự án
 
 Các lệnh dưới đây dùng `aih` khi đã cài global. Nếu dùng npx, thay `aih` bằng
-`npx --yes @manhd_d/notth`. Những lệnh start/backup/restore thuộc bản nâng cấp này;
-chỉ dùng với bản đã phát hành có các lệnh đó, hoặc checkout/package đã review.
+`npx --yes @manhd_d/notth`. Với CLI cũ thiếu start/backup/restore, nâng CLI theo
+[hướng dẫn cài đặt](getting-started.md) trước khi cập nhật snapshot project.
 
 ## Thông tin của bạn nằm ở đâu?
 
@@ -20,7 +20,8 @@ chỉ dùng với bản đã phát hành có các lệnh đó, hoặc checkout/p
 | `.notth/decisions.json` | Quyết định dùng chung: phạm vi, trạng thái, nguồn/lý do và lịch sử thay thế | Giữ nguyên; backup cùng dự án, không transfer |
 | `openspec/config.yaml` | Cấu hình OpenSpec của dự án | Giữ nguyên |
 | `.notth/machine.json` | Đường dẫn chỉ dùng trên máy này | Giữ nguyên, Git ignore; không vào backup cấu hình |
-| `openspec/changes/<id>/` | Spec, tiến độ, checkpoint/history và evidence | Giữ nguyên; backup cùng repo |
+| `openspec/changes/<id>/` | Spec, tiến độ, context/checkpoint/history, capsules và evidence | Giữ nguyên; backup cùng repo |
+| `.notth/sessions/` | Binding/receipt của native session, riêng workspace | Ignore; không nằm trong archive cấu hình, không transfer |
 
 **Input/output thực tế nằm ở nơi `artifacts.json` chỉ định**, ví dụ `docs/requirements/`,
 `docs/specs/`, Confluence hoặc Figma. Cấu hình lưu liên kết; không sao chép nội dung nguồn bên ngoài.
@@ -51,7 +52,7 @@ CLI version và SHA-256 từng file. Digest phát hiện sửa nhầm, không x�
 Review file trước khi chia sẻ; bản backup là plain text và không tự dò/xóa mọi secret bạn có thể đã ghi nhầm.
 Folder mặc định `.notth/backups/` được Git ignore; backup ở đường dẫn khác do bạn quản lý ignore.
 
-**Không có trong archive:** machine.json, biến môi trường/credentials, host login/native settings,
+**Không có trong archive:** machine.json, sessions/, biến môi trường/credentials, host login/native settings,
 snapshot/lock, custom skills, code, nội dung docs/UI bên ngoài, OpenSpec changes/checkpoints/history/evidence.
 Muốn phục hồi toàn bộ công việc, backup **repo + các nguồn/tài khoản ngoài repo** bằng cơ chế của bạn.
 

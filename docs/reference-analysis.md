@@ -1,6 +1,6 @@
 # Reference workspace analysis
 
-The supplied crm-workspace.zip was read as a design reference, not imported as source history.
+An authorized reference workspace was inspected for design patterns, not imported as source history.
 Reviewed entry points included AGENTS.md, README.md, docs/standards/ai-workflow.md,
 docs/standards/backend-conventions.md, docs/standards/testing.md, openspec/config.yaml,
 ci/ai-config-check.yml, and the TDD/debugging skill documents.

@@ -1,6 +1,6 @@
 # Adaptive verification and TechSpec
 
-The CLI supplies a read-only metadata plan and evidence consistency checks. Your AI host inspects scoped code/contracts and runs authorized application tests. It does not install missing frameworks or execute shell/network/model calls.
+The CLI supplies a read-only metadata plan and evidence consistency checks. Your AI host inspects scoped code/contracts and runs authorized application tests. The CLI does not install missing frameworks or execute shell/network/model calls.
 
 ```sh
 aih init --capabilities product

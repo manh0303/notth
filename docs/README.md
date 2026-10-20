@@ -29,6 +29,11 @@ Chỉ đọc phần phù hợp với công việc đang làm.
 
 ## Ví dụ
 
+Các walkthrough là tình huống minh họa, không phải yêu cầu chạy đủ mọi lệnh. `aih` giả định CLI đã cài
+theo [Getting started](getting-started.md); với npx, dùng `npx --yes @manhd_d/notth` thay cho `aih`.
+Lệnh init dành cho repo chưa cài NOTTH; dự án đã cài dùng update. Lệnh build/test của ứng dụng
+chỉ chạy sau khi host xác nhận tooling thực tế.
+
 | Loại project | Hướng dẫn |
 | --- | --- |
 | Spring Boot API | [Backend](examples/spring-boot-api.md) |

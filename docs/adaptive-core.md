@@ -17,7 +17,7 @@ Read the original sections before relying on facts. Summary/cache freshness neve
 | --- | --- | --- |
 | Semantic | local.md, decisions.json, declared knowledge sources, source manifest, context source links | Decisions retain proposed/confirmed/superseded status; changed hashes require reconciliation |
 | Episodic | Selected task checkpoint and linked evidence | Completed declarations need baseline/evidence inspection |
-| Procedural | Evidence-backed project experience (PR 3) | Planned until experience implementation; never an automatic global skill |
+| Procedural | Optional evidence-backed project experience | Planned until experience implementation; never an automatic global skill |
 | Working | Task context and checkpoint | Intent/trace links stay in context; progress/operations stay in checkpoint |
 
 `aih handoff <id> --budget 65536` derives a host-neutral handoff from those same records. It carries
@@ -41,4 +41,4 @@ consumer installation commit with its matching CLI/lock, retaining project data.
 remains release-owned. Byte limits and secret/path checks are defense in depth, not a sandbox.
 
 Offline tests verify serialization, stale-source flags, budgets, installation and CLI behavior. They do
-not verify live host compliance. See the [audit and dependency plan](../openspec/changes/adaptive-core-memory/design.md).
+not verify live host compliance. See the [audit and dependency plan](https://github.com/manh0303/notth/tree/main/openspec/changes/adaptive-core-memory).

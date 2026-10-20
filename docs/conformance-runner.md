@@ -60,5 +60,7 @@ Trong Read-only driver, absence của Bash là hệ quả tool restriction. Crit
 do judge chấm và cần human audit. Assertion false khiến report fail kể cả criteria đều true; assertion
 đã khai báo phải có đủ boolean scores. Core approval-boundary có ví dụ này.
 
-Codex, Cursor, Copilot, Gemini CLI và Kiro có status NOT_RUN, chưa có driver được kiểm chứng.
+Trong conformance driver này, Codex, Cursor, Copilot, Gemini CLI và Kiro có status NOT_RUN.
+Bài thử ngắt/fresh-session của Codex/Claude nằm ở [recovery runner](session-runtime.md#verify-actual-hosts-separately);
+khác với conformance chỉ đọc và chưa chứng minh native automatic compaction.
 Temporal adapter/LLM gateway không nằm trong bản này.

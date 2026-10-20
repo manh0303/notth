@@ -7,7 +7,7 @@ review and the general workflow. Adapter skills address technology-specific deci
 
 | Adapter | Skills |
 | --- | --- |
-| java-spring | Spring API, Kafka outbox, database migration |
+| java-spring | Spring API, database migration and Java/Spring implementation/review guidance |
 | react-nextjs | Feature slices, behavior testing, accessible UI, server/client authorization and caching |
 | astro | Static-first micro-tools, islands, SEO, performance, Cloudflare and optional MFE migration |
 | react-native | Screen/navigation slices, behavior/platform testing, offline synchronization, permissions and deep links |
@@ -46,8 +46,9 @@ classified as Spring/AI. React alone does not imply web; next/react-dom identify
 identify mobile. Multi-target projects may match multiple adapters. Versions are not inferred.
 
 Use `aih init --detect --dry-run` to review installation; --detect opts into selection. Prefer explicit
---adapters when evidence is incomplete. In monorepos choose each module via --target; there is no recursive
-scan or automatic root/module mapping. Update uses project.json and never silently changes the stack.
+--adapters when evidence is incomplete. Maven detection follows declared modules only (depth 2, up to 64 POMs / 4 MiB total).
+For other monorepos choose a module via --target or provide explicit selection; there is no arbitrary
+recursive scan or automatic application topology mapping. Update uses project.json and never silently changes the stack.
 
 ## Verification plans
 `aih verify` reads the installed checks, validates drift and returns a plan with executed:false. Schema 1

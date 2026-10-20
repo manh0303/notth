@@ -25,7 +25,7 @@ aih verify --scope all
 aih eval --scope all
 ```
 
-Blank templates only. Use existing approved BA/Confluence documents instead of re-creating them.
+Blank templates only. Use existing approved requirements documents or Confluence pages instead of re-creating them.
 For an existing Harness install, edit selected capabilities in project.json and use reviewed update
 --dry-run/update/check. `resolve` validates and warns; it does not install soft recommendations.
 

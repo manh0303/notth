@@ -10,14 +10,16 @@
 | `.notth/local.md` | Nghiệp vụ, kiến trúc, nguồn và quyết định chung | Commit |
 | `.notth/environment.json` | Công cụ, lệnh, file cần có | Commit |
 | `.notth/machine.json` | Đường dẫn riêng của máy, tùy chọn | Ignore |
+| `.notth/sessions/` | Binding/receipt của native session, gắn với workspace hiện tại | Ignore |
 
-Init/update tạo environment rỗng nếu chưa có và thêm `/backups/` và `/machine.json` vào cuối
+Init/update tạo environment rỗng nếu chưa có và thêm `/backups/`, `/machine.json` và `/sessions/` vào cuối
 `.notth/.gitignore`. File đã được Git track vẫn được track: ignore không xóa khỏi index/history.
 CLI không tạo file machine và không đọc nội dung Maven settings. Không ghi mật khẩu/token vào các
 file Harness; credentials thuộc cơ chế quản lý riêng của công cụ.
 
 [Agent configuration](agent-configuration.md) mô tả preset và cấu hình model. `aih setup --host codex`
-chỉ đưa ra kế hoạch khai báo; update bảo toàn `agents.json` và không ghi config native của AI host.
+chỉ đưa ra kế hoạch khai báo; update bảo toàn `agents.json`. Chọn host có thể bổ sung bridge quản lý; command hooks Codex/Claude
+chỉ được merge khi bật `--session-hooks`, giữ các setting khác. [Chi tiết](session-runtime.md).
 
 ## Ví dụ Maven nội bộ
 
