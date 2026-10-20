@@ -281,6 +281,23 @@ The new change above remains unreleased. Versioned release history follows these
 - Check release metadata consistency and establish single-release-PR version discipline; retain v0.6.0 until a dedicated release PR.
 
 
+## [0.19.0](https://github.com/manh0303/notth/compare/v0.18.0...v0.19.0) (2026-10-20)
+
+
+### Features
+
+* add optional native session recovery and durable compaction capsules ([58b7f1b](https://github.com/manh0303/notth/commit/58b7f1bac7cff2f7c80d38606f1c4924c33c1cc3))
+* adopt .notth project namespace and remove optional Beads integration ([2b489e8](https://github.com/manh0303/notth/commit/2b489e818849716670bfa612df5609ed8426daaf))
+* derive unified project memory and host-neutral handoff ([c22ff79](https://github.com/manh0303/notth/commit/c22ff7993c1f66e9827160349d03a8984527f847))
+* preserve document sources and versioned Markdown across reinstalls ([791cf1b](https://github.com/manh0303/notth/commit/791cf1b9338baea74ddd27cb129af0db6d91b1a3))
+* preserve external source provenance and evidence-bound freshness ([1e69ed6](https://github.com/manh0303/notth/commit/1e69ed6a42148c9831d2dd1627d37365ccb540c8))
+* preserve source-linked context and automatic session continuity ([0e8348e](https://github.com/manh0303/notth/commit/0e8348ea78056e1937e9322e4d642bbaf8e86427))
+
+
+### Bug Fixes
+
+* reconcile session runtime with unified memory on main ([6a041d8](https://github.com/manh0303/notth/commit/6a041d8a4a91649e7263e4473f7c4bf463e6e472))
+
 ## [0.18.0](https://github.com/manh0303/notth/compare/v0.17.0...v0.18.0) (2026-10-17)
 
 
