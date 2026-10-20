@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased — Documentation terminology
+
+- Name requirements documents (BRD/PRD/SRS) explicitly in setup, navigation and document-driven guides instead of the vague “BA documents” label; retain BA references for the actual role.
+
 ## Unreleased — Native session runtime
 
 - Optional offline Codex/Claude session lifecycle hooks, source-linked durable-state capsules and workspace-scoped native session bindings. Oversized context fails without truncation; native history compaction remains host-owned.

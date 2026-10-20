@@ -14,7 +14,7 @@ npx --yes @manhd_d/notth init --host kiro
 
 Thêm `--adapters java-spring` cho Spring, `--adapters react-nextjs` cho React/Next.js
 hoặc `--detect` khi muốn nhận diện stack hỗ trợ. Chỉ thêm `--capabilities product`
-khi cần tài liệu BA. [common setup](README.md) dành cho các host khác.
+khi cần tài liệu yêu cầu (BRD/PRD/SRS). [common setup](README.md) dành cho các host khác.
 
 Mở cùng project trong Kiro IDE, tạo **session chat đầu tiên**, gõ `/` và chọn:
 

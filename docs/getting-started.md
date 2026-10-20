@@ -23,9 +23,9 @@ Adapter là tùy chọn: thêm `--detect` để nhận diện stack từ file g�
 | Python AI / RAG | `--adapters ai-python` |
 | Astro tool / website | `--adapters astro` |
 | Spring + Next.js | `--adapters java-spring,react-nextjs` |
-| Viết tài liệu BA | `--capabilities product` |
+| Tài liệu yêu cầu (BRD/PRD/SRS) | `--capabilities product` |
 
-Ví dụ vừa code Spring vừa viết tài liệu:
+Ví dụ phát triển Spring Boot và soạn thảo tài liệu yêu cầu:
 
 ```bash
 npx --yes @manhd_d/notth init --host kiro --adapters java-spring --capabilities product
@@ -50,7 +50,7 @@ read-only; `start` và host_prompt vẫn dùng được khi cần. [Luồng star
 Cài bằng pip/offline cũng dùng **cùng flow**: `aih init --host <host>` rồi harness-start.
 Cần Python 3.9+ và Node 22+, không cần npm; xem [pip/offline](python-installation.md).
 
-Bạn có thể giao ý tưởng, tài liệu BA hoặc task code. Không cần gọi từng agent/skill.
+Bạn có thể giao ý tưởng, tài liệu yêu cầu hoặc task code. Không cần gọi từng agent/skill.
 Với web/mobile, giao màn hình hoặc tính năng theo common/API/state/navigation hiện có; [skills đã có](frontend-mobile.md).
 Xem [setup theo AI tool](tool-setup/README.md) cho từng tool:
 phân biệt cài tool, cài Harness và kiểm tra instructions đã được đọc.

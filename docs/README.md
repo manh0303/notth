@@ -16,7 +16,7 @@ Chỉ đọc phần phù hợp với công việc đang làm.
 | Chọn model và cách chạy agent | [Agent configuration](agent-configuration.md) |
 | Khai báo build/test, Maven/JDK riêng | [Project configuration](project-configuration.md) |
 | Áp dụng coding conventions | [Project conventions](project-conventions.md) |
-| Từ ý tưởng / tài liệu BA đến yêu cầu | [Documentation workflows](documentation-workflows.md) · [Confluence](../integrations/confluence/README.md) |
+| Phân tích ý tưởng và tài liệu yêu cầu | [Documentation workflows](documentation-workflows.md) · [Confluence](../integrations/confluence/README.md) |
 | Đi từ yêu cầu đến vận hành | [Full SDLC](end-to-end-workflow.md) · [BA/PO/SA/PM](solution-workflow.md) |
 | Spec trước code / review | [Change readiness](change-readiness.md) · [OpenSpec](openspec.md) |
 | Tra skill và bàn giao agent | [Skill matrix](skill-matrix.md) · [Agent handoffs](agent-handoffs.md) |
@@ -38,7 +38,7 @@ Chỉ đọc phần phù hợp với công việc đang làm.
 | Astro tool nhỏ | [Micro-tools](examples/astro-micro-tools.md) · [Adapter](../adapters/astro/README.md) |
 | Website có quảng cáo | [Astro + AdSense](examples/astro-adsense-microtools.md) · [Monetization](monetization.md) |
 | Bắt đầu từ ý tưởng | [Idea-driven](examples/idea-driven-project.md) |
-| Đã có tài liệu BA | [Document-driven](examples/document-driven-project.md) |
+| Đã có tài liệu yêu cầu | [Document-driven](examples/document-driven-project.md) |
 
 ## Đóng góp và phát hành
 

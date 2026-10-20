@@ -20,11 +20,11 @@ Read requirements, scoped source, architecture, framework manifests, project com
 | Java backend | JUnit, existing integration/API/contracts, role/state assertions | Testcontainers/database/service access |
 | Next.js fullstack | Existing unit/component, API, browser journeys | Browser runner and isolated backend |
 | Static calculator | Formula tests, build, accessibility | No invented API/DB suite |
-| Existing BA docs | Requirement traceability, affected section changes | Source revision/write policy |
+| Existing requirements documents (BRD/PRD/SRS) | Requirement traceability, affected section changes | Source revision/write policy |
 | State workflow | Allowed/denied transitions, state invariants, cleanup | Role fixtures and authorized service |
 | Mobile / AI | Existing device E2E / versioned RAG dataset | Device or model provider/budget |
 
-Idea-only intake first establishes canonical storage using existing setup answers or a necessary clarification. Existing BA docs use declared read-only/propose/write policy; write additionally needs actual host authorization and observed revision. Figma, Confluence, Jira, MCP/database and custom tools reuse dynamic integrations.json aliases. Availability stays unverified until exercised by the host.
+Idea-only intake first establishes canonical storage using existing setup answers or a necessary clarification. Existing requirements documents (BRD/PRD/SRS) use declared read-only/propose/write policy; write additionally needs actual host authorization and observed revision. Figma, Confluence, Jira, MCP/database and custom tools reuse dynamic integrations.json aliases. Availability stays unverified until exercised by the host.
 
 ## Machine report contract (schema 1)
 

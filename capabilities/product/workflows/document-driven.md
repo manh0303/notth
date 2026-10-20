@@ -1,4 +1,4 @@
-# Document-driven entry point — existing BA documents → validated specification → code
+# Document-driven entry point — existing requirements documents → validated specification → code
 
 Use when a project already supplies authorized BA/PO materials (Confluence, BRD, PRD, SRS, tickets, PDF/DOCX or repository docs). **Do not regenerate or replace approved artifacts by default.**
 
