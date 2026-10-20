@@ -1,0 +1,6 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> @manhd_d/notth@0.18.0 test:python
+> python scripts/smoke-python.py
+
+{"status": "ok", "version": "0.18.0", "checks": "offline wheel/sdist install, .venv overlap, byte parity, reinstall/update preservation, missing Node, no registry/build dependencies"}

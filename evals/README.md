@@ -76,3 +76,5 @@ is triggered by aih eval. Read-only driver trials do not prove action/tool permi
 Core recoverable-project-verification and optional-knowledge-authority cases cover host/project independence, incremental evidence and stale-group recovery. They remain unscored until actual host trials.
 
 [New-user paired live scenarios](new-user-experience.md) cover minimal UI, small fixes, permissions, missing tools, clone, resume and offline use. Status remains NOT_RUN until observed.
+
+[Adaptive Core A–G controlled live-host protocol and fixture](adaptive-core.md).

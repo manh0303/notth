@@ -1,0 +1,11 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> @manhd_d/notth@0.18.0 check:release
+> node scripts/check-release.js
+
+{
+  "status": "ok",
+  "distribution_version": "0.18.0",
+  "modules": 14,
+  "note": "Local metadata only; no tag, publish or remote checks performed"
+}

@@ -17,7 +17,7 @@ Read the original sections before relying on facts. Summary/cache freshness neve
 | --- | --- | --- |
 | Semantic | local.md, decisions.json, declared knowledge sources, source manifest, context source links | Decisions retain proposed/confirmed/superseded status; changed hashes require reconciliation |
 | Episodic | Selected task checkpoint and linked evidence | Completed declarations need baseline/evidence inspection |
-| Procedural | Evidence-backed project experience (PR 3) | Planned until experience implementation; never an automatic global skill |
+| Procedural | Project change experience.json sidecars | Category/conditions and source/evidence freshness; never an automatic global skill |
 | Working | Task context and checkpoint | Intent/trace links stay in context; progress/operations stay in checkpoint |
 
 `aih handoff <id> --budget 65536` derives a host-neutral handoff from those same records. It carries
@@ -66,3 +66,30 @@ checkpoint saves still reject unsupported completed claims.
 
 Older CLIs ignore optional adaptive declarations and cannot enforce their limits: use the supporting
 CLI for continuity. Revert consumer snapshot/CLI together; retain project-owned checkpoint/history.
+
+## Experience learning
+
+`aih experiences --category <id> --tags <tag,tag>` derives eligibility from project experience records.
+`aih experience <change-id>` reads one; `--report <input> [--expected <digest>]` saves a conditional
+revision with preserved history. Records use the existing change directory's experience.json, not
+a second progress/decision database. Active and one-level OpenSpec archives are indexed (up to 200
+records; truncation/invalid/ambiguous records are reported). No automatic global export or skill install.
+
+Only verified records with current declared code/conditions and raw verification evidence become
+eligible for review. Category/tags never prove semantic applicability: the host reads applies_when and
+limitations, checks live external sources and independently verifies the new task. A source/raw-evidence
+edit invalidates reuse automatically. Preserved source dependencies also pin the canonical source
+manifest and current capture/freshness, so identical bytes at a newer provider revision still invalidate reuse. Candidate/rejected/superseded/invalidated states retain uncertainty
+and lifecycle history. Supersession needs a current verified replacement.
+
+Experience reports store problem/context/hypothesis/approach/failures/solution, conditions/limitations,
+source revision, evidence and real timestamps. Do not create one for every task or store secrets.
+Project-specific data stays in the project; no model weights are changed. Use full project synchronization
+and backup, since config archives intentionally omit tasks/docs/experience.
+
+## Evaluation limits
+
+[Controlled A–G protocol](../evals/adaptive-core.md) includes a deterministic concurrency-defect fixture
+and matched with/without-NOTTH report validation. Current live results remain NOT_RUN; neither unit
+tests nor the read-only hypothetical conformance driver establish real cross-host behavior. A source
+digest checks declared bytes, not evidence authenticity, semantic completeness or runtime permissions.

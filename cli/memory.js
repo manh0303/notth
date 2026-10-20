@@ -1,3 +1,4 @@
+import { experienceCatalog } from './experience.js';
 // Derived views over canonical project artifacts. No memory database or provider calls.
 import fs from 'node:fs';
 import { safe, stat, digest, encode, HarnessError } from './files.js';
@@ -18,7 +19,7 @@ export function memoryBudget(value = 8192) {
   if (!Number.isSafeInteger(budget) || budget < 1024 || budget > 65536) throw new HarnessError('Memory budget must be 1024–65536 bytes');
   return budget;
 }
-export function memoryReport(root, { changeId, query = '', budget: limit, experiences = [] } = {}) {
+export function memoryReport(root, { changeId, query = '', budget: limit } = {}) {
   ready(root); const budget = memoryBudget(limit);
   if (typeof query !== 'string' || query.length > 512 || /[\x00-\x1f]/.test(query)) throw new HarnessError('Invalid memory query');
   redacted(query);
@@ -58,10 +59,11 @@ export function memoryReport(root, { changeId, query = '', budget: limit, experi
         'completed:' + task.id, 'evidence-linked-declaration', checkpoint.revalidate_required ? 'stale' : 'inspect-baseline', 1);
     }
   }
-  for (const experience of experiences) add('experience:' + experience.id, 'procedural', experience.path,
-    experience.category, 'verified-report', experience.applicability, 1);
+  const experiences = experienceCatalog(root);
+  for (const experience of experiences.records) add('experience:' + experience.id, 'procedural', experience.path,
+    experience.category, experience.status === 'verified' ? 'evidence-linked' : 'unverified', experience.applicability, 1);
   const terms = query.toLowerCase().split(/[^\p{L}\p{N}_-]+/u).filter(Boolean);
-  const ranked = records.map(({ priority, ...row }) => ({ ...row, relevance: priority + terms.reduce((n, term) => n + (JSON.stringify(row).toLowerCase().includes(term) ? 4 : 0), 0) }))
+  const ranked = records.map(({ priority, ...row }) => ({ ...row, relevance: priority - (['stale', 'needs-reconciliation', 'category-mismatch', 'ambiguous'].includes(row.freshness) ? 12 : 0) + terms.reduce((n, term) => n + (JSON.stringify(row).toLowerCase().includes(term) ? 4 : 0), 0) }))
     .filter(r => !['superseded', 'rejected', 'invalidated'].includes(r.freshness))
     .sort((a, b) => b.relevance - a.relevance || a.id.localeCompare(b.id));
   const selected = [];
@@ -70,7 +72,7 @@ export function memoryReport(root, { changeId, query = '', budget: limit, experi
   redacted(selected);
   return { status: 'ok', schema_version: 1, executed: false, records: selected,
     budget: { unit: 'bytes', limit: budget, used, omitted: ranked.length - selected.length },
-    knowledge_freshness: knowledge.status,
+    knowledge_freshness: knowledge.status, experience_catalog: { status: experiences.status, truncated: experiences.truncated, omitted: experiences.omitted, errors: experiences.errors },
     note: 'Derived references only; ranking uses metadata, not full document semantics. Budget covers serialized records, not model tokens. Read canonical sections; freshness is not factual verification or permission.' };
 }
 

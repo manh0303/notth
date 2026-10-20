@@ -1,0 +1,17 @@
+{
+  "cli/experience.js": "58dd890783c070ea62955ed627737cd8164e2b028b0f2cb2e7862ca7ad75e0bf",
+  "cli/main.js": "3ffa7ac1d7c631d9c9483a542b1bc50b6e65b70a26193a3506b45758690fc319",
+  "cli/memory.js": "68188e3fd60df868cbd9c34003a90deb5623a3f686011c3e1171b33e2d437c8e",
+  "cli/memory-reference.js": "06ee86959fe26a0d38befe7216ec4ef5ab12ca89a767d34407ef7e3fed93c56e",
+  "cli/verification-report.js": "ee7bba432881753919518734e6dd36ad7c457cbf6e80489b9dce66e781bd756d",
+  "cli/comparison.js": "96829a6baf51ac983662e95f4a9179942eddfc6f0dab778f2525c70d9adc93ef",
+  "scripts/compare-tasks.js": "e7416aae040a05548b9313ba125fe5062b58f9e50e4b649ef3313b51ba3dc97e",
+  "scripts/conformance-runner.js": "83834a69574957256e4ec72345e6fbc73398bd7e44e9b1dd3cbf918c24bb65a1",
+  "scripts/smoke-package.js": "680d1d283fa467bf0e9e9847785f4195e39b788cbe21a7fbddc097960e330bb8",
+  "tests/experience.test.js": "7e16736437105bfc8a871adbf3eeccf76e68b0abc1d1d50eff8ac07c93914ef7",
+  "tests/adaptive-comparison.test.js": "f20ed86582e5ee763d2a6d09745a4d138dece3545fe6349f29f8641949b7be57",
+  "tests/memory.test.js": "b79cd3c6345e756d78878812edade866a3c0d4ed15b00529c6b485055b94f3f7",
+  "core/evals/cases.json": "72f4d527e07e9df02cfbefda3fea8b52c0362808b2d0b469f5ab8c7ed1cb95db",
+  "evals/fixtures/adaptive-core/counter.js": "0d4f9298fd3e260920eb77b7bb05a76a821928a81fd3ddda1e48201cfba8af9a",
+  "evals/fixtures/adaptive-core/counter.test.js": "1813d8b1d7b06124d279196a630473715e76cb4158c0609b006515b8a1160acd"
+}

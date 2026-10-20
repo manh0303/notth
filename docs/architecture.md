@@ -278,3 +278,12 @@ installer markers cooperate during migration; this remains a local guard, not a 
 transaction. No executable external task backend is discovered or bundled. See [Migration](notth-migration.md).
 
 [Adaptive Core: canonical memory and host-neutral handoff](adaptive-core.md).
+
+## Canonical adaptive memory
+
+The provider/host supplies reasoning and actual execution. Derived memory/handoff views expose
+project-owned semantic, episodic, procedural and working references without copying canonical docs,
+decisions or task progress into a second store. Optional adaptive state lives in existing checkpoint;
+new reusable solution content lives in each change's experience sidecar. Local validators cover
+source freshness, bounded recovery and evidence consistency; actual tools, permissions and live
+compliance remain host-owned. [Adaptive Core contracts and limitations](adaptive-core.md).

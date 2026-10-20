@@ -54,6 +54,7 @@ export async function runConformance(options, runHost = processRun) {
   const scratch = fs.mkdtempSync(path.join(os.tmpdir(), 'aih-conformance-'));
   const selection = { adapters: options.adapters ?? [], capabilities: options.capabilities ?? [], host: 'claude-code', linkClaude: true, claudeSkills: true };
   const summary = { schema_version: 1, status: execute ? 'running' : 'NOT_RUN', host: 'claude-code', model, judge_model: judgeModel, harness_commit: harnessCommit,
+    adaptive_trials: { status: 'NOT_RUN', reason: 'Read-only hypothetical conformance driver cannot execute controlled A–G continuation, editing, interruption or experience trials; use evals/adaptive-core.md' },
     runs, rows: [], hosts: HOSTS.map(host => ({ host, status: 'NOT_RUN', reason: host === 'claude-code' ? 'Awaiting explicit --execute and successful host evidence' : 'Driver not implemented/verified' })), human_audit: { status: 'NOT_RUN', instruction: 'Review a representative transcript/judge sample and all critical failures; retain named reviewer evidence.' } };
   try {
     const planning = path.join(scratch, 'planning'); fs.mkdirSync(planning); install(planning, SOURCE, selection);
