@@ -80,3 +80,5 @@ guarded context save; there is no external task-backend discovery or installatio
 capsules, per-native-session binding and an independent interruption test driver. This supplements
 the instruction workflow. Real native-host recovery and automatic compaction remain unverified
 in the current environment; deterministic local fixture passes do not establish model compliance.
+
+[Adaptive Core: canonical memory and host-neutral handoff](adaptive-core.md).

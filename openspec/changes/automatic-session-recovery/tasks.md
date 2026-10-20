@@ -11,3 +11,11 @@
 Probe evidence: native-probe.json was produced by the separate runner on 2026-10-19; all three
 executables are unavailable on PATH. Native recovery and real automatic compaction remain unscored.
 Protocol fixtures validate deterministic runtime behavior only.
+
+## Integration with main after PR #70 (2026-10-20)
+
+Resolved overlapping CLI declarations/options/dispatch and retained both memory/handoff and
+compact/session/recover. Preserved both lifecycle and host-neutral workflow/docs sections.
+Added a CLI query/budget regression assertion alongside existing handoff/session process tests.
+Full tests: 371 PASS; focused memory/session tests: 10 PASS; validate, npm package smoke and
+Python wheel/sdist smoke PASS. Native host execution limits remain unchanged.

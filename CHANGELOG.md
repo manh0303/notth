@@ -5,6 +5,12 @@
 - Optional offline Codex/Claude session lifecycle hooks, source-linked durable-state capsules and workspace-scoped native session bindings. Oversized context fails without truncation; native history compaction remains host-owned.
 - Separate native interruption/recovery trial driver; unavailable hosts and unverified Kiro integration report BLOCKED, never simulated success.
 
+## Unreleased — Adaptive Core memory and host contract
+
+- Derive bounded semantic/episodic/working memory references from canonical project artifacts.
+- Add host-neutral handoff with source/baseline reconciliation, side-effect receipts and explicit capability uncertainty.
+- Preserve existing schemas, bridges, project data and lightweight installation; no provider runtime or new database.
+
 ## Unreleased — NOTTH project namespace
 
 - Install project rules, workflows and configuration under `.notth/`; update canonical instructions, host bridges, CLI paths and translated READMEs.

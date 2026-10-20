@@ -1,0 +1,4 @@
+- [x] Audit canonical contracts and record dependencies/impact.
+- [x] Implement derived memory and handoff, wire host guidance.
+- [x] Add bounded/stale/legacy/cross-process CLI tests and migration docs.
+- [x] Run and record required checks; prepare owner-review PR.

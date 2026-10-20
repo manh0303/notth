@@ -1,0 +1,16 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> @manhd_d/notth@0.18.0 validate
+> node scripts/validate.js
+
+{
+  "status": "ok",
+  "version": "0.18.0",
+  "adapters": 6,
+  "capabilities": 8,
+  "core_skills": 8,
+  "adapter_skills": 18,
+  "managed_files_all_adapters": 364,
+  "errors": [],
+  "scope": "Offline structure only; upstream OpenSpec and live model evaluation are separate"
+}

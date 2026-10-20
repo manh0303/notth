@@ -284,3 +284,10 @@ handlers survive; modified owned hooks fail. `--dry-run` previews without writes
 All support `--target`. Budget is bytes, 1024–65536; overflow drops nothing and blocks recording.
 No command restores internal reasoning or executes checkpoint operations.
 [Hook settings, state schema, tests and rollback](session-runtime.md).
+
+## Unified memory and handoff
+
+`aih memory [--change <id>] [--query <terms>] [--budget <bytes>]` returns canonical references.
+`aih handoff <id> [--budget <bytes>]` derives cross-host continuity from context/checkpoint.
+Budget: 1024–65536 bytes, default 8192. Oversized handoff returns BLOCKED without losing critical fields.
+Both are read-only; no tool/remote execution or memory database. See [Adaptive Core](adaptive-core.md).
