@@ -18,8 +18,8 @@ CLI không tạo file machine và không đọc nội dung Maven settings. Khôn
 file Harness; credentials thuộc cơ chế quản lý riêng của công cụ.
 
 [Agent configuration](agent-configuration.md) mô tả preset và cấu hình model. `aih setup --host codex`
-chỉ đưa ra kế hoạch khai báo; update bảo toàn `agents.json`. Chọn host có thể bổ sung bridge quản lý; command hooks Codex/Claude
-chỉ được merge khi bật `--session-hooks`, giữ các setting khác. [Chi tiết](session-runtime.md).
+chỉ đưa ra kế hoạch khai báo; update bảo toàn `agents.json`. Chọn host có thể bổ sung bridge quản lý; command hooks Codex/Claude/Kiro
+chỉ được đăng ký khi bật `--session-hooks`, giữ các setting khác. [Chi tiết](session-runtime.md).
 
 ## Ví dụ Maven nội bộ
 

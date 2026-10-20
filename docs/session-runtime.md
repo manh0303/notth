@@ -1,7 +1,7 @@
 # Optional local session runtime
 
 NOTTH can preserve visible task state around native host compaction and inject fresh recovery
-context at session start. It does **not** compress an LLM transcript itself, restore internal reasoning,
+context at session start, on each prompt and before each tool invocation covered by native hooks. It does **not** compress an LLM transcript itself, restore internal reasoning,
 execute pending task operations, or guarantee a host follows injected context. The host still owns
 its conversation window, model calls, tools and approval policy. No database, RAG, Beads or service.
 
@@ -10,7 +10,7 @@ its conversation window, model calls, tools and approval policy. No database, RA
 With a reviewed source/package containing this feature, in the consumer project:
 
 ```bash
-aih init --host codex --session-hooks
+aih init --host kiro --session-hooks
 # Existing installation:
 aih update --host claude-code --session-hooks --dry-run
 aih update --host claude-code --session-hooks
@@ -23,15 +23,18 @@ Restart the host so it reloads project settings. Node 22+ must remain available 
 
 | Host | Project-owned registration | Runtime integration status |
 | --- | --- | --- |
-| Codex | `.codex/hooks.json` | SessionStart / PreCompact / Stop command contract; native execution unverified here |
-| Claude Code | `.claude/settings.local.json` | SessionStart / PreCompact / Stop command contract; native execution unverified here |
-| Kiro | Existing instruction bridge only | Command runtime integration unverified; flag refuses unsupported host |
+| Codex | `.codex/hooks.json` | SessionStart / UserPromptSubmit / PreToolUse / PreCompact / Stop; native execution unverified here |
+| Claude Code | `.claude/settings.local.json` | SessionStart / UserPromptSubmit / PreToolUse / PreCompact / Stop; native execution unverified here |
+| Kiro IDE 1.x / CLI V3 | `.kiro/hooks/notth-continuity.json` alongside existing instruction bridge | SessionStart / PromptSubmit / PreToolUse / AgentStop; native execution unverified here |
 
 Settings merge retains unrelated keys and handlers. Modified/duplicate NOTTH handlers fail instead
 of being replaced. Before changing existing settings, original bytes (base64) are backed up locally under
 `.notth/backups/session-hooks-<hash>.json` with mode 600. Dry run writes nothing; ordinary write
 failures roll back installation/settings together. This is not crash-atomic across power loss.
 A changed hook implementation requires explicit reconciliation; update does not silently replace it.
+Codex/Claude retain the existing bootstrap exactly; enabling again adds the two new event handlers.
+After upgrading an older installation, rerun update with `--session-hooks` once to register those
+new events. Ordinary update alone refreshes the managed runtime but does not add registrations.
 
 ## Lifecycle and deterministic selection
 
@@ -57,6 +60,26 @@ and pointer when essential state fits. The hook does not parse `transcript_path`
 capture hidden reasoning. Claude/Codex own actual native conversation compression and its timing.
 PreCompact failure **cannot be relied on to prevent native compaction**. SessionStart then rebuilds
 from canonical files; facts never written there cannot be recovered by this layer.
+
+## Continuity inside one chat
+
+Every prompt and pre-tool event rebuilds recovery from current canonical files and the native session
+binding. A change to confirmed decisions or source bytes is visible on the next event without a new
+chat. No saved capsule/cache is trusted as current. The runtime injects status and reconciliation
+instructions; it never returns `permissionDecision: allow` or changes host approvals.
+
+The agent must save new material user requirements to the existing canonical task/context/decision
+records before dependent work, as specified by the installed continuity workflow. Refresh is automatic
+after enabling; semantic extraction and compliance remain agent behavior. A statement left only in
+chat cannot be recovered from files. This does not guarantee zero forgetting or block every conflicting
+operation: native hook coverage, timeout behavior, output limits and model compliance still matter.
+No prompt, tool input, transcript path or internal reasoning is persisted by the hook. Per-prompt/tool
+receipts overwrite `latest-<event>.json` in ignored session metadata, so they do not grow per tool call.
+They are observations, not proof of reconciliation. Other lifecycle event receipts remain append-only.
+
+Kiro command output is plain context text; Codex/Claude use event-specific `additionalContext` JSON.
+Kiro Web/Mobile and older clients require instruction fallback. The separate recovery trial driver
+still reports Kiro BLOCKED: a registration fixture is not a live interruption/recovery pass.
 
 ## Compaction contract
 
@@ -106,22 +129,22 @@ Executable/authentication/tool-permission failures are blockers; wrong recovery 
 interruption is FAIL. A version probe or simulated Node fixture never counts as a native recovery
 pass. This tests one controlled checkpoint boundary, not arbitrary crashes, remote side effects,
 all host versions, or triggering a real native context-window compaction. Missing CLI is BLOCKED;
-Kiro command integration remains BLOCKED even when its binary is present.
+The recovery driver still reports Kiro BLOCKED even when its binary is present; its native interruption protocol is not implemented.
 
 Implementation evidence and remaining gaps: [change design](https://github.com/manh0303/notth/tree/main/openspec/changes/automatic-session-recovery).
 
 ## Upgrade and rollback
 
 Update the managed runtime with its matching CLI and lock. Existing context/checkpoint schemas do
-not change. Disable only the handlers containing `notth-session-runtime-v1` from the three events
-in the selected native settings file, preserving other settings; restart the host. Restore a full
+not change. Disable only the handlers containing `notth-session-runtime-v1` from every registered event
+in the selected native settings file; for Kiro remove only `.kiro/hooks/notth-continuity.json`, preserving other settings; restart the host. Restore a full
 settings backup only after reviewing intervening user changes. Snapshot/binding data can remain
 inert when hooks are disabled. Config backup is not a full backup of checkpoint/capsule history.
 
 ## Native contract references
 
-Checked 2026-10-19 against official documentation; executable/version compatibility still needs live trials.
+Checked 2026-10-20 against official documentation; executable/version compatibility still needs live trials.
 
 - [Codex hooks](https://developers.openai.com/codex/hooks/)
 - [Claude Code hooks](https://code.claude.com/docs/en/hooks)
-- [Kiro native compaction](https://kiro.dev/docs/compaction/) does not establish command-hook compatibility.
+- [Kiro hook schema](https://kiro.dev/docs/hooks/), [triggers](https://kiro.dev/docs/hooks/types/) and [actions](https://kiro.dev/docs/hooks/actions/).

@@ -51,7 +51,7 @@ export function migrateNamespace(root, source, options, { install, bundle, trans
   const stage = fs.mkdtempSync(path.join(os.tmpdir(), 'notth-migrate-'));
   try {
     for (const [name, data] of Object.entries(originals)) put(stage, relocate(name), data);
-    const external = new Set(['AGENTS.md', 'CLAUDE.md', 'openspec/config.yaml', '.kiro/hooks/harness-session.json', '.github/copilot-instructions.md', 'GEMINI.md', '.codex/hooks.json', '.claude/settings.local.json']);
+    const external = new Set(['AGENTS.md', 'CLAUDE.md', 'openspec/config.yaml', '.kiro/hooks/harness-session.json', '.kiro/hooks/notth-continuity.json', '.github/copilot-instructions.md', 'GEMINI.md', '.codex/hooks.json', '.claude/settings.local.json']);
     for (const name of Object.keys(old.files)) if (!name.startsWith(LEGACY_DIRECTORY + '/')) external.add(name);
     const config = readJson(safe(stage, '.notth/project.json'));
     for (const name of Object.keys(bundle(source, config).files)) {

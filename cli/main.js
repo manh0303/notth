@@ -67,7 +67,7 @@ Usage: aih <command> [options]
   new-doc <type>       Scaffold a locked capability template (default: product)
 
 Options:
-  --session-hooks     init/update: opt in to project-local Codex/Claude lifecycle runtime
+  --session-hooks     init/update: opt in to project-local Codex/Claude/Kiro continuity runtime
   --session <id>      recover: native host session identity
   --budget <bytes>    byte limit: compact/recover default 8000; memory/handoff default 8192
   --apply             setup: create missing user configs from the installed snapshot

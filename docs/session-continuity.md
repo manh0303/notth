@@ -76,7 +76,7 @@ guarded context save; there is no external task-backend discovery or installatio
 
 ## Optional executable lifecycle integration
 
-[Session runtime](session-runtime.md) adds opt-in Codex/Claude native command hooks, bounded immutable
+[Session runtime](session-runtime.md) adds opt-in Codex/Claude/Kiro native command hooks for per-turn/pre-tool refresh, bounded immutable
 capsules, per-native-session binding and an independent interruption test driver. This supplements
 the instruction workflow. Real native-host recovery and automatic compaction remain unverified
 in the current environment; deterministic local fixture passes do not establish model compliance.

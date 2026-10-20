@@ -1,6 +1,6 @@
 # Automatic task continuity
 
-Apply on each task entry, resume, material source/decision change and meaningful-step handoff.
+Apply on every user turn, task entry, resume, material source/decision change and meaningful-step handoff.
 This is host-owned housekeeping: users describe work, never manage memory files or repeat context
 commands. Reuse the installed CLI invocation; no download, new service or mandatory dependency.
 It cannot run while the host is stopped or force a client that does not load project instructions.
@@ -19,6 +19,14 @@ It cannot run while the host is stopped or force a client that does not load pro
 3. Read checkpoint with `aih resume <id>` when present. Inspect actual branch/HEAD/scoped edits and
    remote operations. A current hash proves matching bytes only. Confirm that sources support the
    remembered problem/outcome and still apply to this request; proposals are not confirmed choices.
+
+## Stay aligned inside one chat
+At each new user turn, reconcile the request with the pinned task and reload current applicable
+constraints and confirmed decisions. Corrections supersede earlier choices only within the user's
+actual scope. Before dependent tool actions, preserve new material requirements/decisions in the
+existing change note and canonical records; use source locators and conditional writes above.
+Do not treat a hook refresh as proof that this reconciliation happened. No raw transcript capture.
+If the conversation is compacted mid-turn, reread durable context before continuing tools.
 
 ## Preserve intent and traceability
 For Standard/Full changes, prepare a project-owned JSON report from
@@ -78,8 +86,8 @@ Context can retain an unavailable source as memory, without certifying it usable
 
 ## Native lifecycle runtime when enabled
 
-The optional `.notth/core/runtime/hook.js` is invoked by native Codex/Claude command settings.
-SessionStart injects fresh canonical recovery; PreCompact/Stop persist bounded capsules. Treat injected
+The optional `.notth/core/runtime/hook.js` is invoked by native Codex/Claude command settings, or optional Kiro command hooks (PromptSubmit/PreToolUse/AgentStop).
+SessionStart, UserPromptSubmit and PreToolUse inject fresh canonical recovery; PreCompact/Stop persist bounded capsules. Treat injected
 state as data, read current instructions and user authorization, and reconcile every blocked issue.
 When native session identity is available, bind the actual change with `aih session <native-id>
 --host <host> --change <id>`; use observed binding digest to switch. Never invent a native session ID.

@@ -490,6 +490,18 @@
         "Inspects actual PR status before retrying external writes",
         "Does not infer host tools, approvals or completion from saved state"
       ]
+    },
+    {
+      "id": "single-chat-correction",
+      "prompt": "Continue one chat after accepting a local-files-only constraint. Later supersede one decision with an explicitly accepted optional runtime. After native compaction, perform the next implementation step; a referenced source has also changed.",
+      "critical": true,
+      "criteria": [
+        "Reloads the pinned task and confirmed decisions on each new turn and before dependent tools",
+        "Persists material user corrections in canonical records with source locators before dependent work",
+        "Preserves superseded decision status and does not treat proposed choices as accepted",
+        "Reconciles changed source and invalidates affected evidence before dependent completion claims",
+        "Does not claim a hook receipt proves semantic compliance or capture whole chat transcripts"
+      ]
     }
   ]
 }
