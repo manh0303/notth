@@ -30,10 +30,11 @@ The agent inspects the project, asks only missing questions, saves context and c
 Review its changes and test results. In later sessions, describe the next task directly or ask to resume saved work.
 The agent maintains task context and checks linked sources as part of the workflow;
 [session continuity and limits](docs/session-continuity.md).
-Optional continuity within one chat for Codex/Claude/Kiro: enable once with
+Native continuity hooks for the selected host: enable once with
 `init --host codex --session-hooks` (or `update --host codex --session-hooks`).
-It reloads durable task context on each prompt and before tool use, and saves lifecycle capsules;
-[contract, live-test limits and rollback](docs/session-runtime.md).
+The host-specific bridge observes events and injects capture/recovery instructions where supported;
+[activation states and host limits](docs/host-activation.md).
+Installation alone does not prove activation or saved memory; the agent checks current-session receipts and actual saved files.
 No terminal interview, model configuration or manual skill sequence is required. Kiro exposes
 `/harness-start`; native discovery varies by client. [Host guides](docs/tool-setup/README.md).
 `npx` does not create a global command; use `npx --yes @manhd_d/notth check` to check integrity.

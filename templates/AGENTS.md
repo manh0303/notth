@@ -3,6 +3,7 @@
 
 Always read .notth/core/rules/foundations.md, .notth/core/policies/security.md and .notth/core/policies/permissions.md.
 Before edits read .notth/local.md and .notth/core/rules/project-conventions.md; preserve approved design and user content.
+On task entry and each new turn, check the host activation contract in .notth/core/workflows/session-continuity.md; configured hooks alone are not observed activation or saved memory.
 For every task/resume apply .notth/core/workflows/session-continuity.md automatically: pin this session's task, load its source-linked context and checkpoint meaningful progress without user memory maintenance.
 For scoped memory retrieval and host switches use aih memory / aih handoff; canonical files and host permissions remain authoritative.
 Context selection: .notth/core/rules/context.md. Discover agent/skill descriptions with aih agents / aih skills.

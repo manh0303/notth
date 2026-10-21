@@ -130,7 +130,7 @@ test('Kiro command hooks refresh each prompt/tool offline and preserve user hook
   install(root, SOURCE, { command: 'update', host: 'kiro', sessionHooks: true });
   const filename = path.join(root, '.kiro/hooks/notth-continuity.json'), bytes = fs.readFileSync(filename);
   const { hooks } = JSON.parse(bytes);
-  assert.deepEqual(hooks.map(h => h.trigger), ['SessionStart', 'PromptSubmit', 'PreToolUse', 'AgentStop']);
+  assert.deepEqual(hooks.map(h => h.trigger), ['SessionStart', 'PromptSubmit', 'PreToolUse', 'AgentStop', 'PostToolUse']);
   for (const hook of hooks) {
     const result = spawnSync(hook.action.command, { shell: true, cwd: root, input: JSON.stringify({ hook_event_name: hook.trigger, session_id: 'kiro-continuous', cwd: root }), encoding: 'utf8' });
     assert.equal(result.status, 0, result.stderr);

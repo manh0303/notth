@@ -59,8 +59,9 @@ không bị đổi tự động. Cài mới dùng default phù hợp host đã c
 - Bridge Kiro dùng action `agent`, đường dẫn project-relative; không gọi PowerShell/git,
   không chứa ổ đĩa máy. Hook cũ do project sở hữu cần được review riêng trước khi tắt/sửa;
   nếu cùng tên file managed mà khác nội dung, installer báo conflict trước khi ghi.
-- Codex/Claude/Kiro IDE 1.x / CLI V3 có command hooks tùy chọn qua `--session-hooks`;
-  host gọi runtime Node vendored mỗi lượt chat/trước tool. Kiro dùng file riêng, chưa kiểm chứng native. Xem [session runtime](session-runtime.md) về giới hạn và rollback.
+- Các host có native bridges tùy chọn qua `--session-hooks`; xem [ma trận activation](host-activation.md).
+  CLI phân biệt cấu hình, sự kiện quan sát và file thật đã lưu; Windsurf ở mức observer/instructions.
+  Không suy ra native activation từ package tests.
 
 ## Sang project mới
 

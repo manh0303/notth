@@ -21,18 +21,17 @@ when enabling hooks. Ordinary updates preserve already enabled hooks. The instal
 it never executes their commands. The host runs the vendored Node runtime offline after restart.
 Restart the host so it reloads project settings. Node 22+ must remain available on the host PATH.
 
-| Host | Project-owned registration | Runtime integration status |
-| --- | --- | --- |
-| Codex | `.codex/hooks.json` | SessionStart / UserPromptSubmit / PreToolUse / PreCompact / Stop; native execution unverified here |
-| Claude Code | `.claude/settings.local.json` | SessionStart / UserPromptSubmit / PreToolUse / PreCompact / Stop; native execution unverified here |
-| Kiro IDE 1.x / CLI V3 | `.kiro/hooks/notth-continuity.json` alongside existing instruction bridge | SessionStart / PromptSubmit / PreToolUse / AgentStop; native execution unverified here |
+The current host registration and injection matrix is in [Host activation](host-activation.md).
+It covers Codex, Claude Code, Kiro, Cursor, Gemini CLI, Copilot, OpenCode v1 plugin and Cascade
+observers. Prompt/pre-tool/post-tool events use bounded, current-session metadata receipts; only
+supported output channels inject context. Activation and semantic memory persistence are separate.
 
 Settings merge retains unrelated keys and handlers. Modified/duplicate NOTTH handlers fail instead
 of being replaced. Before changing existing settings, original bytes (base64) are backed up locally under
 `.notth/backups/session-hooks-<hash>.json` with mode 600. Dry run writes nothing; ordinary write
 failures roll back installation/settings together. This is not crash-atomic across power loss.
 A changed hook implementation requires explicit reconciliation; update does not silently replace it.
-Codex/Claude retain the existing bootstrap exactly; enabling again adds the two new event handlers.
+Codex/Claude retain the existing bootstrap exactly; enabling again adds missing event handlers, including PostToolUse.
 After upgrading an older installation, rerun update with `--session-hooks` once to register those
 new events. Ordinary update alone refreshes the managed runtime but does not add registrations.
 
@@ -74,7 +73,7 @@ after enabling; semantic extraction and compliance remain agent behavior. A stat
 chat cannot be recovered from files. This does not guarantee zero forgetting or block every conflicting
 operation: native hook coverage, timeout behavior, output limits and model compliance still matter.
 No prompt, tool input, transcript path or internal reasoning is persisted by the hook. Per-prompt/tool
-receipts overwrite `latest-<event>.json` in ignored session metadata, so they do not grow per tool call.
+receipts overwrite `latest-<event>.json` (including PostToolUse) in ignored session metadata, so they do not grow per tool call.
 They are observations, not proof of reconciliation. Other lifecycle event receipts remain append-only.
 
 Kiro also has default agent capture prompts in its managed `harness-session.json` bridge: PromptSubmit

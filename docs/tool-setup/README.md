@@ -88,3 +88,7 @@ Official discovery references checked 2026-10-13; native login, cloud access and
 were not tested here.
 
 For the shared task-first flow, see [simple use](../simple-use.md). On a supporting CLI, `start --chat --host <your-host> --format human` never opens a terminal interview. Native discovery still requires a real client check.
+
+Native memory capture/recovery: enable the selected bridge once with `--session-hooks`;
+see [activation matrix, diagnostics and limits](../host-activation.md). The agent checks its current
+session and actual saved files; installation alone does not establish automatic persistence.

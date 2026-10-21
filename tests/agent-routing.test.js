@@ -113,7 +113,8 @@ test('invalid existing config and wrong flags fail before any persistent write',
     const prior = snapshot(); cli(args, args.at(-1) === '' ? 2 : 1); assert.deepEqual(snapshot(), prior);
   }
   cli(['init', '--source', source]);
-  cli(['update', '--source', source, '--agent-preset', 'economy'], 2); cli(['check', '--host', 'codex'], 2);
+  cli(['update', '--source', source, '--agent-preset', 'economy'], 2);
+  assert.equal(cli(['check', '--host', 'codex'], 1).activation.activation, 'not-configured');
 });
 
 test('custom providers/roles and exact bytes survive update including native host files', () => {

@@ -1,4 +1,8 @@
-# Verification
+# Kiro-only candidate verification
+
+Historical tested candidate: commit 100b25d50c043bb14c9ce9b3fb980fde24340bbe.
+PR scope subsequently expands into cross-host activation; use the sibling cross-host-activation
+verification record for final candidate results. Digests below identify the earlier candidate.
 
 Base: main 5cef4a47c9d94f0a451338c6d4db77ab1f73e369. Candidate branch: fix/kiro-memory-capture.
 

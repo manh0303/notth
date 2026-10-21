@@ -48,3 +48,19 @@ Trigger the host's real native context compaction and verify post-compaction con
 saved decision/evidence retention. Oversized durable state must be reported, never truncated.
 Use the separate recovery runner for the controlled interruption case; it does not trigger actual
 native compaction. Current native Codex/Claude/Kiro results are BLOCKED / unscored, not CLI PASS.
+
+## Cross-host activation trial (unscored)
+
+For each intended client/version, enable its reviewed bridge once, reload/trust it, and record the
+actual native ID. Give a task and an authorized external source without memory commands. Require
+prompt/pre-tool/post-tool callback evidence and inspect actual task/source/progress writes before
+continuing in a fresh chat. Native trial is NOT_RUN here for every host; subprocess/plugin fixtures
+are not a model compliance pass. Use check/doctor with host/session to distinguish installation.
+Repeat with disabled hooks, wrong/previous session receipts, an older-turn post-tool receipt, copied
+workspace, unavailable native ID, denied writes and a corrected user requirement. Diagnostic must
+not report active from configuration alone or persistence from receipts. Independent work can
+continue with explicit limits. Observe quota/loop behavior; do not auto-loop merely for diagnostics.
+Cursor/Copilot prompt events do not inject command stdout; verify supported startup/post-tool context
+and the instruction fallback. Windsurf remains observer/instruction-only even with matching receipts.
+OpenCode v1 callbacks/system transform must be observed in the actual runtime version; missing callbacks
+are BLOCKED. Record status, redacted transcript, workspace/source/bundle hashes and actual saved files.

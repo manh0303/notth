@@ -84,9 +84,10 @@ provenance; changed/unavailable/unknown/not-checked observations require depende
 An unchanged-at-check receipt remains time-qualified and requires host rechecking for current work.
 Context can retain an unavailable source as memory, without certifying it usable for execution.
 
-## Kiro capture triggers
+## Host-neutral capture triggers
 
 The default Kiro bridge adds agent prompts at PromptSubmit and at PostToolUse for `@mcp`.
+Other configured native bridges inject the same capture contract through host-specific supported events.
 These prompts request actual writes; the optional command runtime below only refreshes already
 durable state. Neither a registered hook nor a lifecycle receipt proves that a save occurred.
 
@@ -111,9 +112,36 @@ durable state. Neither a registered hook nor a lifecycle receipt proves that a s
   conditional-write contracts. If storage or tool permission is unavailable, name the exact blocker;
   do not instruct the user to maintain memory or claim success.
 
-Kiro must load and execute the hooks with file/tool access. Older clients, disabled hooks and Web
+The selected host must load and execute its bridge with file/tool access. Older clients, disabled hooks and Web
 sessions may not run them. Follow the same workflow when loaded via skill/AGENTS; live activation
 and agent compliance require a separate native trial. Agent hooks can consume host model quota.
+
+## Activation check owned by the host
+
+At task entry, determine the actual host and native session identity from available host metadata;
+injected callback context includes the observed host/session ID (producer-declared, not authenticated).
+never infer it from a global start hint, another session's receipt, model name, PID or a made-up value.
+Use the already-installed invocation of `aih activation --host <host> --session <native-id>` for a
+read-only local check. Check/doctor accept the same arguments. Do not ask the user to run memory
+commands. Native prompt/pre-tool/post-tool receipts for this workspace, session and bundle must be
+recent and post-tool must belong after the latest prompt. Cursor checks prompt/post-tool only and
+does not register a tool-permission callback. The check itself is bootstrap housekeeping;
+it may run before post-tool evidence is available. Recheck after the first actual tool completes.
+
+Distinguish configured registration, observed local event metadata, verified saved task/source files,
+and a native end-to-end trial. None substitutes for the next. If hooks are missing/disabled/unsupported
+or native identity is unavailable, report automatic activation unverified and follow the capture
+workflow with available file/CLI tools. Do not invent a successful handshake, silently install a host
+plugin or change settings, or prevent independent authorized work solely for missing diagnostics.
+Once source/task writes happen, inspect their actual bytes and existing source/context/checkpoint
+reports. A successful activation check still does not prove that requirements/progress were saved.
+
+The owner enables native integration once with reviewed `init/update --host <host> --session-hooks`;
+this is not a per-task command. The installer preserves user settings and does not run hooks. Current
+registrations cover Codex, Claude Code, Kiro, Cursor, Gemini CLI, Copilot CLI/cloud, OpenCode v1 plugins
+and Windsurf/Cascade observers. Different IDE/cloud clients can omit events or require trust review.
+Windsurf has no documented hook-stdout context injection: label it instruction-only even if observer
+receipts exist. OpenCode relies on its v1 plugin API; incompatible/missing callbacks are unverified.
 
 ## Native lifecycle runtime when enabled
 

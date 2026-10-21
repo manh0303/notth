@@ -67,12 +67,21 @@ try {
   run(['init', '--target', runtimeTarget, '--host', 'codex', '--session-hooks']);
   fs.writeFileSync(path.join(runtimeTarget, 'package.json'), '{"type":"commonjs"}');
   const runtimeHooks = JSON.parse(fs.readFileSync(path.join(runtimeTarget, '.codex/hooks.json'))).hooks;
-  for (const event of ['SessionStart', 'UserPromptSubmit', 'PreToolUse']) {
+  for (const event of ['SessionStart', 'UserPromptSubmit', 'PreToolUse', 'PostToolUse']) {
     const nativeFixture = spawnSync(runtimeHooks[event][0].hooks[0].command, { shell: true, cwd: runtimeTarget, encoding: 'utf8', timeout: 10000,
       input: JSON.stringify({ hook_event_name: event, session_id: 'package-fixture', cwd: runtimeTarget }) });
     assert.equal(nativeFixture.status, 0, nativeFixture.stderr);
     assert.equal(JSON.parse(nativeFixture.stdout).hookSpecificOutput.hookEventName, event);
     assert.match(JSON.parse(nativeFixture.stdout).hookSpecificOutput.additionalContext, /needs-selection/);
+  }
+  const activation = JSON.parse(run(['activation', '--target', runtimeTarget, '--host', 'codex', '--session', 'package-fixture']));
+  assert.equal(activation.activation, 'observed-local');
+  assert.equal(activation.persistence, 'unverified');
+  for (const host of ['cursor', 'gemini-cli', 'copilot', 'opencode', 'windsurf']) {
+    assert.equal(JSON.parse(run(['update', '--target', runtimeTarget, '--host', host, '--session-hooks'])).status, 'ok');
+  }
+  for (const asset of ['.cursor/hooks.json', '.gemini/settings.json', '.github/hooks/notth-continuity.json', '.opencode/plugins/notth-continuity.js', '.windsurf/hooks.json']) {
+    assert.ok(fs.existsSync(path.join(runtimeTarget, asset)), 'Missing packaged native registration: ' + asset);
   }
   run(['update', '--target', runtimeTarget, '--host', 'kiro', '--session-hooks']);
   const kiroRefresh = JSON.parse(fs.readFileSync(path.join(runtimeTarget, '.kiro/hooks/notth-continuity.json'))).hooks.find(h => h.trigger === 'PromptSubmit');
