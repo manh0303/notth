@@ -77,6 +77,12 @@ No prompt, tool input, transcript path or internal reasoning is persisted by the
 receipts overwrite `latest-<event>.json` in ignored session metadata, so they do not grow per tool call.
 They are observations, not proof of reconciliation. Other lifecycle event receipts remain append-only.
 
+Kiro also has default agent capture prompts in its managed `harness-session.json` bridge: PromptSubmit
+requests task persistence and PostToolUse (`@mcp`) requests immediate source intake. These are separate
+from this opt-in command runtime and depend on the agent writing and verifying actual canonical files.
+See [Kiro setup](tool-setup/kiro.md) and the installed continuity workflow. They do not turn lifecycle
+capsules into a transcript/tool-response recorder or establish live host compliance.
+
 Kiro command output is plain context text; Codex/Claude use event-specific `additionalContext` JSON.
 Kiro Web/Mobile and older clients require instruction fallback. The separate recovery trial driver
 still reports Kiro BLOCKED: a registration fixture is not a live interruption/recovery pass.

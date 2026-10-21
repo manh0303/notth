@@ -2,6 +2,13 @@
 
 ## Current upgrade procedure
 
+Kiro capture-trigger repair: a reviewed update refreshes the managed `harness-session.json` bridge
+with PromptSubmit and MCP PostToolUse agent prompts, including for existing Kiro installs without
+repeating `--host`. Restart/open a new Kiro session. Optional command hooks remain opt-in and unchanged.
+Existing project/lock/source schemas and task/source files are preserved; edited managed bridges still
+block updates. Roll back the consumer snapshot/lock with its matching CLI, retaining project task data.
+There is no distribution bump in the feature change; native execution remains unverified.
+
 Upgrade the CLI using the installed npm/pip/offline channel, commit/back up the consumer, then review
 `aih update --dry-run`, `aih update` and `aih check` with the same CLI. Versions come from
 `package.json`, `harness.yaml`, `package-lock.json` and the release manifest; do not hardcode a version

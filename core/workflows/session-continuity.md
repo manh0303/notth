@@ -84,6 +84,37 @@ provenance; changed/unavailable/unknown/not-checked observations require depende
 An unchanged-at-check receipt remains time-qualified and requires host rechecking for current work.
 Context can retain an unavailable source as memory, without certifying it usable for execution.
 
+## Kiro capture triggers
+
+The default Kiro bridge adds agent prompts at PromptSubmit and at PostToolUse for `@mcp`.
+These prompts request actual writes; the optional command runtime below only refreshes already
+durable state. Neither a registered hook nor a lifecycle receipt proves that a save occurred.
+
+- On a project task request, pin its scope and preserve material intent/corrections in the existing
+  project-owned task note or change context before dependent work. Quick work without a local note
+  may create a concise note under `docs/tasks/<stable-task-id>.md`; respect configured storage policy,
+  reuse it subsequently and do not manufacture an OpenSpec change. Record intent, source pointers,
+  current step, blockers and next action there. General questions with no project work need no note.
+- Immediately after a relevant external read, preserve the available authorized response through
+  source-intake, then link its source ID, snapshot/capture hashes and observed locator to that task.
+  This also applies to URL/web/connector input when no MCP hook fires. Do not defer all source saving
+  until final handoff. Partial/failed results retain their real limitations; unavailable content cannot
+  become a snapshot. No extra remote request or publication is authorized by a hook.
+- Deduplicate against the existing source catalog and task note. Do not reimport an unchanged result
+  merely because another hook fired. Never process your own bookkeeping as a new external input.
+- Use the actual installed CLI, including an offline Node/shim path when known. Without CLI access,
+  use the existing host-file fallback from source-intake; distinguish a saved file from a verified
+  indexed import. Reopen the saved task/source (and use sources/context/resume where applicable)
+  before claiming persistence. Never claim a hash or CLI report proves semantic fidelity.
+- Before responding after meaningful work, persist progress and next action using the existing
+  checkpoint contract for an OpenSpec change or the same Quick task note. Preserve user edits and
+  conditional-write contracts. If storage or tool permission is unavailable, name the exact blocker;
+  do not instruct the user to maintain memory or claim success.
+
+Kiro must load and execute the hooks with file/tool access. Older clients, disabled hooks and Web
+sessions may not run them. Follow the same workflow when loaded via skill/AGENTS; live activation
+and agent compliance require a separate native trial. Agent hooks can consume host model quota.
+
 ## Native lifecycle runtime when enabled
 
 The optional `.notth/core/runtime/hook.js` is invoked by native Codex/Claude command settings, or optional Kiro command hooks (PromptSubmit/PreToolUse/AgentStop).
