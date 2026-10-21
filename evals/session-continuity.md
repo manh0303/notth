@@ -23,6 +23,20 @@ Record PASS/FAIL/BLOCKED/NOT_RUN per step with raw redacted transcript, source/h
 actual artifacts. Evaluate original painpoint-to-acceptance outcome and mistaken context reuse, not
 just command presence. Token savings and accuracy percentages need measured baselines; no claims here.
 
+## Kiro immediate capture (unscored)
+
+In a disposable project install the reviewed Kiro bridge without `--session-hooks`, restart Kiro,
+and submit a project Jira task with a Confluence MCP source. Do not mention saving or CLI commands.
+Observe actual PromptSubmit/PostToolUse execution, task intent saved before dependent work, and the
+authorized source snapshot linked into that task immediately after retrieval. Verify content against
+the observed response, including scope, partial pages and revision uncertainty. Continue in a fresh
+chat using only the task identity; require actual retained intent, current step and next action.
+Repeat an unchanged result (no duplicate), denied local writes (honest blocker), and unrelated/general
+question (no spurious task). Bookkeeping must not start a capture loop or repeat remote side effects.
+Record client/model version, hook status, redacted transcript, file diffs and source hashes. Disabled
+or unsupported hooks are BLOCKED, missed saves after observed hooks are FAIL. Offline payload tests
+are not a substitute. These agent prompts may consume host quota; native execution here is NOT_RUN.
+
 ## Native lifecycle recovery and compaction boundary (unscored)
 
 Enable native hooks in an isolated consumer. Start a source-linked task; save checkpoint and new
@@ -34,3 +48,19 @@ Trigger the host's real native context compaction and verify post-compaction con
 saved decision/evidence retention. Oversized durable state must be reported, never truncated.
 Use the separate recovery runner for the controlled interruption case; it does not trigger actual
 native compaction. Current native Codex/Claude/Kiro results are BLOCKED / unscored, not CLI PASS.
+
+## Cross-host activation trial (unscored)
+
+For each intended client/version, enable its reviewed bridge once, reload/trust it, and record the
+actual native ID. Give a task and an authorized external source without memory commands. Require
+prompt/pre-tool/post-tool callback evidence and inspect actual task/source/progress writes before
+continuing in a fresh chat. Native trial is NOT_RUN here for every host; subprocess/plugin fixtures
+are not a model compliance pass. Use check/doctor with host/session to distinguish installation.
+Repeat with disabled hooks, wrong/previous session receipts, an older-turn post-tool receipt, copied
+workspace, unavailable native ID, denied writes and a corrected user requirement. Diagnostic must
+not report active from configuration alone or persistence from receipts. Independent work can
+continue with explicit limits. Observe quota/loop behavior; do not auto-loop merely for diagnostics.
+Cursor/Copilot prompt events do not inject command stdout; verify supported startup/post-tool context
+and the instruction fallback. Windsurf remains observer/instruction-only even with matching receipts.
+OpenCode v1 callbacks/system transform must be observed in the actual runtime version; missing callbacks
+are BLOCKED. Record status, redacted transcript, workspace/source/bundle hashes and actual saved files.

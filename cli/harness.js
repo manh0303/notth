@@ -152,7 +152,7 @@ export function install(root, source, options = {}) {
 
 function installCurrent(root, source, { command = 'init', adapters, capabilities, agentPreset, dryRun = false, allowMajor = false, host, linkClaude: linkClaudeOpt = false, claudeSkills = false, sessionHooks = false, writer } = {}) {
   assertSeparate(root, source);
-  if (sessionHooks && host === undefined) throw new HarnessError('--session-hooks requires explicit --host codex, claude-code or kiro');
+  if (sessionHooks && host === undefined) throw new HarnessError('--session-hooks requires an explicit supported --host');
   if (host !== undefined && (typeof host !== 'string' || !SLUG.test(host))) throw new HarnessError('Invalid host ID; choose one tool');
   return guard(root, () => {
     const hasLock = Boolean(stat(safe(root, LOCK)));

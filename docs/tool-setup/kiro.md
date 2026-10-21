@@ -80,6 +80,13 @@ qua từng bước, chạy `seed --record` khi đã đối chiếu. Nếu ngắt
 SessionStart đọc summary/task và kiểm tra freshness; gợi ý `/harness-start` khi cần.
 Bạn có thể giao task tiếp theo trực tiếp hoặc gọi lại skill để tiếp tục setup.
 Hook không tự interview hoặc tự chạy task cũ chỉ vì session mới mở.
+Bridge mới bổ sung PromptSubmit để yêu cầu AI ghi task trước khi làm, và PostToolUse (`@mcp`)
+để yêu cầu lưu ngay nguồn Jira/Confluence vừa đọc. Hai hook agent này được cài cùng `--host kiro`,
+không cần `--session-hooks`. AI tự gọi CLI hoặc file tools; người dùng không phải chạy lệnh lưu.
+Task nhỏ dùng note hiện có (hoặc `docs/tasks/<stable-task-id>.md` khi chưa có và policy cho phép);
+change OpenSpec dùng context/checkpoint. Snapshot nguồn ở `docs/sources/` theo source-intake.
+Hook chỉ kích hoạt yêu cầu ghi: cần kiểm tra file thực tế, không coi đăng ký hook là bằng chứng đã lưu.
+Nâng bundle đã review bằng update rồi mở session mới để Kiro nạp lại; bản ZIP cũ không tự nhận sửa đổi.
 `aih seed --check` phát hiện nguồn local đã đổi; Kiro refresh đúng phần bị ảnh hưởng.
 Remote revisions cần host kiểm tra. [Schema và seed](../session-onboarding.md).
 
@@ -123,6 +130,8 @@ Khi dùng Kiro Specs, khai báo canonical documents và write scope trong
 ## Official references
 
 Checked 2026-10-14; no logged-in Kiro IDE/CLI/Web or live-agent smoke was run.
+Capture-trigger contract rechecked 2026-10-21 against the official hook types/actions pages;
+native execution remains NOT_RUN. Agent prompts can consume Kiro model quota.
 Tests xác minh file/schema/ownership và package; live hook/skill loading và giảm token chưa đo.
 
 - [Installation](https://kiro.dev/docs/getting-started/installation/)

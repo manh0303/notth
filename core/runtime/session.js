@@ -5,7 +5,7 @@ import { latest, freshness, validateCapture } from './provenance.js';
 
 const MAX = 1024 * 1024;
 const HASH = /^[a-f0-9]{64}$/;
-const HOSTS = ['codex', 'claude-code', 'kiro'];
+export const SESSION_HOSTS = ['codex', 'claude-code', 'kiro', 'cursor', 'gemini-cli', 'copilot', 'opencode', 'windsurf'];
 const requireThat = (ok, message) => { if (!ok) throw new HarnessError('Session runtime: ' + message); };
 const text = value => typeof value === 'string' && value.trim().length > 0 && value.length <= 4096;
 const change = id => { requireThat(typeof id === 'string' && SLUG.test(id) && id !== 'archive', 'invalid change ID'); return id; };
@@ -30,7 +30,7 @@ export function runtimeIntegrity(root) {
   return lock;
 }
 function identity(root, host, sessionId) {
-  requireThat(HOSTS.includes(host), 'unsupported host');
+  requireThat(SESSION_HOSTS.includes(host), 'unsupported host');
   requireThat(typeof sessionId === 'string' && /^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$/.test(sessionId), 'invalid session identity');
   return { host, session_id: sessionId, workspace: digest(Buffer.from(fs.realpathSync(root))),
     path: '.notth/sessions/' + digest(Buffer.from(host + '\0' + sessionId)) + '.json' };

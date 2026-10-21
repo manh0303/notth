@@ -1,5 +1,17 @@
 # Changelog
 
+## Unreleased — Cross-host activation evidence
+
+- Extend opt-in native bridges to Cursor, Gemini CLI, Copilot, OpenCode v1 and Windsurf/Cascade observers; add post-tool capture reminders to existing bridges.
+- Add read-only activation diagnostics scoped to host/session/workspace/bundle and recent event receipts; check/doctor can require this evidence. Configuration alone never establishes activation or saved memory.
+- Reuse the host-neutral capture workflow and preserve native user settings/backups. Report unsupported context injection and missing trust/identity honestly; no raw prompt/tool/transcript recorder.
+
+## Unreleased — Kiro source and task capture triggers
+
+- Add default Kiro agent prompts on task submission and after MCP results to request immediate task/source persistence without user memory commands.
+- Reuse source snapshots, context/checkpoints and lightweight task notes; verify actual saved files and report persistence blockers honestly.
+- Preserve existing managed-update safeguards and opt-in command runtime. Hook loading and live Kiro compliance remain unverified.
+
 ## Unreleased — Continuity within one chat
 
 - Refresh current source-linked task context on every prompt and pre-tool event for opted-in Codex/Claude hooks; retain existing bootstrap and settings ownership.

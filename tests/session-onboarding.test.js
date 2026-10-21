@@ -12,6 +12,7 @@ import { agentPlan } from '../cli/agents.js';
 import { requirementReport, skillRequirements } from '../cli/skill-requirements.js';
 import { syncIntegrations } from '../cli/sync-integrations.js';
 import { backupConfig, restoreConfig } from '../cli/portable-config.js';
+import { digest, encode } from '../cli/files.js';
 
 function project(t, options = {}) {
   const root = fs.mkdtempSync(path.join(os.tmpdir(),'aih-session-'));
@@ -42,6 +43,30 @@ test('Kiro collisions, managed drift and write failures cannot replace user file
   assert.throws(()=>install(root,SOURCE,{host:'kiro',writer:(filename,data)=>{if(filename.endsWith('harness-session.json'))throw Error('injected');fs.mkdirSync(path.dirname(filename),{recursive:true});fs.writeFileSync(filename,data);}}),/injected/);
   assert.equal(fs.existsSync(path.join(root,'.notth/lock.json')),false); assert.equal(fs.existsSync(path.join(root,'.kiro/skills/harness-start/SKILL.md')),false);
   install(root,SOURCE,{host:'kiro'}); write(root,'.kiro/hooks/harness-session.json','{}'); assert.equal(check(root).status,'error'); assert.throws(()=>install(root,SOURCE,{command:'update'}),/Managed files changed/);
+});
+test('Kiro capture triggers install by default and an older managed bridge updates without touching task/source files',t=>{
+  const root=project(t,{host:'kiro'}), name='.kiro/hooks/harness-session.json';
+  const hooks=JSON.parse(read(root,name)).hooks;
+  assert.deepEqual(hooks.map(h=>h.trigger),['SessionStart','PromptSubmit','PostToolUse']);
+  assert.equal(hooks[2].matcher,'@mcp');
+  assert.ok(hooks.every(h=>h.action.type==='agent'));
+  assert.equal(fs.existsSync(path.join(root,'.kiro/hooks/notth-continuity.json')),false);
+  // Fixture: the previous managed bridge contained only the unchanged SessionStart hook.
+  const previous=encode({version:'v1',hooks:[hooks[0]]});
+  fs.writeFileSync(path.join(root,name),previous);
+  const lock=JSON.parse(read(root,'.notth/lock.json'));
+  lock.files[name]=digest(previous); lock.bundle_sha256=digest(encode(lock.files));
+  write(root,'.notth/lock.json',encode(lock).toString());
+  assert.equal(check(root).status,'ok');
+  write(root,'docs/tasks/issue-123.md','Current step and next action');
+  write(root,'docs/sources/retained.md','Preserved source bytes');
+  install(root,SOURCE,{command:'update',dryRun:true});
+  assert.equal(read(root,name),previous.toString());
+  install(root,SOURCE,{command:'update'});
+  assert.equal(check(root).status,'ok');
+  assert.deepEqual(JSON.parse(read(root,name)).hooks,hooks);
+  assert.equal(read(root,'docs/tasks/issue-123.md'),'Current step and next action');
+  assert.equal(read(root,'docs/sources/retained.md'),'Preserved source bytes');
 });
 test('structured local context parses standard YAML, approved deviations and JSON-compatible YAML; preserves legacy prose',t=>{
   const root=project(t); context(root); const parsed=localContext(root); assert.equal(parsed.value.stack.version,'21'); assert.equal(parsed.value.approved_deviations[0].id,'approved-error-contract');

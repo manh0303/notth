@@ -2,6 +2,23 @@
 
 ## Current upgrade procedure
 
+Cross-host activation: the supporting CLI expands opt-in `--session-hooks` bridges and adds
+`activation --host --session` plus check/doctor diagnostics. Run reviewed update --dry-run, then
+update --host <host> --session-hooks and reload/trust the host. Plain updates do not add registrations.
+Old Codex/Claude bootstrap stays compatible; unmodified legacy Kiro command settings gain PostToolUse.
+Receipt schema 1 gains workspace/bundle/native-event fields; old receipts remain inert/unverified,
+not silently promoted. Project/source/checkpoint/config/lock schemas and distribution version stay
+unchanged. New cli/*.js and existing runtime/workflow paths use existing package allowlists.
+Rollback matching CLI/runtime/lock and only the new owned handlers/plugin, retaining project data.
+[Host matrix and limitations](host-activation.md).
+
+Kiro capture-trigger repair: a reviewed update refreshes the managed `harness-session.json` bridge
+with PromptSubmit and MCP PostToolUse agent prompts, including for existing Kiro installs without
+repeating `--host`. Restart/open a new Kiro session. Optional command hooks remain opt-in and unchanged.
+Existing project/lock/source schemas and task/source files are preserved; edited managed bridges still
+block updates. Roll back the consumer snapshot/lock with its matching CLI, retaining project task data.
+There is no distribution bump in the feature change; native execution remains unverified.
+
 Upgrade the CLI using the installed npm/pip/offline channel, commit/back up the consumer, then review
 `aih update --dry-run`, `aih update` and `aih check` with the same CLI. Versions come from
 `package.json`, `harness.yaml`, `package-lock.json` and the release manifest; do not hardcode a version

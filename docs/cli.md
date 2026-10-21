@@ -12,8 +12,9 @@ Exit 0 means the requested operation succeeded; 1 means validation/I/O/drift fai
 | resolve | --source; --adapters; --capabilities | Validate module selection/compatibility; no installation |
 | init | --host; --detect OR --adapters; --capabilities; --agent-preset; --link-claude; --claude-skills; --session-hooks; --source; --dry-run; --allow-major; --format | Install selected snapshot and seed missing project configuration |
 | update | --host; --link-claude; --claude-skills; --session-hooks; --source; --dry-run; --allow-major; --format | Update unedited owned files; preserve project-owned state |
-| check | none | Check snapshot integrity/selection; no application tests |
-| doctor | --skill NAME | Check installation, configured paths and skill prerequisites; no execution |
+| check | --host; --session | Check snapshot integrity/selection; no application tests |
+| doctor | --skill NAME; --host; --session | Check installation, configured paths and skill prerequisites; no execution |
+| activation | --host (required); --session | Inspect native registration and current local event receipts; missing/unverified activation exits 1 |
 | setup | --host; --apply [--dry-run]; --greenfield | Plan by default; optionally scaffold missing user configuration |
 | agents | --host | Read resolved canonical roles and declared preferences |
 | skills | none | List installed skill metadata |
@@ -226,7 +227,7 @@ See [Kiro quick start](tool-setup/kiro.md) and [schema/ownership](session-onboar
 | setup | --apply [--dry-run]; --greenfield | Scaffold missing user config only; existing paths/answers and managed payload/lock stay intact; --greenfield selects host guidance |
 | decisions | --scope module:name | Read project-wide and matching module choices; host must check source applicability |
 | seed | --record OR --check | Plan loading, record reconciled hashes or check freshness; no model calls |
-| doctor | --skill NAME | Check local requires; MCP remains unverified |
+| doctor | --skill NAME; --host; --session | Check local requires; MCP remains unverified |
 | sync-integrations | --host kiro; --from FILE; --dry-run | Import aliases only; no credentials/server execution/tool inference |
 | change-sidecars ID | none | Add missing external proposal sidecars; no overwrite |
 
@@ -297,10 +298,17 @@ No model process is executed. Users need not run these commands during normal AI
 
 ## Native session runtime (optional)
 
-`init` / `update --host codex|claude-code|kiro --session-hooks` registers native session-start,
-per-prompt and pre-tool context refresh plus lifecycle snapshots without executing commands.
-Kiro uses a separate `.kiro/hooks/notth-continuity.json`; Codex/Claude merge existing native settings. Explicit host required when enabling. Existing settings and
-handlers survive; modified owned hooks fail. `--dry-run` previews without writes.
+`init` / `update --host <host> --session-hooks` registers the selected native bridge without
+executing commands. Supported IDs: codex, claude-code, kiro, cursor, gemini-cli, copilot, opencode,
+windsurf. Host event coverage/context injection differs; Windsurf is observation/instruction-only.
+Existing settings/handlers survive; modified owned handlers or disabled settings block enabling.
+`--dry-run` previews without writes. Plain update preserves settings but does not add events.
+
+- `aih activation --host <host> [--session <native-id>]`: read-only registration and current-session
+  registered prompt/tool receipts (Cursor: prompt/post-tool, without a permission hook). Exit 1 until observed, or for instruction-only Windsurf;
+  observed-local still leaves persistence/live-host unverified. Check/doctor with --host apply this
+  diagnostic too. Receipts must match workspace/bundle, be <=15 minutes old, and pre/post follow
+  the latest prompt. No fake session or raw transcript capture. [Full contract](host-activation.md).
 
 - `aih compact <change-id> [--record] [--budget 8000]`: build/optionally persist a durable-state capsule.
 - `aih session <native-session-id> --host <host> --change <id> [--expected <binding-sha>]`: bind native scope with CAS on switches.

@@ -1,5 +1,7 @@
 import { bindSession, recoverSession, compactionPlan, recordCompaction } from '../core/runtime/session.js';
 import { memoryReport, handoffReport } from './memory.js';
+import { activationReport } from './activation.js';
+import { SESSION_HOSTS } from './session-hooks.js';
 import { taskContextReport, saveTaskContext } from './task-context.js';
 import { importSource, sourceReport, checkSource } from './sources.js';
 import { statusReport, changesReport } from './status.js';
@@ -60,6 +62,7 @@ Usage: aih <command> [options]
   context              Read task context; --change selects scope; --report saves with --expected
   sources              List preserved sources and verify their content hashes
   import-source <id>   Preserve --input; attach host conversion with --normalized <md>
+  activation           Check --host/--session hook configuration and current local event receipts
   artifacts            Show input/output/storage and connection declarations (read-only)
   workflow validate    Validate installed workflow contracts (read-only)
   ready <id>           Check structural change readiness, not approval
@@ -67,8 +70,8 @@ Usage: aih <command> [options]
   new-doc <type>       Scaffold a locked capability template (default: product)
 
 Options:
-  --session-hooks     init/update: opt in to project-local Codex/Claude/Kiro continuity runtime
-  --session <id>      recover: native host session identity
+  --session-hooks     init/update: opt in to project-local native hooks for the selected host
+  --session <id>      recover/activation/check/doctor: actual native host session identity
   --budget <bytes>    byte limit: compact/recover default 8000; memory/handoff default 8192
   --apply             setup: create missing user configs from the installed snapshot
   --greenfield        setup: select new-project guidance, not an adapter or architecture
@@ -171,11 +174,14 @@ export function main(argv = process.argv.slice(2)) {
     if (args.values.help || !argv.length) { console.log(HELP); return 0; }
     if (args.values.version) { console.log(readJson(path.join(SOURCE, 'package.json')).version); return 0; }
     const [command, name, ...extra] = args.positionals;
-    if (!['memory', 'handoff', 'compact', 'session', 'recover', 'context', 'source-check', 'sources', 'import-source', 'status', 'changes', 'workflow', 'decisions', 'seed', 'sync-integrations', 'change-sidecars', 'start', 'backup', 'restore', 'init', 'update', 'check', 'doctor', 'new-change', 'new-doc', 'list', 'detect', 'resolve', 'verify', 'eval', 'skills', 'skill', 'setup', 'ready', 'artifacts', 'agents', 'checkpoint', 'resume'].includes(command)) throw new Error(`Unknown command: ${command}`);
+    if (!['activation', 'memory', 'handoff', 'compact', 'session', 'recover', 'context', 'source-check', 'sources', 'import-source', 'status', 'changes', 'workflow', 'decisions', 'seed', 'sync-integrations', 'change-sidecars', 'start', 'backup', 'restore', 'init', 'update', 'check', 'doctor', 'new-change', 'new-doc', 'list', 'detect', 'resolve', 'verify', 'eval', 'skills', 'skill', 'setup', 'ready', 'artifacts', 'agents', 'checkpoint', 'resume'].includes(command)) throw new Error(`Unknown command: ${command}`);
     if (extra.length || (!['handoff', 'compact', 'session', 'source-check', 'import-source', 'workflow', 'change-sidecars', 'new-change', 'new-doc', 'skill', 'ready', 'checkpoint', 'resume'].includes(command) && name !== undefined) || (['handoff', 'compact', 'session', 'source-check', 'import-source', 'workflow', 'change-sidecars', 'new-change', 'new-doc', 'skill', 'ready', 'checkpoint', 'resume'].includes(command) && name === undefined)) throw new Error('Unexpected or missing positional argument; run aih --help');
     const allowed = new Set(['target', ...(['init', 'update'].includes(command) ? ['source', 'dry-run', 'allow-major'] : []), ...(['init', 'resolve'].includes(command) ? ['adapters', 'capabilities'] : []), ...(command === 'init' ? ['detect'] : []), ...(['list', 'detect', 'resolve'].includes(command) ? ['source'] : []), ...(command === 'eval' ? ['report'] : []), ...(command === 'ready' ? ['stage'] : []), ...(['verify', 'eval'].includes(command) ? ['scope'] : [])]);
     if (['init','update','start','status','changes'].includes(command)) allowed.add('format');
     if (args.values.format !== undefined && !['human','json'].includes(args.values.format)) throw new Error('--format must be human or json');
+    if (['activation', 'check', 'doctor'].includes(command)) for (const key of ['host', 'session']) allowed.add(key);
+    if (command === 'activation' && !args.values.host) throw new Error('activation requires --host');
+    if (['check', 'doctor'].includes(command) && args.values.session !== undefined && !args.values.host) throw new Error('--session requires --host');
     if (command === 'memory') for (const key of ['change', 'query', 'budget']) allowed.add(key);
     if (command === 'handoff') allowed.add('budget');
     if (command === 'source-check') { for (const key of ['report', 'input', 'dry-run']) allowed.add(key); if (!args.values.report || !args.values.input) throw new Error('source-check requires --report and --input'); }
@@ -224,7 +230,8 @@ export function main(argv = process.argv.slice(2)) {
     const root = targetRoot(values.target ?? process.cwd());
     const print = result => console.log(values.format === 'human' ? renderResult(command, result, values) : JSON.stringify(result, null, 2));
     let result;
-    if (command === 'compact') result = values.record ? recordCompaction(root, name, { budget: values.budget === undefined ? undefined : Number(values.budget) }) : compactionPlan(root, name, { budget: values.budget === undefined ? undefined : Number(values.budget) });
+    if (command === 'activation') result = activationReport(root, { host: values.host, sessionId: values.session });
+    else if (command === 'compact') result = values.record ? recordCompaction(root, name, { budget: values.budget === undefined ? undefined : Number(values.budget) }) : compactionPlan(root, name, { budget: values.budget === undefined ? undefined : Number(values.budget) });
     else if (command === 'session') result = bindSession(root, { host: values.host, sessionId: name, changeId: values.change, expected: values.expected });
     else if (command === 'recover') result = recoverSession(root, { host: values.host, sessionId: values.session, changeId: values.change, budget: values.budget === undefined ? undefined : Number(values.budget) });
     else if (command === 'memory') result = memoryReport(root, { changeId: values.change, query: values.query, budget: values.budget });
@@ -307,6 +314,12 @@ export function main(argv = process.argv.slice(2)) {
       result.onboarding = { adapters: installed.adapters, capabilities: installed.capabilities ?? [],
         prompt: 'Read .agents/skills/harness-start/SKILL.md and use Notth for this task: [your task].' };
     }
+    if (['check', 'doctor'].includes(command) && values.host) {
+      result.activation = activationReport(root, { host: values.host, sessionId: values.session });
+      if (result.status === 'ok' && result.activation.status !== 'ok') result.status = 'blocked';
+    }
+    if (['init', 'update'].includes(command) && values.host && !values['dry-run']) result.activation = SESSION_HOSTS.includes(values.host)
+      ? activationReport(root, { host: values.host }) : { status: 'blocked', activation: 'unsupported-host', persistence: 'unverified' };
     print(result);
     return ['error', 'fail', 'blocked'].includes(result.status) ? 1 : 0;
   } catch (error) { console.error(JSON.stringify({ status: 'error', message: error.message })); return 1; }
