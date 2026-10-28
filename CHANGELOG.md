@@ -305,6 +305,19 @@ The new change above remains unreleased. Versioned release history follows these
 - Check release metadata consistency and establish single-release-PR version discipline; retain v0.6.0 until a dedicated release PR.
 
 
+## [0.20.0](https://github.com/manh0303/notth/compare/v0.19.0...v0.20.0) (2026-10-21)
+
+
+### Features
+
+* refresh task context within a continuous chat ([2d11d82](https://github.com/manh0303/notth/commit/2d11d82ee05fa223eb51ff6e9a6aee5aea9e651e))
+
+
+### Bug Fixes
+
+* **kiro:** trigger task and MCP source persistence ([100b25d](https://github.com/manh0303/notth/commit/100b25d50c043bb14c9ce9b3fb980fde24340bbe))
+* **memory:** add cross-host activation evidence and capture hooks ([cb384ae](https://github.com/manh0303/notth/commit/cb384ae6065176c2b63e0bffa14b4c81f8beb2ca))
+
 ## [0.19.0](https://github.com/manh0303/notth/compare/v0.18.0...v0.19.0) (2026-10-20)
 
 
