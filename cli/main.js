@@ -76,7 +76,7 @@ Options:
   --apply             setup: create missing user configs from the installed snapshot
   --greenfield        setup: select new-project guidance, not an adapter or architecture
   --clear             start: back up and clear saved intake; preserve changes/evidence
-  --format <format>   init/update/start/status/changes: human or json (default json)
+  --format <format>   init/update/doctor/start/status/changes: human or json (default json)
   --chat              start: read-only chat orientation on every host; no interview
   --compact           start: short read-only orientation; skips terminal intake/source scan
   --record            seed: record hashes after host context reconciliation
@@ -177,7 +177,7 @@ export function main(argv = process.argv.slice(2)) {
     if (!['activation', 'memory', 'handoff', 'compact', 'session', 'recover', 'context', 'source-check', 'sources', 'import-source', 'status', 'changes', 'workflow', 'decisions', 'seed', 'sync-integrations', 'change-sidecars', 'start', 'backup', 'restore', 'init', 'update', 'check', 'doctor', 'new-change', 'new-doc', 'list', 'detect', 'resolve', 'verify', 'eval', 'skills', 'skill', 'setup', 'ready', 'artifacts', 'agents', 'checkpoint', 'resume'].includes(command)) throw new Error(`Unknown command: ${command}`);
     if (extra.length || (!['handoff', 'compact', 'session', 'source-check', 'import-source', 'workflow', 'change-sidecars', 'new-change', 'new-doc', 'skill', 'ready', 'checkpoint', 'resume'].includes(command) && name !== undefined) || (['handoff', 'compact', 'session', 'source-check', 'import-source', 'workflow', 'change-sidecars', 'new-change', 'new-doc', 'skill', 'ready', 'checkpoint', 'resume'].includes(command) && name === undefined)) throw new Error('Unexpected or missing positional argument; run aih --help');
     const allowed = new Set(['target', ...(['init', 'update'].includes(command) ? ['source', 'dry-run', 'allow-major'] : []), ...(['init', 'resolve'].includes(command) ? ['adapters', 'capabilities'] : []), ...(command === 'init' ? ['detect'] : []), ...(['list', 'detect', 'resolve'].includes(command) ? ['source'] : []), ...(command === 'eval' ? ['report'] : []), ...(command === 'ready' ? ['stage'] : []), ...(['verify', 'eval'].includes(command) ? ['scope'] : [])]);
-    if (['init','update','start','status','changes'].includes(command)) allowed.add('format');
+    if (['init','update','doctor','start','status','changes'].includes(command)) allowed.add('format');
     if (args.values.format !== undefined && !['human','json'].includes(args.values.format)) throw new Error('--format must be human or json');
     if (['activation', 'check', 'doctor'].includes(command)) for (const key of ['host', 'session']) allowed.add(key);
     if (command === 'activation' && !args.values.host) throw new Error('activation requires --host');

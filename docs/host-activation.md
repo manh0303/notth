@@ -38,6 +38,11 @@ Windsurf có biên nhận vẫn báo enforcement ở mức instructions; không 
 
 ## AI kiểm tra điều gì
 
+Người dùng có thể chạy `aih doctor --host kiro --format human` (thay `kiro` bằng host thực tế)
+để xem kết quả dễ đọc. Nếu chỉ dùng npx, thay `aih` bằng `npx --yes @manhd_d/notth`.
+Thiếu bằng chứng session làm doctor trả mã lỗi khi đã chọn `--host`; không có nghĩa là file cài đặt bị hỏng.
+Không truyền `--session` trừ khi có native session ID thật. Kết quả không chứng minh dữ liệu đã lưu.
+
 `aih activation --host <host> --session <native-id>` là diagnostic read-only do host tự gọi.
 `aih check`/`aih doctor` nhận cùng hai tham số khi cần kiểm tra activation cùng installation.
 Không dùng session ID giả, PID, task của phiên khác hoặc quét receipt cũ để chọn phiên.

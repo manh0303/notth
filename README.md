@@ -38,6 +38,9 @@ Installation alone does not prove activation or saved memory; the agent checks c
 No terminal interview, model configuration or manual skill sequence is required. Kiro exposes
 `/harness-start`; native discovery varies by client. [Host guides](docs/tool-setup/README.md).
 `npx` does not create a global command; use `npx --yes @manhd_d/notth check` to check integrity.
+For a readable host-specific diagnostic, run `npx --yes @manhd_d/notth doctor --host codex --format human`
+(replace `codex` with your host). Without `--session-hooks`, command hooks are not enabled;
+registration and local receipts do not prove a real host ran them or saved task context.
 
 ## Daily use
 
