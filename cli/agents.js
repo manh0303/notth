@@ -197,7 +197,7 @@ export function preferredSkills(body) {
   const section=body.split('## Preferred skills')[1]?.split(/\n## /)[0] ?? '';
   for(const line of section.split(/\r?\n/)){
     const kind=line.match(/^- (Required|Optional):/)?.[1]?.toLowerCase();if(!kind)continue;
-    result[kind].push(...[...line.matchAll(/harness-[a-z0-9-]+/g)].map(m=>m[0]));
+    result[kind].push(...[...line.matchAll(/harness-[a-z0-9-]+|debug-evidence/g)].map(m=>m[0]));
   }
   for(const list of Object.values(result))if(new Set(list).size!==list.length)throw new HarnessError('Duplicate preferred skill');
   return result;

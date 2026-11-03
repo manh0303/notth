@@ -112,3 +112,5 @@ file được lưu, những gì không có trong backup, conflict/backup-before-
 New local.md uses optional schema-1 YAML frontmatter; legacy prose stays valid and preserved.
 See [session onboarding](session-onboarding.md) for sources, seed and doctor --skill requirements.
 Maven settings remain files.maven-settings.path with a machine override, not tools.maven.settings.
+
+Optional portable bug evidence policy and artifact output example: [Debug evidence](debug-evidence.md). Existing environments without `bug_evidence` remain valid.

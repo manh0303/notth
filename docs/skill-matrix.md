@@ -1,6 +1,6 @@
-# Skill matrix — 70 skills, 15 nhóm module
+# Skill matrix — 71 skills, 15 nhóm module
 
-Đây là bảng tra cứu **ID thật** theo `SKILL.md` trong source trên `main` (8 Core, 44 capability, 18 adapter). Dùng khi cần chuyển từ [Full SDLC](end-to-end-workflow.md) tới một skill cụ thể, không nạp toàn bộ 70 skill vào prompt.
+Đây là bảng tra cứu **ID thật** theo `SKILL.md` trong source trên `main` (9 Core, 44 capability, 18 adapter). Dùng khi cần chuyển từ [Full SDLC](end-to-end-workflow.md) tới một skill cụ thể, không nạp toàn bộ 71 skill vào prompt.
 
 **Cách dùng:** `aih skills` xem skills đã cài, sau đó `aih skill harness-...` lấy nội dung. Danh mục này mô tả chức năng; **không** có nghĩa `aih` thực thi skills hoặc agent. Tech adapters và capabilities chỉ xuất hiện trong consumer khi được chọn; Core dùng chung.
 
@@ -14,13 +14,14 @@
 | Release → Operate | `devops`, `kubernetes` khi phù hợp | CI, container, manifests, rollout và SLO plan |
 | Traffic → Publisher Revenue | `monetization` (optional) | SEO growth, AdSense readiness, UX/consent checks, Page RPM review |
 
-## Core (8)
+## Core (9)
 
 | Skill ID (nguồn) | Khi nào dùng | Mục đích | Output mong đợi |
 | --- | --- | --- | --- |
 | [`harness-start`](../core/skills/harness-start/SKILL.md) | First session / setup / resume | Inspect before asking, save context/task | local/environment/start and knowledge freshness |
 | [`harness-end-user-testing`](../core/skills/harness-end-user-testing/SKILL.md) | End-user QA | Thao tác giao diện thật và kiểm tra luồng nghiệp vụ | AC → outcome/evidence, real/mocked scope, blockers |
 | [`harness-ai-evaluation`](../core/skills/harness-ai-evaluation/SKILL.md) | QA, AI eval | Đánh giá kết quả AI với dataset và ngưỡng đã review | Report chất lượng AI, regressions, release decision |
+| [`debug-evidence`](../core/skills/debug-evidence/SKILL.md) | Bug evidence pack | Baseline và kết quả chạy thật theo cấu hình project | Per-bug pack, run logs, revision và giới hạn |
 | [`harness-debugging`](../core/skills/harness-debugging/SKILL.md) | Bugfix | Tái hiện và phân tích lỗi trước khi sửa | Reproduction, root-cause evidence, regression |
 | [`harness-review`](../core/skills/harness-review/SKILL.md) | Review | Đối chiếu diff với spec và rủi ro bảo mật | Severity findings, test coverage, recommendation |
 | [`harness-spec`](../core/skills/harness-spec/SKILL.md) | Technical design | Soạn OpenSpec proposal/design/tasks/delta specs | OpenSpec change và các quyết định còn thiếu |

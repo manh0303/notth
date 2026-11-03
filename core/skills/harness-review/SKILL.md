@@ -41,3 +41,9 @@ browser/device journey. Required BLOCKED/NOT_RUN journeys prevent an uncondition
 
 Apply `.notth/core/workflows/session-continuity.md` before handoff: reload pinned-task context,
 reconcile affected links and compare the original pain point/outcome to actual acceptance evidence.
+
+## Bug evidence review
+For fixes routed to `debug-evidence`, inspect the actual pack and run output, tested code/deployed
+build, business assertions, failed/partial attempts and cleanup. A summary marker or zero exit
+code alone is not PASS. For small fixes, accept adequate existing regression evidence and the
+recorded rationale for omitting a separate pack. Read `.agents/skills/debug-evidence/SKILL.md` as needed.

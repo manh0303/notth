@@ -23,6 +23,7 @@ project/module decisions, not proposed/superseded answers. Missing configs in a 
 setup --apply scaffolds only user files. Use seed.md for existing modules, greenfield-setup.md for new work.
 Docs/UI/source outputs: .notth/core/workflows/artifact-contract.md with artifacts.json/integrations.json and source-write policy.
 UI tasks: if uiux is installed, first read .notth/capabilities/uiux/workflows/design-delivery.md; reuse the canonical DESIGN.md or existing design master. Missing optional skills do not authorize installation.
+Bug fixes: .notth/core/workflows/bugfix.md; use debug-evidence for requested packs or material API/auth/data/integration/concurrency evidence, keeping small fixes lightweight.
 End-user journeys: .notth/core/workflows/end-user-acceptance.md + harness-end-user-testing; real interface evidence or explicit blockers.
 Implementation: .notth/core/workflows/spec-to-code.md. Verification/review: .notth/core/workflows/adaptive-verification.md and harness-review.
 Coding/technical-doc depth: .notth/core/workflows/engineering-quality.md; load only the task's relevant skill and selected stack guidance.

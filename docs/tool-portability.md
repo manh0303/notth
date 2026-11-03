@@ -47,7 +47,7 @@ không bị đổi tự động. Cài mới dùng default phù hợp host đã c
 ## Di chuyển các thư mục đang có
 
 - Giữ custom skills đầy đủ gồm `SKILL.md`, scripts, references, templates và metadata; Notth chỉ
-  quản lý namespace `harness-*`. Không nhập skill công ty vào repository Notth công khai.
+  quản lý namespace `harness-*` và skill Core `debug-evidence` (gồm resources đi kèm). Không nhập skill công ty vào repository Notth công khai.
 - Một file chỉ chứa `../../.agents/skills/<name>` không phải thư mục skill hợp lệ. Trên Windows,
   đó có thể là symlink bị chuyển thành text khi clone/ZIP. Kiểm tra target trước khi thay: dùng thư mục
   với `SKILL.md` wrapper hoặc bản copy đầy đủ, giữ bản gốc để đối chiếu; không tự xóa cả thư mục.
@@ -94,3 +94,5 @@ Kiro: Agent Steering & Skills. Tests/package smoke kiểm tra file, ownership, d
 đường đọc; chưa chứng minh native discovery, hook activation hay model tuân thủ trên host thật.
 
 [Short task prompts and human-readable orientation](simple-use.md): chat is the primary path across hosts; terminal interview remains optional and backward compatible.
+
+Skill `debug-evidence` dùng tên không có tiền tố: canonical `.agents/skills/debug-evidence/`; Claude/Kiro có wrapper cùng tên khi bridge tương ứng được chọn. Không đổi tên các skill cũ.

@@ -33,3 +33,9 @@ Start with `.notth/core/workflows/continuous-development.md`: verify expected be
 current approved requirements and actual code revision, not only the old handoff. Preserve a compact
 bug note, regression evidence and affected artifacts with unchanged reasons; avoid unrelated BRD/PRD/ADR.
 Return newly discovered out-of-scope defects as proposed backlog items, not automatic extra work.
+
+## Evidence pack routing
+Use `debug-evidence` for requested packs or material API/auth/data/integration/concurrency fixes.
+Start baseline capture before changing the faulty implementation where practical; package actual
+runs after verification. Retain existing regression evidence for small isolated fixes without a
+mandatory extra runner or folder. Read `.agents/skills/debug-evidence/SKILL.md` when selected.

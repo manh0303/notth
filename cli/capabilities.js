@@ -1,3 +1,4 @@
+import { canonicalSkillEntry, distributedSkillName } from './skill-names.js';
 import { skillRequirements } from './skill-requirements.js';
 import fs from 'node:fs';
 import { manifest, readJson, safe, SLUG, HarnessError, payload } from './files.js';
@@ -103,7 +104,7 @@ export function listCapabilities(source) {
 
 // Progressive disclosure: return metadata only; never include skill bodies in a catalog.
 export function skillCatalog(root, lock) {
-  const skills = Object.keys(lock.files).filter(p => /^\.agents\/skills\/harness-[a-z0-9-]+\/SKILL\.md$/.test(p)).sort()
+  const skills = Object.keys(lock.files).filter(p => canonicalSkillEntry(p)).sort()
     .map(p => {
       const name = p.split('/')[2];
       const contents = payload(root, p).toString('utf8');
@@ -113,7 +114,7 @@ export function skillCatalog(root, lock) {
 }
 
 export function readSkill(root, lock, name) {
-  if (!validName(name) || !name.startsWith('harness-')) fail('Invalid skill name');
+  if (!validName(name) || !distributedSkillName(name)) fail('Invalid skill name');
   const relative = `.agents/skills/${name}/SKILL.md`;
   if (!Object.hasOwn(lock.files, relative)) {
     if (RETIRED_SKILLS[name]) return { status: 'planned', name, retired: true, executed: false, message: RETIRED_SKILLS[name] };

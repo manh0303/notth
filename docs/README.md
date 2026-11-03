@@ -72,3 +72,5 @@ See [Adaptive verification and TechSpec](adaptive-verification.md) for read-only
 [Persistent input documents: originals, Markdown and recovery](document-sources.md).
 
 [Adaptive Core: canonical memory and host-neutral handoff](adaptive-core.md).
+
+- [Debug evidence: portable bug reproduction and verification packs](debug-evidence.md)

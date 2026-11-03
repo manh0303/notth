@@ -416,3 +416,12 @@ the host. Native activation still needs live verification. Canonical/binding/cap
 package allowlist are unchanged; no distribution bump. Rollback restores matching CLI/runtime/lock
 and removes only new handlers/file, preserving unrelated host settings and project data. See
 [session runtime](session-runtime.md) for limitations and backup behavior.
+
+## Debug evidence addition
+`debug-evidence` is an additive Core skill with an exact unprefixed managed namespace. Update with
+a reviewed CLI to receive its assets/bridges; a different pre-existing skill at that path blocks the
+installation before writes. Preserve custom content and resolve ownership rather than forcing it.
+Existing environment schema 1 files remain valid; bug_evidence is optional and update preserves
+project-owned files. Older CLIs reject the new field/name; before rollback, retain evidence and a
+configuration backup and revert the matching installation/configuration commit together. Distribution
+version remains managed by Release Please, not this feature branch.

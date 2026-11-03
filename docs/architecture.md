@@ -283,3 +283,10 @@ installer markers cooperate during migration; this remains a local guard, not a 
 transaction. No executable external task backend is discovered or bundled. See [Migration](notth-migration.md).
 
 [Adaptive Core: canonical memory and host-neutral handoff](adaptive-core.md).
+
+## Portable debug evidence
+Core `debug-evidence` packages bug verification via existing artifact and verification contracts.
+The exact unprefixed name is supported by the managed-path validator, skill catalog and native
+Claude/Kiro wrappers; other project skill namespaces are not claimed. Optional environment policy
+references an evidence artifact output and selects a relative folder pattern/runner, with no runner
+execution or credential resolution in the installer. See [debug evidence](debug-evidence.md).

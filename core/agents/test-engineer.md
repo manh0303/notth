@@ -21,7 +21,9 @@ For proportional checks and evidence integrity, use `.notth/core/workflows/adapt
 
 ## Preferred skills
 - Required: `harness-verification`
-- Optional: `harness-tdd`, `harness-ai-evaluation`, `harness-end-user-testing`
+- Optional: `harness-tdd`, `harness-ai-evaluation`, `harness-end-user-testing`, `debug-evidence`
 Optional skills may be absent in a selective installation. Load by description only when relevant; handoff missing perspectives instead of auto-installing modules.
 
 For grouped checks/processes and interrupted work, apply `.notth/core/workflows/recoverable-verification.md`; hand off owned process/fixture identity, current baseline, saved evidence and groups requiring revalidation.
+
+For applicable bug fixes, `debug-evidence` packages baseline/after-fix runs and existing verification reports; it does not replace the actual test runner.
