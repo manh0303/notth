@@ -130,12 +130,20 @@ try {
   const packagedCli = path.join(prefix, 'lib/node_modules', packageName, 'bin/aih.js');
   const portableCli = process.platform === 'win32' ? path.join(prefix, 'node_modules', packageName, 'bin/aih.js') : packagedCli;
   const portableRun = args => JSON.parse(command(process.execPath, [portableCli, ...args], portableTarget));
+  for (const asset of ['cli/skill-names.js', 'core/skills/debug-evidence/SKILL.md',
+    'core/skills/debug-evidence/assets/evidence-pack.md', 'core/skills/debug-evidence/references/golden-sample.md',
+    'docs/debug-evidence.md']) assert.ok(names.includes(asset), 'Missing debug evidence asset: ' + asset);
   for (const asset of ['cli/knowledge.js','cli/structured.js','cli/kiro.js','cli/skill-requirements.js','cli/sync-integrations.js','core/skills/harness-start/SKILL.md','templates/local.md','docs/session-onboarding.md']) assert.ok(names.includes(asset), 'Missing session asset: ' + asset);
   for (const [host, bridge] of [['claude-code','CLAUDE.md'],['copilot','.github/copilot-instructions.md'],['gemini-cli','GEMINI.md'],['opencode',null],['windsurf',null]]) {
     const hostTarget = path.join(temp, host + ' project'); fs.mkdirSync(hostTarget);
     const hostRun = args => JSON.parse(command(process.execPath, [portableCli, ...args], hostTarget));
     assert.equal(hostRun(['init','--host',host]).status,'ok');
     if (bridge) assert.ok(fs.existsSync(path.join(hostTarget,bridge)));
+    assert.equal(hostRun(['skill','debug-evidence']).name,'debug-evidence');
+    assert.equal(hostRun(['skills']).skills.filter(s => s.name === 'debug-evidence').length,1);
+    assert.ok(fs.existsSync(path.join(hostTarget,'.agents/skills/debug-evidence/assets/evidence-pack.md')));
+    if (host === 'claude-code') assert.match(fs.readFileSync(path.join(hostTarget,'.claude/skills/debug-evidence/SKILL.md'),'utf8'), /\.agents\/skills\/debug-evidence\/SKILL\.md/);
+
     assert.ok(!fs.existsSync(path.join(hostTarget,'.kiro/skills/harness-start/SKILL.md')));
     assert.deepEqual(hostRun(['update']).changes,[]);
     assert.equal(hostRun(['check']).status,'ok');
@@ -149,6 +157,9 @@ try {
   assert.equal(JSON.parse(fs.readFileSync(path.join(kiroTarget,'.kiro/hooks/harness-session.json'),'utf8')).hooks[0].trigger,'SessionStart');
   assert.equal(kiroRun(['start','--host','kiro']).knowledge.status,'missing');
   assert.equal(kiroRun(['doctor','--skill','harness-start']).status,'ok');
+  assert.equal(kiroRun(['doctor','--skill','debug-evidence']).status,'ok');
+  assert.match(fs.readFileSync(path.join(kiroTarget,'.kiro/skills/debug-evidence/SKILL.md'),'utf8'), /\.agents\/skills\/debug-evidence\/SKILL\.md/);
+
   for (const asset of ['cli/setup.js', 'cli/project-decisions.js', 'templates/decisions.json', 'core/workflows/seed.md', 'core/workflows/greenfield-setup.md']) assert.ok(names.includes(asset), 'Missing onboarding asset: ' + asset);
   const kiroLockBefore = fs.readFileSync(path.join(kiroTarget, '.notth/lock.json'), 'utf8');
   fs.rmSync(path.join(kiroTarget, '.notth/environment.json'));

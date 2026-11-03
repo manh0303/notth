@@ -4,12 +4,12 @@ import { safe, stat, isObject, SLUG, HarnessError } from './files.js';
 import { agentPlan } from './agents.js';
 import { readConfig } from './project-config.js';
 export { readConfig } from './project-config.js';
-import { artifactReport } from './artifacts.js';
+import { artifactReport, loadArtifactContract } from './artifacts.js';
 import { projectDecisionReport } from './project-decisions.js';
 
 export const ENVIRONMENT = '.notth/environment.json';
 export const MACHINE = '.notth/machine.json';
-export const emptyEnvironment = () => ({ schema_version: 1, tools: {}, files: {}, commands: {} });
+export const emptyEnvironment = () => ({ schema_version: 1, tools: {}, files: {}, commands: {}, bug_evidence: null });
 const validText = s => typeof s === 'string' && s.trim().length > 0 && !/[\0\r\n]/.test(s);
 const own = (o, k) => Object.hasOwn(o, k);
 function requireThat(ok, message) { if (!ok) throw new HarnessError(message); }
@@ -24,7 +24,7 @@ export function loadEnvironment(root) {
     requireThat(machine === null, 'Machine configuration requires environment.json');
     return { configured: false, shared: emptyEnvironment(), machine: null };
   }
-  keys(shared, ['schema_version', 'tools', 'files', 'commands'], ENVIRONMENT);
+  keys(shared, ['schema_version', 'tools', 'files', 'commands', 'bug_evidence'], ENVIRONMENT);
   requireThat(shared.schema_version === 1, 'Unsupported environment schema');
   for (const group of ['tools', 'files', 'commands']) {
     requireThat(isObject(shared[group]), 'Missing environment map: ' + group);
@@ -43,6 +43,7 @@ export function loadEnvironment(root) {
       }
     }
   }
+  validateBugEvidence(root, shared.bug_evidence);
   if (machine !== null) {
     keys(machine, ['schema_version', 'tools', 'files'], MACHINE);
     requireThat(machine.schema_version === 1, 'Unsupported machine schema');
@@ -58,6 +59,27 @@ export function loadEnvironment(root) {
     }
   }
   return { configured: true, shared, machine };
+}
+
+// Optional policy only: no runner execution, URL resolution or artifact writes.
+function validateBugEvidence(root, value) {
+  if (value === undefined || value === null) return;
+  keys(value, ['artifact', 'folder_pattern', 'prefix', 'runner', 'base_url_env'], 'bug_evidence');
+  for (const key of ['artifact', 'prefix', 'runner'])
+    requireThat(typeof value[key] === 'string' && SLUG.test(value[key]), 'Invalid bug_evidence.' + key);
+  const pattern = value.folder_pattern;
+  requireThat(typeof pattern === 'string' && pattern.length <= 200
+    && pattern.includes('{date}') && pattern.includes('{id}')
+    && !/[^a-zA-Z0-9{}_.\/-]/.test(pattern), 'Invalid bug_evidence.folder_pattern');
+  const expanded = pattern.replace(/\{(date|prefix|id)\}/g, (_, key) => ({ date: '2000-01-01', prefix: value.prefix, id: 'example' })[key]);
+  requireThat(!/[{}]/.test(expanded), 'Unknown bug_evidence folder placeholder');
+  safe(root, expanded + '/.evidence-probe');
+  requireThat(!expanded.split('/').some(part => !part || part === '.' || part === '..')
+    && !/^(?:\.git|\.notth|\.harness|\.agents|node_modules)(?:\/|$)/i.test(expanded), 'Unsafe bug_evidence folder pattern');
+  if (value.base_url_env !== undefined) requireThat(typeof value.base_url_env === 'string'
+    && /^[A-Za-z_][A-Za-z0-9_]*$/.test(value.base_url_env), 'Use an environment variable name for bug_evidence.base_url_env');
+  const artifact = loadArtifactContract(root).artifacts.outputs[value.artifact];
+  requireThat(artifact?.kind === 'evidence', 'bug_evidence.artifact must reference an evidence output');
 }
 
 function expand(value, env, files = {}) {

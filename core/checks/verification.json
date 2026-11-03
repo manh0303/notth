@@ -160,6 +160,19 @@
         "Local write-conflict receipts; independent checkout ownership/sync remains unverified"
       ],
       "execution": "manual"
+    },
+    {
+      "id": "debug-evidence",
+      "title": "Review proportional bug evidence and actual execution",
+      "command": [],
+      "when_file": null,
+      "evidence": [
+        "Bug/cause/patch/scenario links with code and deployed build identity",
+        "Actual before/after assertions and separate completed/partial run logs; baseline gaps explicit",
+        "Configured artifact/write policy and runner; no credentials or hardcoded dated project sample",
+        "Existing regression evidence rationale when no separate pack is needed; cleanup and retry reconciliation"
+      ],
+      "execution": "manual"
     }
   ]
 }

@@ -1,3 +1,4 @@
+import { canonicalSkillEntry, debugEvidenceAsset } from './skill-names.js';
 import { sessionHookChanges } from './session-hooks.js';
 import { guard, transaction, atomicWrite } from '../core/runtime/files.js';
 export { guard, transaction, atomicWrite } from '../core/runtime/files.js';
@@ -103,7 +104,7 @@ export function bundle(source, config) {
 }
 
 function managedName(name) {
-  return name === 'AGENTS.md' || name === 'CLAUDE.md' || isHostBridge(name) || name === KIRO_HOOK || ['.notth/core/', '.notth/adapters/', '.notth/capabilities/', '.notth/integrations/', '.notth/templates/', '.agents/skills/harness-', '.claude/skills/harness-', '.kiro/skills/harness-'].some(prefix => name.startsWith(prefix));
+  return debugEvidenceAsset(name) || name === 'AGENTS.md' || name === 'CLAUDE.md' || isHostBridge(name) || name === KIRO_HOOK || ['.notth/core/', '.notth/adapters/', '.notth/capabilities/', '.notth/integrations/', '.notth/templates/', '.agents/skills/harness-', '.claude/skills/harness-', '.kiro/skills/harness-'].some(prefix => name.startsWith(prefix));
 }
 
 export function loadLock(root) {
@@ -178,7 +179,7 @@ function installCurrent(root, source, { command = 'init', adapters, capabilities
       if (owned) { files[claudeName] = owned; lock.files[claudeName] = digest(owned); }
     }
     if (claudeSkills || host === 'claude-code' || Object.keys(old?.files ?? {}).some(p => p.startsWith('.claude/skills/harness-'))) {
-      for (const [name, data] of Object.entries(files).filter(([p]) => /^\.agents\/skills\/harness-[a-z0-9-]+\/SKILL\.md$/.test(p))) {
+      for (const [name, data] of Object.entries(files).filter(([p]) => canonicalSkillEntry(p))) {
         const id = name.split('/')[2], description = data.toString().match(/^description: (.+)$/m)?.[1] ?? 'Load canonical Harness instructions.';
         const destination = '.claude/skills/' + id + '/SKILL.md';
         files[destination] = Buffer.from('---\nname: ' + id + '\ndescription: ' + description + '\n---\n\nRead the complete canonical project file ' + String.fromCharCode(96) + name + String.fromCharCode(96) + ' before applying this skill. Follow its inputs, procedure, constraints and handoff; do not substitute this wrapper for the full instructions.\n');

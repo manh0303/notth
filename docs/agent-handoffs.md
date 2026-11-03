@@ -120,3 +120,9 @@ actual interactions/outcomes, redacted trace/screenshot/report digests, dependen
 These receipts do not supply business-owner UAT approval or model-compliance evaluation.
 
 Every handoff uses [task experience](../core/workflows/task-experience.md): completed scope, current work, blockers and next owner/action, with separate implementation/verification/merge/deployment evidence.
+
+## Bug evidence handoff
+For requested packs and material API/auth/data/integration/concurrency fixes, debugging ->
+`debug-evidence` + existing end-user testing -> reviewer carries supported cause, patch revision,
+tested deployed build, actual assertions/logs, cleanup and BLOCKED/NOT_RUN gaps. Small isolated
+fixes may link existing regression evidence with an explicit no-pack rationale. See [debug evidence](debug-evidence.md).

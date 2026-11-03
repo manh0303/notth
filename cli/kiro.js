@@ -1,10 +1,11 @@
+import { canonicalSkillEntry } from './skill-names.js';
 import { encode, HarnessError } from './files.js';
 
 export const KIRO_HOOK = '.kiro/hooks/harness-session.json';
 export function kiroPayload(files) {
   if (!Object.hasOwn(files, ".agents/skills/harness-start/SKILL.md")) throw new HarnessError("Kiro onboarding requires a source bundle containing harness-start; use a reviewed update");
   const result = {};
-  for (const [name, data] of Object.entries(files).filter(([p]) => /^\.agents\/skills\/harness-[a-z0-9-]+\/SKILL\.md$/.test(p))) {
+  for (const [name, data] of Object.entries(files).filter(([p]) => canonicalSkillEntry(p))) {
     const id = name.split('/')[2];
     const description = data.toString().match(/^description: (.+)$/m)?.[1] ?? 'Load canonical Harness instructions.';
     result['.kiro/skills/' + id + '/SKILL.md'] = Buffer.from('---\nname: ' + id + '\ndescription: ' + description + '\n---\n\nRead the complete canonical project file `' + name + '` before applying this skill. Follow its inputs, procedure, constraints and handoff.\n');

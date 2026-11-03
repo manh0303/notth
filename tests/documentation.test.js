@@ -25,7 +25,7 @@ test('skill matrix covers exactly every registered Core, adapter and capability 
   ])].sort();
   const matrix = read('docs/skill-matrix.md');
   assert.ok(matrix.includes(declared.length + ' skills'), 'Skill matrix total must match the registry');
-  const matches = [...matrix.matchAll(/^\| \[\x60(harness-[a-z0-9-]+)\x60\]\((\.\.\/[^)]+)\) \|/gm)]
+  const matches = [...matrix.matchAll(/^\| \[\x60(harness-[a-z0-9-]+|debug-evidence)\x60\]\((\.\.\/[^)]+)\) \|/gm)]
     .map(([, name, relative]) => ({ name, relative }));
   assert.equal(matches.length, declared.length, 'Skill matrix row count drift');
   assert.deepEqual(matches.map(row => row.name).sort(), declared,

@@ -2,5 +2,6 @@
   "schema_version": 1,
   "tools": {},
   "files": {},
-  "commands": {}
+  "commands": {},
+  "bug_evidence": null
 }

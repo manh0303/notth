@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased — Portable debug evidence
+
+- Add Core `debug-evidence` with proportional fix-bug routing, evidence pack template and a synthetic NOT_RUN reference.
+- Support its exact unprefixed name in the skill catalog, managed lock and Claude/Kiro wrappers, preserving custom-skill collision protection.
+- Validate optional `environment.json` bug_evidence policy referencing an existing evidence artifact; preserve existing project configuration on update.
+- Require actual run assertions/revisions, separate failed attempts and honest unavailable baseline/build/cleanup limits.
+
 ## Unreleased — Readable host diagnostics
 
 - Add human-readable `doctor --format human` and show host registration limits after human-format setup.
