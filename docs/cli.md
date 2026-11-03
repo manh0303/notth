@@ -13,7 +13,7 @@ Exit 0 means the requested operation succeeded; 1 means validation/I/O/drift fai
 | init | --host; --detect OR --adapters; --capabilities; --agent-preset; --link-claude; --claude-skills; --session-hooks; --source; --dry-run; --allow-major; --format | Install selected snapshot and seed missing project configuration |
 | update | --host; --link-claude; --claude-skills; --session-hooks; --source; --dry-run; --allow-major; --format | Update unedited owned files; preserve project-owned state |
 | check | --host; --session | Check snapshot integrity/selection; no application tests |
-| doctor | --skill NAME; --host; --session | Check installation, configured paths and skill prerequisites; no execution |
+| doctor | --skill NAME; --host; --session; --format human/json | Check installation, configured paths and skill prerequisites; no execution |
 | activation | --host (required); --session | Inspect native registration and current local event receipts; missing/unverified activation exits 1 |
 | setup | --host; --apply [--dry-run]; --greenfield | Plan by default; optionally scaffold missing user configuration |
 | agents | --host | Read resolved canonical roles and declared preferences |

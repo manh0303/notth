@@ -32,6 +32,26 @@ const identity = (host, root, event) => host === 'cursor'
   : host === 'windsurf' ? { agent_action_name: event, trajectory_id: 'native-current' }
   : { hook_event_name: event, session_id: 'native-current', cwd: root };
 
+for (const host of [...Object.keys(native), 'opencode']) test(host + ': human onboarding and doctor distinguish configuration from live proof', t => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'notth-onboarding-'));
+  t.after(() => fs.rmSync(root, { recursive: true, force: true }));
+  const run = (...args) => spawnSync(process.execPath, [path.join(SOURCE, 'bin/aih.js'), ...args], { cwd: root, encoding: 'utf8' });
+  const init = run('init', '--host', host, '--format', 'human');
+  assert.equal(init.status, 0, init.stderr);
+  assert.match(init.stdout, /Live host and saved memory: unverified/);
+  assert.match(init.stdout, /Session hooks: not confirmed/);
+  const doctor = run('doctor', '--host', host, '--format', 'human');
+  assert.equal(doctor.status, 1, doctor.stderr);
+  assert.match(doctor.stdout, /Session hook registration: not-configured/);
+  assert.match(doctor.stdout, /Live host execution: unverified/);
+  assert.match(doctor.stdout, /Saved task and sources: unverified/);
+  assert.equal(run('update', '--host', host, '--session-hooks').status, 0);
+  const configured = run('doctor', '--host', host, '--format', 'human');
+  assert.equal(configured.status, 1);
+  assert.match(configured.stdout, /Session hook registration: session-required/);
+  assert.match(configured.stdout, /Live host execution: unverified/);
+});
+
 for (const [host, events] of Object.entries(native)) test(host + ': packaged-style command events and session-specific diagnostics', t => {
   const root = project(t, { host, sessionHooks: true });
   const registration = JSON.parse(fs.readFileSync(path.join(root, sessionHookPath(root, host)), 'utf8'));

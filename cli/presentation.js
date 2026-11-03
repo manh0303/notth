@@ -9,7 +9,24 @@ export function renderResult(command, result, { host } = {}) {
         `Capabilities: ${result.onboarding.capabilities.join(', ') || 'none'}`,
         'Installed workflows; project documents are created only when your task needs them.',
         `Next: ${result.onboarding.prompt}`);
+      if (result.activation) lines.push(
+        `Session hooks: ${result.activation.configured ? 'configured locally' : 'not confirmed'}`,
+        `Live host and saved memory: unverified`,
+        `Next: ${result.activation.next_action ?? 'Review host compatibility and use the instruction fallback.'}`);
     } else lines.push(...(result.next_steps ?? []));
+  } else if (command === 'doctor') {
+    lines.push(`Diagnostic result: ${result.status}`,
+      `Installation problems: ${result.problems?.length ?? 'unknown'}`,
+      `Environment problems: ${result.environment?.problems?.length ?? 'unknown'}`,
+      `Configured host: ${host ?? 'not specified; use --host to inspect a host bridge'}`);
+    if (result.activation) lines.push(
+      `Session hook registration: ${result.activation.activation}`,
+      `Local event evidence: ${result.activation.events?.map(e => `${e.event}=${e.state}`).join(', ') || 'not observed'}`,
+      `Live host execution: ${result.activation.live_host ?? 'unverified'}`,
+      `Saved task and sources: ${result.activation.persistence ?? 'unverified'}`,
+      `Next: ${result.activation.next_action ?? 'Review host compatibility and use the instruction fallback.'}`);
+    lines.push(...(result.problems ?? []).map(problem => `Problem: ${problem}`));
+    lines.push(...(result.environment?.problems ?? []).map(problem => `Environment problem: ${typeof problem === 'string' ? problem : JSON.stringify(problem)}`));
   } else if (command === 'status') {
     lines.push(`Task: ${result.task ?? 'none selected'}`, `Phase: ${result.progress.phase}`,
       `Declared completed tasks: ${result.tasks?.checked ?? 0} (not verification evidence)`,
