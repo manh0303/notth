@@ -99,3 +99,13 @@ test('malformed scripts fail safely and command secrets are not echoed',t=>{
  const root=project(t);write(root,'package.json',{scripts:[]});assert.throws(()=>adaptiveVerification(root,SOURCE),/scripts/);
  write(root,'package.json',{scripts:{test:'PRIVATE_COMMAND_VALUE'}});const result=adaptiveVerification(root,SOURCE);assert.ok(!JSON.stringify(result).includes('PRIVATE_COMMAND_VALUE'));
 });
+
+test('historical report preserves verdict and declares replacement without claiming coverage',t=>{
+ const root=project(t),r=report(root),s=r.scenarios[0];
+ s.status='BLOCKED';s.executed=false;s.assertions=[];s.reason='Test host unavailable';delete s.execution;
+ r.metadata.report_type='preflight';r.metadata.superseded_by={path:'reports/later.json',scope:'approval scenario',reason:'later execution'};
+ const result=review(root,r);assert.equal(result.verdict,'BLOCKED');assert.equal(result.metadata.superseded_by.path,'reports/later.json');assert.match(result.note,/not verified replacement coverage/);
+ for(const bad of [{path:'../secret',scope:'all',reason:'later'}, {path:'report.json',scope:'all',reason:'later'}, {path:'later.json',scope:'',reason:'later'}]) {
+  r.metadata.superseded_by=bad;assert.throws(()=>review(root,r), e=>!e.message.includes('secret'));
+ }
+});

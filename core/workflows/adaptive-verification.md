@@ -7,6 +7,12 @@ Choose applicable verification methods from feature risk and existing tooling, r
 On resume, use `continuous-development.md` to compare the tested revision with the current baseline.
 Re-run affected checks after code/spec changes; a previous PASS does not verify a new revision.
 
+Preserve historical reports and their original verdicts. Identify preflight versus verification,
+tested revision, timestamp and scope. When a later run replaces an earlier one, record its exact
+report path and covered scope with a reason; partial replacement leaves other scenarios historical.
+Inspect the replacement and compare scope, target and evidence before treating it as current. A
+supersession link is a producer declaration, not proof of execution or equivalent coverage.
+
 For changed public journeys or an explicit end-user testing request, apply
 `.notth/core/workflows/end-user-acceptance.md` and `harness-end-user-testing`: exercise the actual
 interface, distinguish real/mocked dependencies, and include user-facing outcome evidence or concrete

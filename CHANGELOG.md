@@ -1,5 +1,9 @@
 # Changelog
 
+### Unreleased
+
+- Trace canonical acceptance and preserve declared verification report history.
+
 ## Unreleased — Portable debug evidence
 
 - Add Core `debug-evidence` with proportional fix-bug routing, evidence pack template and a synthetic NOT_RUN reference.
