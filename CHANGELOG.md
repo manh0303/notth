@@ -11,6 +11,10 @@
 - Validate optional `environment.json` bug_evidence policy referencing an existing evidence artifact; preserve existing project configuration on update.
 - Require actual run assertions/revisions, separate failed attempts and honest unavailable baseline/build/cleanup limits.
 
+## Unreleased — Sourced verification evidence
+
+- Add sourced test environment declarations and scoped evidence discovery.
+
 ## Unreleased — Readable host diagnostics
 
 - Add human-readable `doctor --format human` and show host registration limits after human-format setup.

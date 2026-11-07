@@ -66,3 +66,16 @@ web/mobile/cli/api surface; a matching passing journey using actual interface in
 real/not-applicable dependencies must exist. Mock/unknown or another interface cannot satisfy it.
 Existing behavior-only schema-1 reports remain valid. Optional journey attachments use separate
 bounded binary digests rather than JSON assertion evidence; the guide defines limits and semantics.
+
+## Sourced test environments
+
+Optional `.notth/environment.json` field `test_environments` is a map keyed by a slug. Each entry
+contains `gateway_env` (variable name only), `type` (`test`, `development`, `unknown`), `isolation`
+(`confirmed`, `unconfirmed`), `fixture_retention` (`allowed_when_authorized`, `cleanup_required`,
+`unknown`), project-relative `source` and `confirmed_at` (YYYY-MM-DD). Do not store credentials.
+The host must read the original source and independently reconcile current gateway and database
+identity, revision and permission. These fields are declarations only; the CLI does not check source
+existence or grant authorization. Old schema-1 configs without the field remain valid. Older CLIs
+reject the new field: remove it only after a safe backup and use a matching CLI when rolling back.
+Before BLOCKED search feature-scoped evidence roots and relevant sibling README, scripts and logs;
+record searched paths and any unresolved target, source or policy discrepancy.
