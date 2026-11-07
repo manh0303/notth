@@ -4,6 +4,12 @@ Read project-owned .notth/artifacts.json and .notth/integrations.json when prese
 Use `aih artifacts` / `aih setup` for a read-only declaration report. Empty or absent configs are
 compatible with legacy/coding-only projects; they do not require a full documentation exercise.
 
+When a task needs an external source, inspect the current host's tool inventory first and resolve
+each declared connection alias to an available tool. Distinguish configured, available on this host,
+and actually accessible/verified. A declaration is not a live connection. If the tool or access is
+absent, mark that source BLOCKED, explain dependent acceptance gaps and continue independent work.
+A historical snapshot is not evidence of current remote access or freshness.
+
 ## Setup once, then reuse
 1. Inspect the request, local.md, existing docs/spec/design links and established user decisions.
    Determine idea-driven or document-driven input. Do not infer approval from a link or AI draft.

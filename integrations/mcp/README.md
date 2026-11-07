@@ -19,3 +19,6 @@ Project-owned .notth/integrations.json declares dynamic connection aliases, acce
 .notth/artifacts.json maps their input/output locations. See [Artifact contract](../../docs/artifact-contract.md).
 `aih artifacts` does not discover/start MCP servers or authorize tool calls. Resolve aliases against
 the actual host tools and keep native configs/credentials outside Git.
+When an external source is needed, inspect the host's current tool inventory and record whether each
+relevant alias is configured, available and accessible. If absent, mark that source BLOCKED and
+continue independent authorized repository work. An alias or old snapshot does not prove access.
