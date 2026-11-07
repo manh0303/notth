@@ -4,6 +4,18 @@ Load `harness-verification` after scoped discovery and before review. Apply exis
 
 Choose applicable verification methods from feature risk and existing tooling, retain negative and regression scenarios, isolate fixtures, and record exact business assertions. Link results and gaps to requirement IDs. Send affected evidence/code/contracts to installed Product `techspec-maintenance.md`; without Product, attach evidence to the existing OpenSpec change. Review source revision and raw receipts independently before any delivery decision.
 
+Before concluding a test is BLOCKED, perform bounded, feature-scoped discovery in configured
+evidence roots and relevant sibling folders: inspect related README, scripts and logs for the same
+feature and test case. Record paths searched and missing facts. Compare the recorded gateway,
+actual target and database identity, isolation confirmation, fixture policy, scope and source/code
+revision with current observations. Resolve conflicts or stale/unknown identity before dependent
+writes. A historic PASS remains historic, and a declaration or earlier approval is not permission
+for the current operation. Continue independent checks and report exact remaining blockers.
+
+Optional `environment.json` test_environments records gateway variable names and sourced claims;
+read the original confirmation and check its applicability. CLI schema validation neither resolves
+the gateway nor establishes isolation, authorization or fixture safety. Never include secrets.
+
 On resume, use `continuous-development.md` to compare the tested revision with the current baseline.
 Re-run affected checks after code/spec changes; a previous PASS does not verify a new revision.
 

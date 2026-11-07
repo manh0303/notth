@@ -24,7 +24,7 @@ export function loadEnvironment(root) {
     requireThat(machine === null, 'Machine configuration requires environment.json');
     return { configured: false, shared: emptyEnvironment(), machine: null };
   }
-  keys(shared, ['schema_version', 'tools', 'files', 'commands', 'bug_evidence'], ENVIRONMENT);
+  keys(shared, ['schema_version', 'tools', 'files', 'commands', 'bug_evidence', 'test_environments'], ENVIRONMENT);
   requireThat(shared.schema_version === 1, 'Unsupported environment schema');
   for (const group of ['tools', 'files', 'commands']) {
     requireThat(isObject(shared[group]), 'Missing environment map: ' + group);
@@ -44,6 +44,7 @@ export function loadEnvironment(root) {
     }
   }
   validateBugEvidence(root, shared.bug_evidence);
+  validateTestEnvironments(root, shared.test_environments);
   if (machine !== null) {
     keys(machine, ['schema_version', 'tools', 'files'], MACHINE);
     requireThat(machine.schema_version === 1, 'Unsupported machine schema');
@@ -59,6 +60,23 @@ export function loadEnvironment(root) {
     }
   }
   return { configured: true, shared, machine };
+}
+
+// Declarations only: provenance and safety are verified by the host, not by this parser.
+function validateTestEnvironments(root, environments) {
+  if (environments === undefined) return;
+  requireThat(isObject(environments), 'Invalid test_environments');
+  for (const [id, value] of Object.entries(environments)) {
+    requireThat(SLUG.test(id), 'Invalid test environment identifier');
+    keys(value, ['gateway_env', 'type', 'isolation', 'fixture_retention', 'source', 'confirmed_at'], 'test environment');
+    requireThat(typeof value.gateway_env === 'string' && /^[A-Za-z_][A-Za-z0-9_]*$/.test(value.gateway_env), 'Invalid gateway environment variable name');
+    requireThat(['test', 'development', 'unknown'].includes(value.type), 'Invalid test environment type');
+    requireThat(['confirmed', 'unconfirmed'].includes(value.isolation), 'Invalid isolation status');
+    requireThat(['allowed_when_authorized', 'cleanup_required', 'unknown'].includes(value.fixture_retention), 'Invalid fixture retention');
+    requireThat(typeof value.source === 'string' && value.source.length > 0 && !/[\0\r\n]/.test(value.source), 'Invalid test environment source');
+    try { safe(root, value.source); } catch { throw new HarnessError('Invalid test environment source path'); }
+    requireThat(typeof value.confirmed_at === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(value.confirmed_at) && !Number.isNaN(Date.parse(value.confirmed_at)) && new Date(value.confirmed_at).toISOString().slice(0, 10) === value.confirmed_at, 'Invalid confirmation date');
+  }
 }
 
 // Optional policy only: no runner execution, URL resolution or artifact writes.

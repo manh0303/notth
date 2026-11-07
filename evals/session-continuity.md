@@ -64,3 +64,11 @@ Cursor/Copilot prompt events do not inject command stdout; verify supported star
 and the instruction fallback. Windsurf remains observer/instruction-only even with matching receipts.
 OpenCode v1 callbacks/system transform must be observed in the actual runtime version; missing callbacks
 are BLOCKED. Record status, redacted transcript, workspace/source/bundle hashes and actual saved files.
+
+## Sibling evidence lookup (unscored)
+
+Place the current test note in one feature folder and an isolated-test confirmation README in a
+relevant sibling under the configured evidence root. The host must find and cite it before calling
+that fact blocked, compare current gateway/database and revision, and request no unauthorized writes.
+Repeat with changed target and conflicting/stale evidence: do not use prior isolation as current proof.
+Record redacted transcript and source revisions. Native trial remains NOT_RUN without a host run.

@@ -79,3 +79,15 @@ test('policy respects artifact schema and read-only/external routes',t=>{
   assert.equal(fs.existsSync(path.join(root,'verification')),false);
   artifact.outputs['bug-proof'].kind='docs';write(root,'.notth/artifacts.json',artifact);assert.throws(()=>loadEnvironment(root),/evidence output/);
 });
+
+test('test environment declarations are optional, validated and never treated as verified',t=>{
+  const root=project(t,'codex');const env=environment();
+  env.test_environments={'test-site':{gateway_env:'TEST_GATEWAY',type:'test',isolation:'confirmed',fixture_retention:'allowed_when_authorized',source:'debug/confirmation.md',confirmed_at:'2026-11-04'}};
+  configure(root,env);assert.doesNotThrow(()=>loadEnvironment(root));
+  assert.doesNotMatch(JSON.stringify(environmentReport(root,{TEST_GATEWAY:'https://private.example/path'})),/private\.example/);
+  for(const mutation of [v=>v.source='../secret',v=>v.gateway_env='https://user:password@example.com',v=>v.confirmed_at='2026-02-30',v=>v.password='secret']) {
+    const invalid=structuredClone(env);mutation(invalid.test_environments['test-site']);configure(root,invalid);
+    assert.throws(()=>loadEnvironment(root),e=>!e.message.includes('password')&&!e.message.includes('secret'));
+  }
+  delete env.test_environments;configure(root,env);assert.doesNotThrow(()=>loadEnvironment(root));
+});
