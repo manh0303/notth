@@ -10,5 +10,5 @@ Schema-1 report metadata optionally declares type and superseding report path, s
 | cli-config | done | cli/verification-report.js optional metadata |
 | workflow | done | acceptance source and report history contracts |
 | documentation | done | docs/verification.md |
-| verification | done | npm test (417), validate and package smoke passed; native host trial NOT_RUN (evals/session-continuity.md) |
+| verification | done | npm test (417), validate and package smoke passed; native host trial NOT_RUN (evals/acceptance-report-history.md) |
 | release-migration | done | changelog; legacy reports supported, metadata is advisory |

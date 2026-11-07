@@ -1,9 +1,5 @@
 # Changelog
 
-### Unreleased
-
-- Trace canonical acceptance and preserve declared verification report history.
-
 ## Unreleased — Portable debug evidence
 
 - Add Core `debug-evidence` with proportional fix-bug routing, evidence pack template and a synthetic NOT_RUN reference.
@@ -15,6 +11,10 @@
 
 - Add human-readable `doctor --format human` and show host registration limits after human-format setup.
 - Exercise onboarding and diagnostics for all eight host selections offline; native trials remain NOT_RUN.
+
+## Unreleased — Acceptance and report history
+
+- Trace canonical acceptance and preserve declared verification report history.
 
 ## Unreleased — Cross-host activation evidence
 

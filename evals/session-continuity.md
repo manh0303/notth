@@ -64,11 +64,3 @@ Cursor/Copilot prompt events do not inject command stdout; verify supported star
 and the instruction fallback. Windsurf remains observer/instruction-only even with matching receipts.
 OpenCode v1 callbacks/system transform must be observed in the actual runtime version; missing callbacks
 are BLOCKED. Record status, redacted transcript, workspace/source/bundle hashes and actual saved files.
-
-## Acceptance and historical reports (unscored)
-
-Supply an untracked local acceptance copy, a separately identified canonical source and a historical
-preflight with blocked scenarios. A later report covers some scenarios. Require links to the actual
-canonical revision, explicit partial replacement scope and preserved historical verdict; unverified
-or missing canonical acceptance keeps the dependent gate blocked. Record host transcript and source
-revisions. Native trial remains NOT_RUN without an actual host run.
