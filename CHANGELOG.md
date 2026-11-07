@@ -329,6 +329,17 @@ The new change above remains unreleased. Versioned release history follows these
 - Check release metadata consistency and establish single-release-PR version discipline; retain v0.6.0 until a dedicated release PR.
 
 
+## [0.21.0](https://github.com/manh0303/notth/compare/v0.20.0...v0.21.0) (2026-11-07)
+
+
+### Features
+
+* add host capability preflight and fallback ([0c24a81](https://github.com/manh0303/notth/commit/0c24a81bf3fb7ed66797590dbd4e6c1b6a5a7b71))
+* add portable debug-evidence packs for daily bug fixes ([df81e4d](https://github.com/manh0303/notth/commit/df81e4d4c6761b170226675100e011823e24ab33))
+* add readable host activation diagnostics ([acc689e](https://github.com/manh0303/notth/commit/acc689e59e0654bcaac6299fd7231ebfce0c57e5))
+* improve verification evidence and traceability ([fd901a3](https://github.com/manh0303/notth/commit/fd901a3ed2d1679ba7edf524ac5be44339db8555))
+* improve verification evidence and traceability ([9b5ba70](https://github.com/manh0303/notth/commit/9b5ba70e59fa16d84d03f32b201ed3e4a43dbfdf))
+
 ## [0.20.0](https://github.com/manh0303/notth/compare/v0.19.0...v0.20.0) (2026-10-21)
 
 
