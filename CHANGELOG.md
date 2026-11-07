@@ -1,5 +1,9 @@
 # Changelog
 
+### Unreleased
+
+- Clarify host preflight and CLI/MCP fallback for Quick work.
+
 ## Unreleased — Portable debug evidence
 
 - Add Core `debug-evidence` with proportional fix-bug routing, evidence pack template and a synthetic NOT_RUN reference.

@@ -16,9 +16,17 @@ brevity reduces paperwork, never necessary checks or authority boundaries. Do no
 roles, depth or gates before describing their task. Only full spec-to-code changes use its machine
 workflow approval gates; Quick does not manufacture an empty spec just to pass readiness.
 
+## Quick entry checklist
+1. Identify the requested outcome, applicable instructions and authorization boundaries.
+2. Check host capabilities needed for this task; follow continuity preflight when `aih` is absent.
+3. Read relevant decisions, sources, code and tests; inspect external tool inventory only if needed.
+4. Perform authorized work and proportional verification, including applicable security checks.
+5. Report actual revision, evidence and scoped BLOCKED/NOT_RUN limitations; save progress when safe.
+Escalate to Standard/Full when impact warrants it. This checklist does not relax safety requirements.
+
 ## Minimum useful context
 Read applicable AGENTS/security/permissions, relevant local facts and scope-specific decisions,
-then nearby source/tests and the selected skill. Use seed --check and its changed_sources to refresh
+then nearby source/tests and the selected skill. When CLI is available, use seed --check and its changed_sources to refresh
 only affected facts. On missing seed, inspect sources needed for this task; defer unrelated onboarding.
 A missing cache does not block an otherwise authorized task. Never record uninspected sources as
 reconciled. Scoped instructions remain required even with a current cache. No new cache is needed.

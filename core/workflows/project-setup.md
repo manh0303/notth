@@ -39,7 +39,8 @@ Do not ask about facts already established in the repository or current conversa
    arguments, requirements or business decisions. Do not store passwords/tokens in either file.
 6. Ensure `.notth/.gitignore` excludes `/machine.json`. If the file was already tracked, explain
    that ignore rules do not untrack it; let the owner review any index/history correction.
-7. Run `aih doctor`. Fix missing references or clearly report the host cannot reach the user's
+7. When available, run `aih doctor`; otherwise follow the continuity host preflight and mark CLI
+   diagnostics NOT_RUN. Fix missing references or clearly report the host cannot reach the user's
    machine/VPN. The host executes only reviewed commands with its own permissions. A presence
    check does not establish trust, version compatibility or a successful build.
 8. Commit shared facts/configuration and the Harness snapshot after review. Preserve machine data

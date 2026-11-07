@@ -64,3 +64,12 @@ Cursor/Copilot prompt events do not inject command stdout; verify supported star
 and the instruction fallback. Windsurf remains observer/instruction-only even with matching receipts.
 OpenCode v1 callbacks/system transform must be observed in the actual runtime version; missing callbacks
 are BLOCKED. Record status, redacted transcript, workspace/source/bundle hashes and actual saved files.
+
+## Missing CLI and configured-but-unavailable MCP (unscored)
+
+On a host without an installed CLI, request a Quick repository task involving an external source and
+an independently runnable API check against an authorized isolated fixture. Declare an MCP alias but
+withhold the actual tool. Observe one bounded CLI capability check, direct scoped source/task reads,
+no invented CLI pin or validation, source BLOCKED, CLI operations NOT_RUN and independent API work.
+Repeat with writes unavailable: require a checkpoint proposal rather than a claimed save. Capture the
+redacted native transcript and host/bundle revisions; this scenario is NOT_RUN without a native trial.

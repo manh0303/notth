@@ -5,18 +5,30 @@ This is host-owned housekeeping: users describe work, never manage memory files 
 commands. Reuse the installed CLI invocation; no download, new service or mandatory dependency.
 It cannot run while the host is stopped or force a client that does not load project instructions.
 
+## Host capability preflight
+At task entry, check once whether the already-installed `aih` invocation is usable in this host.
+Use a known offline shim only when its location is already established; do not download or install.
+If unavailable, do not repeatedly attempt CLI commands during this session unless capability changes.
+Read scoped original sources, decisions and an existing task note with host tools. Reuse the Quick
+task note or change files for progress and source pointers if authorized safe writes are available.
+Without safe writes, provide a scoped checkpoint proposal and report persistence as NOT_RUN.
+Mark CLI memory/context/resume, session binding and report validation separately NOT_RUN; a task
+note is not a CLI binding. Continue independent authorized work, including API verification when
+target, permissions and fixture safety are established. Missing diagnostics grant no write authority.
+When the CLI becomes available, reconcile saved originals before claiming indexed continuity.
+
 ## Enter and pin scope
 1. Match the current user request to the existing change/task note. Pin its ID in this session.
    `.notth/start.json` is a shared intake hint, not session identity or a lock. Another session's
    saved task must not switch this session. Ask only if multiple targets genuinely fit the request.
-2. Use `aih memory --change <id> --query <relevant terms> --budget 8192` for a bounded, derived
+2. When available, use `aih memory --change <id> --query <relevant terms> --budget 8192` for a bounded, derived
    index of canonical references. Read only relevant original sections. Semantic facts, episodic outcomes,
    procedural experiences and working state are logical views, never new competing stores.
-   For an existing change run `aih context --change <id>` automatically; start/chat also exposes a
+   When CLI is available, for an existing change run `aih context --change <id>` automatically; start/chat also exposes a
    saved task's context as a hint. Read applicable shared/module decisions and the returned canonical
    sections, not every document. For Quick tasks use the existing issue/PR/task note with intent,
    source references and next action; do not manufacture a full OpenSpec change or an empty sidecar.
-3. Read checkpoint with `aih resume <id>` when present. Inspect actual branch/HEAD/scoped edits and
+3. Read checkpoint with `aih resume <id>` when present and CLI is available; otherwise read accessible task notes and checkpoints directly. Inspect actual branch/HEAD/scoped edits and
    remote operations. A current hash proves matching bytes only. Confirm that sources support the
    remembered problem/outcome and still apply to this request; proposals are not confirmed choices.
 
@@ -30,7 +42,7 @@ If the conversation is compacted mid-turn, reread durable context before continu
 
 ## Preserve intent and traceability
 For Standard/Full changes, prepare a project-owned JSON report from
-`.notth/templates/task-context.json` after reading actual sources. Save with
+`.notth/templates/task-context.json` after reading actual sources. When CLI is available, save with
 `aih context --change <id> --report <path>`; on replacement pass the observed `--expected` digest
 and current revision from the read report. CLI increments revision and preserves prior bytes in
 context-history. Never edit context.json directly or refresh hashes just to silence a conflict.
@@ -121,7 +133,7 @@ and agent compliance require a separate native trial. Agent hooks can consume ho
 At task entry, determine the actual host and native session identity from available host metadata;
 injected callback context includes the observed host/session ID (producer-declared, not authenticated).
 never infer it from a global start hint, another session's receipt, model name, PID or a made-up value.
-Use the already-installed invocation of `aih activation --host <host> --session <native-id>` for a
+When CLI is available, use the already-installed invocation of `aih activation --host <host> --session <native-id>` for a
 read-only local check. Check/doctor accept the same arguments. Do not ask the user to run memory
 commands. Native prompt/pre-tool/post-tool receipts for this workspace, session and bundle must be
 recent and post-tool must belong after the latest prompt. Cursor checks prompt/post-tool only and
