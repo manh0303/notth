@@ -10,5 +10,5 @@ Optional schema-1 test_environments records a gateway variable name and project-
 | cli-config | done | cli/environment.js optional validation, old configs accepted |
 | workflow | done | bounded sibling evidence discovery and current-target reconciliation |
 | documentation | done | docs/adaptive-verification.md |
-| verification | done | npm test (417), validate and package smoke passed; native host trial NOT_RUN (evals/session-continuity.md) |
+| verification | done | npm test (417), validate and package smoke passed; native host trial NOT_RUN (evals/sourced-evidence.md) |
 | release-migration | done | changelog and rollback guidance; project data preserved |
