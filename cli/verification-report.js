@@ -81,6 +81,14 @@ export function reviewVerification(root, reportPath) {
   const meta = report.metadata;
   for (const field of ['run_id', 'feature', 'source_revision', 'environment', 'producer']) assert(text(meta[field]), 'Missing report metadata: ' + field);
   assert(iso(meta.timestamp), 'Report needs an ISO timestamp with timezone');
+  if (meta.report_type !== undefined) assert(['preflight', 'verification'].includes(meta.report_type), 'Invalid report type');
+  if (meta.superseded_by !== undefined) {
+    const replacement = meta.superseded_by;
+    assert(isObject(replacement) && Object.keys(replacement).every(k => ['path', 'scope', 'reason'].includes(k)) &&
+      text(replacement.path) && text(replacement.scope) && text(replacement.reason), 'Supersession needs replacement path, scope and reason');
+    try { safe(root, replacement.path); } catch { throw new HarnessError('Invalid superseding report path'); }
+    assert(replacement.path !== reportPath, 'A report cannot supersede itself');
+  }
   if (meta.usage !== undefined) {
     assert(isObject(meta.usage) && text(meta.usage.source), 'Runtime usage needs an actual measurement source');
     for (const key of ['tokens', 'cost']) if (meta.usage[key] !== undefined) assert(finite(meta.usage[key]), 'Invalid measured usage');
@@ -145,7 +153,7 @@ export function reviewVerification(root, reportPath) {
     : counts.NOT_RUN || requirements.some(r => r.verification === 'UNVERIFIED') ? 'NOT_RUN' : 'PASSED';
   return { status: { PASSED: 'ok', FAILED: 'fail', BLOCKED: 'blocked', NOT_RUN: 'planned' }[verdict],
     verdict, schema_version: 1, metadata: meta, counts, requirements, scenarios, executed: false,
-    note: 'Evidence/report consistency only. Execution receipts are producer-declared; inspect raw logs and source revision independently. No application commands or model calls are run by aih.' };
+    note: 'Evidence/report consistency only. Supersession is a producer declaration, not verified replacement coverage. Execution receipts are producer-declared; inspect raw logs and source revision independently. No application commands or model calls are run by aih.' };
 }
 
 const cell = s => String(s).replace(/[\r\n]/g, ' ').replace(/\|/g, '\\|').replace(/</g, '&lt;');
@@ -155,6 +163,7 @@ export function techspecEvidence(summary) {
     '',
     'Status: draft / pending-review. Source revision: ' + cell(summary.metadata.source_revision),
     'Runtime report: ' + summary.verdict + '. Static-analysis statements remain UNVERIFIED until independently checked.',
+    ...(summary.metadata.superseded_by ? ['Historical report: declared superseded for ' + cell(summary.metadata.superseded_by.scope) + ' by ' + cell(summary.metadata.superseded_by.path) + '; compare replacement evidence independently.'] : []),
     '',
     '## Feature overview and source contracts',
     'UNVERIFIED: link approved requirements, relevant source/code revision and existing contracts; inspect only affected sections.',

@@ -16,6 +16,10 @@
 - Add human-readable `doctor --format human` and show host registration limits after human-format setup.
 - Exercise onboarding and diagnostics for all eight host selections offline; native trials remain NOT_RUN.
 
+## Unreleased — Acceptance and report history
+
+- Trace canonical acceptance and preserve declared verification report history.
+
 ## Unreleased — Cross-host activation evidence
 
 - Extend opt-in native bridges to Cursor, Gemini CLI, Copilot, OpenCode v1 and Windsurf/Cascade observers; add post-tool capture reminders to existing bridges.

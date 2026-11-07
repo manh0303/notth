@@ -26,6 +26,12 @@ A historical snapshot is not evidence of current remote access or freshness.
 ## Source of truth and writes
 - Each artifact group (kind/capability) has at most one declared canonical owner. Derived outputs
   cite source IDs and observed revisions; keep approved/draft/superseded status explicit.
+- For acceptance used as a delivery gate, identify its canonical owner, location and reviewable
+  revision; link requirement/test case to code revision and relevant execution evidence. Prefer a
+  versioned repository source when appropriate, or an approved reviewable external source. Label
+  local/untracked copies as reference unless explicitly designated canonical by the project. If the
+  applicable canonical acceptance is unavailable or conflicts, mark dependent gate BLOCKED and
+  continue independent work; do not silently promote a local copy or create a second master.
 - Default Git inputs/outputs use propose; external inputs use read-only. A read-only source is never
   rewritten: propose a separate change/gap report. Propose prepares a reviewable diff/PR or handoff,
   not a write into an external canonical source.

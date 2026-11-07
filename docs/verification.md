@@ -32,3 +32,13 @@ Live behavior: use [conformance](conformance-runner.md), [session recovery](sess
 [behavioral evaluation](../evals/README.md) protocols. No host pass is inferred from local tests.
 Publication: inspect both registry jobs in [the release workflow](npm-release.md); a GitHub Release
 or green release-PR update is not proof that npm and PyPI packages both exist.
+
+## Report history
+
+Schema 1 optionally accepts `metadata.report_type` (`preflight` or `verification`) and
+`metadata.superseded_by` with a project-relative `path`, covered `scope` and `reason`. Keep the
+original report and verdict. This link records the producer's claim only: the validator does not
+open the replacement or prove it covers the same scenarios, target or revision. A reviewer must
+compare the replacement and its evidence; partial scope does not replace other historical results.
+Legacy reports remain valid. Record canonical acceptance source and revision and link each relevant
+requirement or case to tested code and evidence before using it as a delivery gate.
